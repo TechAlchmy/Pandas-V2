@@ -18,6 +18,13 @@ class Discount extends Model
         'logo',
         'views',
         'status',
+        'starts_at',
+        'ends_at',
+    ];
+
+    protected $casts = [
+        'starts_at' => 'immutable_datetime',
+        'ends_at' => 'immutable_datetime',
     ];
 
     public function discountCategories()
