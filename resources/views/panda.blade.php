@@ -12,6 +12,7 @@
                 <x-btn-white class="">Learn More</x-btn-white>
             </div>
         </div>
+
     </section>
     <x-footer/>
 </x-app-layout>
