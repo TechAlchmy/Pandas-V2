@@ -61,6 +61,12 @@ class Discount extends Model
         return $this->hasMany(DiscountTag::class);
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'discount_tags')
+            ->withTimestamps();
+    }
+
     public function offerType()
     {
         return $this->belongsTo(OfferType::class);
