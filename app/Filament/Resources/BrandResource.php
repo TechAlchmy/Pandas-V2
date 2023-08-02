@@ -41,6 +41,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Ramsey\Uuid\Uuid;
 use Intervention\Image\ImageManagerStatic as Image;
+use App\Models\Region;
 
 
 
@@ -122,12 +123,12 @@ class BrandResource extends Resource
                                     
                                         
                             ]),
-                        Tabs\Tab::make('Brand Tags')
+                        Tabs\Tab::make('Regions')
                             ->schema([
                                 Select::make('Brand Tags')
-                                    ->placeholder('Select Brand Tags')
+                                    ->placeholder('Select Brand Regions')
                                     ->options(
-                                        $BrandTags = Brand::all()
+                                        $BrandRegions = Region::all()
                                     )
                                     ->required()
                                     ->reactive()
