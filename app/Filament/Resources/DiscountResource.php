@@ -95,6 +95,13 @@ class DiscountResource extends Resource
                                     ->required()
                                     ->multiple(),
                             ]),
+                        Forms\Components\Tabs\Tab::make('Tags')
+                            ->schema([
+                                Forms\Components\Select::make('Tags')
+                                    ->placeholder('Select Tags')
+                                    ->relationship('tags', 'name')
+                                    ->multiple(),
+                            ]),
                     ])->columnSpanFull(),
                 Forms\Components\TextInput::make('created_by'),
                 Forms\Components\TextInput::make('updated_by'),
