@@ -16,12 +16,8 @@ return new class extends Migration
     {
         Schema::create('discount_categories', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Discount::class, 'discount_id')->nullable();
-            $table->foreignIdFor(Category::class, 'category_id')->nullable();
-            $table->foreignIdFor(User::class, 'created_by')->nullable();
-            $table->foreignIdFor(User::class, 'updated_by')->nullable();
-            $table->softDeletes();
-            $table->foreignIdFor(User::class, 'deleted_by')->nullable();
+            $table->foreignIdFor(Discount::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Category::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

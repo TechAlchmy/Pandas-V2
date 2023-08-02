@@ -18,6 +18,15 @@ class Discount extends Model
         'logo',
         'views',
         'status',
+        'is_active',
+        'starts_at',
+        'ends_at',
+    ];
+
+    protected $casts = [
+        'starts_at' => 'immutable_datetime',
+        'ends_at' => 'immutable_datetime',
+        'is_active' => 'boolean',
     ];
 
     public function discountCategories()
@@ -25,9 +34,21 @@ class Discount extends Model
         return $this->hasMany(DiscountCategory::class);
     }
 
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'discount_categories')
+            ->withTimestamps();
+    }
+
     public function discountRegions()
     {
         return $this->hasMany(DiscountRegion::class);
+    }
+
+    public function regions()
+    {
+        return $this->belongsToMany(Region::class, 'discount_regions')
+            ->withTimestamps();
     }
 
     public function discountOffers()
@@ -40,6 +61,12 @@ class Discount extends Model
         return $this->hasMany(DiscountTag::class);
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'discount_tags')
+            ->withTimestamps();
+    }
+
     public function offerType()
     {
         return $this->belongsTo(OfferType::class);
@@ -48,5 +75,10 @@ class Discount extends Model
     public function voucherType()
     {
         return $this->belongsTo(VoucherType::class);
+    }
+
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class);
     }
 }

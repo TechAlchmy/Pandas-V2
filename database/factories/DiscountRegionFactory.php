@@ -19,9 +19,6 @@ class DiscountRegionFactory extends Factory
         return [
             'region_id' => $this->faker->numberBetween(1, 10),
             'discount_id' => $this->faker->numberBetween(1, 10),
-            'created_by' => $this->faker->numberBetween(1, 20),
-            'updated_by' => $this->faker->numberBetween(1, 20),
-            'deleted_by' => null,
         ];
     }
 }

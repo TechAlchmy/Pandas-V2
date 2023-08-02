@@ -24,20 +24,40 @@ class DiscountResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('brand_id'),
+                Forms\Components\Select::make('brand_id')
+                    ->relationship('brand', 'name')
+                    ->searchable(),
                 Forms\Components\TextInput::make('name')
+                    ->afterStateUpdated(function ($get, $set, ?string $state) {
+                        if (! $get('is_slug_changed_manually') && filled($state)) {
+                            $set('slug', str($state)->slug());
+                        }
+                    })
+                    ->reactive()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('voucher_type_id'),
-                Forms\Components\TextInput::make('offer_type_id'),
+                Forms\Components\Select::make('voucher_type_id')
+                    ->relationship('voucherType', 'type')
+                    ->searchable(),
+                Forms\Components\Select::make('offer_type_id')
+                    ->relationship('offerType', 'type')
+                    ->searchable(),
                 Forms\Components\TextInput::make('slug')
+                    ->afterStateUpdated(function ($set) {
+                        $set('is_slug_changed_manually', true);
+                    })
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('active')
+                Forms\Components\Hidden::make('is_slug_changed_manually')
+                    ->default(false)
+                    ->dehydrated(false),
+                Forms\Components\Toggle::make('is_active')
+                    ->default(false)
                     ->required(),
-                Forms\Components\DateTimePicker::make('start_date'),
-                Forms\Components\DateTimePicker::make('end_date'),
+                Forms\Components\DateTimePicker::make('starts_at'),
+                Forms\Components\DateTimePicker::make('ends_at'),
                 Forms\Components\TextInput::make('status')
+                    ->numeric()
                     ->required(),
                 Forms\Components\TextInput::make('api_link')
                     ->maxLength(255),
@@ -45,18 +65,48 @@ class DiscountResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('cta')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('views')
-                    ->required(),
-                Forms\Components\TextInput::make('clicks')
-                    ->required(),
                 Forms\Components\TextInput::make('code')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('amount')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('limit_qty'),
-                Forms\Components\TextInput::make('limit_amount'),
-                Forms\Components\TextInput::make('public_percentage'),
-                Forms\Components\TextInput::make('percentage'),
+                    ->numeric(),
+                Forms\Components\TextInput::make('limit_qty')
+                    ->numeric(),
+                Forms\Components\TextInput::make('limit_amount')
+                    ->numeric(),
+                Forms\Components\TextInput::make('public_percentage')
+                    ->numeric(),
+                Forms\Components\TextInput::make('percentage')
+                    ->numeric(),
+                Forms\Components\Tabs::make('Heading')
+                    ->tabs([
+                        Forms\Components\Tabs\Tab::make('Catregories')
+                            ->schema([
+                                Forms\Components\Select::make('category_id')
+                                    ->placeholder('Select Categories')
+                                    ->relationship('categories', 'name')
+                                    ->required()
+                                    ->multiple(),
+                            ]),
+                        Forms\Components\Tabs\Tab::make('Regions')
+                            ->schema([
+                                Forms\Components\Select::make('Brand Tags')
+                                    ->placeholder('Select Regions')
+                                    ->relationship('regions', 'name')
+                                    ->required()
+                                    ->multiple(),
+                            ]),
+                        Forms\Components\Tabs\Tab::make('Tags')
+                            ->schema([
+                                Forms\Components\Select::make('Tags')
+                                    ->placeholder('Select Tags')
+                                    ->relationship('tags', 'name')
+                                    ->createOptionForm([
+                                        Forms\Components\TextInput::make('name')
+                                            ->required(),
+                                    ])
+                                    ->multiple(),
+                            ]),
+                    ])->columnSpanFull(),
                 Forms\Components\TextInput::make('created_by'),
                 Forms\Components\TextInput::make('updated_by'),
                 Forms\Components\TextInput::make('deleted_by'),
@@ -67,37 +117,22 @@ class DiscountResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('brand_id'),
+                Tables\Columns\TextColumn::make('brand.name'),
                 Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('voucher_type_id'),
-                Tables\Columns\TextColumn::make('offer_type_id'),
-                Tables\Columns\TextColumn::make('slug'),
-                Tables\Columns\TextColumn::make('active'),
-                Tables\Columns\TextColumn::make('start_date')
+                Tables\Columns\IconColumn::make('is_active')
+                    ->boolean(),
+                Tables\Columns\TextColumn::make('starts_at')
                     ->dateTime(),
-                Tables\Columns\TextColumn::make('end_date')
+                Tables\Columns\TextColumn::make('ends_at')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('status'),
-                Tables\Columns\TextColumn::make('api_link'),
-                Tables\Columns\TextColumn::make('link'),
-                Tables\Columns\TextColumn::make('cta'),
                 Tables\Columns\TextColumn::make('views'),
                 Tables\Columns\TextColumn::make('clicks'),
-                Tables\Columns\TextColumn::make('code'),
                 Tables\Columns\TextColumn::make('amount'),
                 Tables\Columns\TextColumn::make('limit_qty'),
                 Tables\Columns\TextColumn::make('limit_amount'),
                 Tables\Columns\TextColumn::make('public_percentage'),
                 Tables\Columns\TextColumn::make('percentage'),
-                Tables\Columns\TextColumn::make('created_by'),
-                Tables\Columns\TextColumn::make('updated_by'),
-                Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('deleted_by'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
             ])
             ->filters([
                 //
