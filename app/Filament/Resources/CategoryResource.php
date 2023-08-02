@@ -50,7 +50,8 @@ class CategoryResource extends Resource
                 Forms\Components\Select::make('parent_id')
                     ->relationship('parent', 'name')
                     ->searchable(),
-                Forms\Components\TextInput::make('status')
+                Forms\Components\Toggle::make('is_active')
+                    ->default(true)
                     ->required(),
                 Forms\Components\TextInput::make('created_by'),
                 Forms\Components\TextInput::make('updated_by'),
