@@ -64,10 +64,6 @@ class DiscountResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('cta')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('views')
-                    ->required(),
-                Forms\Components\TextInput::make('clicks')
-                    ->required(),
                 Forms\Components\TextInput::make('code')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('amount')
