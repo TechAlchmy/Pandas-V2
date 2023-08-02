@@ -22,7 +22,7 @@ return new class extends Migration
             $table->foreignIdFor(VoucherType::class, 'voucher_type_id')->nullable();
             $table->foreignIdFor(OfferType::class, 'offer_type_id')->nullable();
             $table->string('slug', 255)->unique();
-            $table->integer('active')->default(0);
+            $table->boolean('is_active')->default(false);
             $table->datetime('starts_at')->nullable();
             $table->datetime('ends_at')->nullable();
             $table->integer('status')->default(1);

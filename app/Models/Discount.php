@@ -18,6 +18,7 @@ class Discount extends Model
         'logo',
         'views',
         'status',
+        'is_active',
         'starts_at',
         'ends_at',
     ];
@@ -25,6 +26,7 @@ class Discount extends Model
     protected $casts = [
         'starts_at' => 'immutable_datetime',
         'ends_at' => 'immutable_datetime',
+        'is_active' => 'boolean',
     ];
 
     public function discountCategories()
