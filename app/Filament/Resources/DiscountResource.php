@@ -36,8 +36,8 @@ class DiscountResource extends Resource
                 Forms\Components\Toggle::make('is_active')
                     ->default(false)
                     ->required(),
-                Forms\Components\DateTimePicker::make('start_date'),
-                Forms\Components\DateTimePicker::make('end_date'),
+                Forms\Components\DateTimePicker::make('starts_at'),
+                Forms\Components\DateTimePicker::make('ends_at'),
                 Forms\Components\TextInput::make('status')
                     ->required(),
                 Forms\Components\TextInput::make('api_link')
@@ -72,9 +72,9 @@ class DiscountResource extends Resource
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\IconColumn::make('is_active')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('start_date')
+                Tables\Columns\TextColumn::make('starts_at')
                     ->dateTime(),
-                Tables\Columns\TextColumn::make('end_date')
+                Tables\Columns\TextColumn::make('ends_at')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('status'),
                 Tables\Columns\TextColumn::make('views'),
