@@ -95,9 +95,7 @@ class BrandResource extends Resource
                             ->schema([
                                 Select::make('category_id')
                                     ->placeholder('Select Category')
-                                    ->options(
-                                        $BrandCategories = Category::all()
-                                    )
+                                    ->relationship('categories', 'name')
                                     ->required()
                                     ->reactive()
                                     ->multiple(),
@@ -107,9 +105,7 @@ class BrandResource extends Resource
                             ->schema([
                                 Select::make('Brand Tags')
                                     ->placeholder('Select Brand Regions')
-                                    ->options(
-                                        $BrandRegions = Region::all()
-                                    )
+                                    ->relationship('regions', 'name')
                                     ->required()
                                     ->reactive()
                                     ->multiple(),
