@@ -72,8 +72,8 @@ class DatabaseSeeder extends Seeder
             $user = User::inRandomOrder()->first();
             $order->user()->associate($user);
             $order->save();
-            $orderDetailCount = rand(15, 25);
-            for ($i = 0; $i < $orderDetailCount; $i++) {
+
+            foreach (range(1, 6) as $count) {
                 $discount = Discount::inRandomOrder()->first();
                 $orderDetail = OrderDetail::factory()->make();
                 $orderDetail->discount()->associate($discount);
@@ -91,6 +91,5 @@ class DatabaseSeeder extends Seeder
             $manager->organization()->associate($organization);
             $manager->save();
         });
-
     }
 }
