@@ -19,9 +19,10 @@ return new class extends Migration
             $table->string('link', 255)->unique();
             $table->string('description')->nullable();
             $table->foreignIdFor(Category::class, 'parent_id')->nullable();
+            $table->integer('order_column')->nullable()->index();
             $table->string('slug', 255)->unique();
             $table->integer('views')->default(0);
-            $table->integer('status')->default(1)->comment('0: inactive, 1: active');
+            $table->boolean('is_active')->default(false);
             $table->foreignIdFor(User::class, 'created_by')->nullable();
             $table->foreignIdFor(User::class, 'updated_by')->nullable();
             $table->softDeletes();

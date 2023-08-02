@@ -25,20 +25,33 @@ class CategoryResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->afterStateUpdated(function ($get, $set, ?string $state) {
+                        if (! $get('is_slug_changed_manually') && filled($state)) {
+                            $set('slug', str($state)->slug());
+                        }
+                    })
+                    ->reactive()
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('slug')
+                    ->afterStateUpdated(function ($set) {
+                        $set('is_slug_changed_manually', true);
+                    })
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\Hidden::make('is_slug_changed_manually')
+                    ->default(false)
+                    ->dehydrated(false),
                 Forms\Components\TextInput::make('link')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('description')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('parent_id'),
-                Forms\Components\TextInput::make('slug')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('views')
-                    ->required(),
-                Forms\Components\TextInput::make('status')
+                Forms\Components\Select::make('parent_id')
+                    ->relationship('parent', 'name')
+                    ->searchable(),
+                Forms\Components\Toggle::make('is_active')
+                    ->default(true)
                     ->required(),
                 Forms\Components\TextInput::make('created_by'),
                 Forms\Components\TextInput::make('updated_by'),
@@ -50,22 +63,12 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('link'),
-                Tables\Columns\TextColumn::make('description'),
-                Tables\Columns\TextColumn::make('parent_id'),
-                Tables\Columns\TextColumn::make('slug'),
-                Tables\Columns\TextColumn::make('views'),
-                Tables\Columns\TextColumn::make('status'),
-                Tables\Columns\TextColumn::make('created_by'),
-                Tables\Columns\TextColumn::make('updated_by'),
-                Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('deleted_by'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
+                Tables\Columns\TextColumn::make('name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('views')
+                    ->sortable(),
+                Tables\Columns\IconColumn::make('is_active')
+                    ->boolean(),
             ])
             ->filters([
                 //
