@@ -29,9 +29,21 @@ class Brand extends Model
         return $this->hasMany(BrandCategory::class);
     }
 
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'brand_categories')
+            ->withTimestamps();
+    }
+
     public function brandRegions()
     {
         return $this->hasMany(BrandRegion::class);
+    }
+
+    public function regions()
+    {
+        return $this->belongsToMany(Region::class, 'brand_regions')
+            ->withTimestamps();
     }
 
     public function setSlugAttribute($value)

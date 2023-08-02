@@ -19,9 +19,6 @@ class BrandCategoryFactory extends Factory
         return [
             'category_id' => $this->faker->numberBetween(1, 10),
             'brand_id' => $this->faker->numberBetween(1, 10),
-            'created_by' => $this->faker->numberBetween(1, 20),
-            'updated_by' => $this->faker->numberBetween(1, 20),
-            'deleted_by' => null,
         ];
     }
 }
