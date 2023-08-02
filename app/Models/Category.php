@@ -19,9 +19,7 @@ class Category extends Model implements Sortable
         'name',
         'link',
         'slug',
-        'uniqid',
         'description',
-        'logo',
         'views',
         'is_active',
     ];
