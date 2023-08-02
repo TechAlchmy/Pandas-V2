@@ -33,7 +33,8 @@ class DiscountResource extends Resource
                 Forms\Components\TextInput::make('slug')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('active')
+                Forms\Components\Toggle::make('is_active')
+                    ->default(false)
                     ->required(),
                 Forms\Components\DateTimePicker::make('start_date'),
                 Forms\Components\DateTimePicker::make('end_date'),
@@ -69,7 +70,8 @@ class DiscountResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('brand.name'),
                 Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('active'),
+                Tables\Columns\IconColumn::make('is_active')
+                    ->boolean(),
                 Tables\Columns\TextColumn::make('start_date')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('end_date')
