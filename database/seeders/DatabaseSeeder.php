@@ -31,45 +31,44 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-       Region::factory(10)->create();
-       Organization::factory(10)->create()->each(function ($organization) {
+        Region::factory(10)->create();
+        Organization::factory(10)->create()->each(function ($organization) {
             User::factory()
-                ->managers()  
+                ->managers()
                 ->create([
-                    'organization_id' => $organization->id  
+                    'organization_id' => $organization->id,
                 ])
                 ->each(function ($user) {
                     $user->userPreferences()->save(UserPreference::factory()->make());
                 });
         });
         User::factory(2)
-            ->admins() 
+            ->admins()
             ->create()
             ->each(function ($user) {
                 $user->userPreferences()->save(UserPreference::factory()->make());
             });
 
-        
-       User::factory(50)->create()->each(function ($user) {
-           $user->userPreferences()->save(UserPreference::factory()->make());
-       });
-       
-       Brand::factory(10)->create();
-       Category::factory(10)->create();
-       BrandCategory::factory(10)->create();
-       BrandRegion::factory(10)->create();
-       OfferType::factory(10)->create();
-       VoucherType::factory(10)->create();
-       Discount::factory(10)->create()->each(function ($discount) {
+        User::factory(50)->create()->each(function ($user) {
+            $user->userPreferences()->save(UserPreference::factory()->make());
+        });
+
+        Brand::factory(10)->create();
+        Category::factory(10)->create();
+        BrandCategory::factory(10)->create();
+        BrandRegion::factory(10)->create();
+        OfferType::factory(10)->create();
+        VoucherType::factory(10)->create();
+        Discount::factory(10)->create()->each(function ($discount) {
             $discount->offerType()->associate(OfferType::inRandomOrder()->first());
             $discount->voucherType()->associate(VoucherType::inRandomOrder()->first());
             $discount->save();
-       });
-       Tag::factory(10)->create();
-       DiscountCategory::factory(10)->create();
-       DiscountRegion::factory(10)->create();
-       DiscountTag::factory(10)->create();
-       Order::factory(125)->create()->each(function ($order) {
+        });
+        Tag::factory(10)->create();
+        DiscountCategory::factory(10)->create();
+        DiscountRegion::factory(10)->create();
+        DiscountTag::factory(10)->create();
+        Order::factory(125)->create()->each(function ($order) {
             $user = User::inRandomOrder()->first();
             $order->user()->associate($user);
             $order->save();
@@ -83,19 +82,15 @@ class DatabaseSeeder extends Seeder
                 $order->orderDetails()->save($orderDetail);
             }
         });
-    
-       DiscountType::factory(10)->create();
-       Manager::factory(10)->create()->each(function ($manager) {
+
+        DiscountType::factory(10)->create();
+        Manager::factory(10)->create()->each(function ($manager) {
             $user = User::inRandomOrder()->first();
             $manager->user()->associate($user);
             $organization = Organization::inRandomOrder()->first();
             $manager->organization()->associate($organization);
             $manager->save();
-       });
+        });
 
-      
-
-
-        
     }
 }

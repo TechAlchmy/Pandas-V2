@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserPreference extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'email_notification',
         'sms_notification',

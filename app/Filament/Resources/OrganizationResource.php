@@ -3,22 +3,21 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\OrganizationResource\Pages;
-use App\Filament\Resources\OrganizationResource\RelationManagers;
 use App\Models\Organization;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class OrganizationResource extends Resource
 {
     protected static ?string $model = Organization::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
+
     protected static ?string $navigationGroup = 'Organizations';
+
     protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
@@ -75,14 +74,14 @@ class OrganizationResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -90,5 +89,5 @@ class OrganizationResource extends Resource
             'create' => Pages\CreateOrganization::route('/create'),
             'edit' => Pages\EditOrganization::route('/{record}/edit'),
         ];
-    }    
+    }
 }

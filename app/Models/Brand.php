@@ -23,28 +23,34 @@ class Brand extends Model
         'updated_by',
         'deleted_by',
     ];
+
     public function brandCategories()
     {
         return $this->hasMany(BrandCategory::class);
     }
+
     public function brandRegions()
     {
         return $this->hasMany(BrandRegion::class);
     }
+
     public function setSlugAttribute($value)
     {
         $this->attributes['slug'] = Str::slug($value);
     }
-    public function createdBy() {
-    return $this->belongsTo(User::class, 'created_by');
-}
 
-    public function updatedBy() {
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updatedBy()
+    {
         return $this->belongsTo(User::class, 'updated_by');
     }
 
-    public function deletedBy() {
+    public function deletedBy()
+    {
         return $this->belongsTo(User::class, 'deleted_by');
     }
-   
 }

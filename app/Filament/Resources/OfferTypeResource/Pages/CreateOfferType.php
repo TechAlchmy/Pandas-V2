@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\OfferTypeResource\Pages;
 
 use App\Filament\Resources\OfferTypeResource;
-use Filament\Pages\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateOfferType extends CreateRecord

@@ -3,22 +3,21 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\BrandCategoryResource\Pages;
-use App\Filament\Resources\BrandCategoryResource\RelationManagers;
 use App\Models\BrandCategory;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class BrandCategoryResource extends Resource
 {
     protected static ?string $model = BrandCategory::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
+
     protected static ?string $navigationGroup = 'Branding';
+
     protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
@@ -59,14 +58,14 @@ class BrandCategoryResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -74,5 +73,5 @@ class BrandCategoryResource extends Resource
             'create' => Pages\CreateBrandCategory::route('/create'),
             'edit' => Pages\EditBrandCategory::route('/{record}/edit'),
         ];
-    }    
+    }
 }

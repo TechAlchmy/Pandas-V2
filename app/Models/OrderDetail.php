@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class OrderDetail extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'order',
         'discount',
@@ -22,13 +23,14 @@ class OrderDetail extends Model
     {
         return $this->belongsTo(Order::class);
     }
+
     public function discount()
     {
         return $this->belongsTo(Discount::class);
     }
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-
 }

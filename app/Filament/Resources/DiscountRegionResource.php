@@ -3,22 +3,21 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\DiscountRegionResource\Pages;
-use App\Filament\Resources\DiscountRegionResource\RelationManagers;
 use App\Models\DiscountRegion;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class DiscountRegionResource extends Resource
 {
     protected static ?string $model = DiscountRegion::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
+
     protected static ?string $navigationGroup = 'Products';
+
     protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
@@ -59,14 +58,14 @@ class DiscountRegionResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -74,5 +73,5 @@ class DiscountRegionResource extends Resource
             'create' => Pages\CreateDiscountRegion::route('/create'),
             'edit' => Pages\EditDiscountRegion::route('/{record}/edit'),
         ];
-    }    
+    }
 }

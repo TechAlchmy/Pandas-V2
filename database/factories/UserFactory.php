@@ -32,20 +32,22 @@ class UserFactory extends Factory
             'state' => $this->faker->state(),
             'zip_code' => $this->faker->numberBetween(10000, 99999),
             'country' => $this->faker->country(),
-            'profile_picture' => "default.png",
+            'profile_picture' => 'default.png',
             'created_by' => null,
             'updated_by' => null,
             'deleted_by' => null,
             'remember_token' => Str::random(10),
-            
+
         ];
     }
+
     public function managers(): static
     {
         return $this->state(fn (array $attributes) => [
             'auth_level' => 1,
         ]);
     }
+
     public function admins(): static
     {
         return $this->state(fn (array $attributes) => [

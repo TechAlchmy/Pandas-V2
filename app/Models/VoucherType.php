@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class VoucherType extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'type',
         'description',
@@ -17,5 +18,4 @@ class VoucherType extends Model
     {
         return $this->hasMany(Discount::class);
     }
-
 }

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Manager extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'user_id',
         'organization_id',
@@ -17,6 +18,7 @@ class Manager extends Model
     {
         return $this->belongsTo(User::class);
     }
+
     public function organization()
     {
         return $this->belongsTo(Organization::class);

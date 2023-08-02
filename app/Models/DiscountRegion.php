@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class DiscountRegion extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'discount_id',
         'region_id',
