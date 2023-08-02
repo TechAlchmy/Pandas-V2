@@ -25,19 +25,29 @@ class CategoryResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->afterStateUpdated(function ($get, $set, ?string $state) {
+                        if (! $get('is_slug_changed_manually') && filled($state)) {
+                            $set('slug', str($state)->slug());
+                        }
+                    })
+                    ->reactive()
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('slug')
+                    ->afterStateUpdated(function ($set) {
+                        $set('is_slug_changed_manually', true);
+                    })
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\Hidden::make('is_slug_changed_manually')
+                    ->default(false)
+                    ->dehydrated(false),
                 Forms\Components\TextInput::make('link')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('description')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('parent_id'),
-                Forms\Components\TextInput::make('slug')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('views')
-                    ->required(),
                 Forms\Components\TextInput::make('status')
                     ->required(),
                 Forms\Components\TextInput::make('created_by'),
