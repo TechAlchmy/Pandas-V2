@@ -67,37 +67,21 @@ class DiscountResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('brand_id'),
+                Tables\Columns\TextColumn::make('brand.name'),
                 Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('voucher_type_id'),
-                Tables\Columns\TextColumn::make('offer_type_id'),
-                Tables\Columns\TextColumn::make('slug'),
                 Tables\Columns\TextColumn::make('active'),
                 Tables\Columns\TextColumn::make('start_date')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('end_date')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('status'),
-                Tables\Columns\TextColumn::make('api_link'),
-                Tables\Columns\TextColumn::make('link'),
-                Tables\Columns\TextColumn::make('cta'),
                 Tables\Columns\TextColumn::make('views'),
                 Tables\Columns\TextColumn::make('clicks'),
-                Tables\Columns\TextColumn::make('code'),
                 Tables\Columns\TextColumn::make('amount'),
                 Tables\Columns\TextColumn::make('limit_qty'),
                 Tables\Columns\TextColumn::make('limit_amount'),
                 Tables\Columns\TextColumn::make('public_percentage'),
                 Tables\Columns\TextColumn::make('percentage'),
-                Tables\Columns\TextColumn::make('created_by'),
-                Tables\Columns\TextColumn::make('updated_by'),
-                Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('deleted_by'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
             ])
             ->filters([
                 //
