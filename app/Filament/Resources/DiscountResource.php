@@ -77,6 +77,25 @@ class DiscountResource extends Resource
                     ->numeric(),
                 Forms\Components\TextInput::make('percentage')
                     ->numeric(),
+                Forms\Components\Tabs::make('Heading')
+                    ->tabs([
+                        Forms\Components\Tabs\Tab::make('Catregories')
+                            ->schema([
+                                Forms\Components\Select::make('category_id')
+                                    ->placeholder('Select Categories')
+                                    ->relationship('categories', 'name')
+                                    ->required()
+                                    ->multiple(),
+                            ]),
+                        Forms\Components\Tabs\Tab::make('Regions')
+                            ->schema([
+                                Forms\Components\Select::make('Brand Tags')
+                                    ->placeholder('Select Regions')
+                                    ->relationship('regions', 'name')
+                                    ->required()
+                                    ->multiple(),
+                            ]),
+                    ])->columnSpanFull(),
                 Forms\Components\TextInput::make('created_by'),
                 Forms\Components\TextInput::make('updated_by'),
                 Forms\Components\TextInput::make('deleted_by'),
