@@ -58,4 +58,9 @@ class Discount extends Model
     {
         return $this->belongsTo(VoucherType::class);
     }
+
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class);
+    }
 }
