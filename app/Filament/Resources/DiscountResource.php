@@ -57,6 +57,7 @@ class DiscountResource extends Resource
                 Forms\Components\DateTimePicker::make('starts_at'),
                 Forms\Components\DateTimePicker::make('ends_at'),
                 Forms\Components\TextInput::make('status')
+                    ->numeric()
                     ->required(),
                 Forms\Components\TextInput::make('api_link')
                     ->maxLength(255),
@@ -67,11 +68,15 @@ class DiscountResource extends Resource
                 Forms\Components\TextInput::make('code')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('amount')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('limit_qty'),
-                Forms\Components\TextInput::make('limit_amount'),
-                Forms\Components\TextInput::make('public_percentage'),
-                Forms\Components\TextInput::make('percentage'),
+                    ->numeric(),
+                Forms\Components\TextInput::make('limit_qty')
+                    ->numeric(),
+                Forms\Components\TextInput::make('limit_amount')
+                    ->numeric(),
+                Forms\Components\TextInput::make('public_percentage')
+                    ->numeric(),
+                Forms\Components\TextInput::make('percentage')
+                    ->numeric(),
                 Forms\Components\TextInput::make('created_by'),
                 Forms\Components\TextInput::make('updated_by'),
                 Forms\Components\TextInput::make('deleted_by'),
