@@ -3,22 +3,21 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\OrderDetailResource\Pages;
-use App\Filament\Resources\OrderDetailResource\RelationManagers;
 use App\Models\OrderDetail;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class OrderDetailResource extends Resource
 {
     protected static ?string $model = OrderDetail::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
+
     protected static ?string $navigationGroup = 'E-Commerce';
+
     protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
@@ -56,14 +55,14 @@ class OrderDetailResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -71,5 +70,5 @@ class OrderDetailResource extends Resource
             'create' => Pages\CreateOrderDetail::route('/create'),
             'edit' => Pages\EditOrderDetail::route('/{record}/edit'),
         ];
-    }    
+    }
 }

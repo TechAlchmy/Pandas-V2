@@ -1,11 +1,10 @@
 <?php
 
+use App\Models\Organization;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\User;
-use App\Models\Organization;
-
 
 return new class extends Migration
 {
@@ -16,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('managers', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class, "user_id")->nullable();
-            $table->foreignIdFor(Organization::class, "organization_id")->nullable();
-            $table->foreignIdFor(User::class, "created_by")->nullable();
-            $table->foreignIdFor(User::class, "updated_by")->nullable();
+            $table->foreignIdFor(User::class, 'user_id')->nullable();
+            $table->foreignIdFor(Organization::class, 'organization_id')->nullable();
+            $table->foreignIdFor(User::class, 'created_by')->nullable();
+            $table->foreignIdFor(User::class, 'updated_by')->nullable();
             $table->softDeletes();
-            $table->foreignIdFor(User::class, "deleted_by")->nullable();
+            $table->foreignIdFor(User::class, 'deleted_by')->nullable();
             $table->timestamps();
         });
     }

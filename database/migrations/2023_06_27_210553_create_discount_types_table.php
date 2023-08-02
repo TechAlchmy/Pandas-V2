@@ -1,11 +1,11 @@
 <?php
 
+use App\Models\Discount;
+use App\Models\OfferType;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\User;
-use App\Models\Discount;
-use App\Models\OfferType;
 
 return new class extends Migration
 {
@@ -16,12 +16,12 @@ return new class extends Migration
     {
         Schema::create('discount_types', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Discount::class, "discount_id")->nullable();
-            $table->foreignIdFor(OfferType::class, "offertype_id")->nullable();
-            $table->foreignIdFor(User::class, "created_by")->nullable();
-            $table->foreignIdFor(User::class, "updated_by")->nullable();
+            $table->foreignIdFor(Discount::class, 'discount_id')->nullable();
+            $table->foreignIdFor(OfferType::class, 'offertype_id')->nullable();
+            $table->foreignIdFor(User::class, 'created_by')->nullable();
+            $table->foreignIdFor(User::class, 'updated_by')->nullable();
             $table->softDeletes();
-            $table->foreignIdFor(User::class, "deleted_by")->nullable();
+            $table->foreignIdFor(User::class, 'deleted_by')->nullable();
             $table->timestamps();
         });
     }

@@ -7,12 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use App\Models\Order;
-use App\Models\Manager;
-use App\Models\Organization;
-use App\Models\UserPreference;
-use App\Models\Brand;
-
 
 class User extends Authenticatable
 {
@@ -57,24 +51,25 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Organization::class);
     }
-    
+
     public function userPreferences()
     {
         return $this->hasOne(UserPreference::class);
     }
+
     public function orders()
     {
         return $this->hasMany(Order::class);
     }
+
     public function brands()
     {
         return $this->hasMany(Brand::class);
     }
+
     public function managedOrganizations()
-{
-    return $this->hasMany(Manager::class);
+    {
+        return $this->hasMany(Manager::class);
 
-}
-
-   
+    }
 }

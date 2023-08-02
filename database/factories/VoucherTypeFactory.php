@@ -23,7 +23,6 @@ class VoucherTypeFactory extends Factory
             'updated_by' => $this->faker->numberBetween(1, 20),
             'deleted_by' => null,
 
-            
         ];
     }
 }

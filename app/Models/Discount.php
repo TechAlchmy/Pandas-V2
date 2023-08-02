@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Discount extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'name',
         'link',
@@ -16,28 +17,36 @@ class Discount extends Model
         'description',
         'logo',
         'views',
-        'status'
+        'status',
     ];
+
     public function discountCategories()
     {
         return $this->hasMany(DiscountCategory::class);
     }
+
     public function discountRegions()
     {
         return $this->hasMany(DiscountRegion::class);
     }
+
     public function discountOffers()
     {
         return $this->hasMany(DiscountOffer::class);
     }
+
     public function discountTags()
     {
         return $this->hasMany(DiscountTag::class);
     }
-    public function offerType(){
+
+    public function offerType()
+    {
         return $this->belongsTo(OfferType::class);
     }
-    public function voucherType(){
+
+    public function voucherType()
+    {
         return $this->belongsTo(VoucherType::class);
     }
 }

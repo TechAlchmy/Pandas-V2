@@ -24,7 +24,7 @@ class OrganizationFactory extends Factory
             'phone' => $this->faker->phoneNumber,
             'email' => $this->faker->email,
             'region_id' => $this->faker->numberBetween(1, 10),
-            
+
         ];
     }
 }

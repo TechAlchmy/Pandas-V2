@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'name',
         'link',
@@ -18,14 +19,14 @@ class Category extends Model
         'views',
         'status',
     ];
+
     public function brandCategories()
     {
         return $this->hasMany(BrandCategory::class);
     }
+
     public function discountCategories()
     {
         return $this->hasMany(DiscountCategory::class);
     }
-    
-
 }

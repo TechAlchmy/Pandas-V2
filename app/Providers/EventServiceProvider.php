@@ -2,12 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\Brand;
+use App\Observers\BrandObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
-use App\Models\Brand;
-use App\Observers\BrandObserver;
 
 class EventServiceProvider extends ServiceProvider
 {

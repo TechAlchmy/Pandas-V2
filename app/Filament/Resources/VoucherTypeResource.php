@@ -3,22 +3,21 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\VoucherTypeResource\Pages;
-use App\Filament\Resources\VoucherTypeResource\RelationManagers;
 use App\Models\VoucherType;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class VoucherTypeResource extends Resource
 {
     protected static ?string $model = VoucherType::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
+
     protected static ?string $navigationGroup = 'Product Types';
+
     protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
@@ -63,14 +62,14 @@ class VoucherTypeResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -78,5 +77,5 @@ class VoucherTypeResource extends Resource
             'create' => Pages\CreateVoucherType::route('/create'),
             'edit' => Pages\EditVoucherType::route('/{record}/edit'),
         ];
-    }    
+    }
 }

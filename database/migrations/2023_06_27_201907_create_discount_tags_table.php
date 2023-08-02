@@ -1,12 +1,11 @@
 <?php
 
+use App\Models\Discount;
+use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\User;
-use App\Models\Discount;
-use App\Models\Tag;
-
 
 return new class extends Migration
 {
@@ -16,12 +15,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('discount_tags', function (Blueprint $table) {
-            $table->foreignIdFor(Discount::class, "discount_id")->nullable();
-            $table->foreignIdFor(Tag::class, "tag_id")->nullable();
-            $table->foreignIdFor(User::class, "created_by")->nullable();
-            $table->foreignIdFor(User::class, "updated_by")->nullable();
+            $table->foreignIdFor(Discount::class, 'discount_id')->nullable();
+            $table->foreignIdFor(Tag::class, 'tag_id')->nullable();
+            $table->foreignIdFor(User::class, 'created_by')->nullable();
+            $table->foreignIdFor(User::class, 'updated_by')->nullable();
             $table->softDeletes();
-            $table->foreignIdFor(User::class, "deleted_by")->nullable();
+            $table->foreignIdFor(User::class, 'deleted_by')->nullable();
             $table->timestamps();
         });
     }
