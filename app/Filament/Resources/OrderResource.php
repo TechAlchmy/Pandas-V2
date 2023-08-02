@@ -30,7 +30,6 @@ class OrderResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->columns(3)
             ->schema([
                 Section::make('Order Data')
                     ->columnSpan(2)
