@@ -1,0 +1,295 @@
+@font-face {
+    font-family: "Aeonik";
+    src: url("../../public/fonts/Aeonik-Regular.woff2") format("woff2"),
+        url("../../public/fonts/Aeonik-Regular.woff") format("woff");
+}
+@font-face {
+    font-family: "Editorial";
+    src: url("../../public/fonts/PPEditorialNew-Light.woff2") format("woff2"),
+        url("../../public/fonts/PPEditorialNew-Light.woff") format("woff");
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global style */
+input:-webkit-autofill {
+    transition-delay: 99999s;
+    transition-property: background-color, color;
+}
+
+.underline-animated {
+    position: relative;
+    text-decoration: none;
+}
+
+.underline-animated::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 100%;
+    height: 1px;
+    background-color: black;
+    transition: all 0.5s ease;
+}
+
+.underline-animated:hover::after {
+    left: 50%;
+    right: 50%;
+    width: 0%;
+}
+.container {
+    max-width: 1920px;
+    margin: auto;
+}
+/* Nav bar style  */
+.panda-nav {
+    width: 150px;
+    height: 50px;
+    justify-content: center;
+    font-size: 18px;
+}
+.panda-nav-active {
+    border-radius: 70%;
+    border: 1px solid black;
+    width: 150px;
+    height: 50px;
+    justify-content: center;
+    font-size: 18px;
+}
+.panda-nav:hover {
+    border-radius: 70%;
+    border: 1px solid black;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.nav-item {
+    height: 50px;
+}
+
+.nav-logo {
+    width: auto;
+}
+
+.nav-list {
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.nav-responsive {
+    width: auto;
+}
+
+.search-container {
+    position: relative;
+}
+
+.search-container input {
+    padding: 5px 10px 5px 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+}
+
+.search-container button {
+    background: none;
+    border: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-right: 5px;
+    cursor: pointer;
+}
+
+.search-container img {
+    height: 20px;
+    width: 20px;
+}
+
+/* Guest index page style */
+#imageContainer {
+    z-index: 1;
+    user-select: none;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.ellipse-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0px;
+    box-sizing: border-box;
+    z-index: 1; /* Adjust as needed */
+}
+
+.ellipse-container svg {
+    position: absolute;
+    width: 80%; /* Control the size of the border here */
+    height: auto;
+    z-index: 2;
+    transform: rotate(15deg); /* Rotate the border here */
+}
+.svg-style {
+    width: 90%;
+    height: auto;
+}
+
+img {
+    cursor: default;
+}
+
+/* Login adn register page style */
+.panda-text-input {
+    border: none;
+    border-bottom: 1.5px solid black;
+    outline: none;
+    font-size: 1rem;
+    font-family: "Aeonik";
+    width: 100%;
+    background-color: transparent;
+    transition: all 0.2s ease-in-out;
+}
+.panda-text-input-email {
+    padding-left: 60px;
+}
+.panda-text-input-pwd {
+    padding-left: 105px;
+}
+.panda-text-input-pwdrep {
+    padding-left: 175px;
+}
+
+.panda-text-input:focus {
+    box-shadow: none;
+}
+.pandas-label {
+    bottom: 10px;
+}
+
+.noselect {
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+}
+
+.nocaret {
+    caret-color: transparent;
+}
+.nodrag {
+    -webkit-user-select: none; /* Chrome, Safari, Opera */
+    -khtml-user-select: none; /* Konqueror */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome, Edge, Safari and Firefox */
+    pointer-events: none;
+}
+
+.panda-submit {
+    border-radius: 70%;
+    border: 2px solid black;
+    width: 236px;
+    height: 60px;
+    justify-content: center;
+    font-size: 18px;
+}
+.panda-submit-white {
+    border-radius: 70%;
+    border: 2px solid white;
+    width: 236px;
+    height: 60px;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.panda-green-bg {
+    background-color: #91b88f;
+}
+.bottom-out {
+    position: absolute;
+    bottom: 23%;
+    right: 30%;
+    transform: translateY(100%);
+}
+/* Panda main page style */
+.bottom-out-blade {
+    position: absolute;
+    bottom: 40%;
+    left: 10%;
+    transform: translateY(100%);
+}
+
+@media (max-width: 1440px) {
+    /* Guest index page style */
+    .content-conteiner {
+        flex-direction: column;
+    }
+    .ellipse-container {
+        justify-content: flex-end;
+    }
+    .ellipse-container svg {
+        transform: rotate(15deg) translateX(31%) translateY(-9%);
+        display: none;
+    }
+    .svg-style {
+        width: 82%;
+        display: auto;
+    }
+    .text-container {
+        padding: 0px;
+    }
+}
+@media (max-width: 1350px) {
+    /* Guest index page style */
+    .ellipse-container {
+        justify-content: flex-end;
+    }
+    .ellipse-container::before {
+        top: -60px;
+        left: auto;
+        right: -55px;
+        width: 72%;
+        height: 160%;
+        transform: rotate(18deg);
+        overflow: hidden;
+    }
+    #imageContainer {
+        margin-top: 125px;
+    }
+}
+@media (max-width: 1024px) {
+    /* Guest index page style */
+    .text-container {
+        margin: 5% auto 5% auto;
+    }
+    .guest-buttons {
+        display: flex;
+        flex-flow: row wrap;
+        align-content: space-between;
+        justify-content: space-between;
+    }
+
+    /* Login adn register page style */
+    .bottom-out {
+        bottom: 14%;
+        right: 45%;
+    }
+}
