@@ -45,11 +45,11 @@ class Order extends Model
             $order->created_by = auth()->id();
         });
 
-        static::updated(function (Order $order) {
+        static::updating(function (Order $order) {
             $order->updated_by = auth()->id();
         });
 
-        static::deleted(function (Order $order) {
+        static::deleting(function (Order $order) {
             $order->deleted_by = auth()->id();
         });
     }
@@ -64,17 +64,17 @@ class Order extends Model
         return $this->hasMany(OrderDetail::class);
     }
 
-    public function creator(): BelongsTo
+    public function createdBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    public function updater(): BelongsTo
+    public function updatedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
 
-    public function deleter(): BelongsTo
+    public function deletedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'deleted_by');
     }

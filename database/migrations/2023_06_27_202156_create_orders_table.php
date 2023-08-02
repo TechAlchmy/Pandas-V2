@@ -28,7 +28,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class, 'deleted_by')->nullable();
             $table->string('order_date', 255)->nullable();
 
-            $table->uuid('uuid');
+            $table->uuid('uuid')->nullable();
 
             $table->softDeletes();
             $table->timestamps();

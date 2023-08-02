@@ -8,8 +8,10 @@ use App\Models\Order;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Forms\Components\Placeholder;
 use Filament\Tables\Filters\TernaryFilter;
 use App\Filament\Resources\OrderResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -68,24 +70,46 @@ class OrderResource extends Resource
                         Forms\Components\DatePicker::make('order_date'),
                     ]),
 
-                Section::make('Associations')
-                    ->columnSpan(1)
-                    ->schema([
-                        Forms\Components\Select::make('created_by')
-                    ->label('Created by')
-                    ->disabled()
-                    ->relationship('creator', 'name'),
+                Tabs::make('Heading')
+                    ->tabs([
+                        Tabs\Tab::make('Edited By')
+                            ->schema([
+                                Placeholder::make('edited_by')->content(function ($record) {
+                                    return $record && $record->updatedBy ? $record->updatedBy->name : null;
+                                }),
+                                Placeholder::make('Email')->content(function ($record) {
+                                    return $record && $record->updatedBy ? $record->updatedBy->email : null;
+                                }),
+                                Placeholder::make('Last updated')->content(function ($record) {
+                                    return $record && $record->updated_at ? $record->updated_at->format('m/d/Y h:i:s A') : null;
+                                }),
 
-                        Forms\Components\Select::make('updated_by')
-                            ->label('Update by')
-                            ->disabled()
-                            ->relationship('updater', 'name'),
-
-                        Forms\Components\Select::make('deleted_by')
-                            ->label('Deleted by')
-                            ->disabled()
-                            ->relationship('deleter', 'name'),
-                    ]),
+                            ])->columns(3),
+                        Tabs\Tab::make('Created By')
+                            ->schema([
+                                Placeholder::make('created_by')->content(function ($record) {
+                                    return $record && $record->createdBy ? $record->createdBy->name : null;
+                                }),
+                                Placeholder::make('email')->content(function ($record) {
+                                    return $record && $record->createdBy ? $record->createdBy->email : null;
+                                }),
+                                Placeholder::make('created_at')->content(function ($record) {
+                                    return $record && $record->created_at ? $record->created_at->format('m/d/Y h:i:s A') : null;
+                                }),
+                            ])->columns(3),
+                        Tabs\Tab::make('Deleted By')
+                            ->schema([
+                                Placeholder::make('deledted_by')->content(function ($record) {
+                                    return $record && $record->deletedBy ? $record->deletedBy->name : null;
+                                }),
+                                Placeholder::make('email')->content(function ($record) {
+                                    return $record && $record->deletedBy ? $record->deletedBy->email : null;
+                                }),
+                                Placeholder::make('created_at')->content(function ($record) {
+                                    return $record && $record->deelted_at ? $record->deelted_at->format('m/d/Y h:i:s A') : null;
+                                }),
+                            ])->columns(3),
+                    ])->columnSpanFull(),
             ]);
     }
 
