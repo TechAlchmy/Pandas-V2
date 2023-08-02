@@ -22,7 +22,11 @@ class Category extends Model implements Sortable
         'description',
         'logo',
         'views',
-        'status',
+        'is_active',
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
     ];
 
     public function brandCategories()
