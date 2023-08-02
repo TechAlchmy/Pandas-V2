@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\EloquentSortable\Sortable;
@@ -37,5 +38,10 @@ class Category extends Model implements Sortable
     public function discountCategories()
     {
         return $this->hasMany(DiscountCategory::class);
+    }
+
+    public function buildSortQuery(): Builder
+    {
+        return static::query()->where('parent_id', $this->parent_id);
     }
 }
