@@ -24,7 +24,9 @@ class DiscountResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('brand_id'),
+                Forms\Components\Select::make('brand_id')
+                    ->relationship('brand', 'name')
+                    ->searchable(),
                 Forms\Components\TextInput::make('name')
                     ->afterStateUpdated(function ($get, $set, ?string $state) {
                         if (! $get('is_slug_changed_manually') && filled($state)) {
@@ -34,8 +36,12 @@ class DiscountResource extends Resource
                     ->reactive()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('voucher_type_id'),
-                Forms\Components\TextInput::make('offer_type_id'),
+                Forms\Components\Select::make('voucher_type_id')
+                    ->relationship('voucherType', 'type')
+                    ->searchable(),
+                Forms\Components\Select::make('offer_type_id')
+                    ->relationship('offerType', 'type')
+                    ->searchable(),
                 Forms\Components\TextInput::make('slug')
                     ->afterStateUpdated(function ($set) {
                         $set('is_slug_changed_manually', true);
