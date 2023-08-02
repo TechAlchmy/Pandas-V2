@@ -16,8 +16,8 @@ return new class extends Migration
     {
         Schema::create('brand_categories', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Category::class, 'category_id')->nullable();
-            $table->foreignIdFor(Brand::class, 'brand_id')->nullable();
+            $table->foreignIdFor(Category::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Brand::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
