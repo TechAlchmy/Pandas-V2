@@ -100,6 +100,10 @@ class DiscountResource extends Resource
                                 Forms\Components\Select::make('Tags')
                                     ->placeholder('Select Tags')
                                     ->relationship('tags', 'name')
+                                    ->createOptionForm([
+                                        Forms\Components\TextInput::make('name')
+                                            ->required(),
+                                    ])
                                     ->multiple(),
                             ]),
                     ])->columnSpanFull(),
