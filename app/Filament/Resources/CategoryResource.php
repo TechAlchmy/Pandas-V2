@@ -47,7 +47,9 @@ class CategoryResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('description')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('parent_id'),
+                Forms\Components\Select::make('parent_id')
+                    ->relationship('parent', 'name')
+                    ->searchable(),
                 Forms\Components\TextInput::make('status')
                     ->required(),
                 Forms\Components\TextInput::make('created_by'),
