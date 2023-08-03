@@ -82,7 +82,6 @@ class DatabaseSeeder extends Seeder
                 $orderDetail = OrderDetail::factory()->make();
                 $orderDetail->discount()->associate($discount);
                 $orderDetail->order()->associate($order);
-                $orderDetail->user()->associate($user);
                 $order->orderDetails()->save($orderDetail);
             }
         });

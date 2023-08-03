@@ -19,7 +19,7 @@ class OrderDetailFactory extends Factory
         return [
             'order_id' => null,
             'discount_id' => null,
-            'user_id' => null,
+            'quantity' => random_int(1, 10),
             'purchase_date' => $this->faker->dateTimeBetween('-1 years', 'now'),
         ];
     }

@@ -16,6 +16,7 @@ use Filament\Tables\Filters\TernaryFilter;
 use App\Filament\Resources\OrderResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\OrderResource\RelationManagers\OrderDetailsRelationManager;
+use Filament\Tables\Actions\Action;
 
 class OrderResource extends Resource
 {
@@ -38,35 +39,33 @@ class OrderResource extends Resource
                         Forms\Components\Select::make('user_id')
                             ->relationship('user', 'name'),
 
-                        Forms\Components\TextInput::make('order_status')
-                            ->maxLength(255),
+                        Forms\Components\TextInput::make('order_status'),
 
                         Forms\Components\TextInput::make('order_number')
-                            ->required()
-                            ->maxLength(255),
+                            ->disabled(fn (string $context): bool => $context !== 'create')
+                            ->required(),
 
                         Forms\Components\TextInput::make('order_total')
-                            ->numeric()
-                            ->maxLength(255),
+                            ->disabled(fn (string $context): bool => $context !== 'create')
+                            ->numeric(),
 
                         Forms\Components\TextInput::make('order_subtotal')
-                            ->numeric()
-                            ->maxLength(255),
+                            ->disabled(fn (string $context): bool => $context !== 'create')
+                            ->numeric(),
 
                         Forms\Components\TextInput::make('order_discount')
-                            ->numeric()
-                            ->maxLength(255),
+                            ->disabled(fn (string $context): bool => $context !== 'create')
+                            ->numeric(),
 
                         Forms\Components\TextInput::make('order_tax')
-                            ->numeric()
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('payment_method')
-                            ->maxLength(255),
+                            ->disabled(fn (string $context): bool => $context !== 'create')
+                            ->numeric(),
 
-                        Forms\Components\TextInput::make('payment_status')
-                            ->maxLength(255),
+                        Forms\Components\TextInput::make('payment_method')->disabled(),
 
-                        Forms\Components\DatePicker::make('order_date'),
+                        Forms\Components\TextInput::make('payment_status')->disabled(),
+
+                        Forms\Components\DatePicker::make('order_date')->disabled()->default(now()),
                     ]),
 
                 Tabs::make('Heading')
@@ -116,6 +115,9 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('order_number')
+                    ->searchable(),
+
                 Tables\Columns\TextColumn::make('user.name')
                     ->searchable()
                     ->url(fn (Order $record) => route('filament.resources.users.edit', $record->user->id)),
@@ -130,10 +132,6 @@ class OrderResource extends Resource
                         'danger' => 'cancelled',
                         'danger' => 'failed',
                     ]),
-
-                Tables\Columns\TextColumn::make('order_number')
-                    ->toggleable()
-                    ->toggledHiddenByDefault(),
 
                 Tables\Columns\TextColumn::make('order_total'),
 
@@ -206,6 +204,7 @@ class OrderResource extends Resource
                     ),
             ])
             ->actions([
+                Action::make('refund')->button(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
