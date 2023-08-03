@@ -18,10 +18,10 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Discount::class, 'discount_id')->nullable();
             $table->foreignIdFor(OfferType::class, 'offertype_id')->nullable();
-            $table->foreignIdFor(User::class, 'created_by')->nullable();
-            $table->foreignIdFor(User::class, 'updated_by')->nullable();
+            $table->foreignIdFor(User::class, 'created_by_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignIdFor(User::class, 'updated_by_id')->nullable()->constrained()->nullOnDelete();
             $table->softDeletes();
-            $table->foreignIdFor(User::class, 'deleted_by')->nullable();
+            $table->foreignIdFor(User::class, 'deleted_by_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
         });
     }
