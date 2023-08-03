@@ -45,7 +45,8 @@ class CategoryResource extends Resource
                 Forms\Components\TextInput::make('link')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('description')
+                Forms\Components\RichEditor::make('description')
+                    ->columnSpanFull()
                     ->maxLength(255),
                 Forms\Components\Select::make('parent_id')
                     ->relationship('parent', 'name')
