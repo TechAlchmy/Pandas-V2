@@ -67,18 +67,31 @@ class DiscountResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('code')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('amount')
-                    ->numeric(),
-                Forms\Components\TextInput::make('limit_qty')
-                    ->numeric(),
-                Forms\Components\TextInput::make('limit_amount')
-                    ->numeric(),
-                Forms\Components\TextInput::make('public_percentage')
-                    ->numeric(),
-                Forms\Components\TextInput::make('percentage')
-                    ->numeric(),
                 Forms\Components\Tabs::make('Heading')
                     ->tabs([
+                        Forms\Components\Tabs\Tab::make('Amounts')
+                            ->schema([
+                                Forms\Components\TagsInput::make('amounts')
+                                    ->placeholder('Input amounts'),
+                            ]),
+                        Forms\Components\Tabs\Tab::make('Limit')
+                            ->columns()
+                            ->schema([
+                                Forms\Components\TextInput::make('limit_qty')
+                                    ->numeric(),
+                                Forms\Components\TextInput::make('limit_amount')
+                                    ->numeric(),
+                            ]),
+                        Forms\Components\Tabs\Tab::make('Percentage')
+                            ->columns()
+                            ->schema([
+                                Forms\Components\TextInput::make('public_percentage')
+                                    ->suffix('%')
+                                    ->numeric(),
+                                Forms\Components\TextInput::make('percentage')
+                                    ->suffix('%')
+                                    ->numeric(),
+                            ]),
                         Forms\Components\Tabs\Tab::make('Catregories')
                             ->schema([
                                 Forms\Components\Select::make('category_id')
