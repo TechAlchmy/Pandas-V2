@@ -68,11 +68,16 @@ class DiscountResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('code')
                     ->maxLength(255),
+                Forms\Components\Select::make('offer type')
+                    ->placeholder('Select Offer Types')
+                    ->relationship('offerTypes', 'type')
+                    ->reactive()
+                    ->multiple(),
                 Forms\Components\Tabs::make('Heading')
                     ->tabs([
                         Forms\Components\Tabs\Tab::make('Amounts')
                             ->schema([
-                                Forms\Components\TagsInput::make('amounts')
+                                Forms\Components\TagsInput::make('amount')
                                     ->placeholder('Input amounts'),
                             ]),
                         Forms\Components\Tabs\Tab::make('Limit')
