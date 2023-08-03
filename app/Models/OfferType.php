@@ -14,6 +14,7 @@ class OfferType extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name',
+        'type',
+        'description',
     ];
 }
