@@ -43,6 +43,10 @@ class DatabaseSeeder extends Seeder
                 });
         });
         User::factory(2)
+            ->sequence(
+                ['email' => 'admin1@test.com'],
+                ['email' => 'admin2@test.com'],
+            )
             ->admins()
             ->create()
             ->each(function ($user) {
