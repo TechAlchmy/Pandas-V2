@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\OrganizationResource\Pages;
+use App\Forms\Components\AuditableView;
 use App\Models\Organization;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -45,6 +46,7 @@ class OrganizationResource extends Resource
                     ->maxLength(45),
                 Forms\Components\TextInput::make('region_id')
                     ->required(),
+                AuditableView::make('audit'),
             ]);
     }
 
