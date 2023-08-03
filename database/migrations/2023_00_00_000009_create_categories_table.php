@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 255)->unique();
             $table->string('link', 255)->unique();
-            $table->string('description')->nullable();
+            $table->longText('description')->nullable();
             $table->foreignIdFor(Category::class, 'parent_id')->nullable();
             $table->integer('order_column')->nullable()->index();
             $table->string('slug', 255)->unique();
