@@ -125,6 +125,14 @@ class DiscountResource extends Resource
                                     ])
                                     ->multiple(),
                             ]),
+                        Forms\Components\Tabs\Tab::make('Types')
+                            ->schema([
+                                Forms\Components\Select::make('offer type')
+                                    ->placeholder('Select Offer Types')
+                                    ->relationship('offerTypes', 'type')
+                                    ->reactive()
+                                    ->multiple(),
+                            ]),
                     ])->columnSpanFull(),
                 AuditableView::make('audit'),
             ]);
