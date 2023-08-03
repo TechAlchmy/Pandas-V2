@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\DiscountResource\Pages;
+use App\Forms\Components\AuditableView;
 use App\Models\Discount;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -107,9 +108,7 @@ class DiscountResource extends Resource
                                     ->multiple(),
                             ]),
                     ])->columnSpanFull(),
-                Forms\Components\TextInput::make('created_by'),
-                Forms\Components\TextInput::make('updated_by'),
-                Forms\Components\TextInput::make('deleted_by'),
+                AuditableView::make('audit'),
             ]);
     }
 
