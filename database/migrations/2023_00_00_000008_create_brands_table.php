@@ -3,6 +3,8 @@
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Schema\Grammars\SQLiteGrammar;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -22,10 +24,10 @@ return new class extends Migration
             $table->string('logo')->nullable();
             $table->integer('views')->default(0);
             $table->integer('status')->default(1);
-            $table->foreignIdFor(User::class, 'created_by_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignIdFor(User::class, 'updated_by_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignIdFor(User::class, 'created_by_id')->nullable();
+            $table->foreignIdFor(User::class, 'updated_by_id')->nullable();
             $table->softDeletes();
-            $table->foreignIdFor(User::class, 'deleted_by_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignIdFor(User::class, 'deleted_by_id')->nullable();
             $table->timestamps();
         });
     }

@@ -16,10 +16,10 @@ return new class extends Migration
             $table->id();
             $table->string('type', 255)->unique();
             $table->string('description');
-            $table->foreignIdFor(User::class, 'created_by_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignIdFor(User::class, 'updated_by_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignIdFor(User::class, 'created_by_id')->nullable();
+            $table->foreignIdFor(User::class, 'updated_by_id')->nullable();
             $table->softDeletes();
-            $table->foreignIdFor(User::class, 'deleted_by_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignIdFor(User::class, 'deleted_by_id')->nullable();
             $table->timestamps();
         });
     }
