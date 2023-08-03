@@ -40,9 +40,6 @@ class DiscountResource extends Resource
                 Forms\Components\Select::make('voucher_type_id')
                     ->relationship('voucherType', 'type')
                     ->searchable(),
-                Forms\Components\Select::make('offer_type_id')
-                    ->relationship('offerType', 'type')
-                    ->searchable(),
                 Forms\Components\TextInput::make('slug')
                     ->afterStateUpdated(function ($set) {
                         $set('is_slug_changed_manually', true);
