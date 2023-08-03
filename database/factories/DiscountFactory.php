@@ -36,9 +36,9 @@ class DiscountFactory extends Factory
             'limit_amount' => $this->faker->numberBetween(1, 100),
             'public_percentage' => $this->faker->numberBetween(1, 100),
             'percentage' => $this->faker->numberBetween(1, 100),
-            'created_by' => $this->faker->numberBetween(1, 20),
-            'updated_by' => $this->faker->numberBetween(1, 20),
-            'deleted_by' => null,
+            'created_by_id' => $this->faker->numberBetween(1, 20),
+            'updated_by_id' => $this->faker->numberBetween(1, 20),
+            'deleted_by_id' => null,
 
         ];
     }
