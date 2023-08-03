@@ -25,12 +25,24 @@ class OrganizationResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('website')
+                    ->afterStateUpdated(function ($get, $set, ?string $state) {
+                        if (! $get('is_slug_changed_manually') && filled($state)) {
+                            $set('slug', str($state)->slug());
+                        }
+                    })
+                    ->reactive()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('slug')
+                    ->afterStateUpdated(function ($set) {
+                        $set('is_slug_changed_manually', true);
+                    })
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\Hidden::make('is_slug_changed_manually')
+                    ->default(false)
+                    ->dehydrated(false),
+                Forms\Components\TextInput::make('website')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('uniqid')
