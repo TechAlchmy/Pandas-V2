@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Enums\OrderStatus;
+use App\Enums\PaymentStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,6 +18,7 @@ class OrderFactory extends Factory
      */
     public function definition(): array
     {
+        //TODO: These should never be saved into databse.
         $orderSubtotal = $this->faker->randomFloat(2, 100, 1000);
         $orderDiscount = $orderSubtotal * $this->faker->randomFloat(2, 0, 0.3);
         $orderTax = $orderSubtotal * 0.25;
@@ -23,14 +26,14 @@ class OrderFactory extends Factory
 
         return [
             'user_id' => null,
-            'order_status' => $this->faker->randomElement(['pending', 'processing', 'on hold', 'completed', 'cancelled', 'refunded', 'failed']),
+            'order_status' => $this->faker->randomElement(OrderStatus::values()),
             'order_number' => $this->faker->numberBetween(100000, 999999),
             'order_total' => $orderTotal,
             'order_subtotal' => $orderSubtotal,
             'order_discount' => $orderDiscount,
             'order_tax' => $orderTax,
             'payment_method' => $this->faker->randomElement(['cash', 'card']),
-            'payment_status' => $this->faker->randomElement(['pending', 'paid', 'faield', 'refunded']),
+            'payment_status' => $this->faker->randomElement(PaymentStatus::values()),
             'created_by' => $this->faker->numberBetween(1, 20),
             'updated_by' => $this->faker->numberBetween(1, 20),
             'deleted_by' => null,

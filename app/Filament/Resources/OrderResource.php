@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\OrderStatus;
+use App\Enums\PaymentStatus;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Order;
@@ -39,7 +41,7 @@ class OrderResource extends Resource
                         Forms\Components\Select::make('user_id')
                             ->relationship('user', 'name'),
 
-                        Forms\Components\TextInput::make('order_status'),
+                        Forms\Components\Select::make('order_status')->options(OrderStatus::options()),
 
                         Forms\Components\TextInput::make('order_number')
                             ->disabled(fn (string $context): bool => $context !== 'create')
@@ -63,7 +65,7 @@ class OrderResource extends Resource
 
                         Forms\Components\TextInput::make('payment_method')->disabled(),
 
-                        Forms\Components\TextInput::make('payment_status')->disabled(),
+                        Forms\Components\Select::make('payment_status')->options(PaymentStatus::options())->disabled(),
 
                         Forms\Components\DatePicker::make('order_date')->disabled()->default(now()),
                     ]),
