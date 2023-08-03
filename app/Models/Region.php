@@ -11,27 +11,6 @@ class Region extends Model
     use HasFactory;
     use InteractsWithAuditable;
 
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            if (auth()->check()) {
-                $model->created_by = auth()->user()->id;
-            } else {
-                $model->created_by = null;
-            }
-        });
-
-        static::updating(function ($model) {
-            if (auth()->check()) {
-                $model->updated_by = auth()->user()->id;
-            } else {
-                $model->updated_by = null;
-            }
-        });
-    }
-
     protected $fillable = [
         'name',
         'code',
