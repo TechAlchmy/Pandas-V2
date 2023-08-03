@@ -10,6 +10,7 @@ class OfferType extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'type',
+        'description',
     ];
 }
