@@ -73,6 +73,7 @@ class BrandResource extends Resource
                     ->columnSpan(1)
                     ->schema([
                         Toggle::make('is_active')
+                            ->default(false)
                             ->onColor('success')
                             ->offColor('danger'),
                         Placeholder::make('views')
