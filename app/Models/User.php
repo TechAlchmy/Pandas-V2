@@ -57,7 +57,7 @@ class User extends Authenticatable
         return $this->belongsTo(Organization::class);
     }
 
-    public function userPreferences()
+    public function userPreference()
     {
         return $this->hasOne(UserPreference::class);
     }
