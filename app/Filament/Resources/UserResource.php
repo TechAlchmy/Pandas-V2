@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\Section;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
@@ -23,40 +24,57 @@ class UserResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
+            ->columns(3)
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
-                Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('auth_level')
-                    ->required(),
-                Forms\Components\TextInput::make('social_security_number')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('organization_id'),
-                Forms\Components\TextInput::make('phone_number')
-                    ->tel()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('address')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('city')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('state')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('zip_code'),
-                Forms\Components\TextInput::make('country')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('profile_picture')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('created_by'),
-                Forms\Components\TextInput::make('updated_by'),
-                Forms\Components\TextInput::make('deleted_by'),
+                Forms\Components\Section::make('Personal Details')
+                    ->columnSpan(2)
+                    ->columns(2)
+                    ->schema([
+                        Forms\Components\FileUpload::make('profile_picture')
+                            ->columnSpanFull()
+                            ->image()
+                            ->avatar(),
+
+                        Forms\Components\TextInput::make('name')
+                        ->maxLength(255),
+                        Forms\Components\TextInput::make('email')
+                            ->email()
+                            ->required()
+                            ->maxLength(255),
+                        // Forms\Components\DateTimePicker::make('email_verified_at'),
+                        Forms\Components\TextInput::make('password')
+                            ->password()
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('auth_level')
+                            ->required(),
+                        Forms\Components\TextInput::make('social_security_number')
+                            ->maxLength(255),
+                        Forms\Components\Select::make('organization_id')
+                            ->relationship('organization', 'name'),
+                        Forms\Components\TextInput::make('phone_number')
+                            ->tel()
+                            ->maxLength(255),
+                    ]),
+
+                Section::make('Location')
+                    ->columnSpan(1)
+                    ->schema([
+                        Forms\Components\TextInput::make('address')
+                        ->maxLength(255),
+                        Forms\Components\TextInput::make('city')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('state')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('zip_code'),
+                        Forms\Components\TextInput::make('country')
+                            ->maxLength(255),
+                    ]),
+
+
+                // Forms\Components\TextInput::make('created_by'),
+                // Forms\Components\TextInput::make('updated_by'),
+                // Forms\Components\TextInput::make('deleted_by'),
             ]);
     }
 
@@ -67,26 +85,26 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('email'),
                 Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('auth_level'),
-                Tables\Columns\TextColumn::make('social_security_number'),
-                Tables\Columns\TextColumn::make('organization_id'),
-                Tables\Columns\TextColumn::make('phone_number'),
-                Tables\Columns\TextColumn::make('address'),
-                Tables\Columns\TextColumn::make('city'),
-                Tables\Columns\TextColumn::make('state'),
-                Tables\Columns\TextColumn::make('zip_code'),
-                Tables\Columns\TextColumn::make('country'),
-                Tables\Columns\TextColumn::make('profile_picture'),
-                Tables\Columns\TextColumn::make('created_by'),
-                Tables\Columns\TextColumn::make('updated_by'),
+                    ->dateTime()->toggleable()->toggledHiddenByDefault(),
+                Tables\Columns\TextColumn::make('auth_level')->toggleable()->toggledHiddenByDefault(),
+                Tables\Columns\TextColumn::make('social_security_number')->toggleable()->toggledHiddenByDefault(),
+                Tables\Columns\TextColumn::make('organization.name')->toggleable()->toggledHiddenByDefault(),
+                Tables\Columns\TextColumn::make('phone_number')->toggleable()->toggledHiddenByDefault(),
+                Tables\Columns\TextColumn::make('address')->toggleable()->toggledHiddenByDefault(),
+                Tables\Columns\TextColumn::make('city')->toggleable()->toggledHiddenByDefault(),
+                Tables\Columns\TextColumn::make('state')->toggleable()->toggledHiddenByDefault(),
+                Tables\Columns\TextColumn::make('zip_code')->toggleable()->toggledHiddenByDefault(),
+                Tables\Columns\TextColumn::make('country')->toggleable()->toggledHiddenByDefault(),
+                Tables\Columns\TextColumn::make('profile_picture')->toggleable()->toggledHiddenByDefault(),
+                Tables\Columns\TextColumn::make('created_by')->toggleable()->toggledHiddenByDefault(),
+                Tables\Columns\TextColumn::make('updated_by')->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('deleted_by'),
+                    ->dateTime()->toggleable()->toggledHiddenByDefault(),
+                Tables\Columns\TextColumn::make('deleted_by')->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
+                    ->dateTime()->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
+                    ->dateTime()->toggleable()->toggledHiddenByDefault(),
             ])
             ->filters([
                 //
