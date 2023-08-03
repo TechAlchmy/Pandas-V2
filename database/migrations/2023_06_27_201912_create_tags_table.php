@@ -15,10 +15,10 @@ return new class extends Migration
         Schema::create('tags', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255)->unique();
-            $table->foreignIdFor(User::class, 'created_by')->nullable();
-            $table->foreignIdFor(User::class, 'updated_by')->nullable();
+            $table->foreignIdFor(User::class, 'created_by')->nullable()->constrained()->nullOnDelete();
+            $table->foreignIdFor(User::class, 'updated_by')->nullable()->constrained()->nullOnDelete();
             $table->softDeletes();
-            $table->foreignIdFor(User::class, 'deleted_by')->nullable();
+            $table->foreignIdFor(User::class, 'deleted_by')->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
         });
     }
