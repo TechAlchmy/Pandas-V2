@@ -86,4 +86,10 @@ class Discount extends Model
     {
         return $this->belongsTo(Brand::class);
     }
+
+    public function offerTypes()
+    {
+        return $this->belongsToMany(OfferType::class, 'discount_types')
+            ->withTimestamps();
+    }
 }
