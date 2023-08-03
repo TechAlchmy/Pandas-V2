@@ -7,7 +7,7 @@ use App\Forms\Components\AuditableView;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Region;
-use Filament\Forms\Components\Card;
+use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Placeholder;
@@ -68,22 +68,17 @@ class BrandResource extends Resource
                     ->required()
                     ->columnSpan(2),
 
-                Card::make()
+                Forms\Components\Card::make()
+                    ->columns(3)
+                    ->columnSpan(1)
                     ->schema([
-                        Toggle::make('status')
+                        Toggle::make('is_active')
                             ->onColor('success')
                             ->offColor('danger'),
-
-                        Placeholder::make('views')->content(function ($record) {
-                            return $record && $record->views ? $record->views : 0;
-                        }),
-                        Placeholder::make('Products')->content(function ($record) {
-
-                        }),
-
-                    ])
-                    ->columns(3)
-                    ->columnSpan(1),
+                        Placeholder::make('views')
+                            ->content(fn ($record) => $record->views ?? 0),
+                        Placeholder::make('Products'),
+                    ]),
 
                 FileUpload::make('logo')
                     ->disk('public')
