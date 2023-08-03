@@ -22,9 +22,9 @@ class RegionFactory extends Factory
             'name' => $this->faker->unique()->randomElement($states),
             'code' => $this->faker->randomLetter.$this->faker->randomLetter.$this->faker->randomLetter.$this->faker->randomLetter.$this->faker->randomLetter,
             'areas' => explode(' ', $this->faker->sentence(5)),
-            'created_by' => null,
-            'updated_by' => null,
-            'deleted_by' => null,
+            'created_by_id' => null,
+            'updated_by_id' => null,
+            'deleted_by_id' => null,
         ];
     }
 }

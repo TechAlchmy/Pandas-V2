@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ManagerResource\Pages;
+use App\Forms\Components\AuditableView;
 use App\Models\Manager;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -26,9 +27,7 @@ class ManagerResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('user_id'),
                 Forms\Components\TextInput::make('organization_id'),
-                Forms\Components\TextInput::make('created_by'),
-                Forms\Components\TextInput::make('updated_by'),
-                Forms\Components\TextInput::make('deleted_by'),
+                AuditableView::make('audit'),
             ]);
     }
 

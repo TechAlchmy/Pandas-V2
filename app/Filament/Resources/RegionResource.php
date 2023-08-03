@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\RegionResource\Pages;
+use App\Forms\Components\AuditableView;
 use App\Models\Region;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -31,9 +32,7 @@ class RegionResource extends Resource
                     ->required()
                     ->maxLength(5),
                 Forms\Components\Textarea::make('areas'),
-                Forms\Components\TextInput::make('created_by'),
-                Forms\Components\TextInput::make('updated_by'),
-                Forms\Components\TextInput::make('deleted_by'),
+                AuditableView::make('audit'),
             ]);
     }
 

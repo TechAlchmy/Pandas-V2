@@ -23,9 +23,9 @@ class CategoryFactory extends Factory
             'description' => $this->faker->text,
             'views' => $this->faker->numberBetween(1, 100),
             'is_active' => $this->faker->boolean(),
-            'created_by' => $this->faker->numberBetween(1, 20),
-            'updated_by' => $this->faker->numberBetween(1, 20),
-            'deleted_by' => null,
+            'created_by_id' => $this->faker->numberBetween(1, 20),
+            'updated_by_id' => $this->faker->numberBetween(1, 20),
+            'deleted_by_id' => null,
         ];
     }
 }

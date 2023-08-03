@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
+use App\Forms\Components\AuditableView;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -54,9 +55,7 @@ class UserResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('profile_picture')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('created_by'),
-                Forms\Components\TextInput::make('updated_by'),
-                Forms\Components\TextInput::make('deleted_by'),
+                AuditableView::make('audit'),
             ]);
     }
 

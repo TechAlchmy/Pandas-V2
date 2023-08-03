@@ -19,10 +19,9 @@ class VoucherTypeFactory extends Factory
         return [
             'type' => $this->faker->unique()->word,
             'description' => $this->faker->sentence,
-            'created_by' => $this->faker->numberBetween(1, 20),
-            'updated_by' => $this->faker->numberBetween(1, 20),
-            'deleted_by' => null,
-
+            'created_by_id' => $this->faker->numberBetween(1, 20),
+            'updated_by_id' => $this->faker->numberBetween(1, 20),
+            'deleted_by_id' => null,
         ];
     }
 }

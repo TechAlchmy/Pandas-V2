@@ -2,33 +2,16 @@
 
 namespace App\Models;
 
+use App\Concerns\InteractsWithAuditable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Region extends Model
 {
     use HasFactory;
-
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            if (auth()->check()) {
-                $model->created_by = auth()->user()->id;
-            } else {
-                $model->created_by = null;
-            }
-        });
-
-        static::updating(function ($model) {
-            if (auth()->check()) {
-                $model->updated_by = auth()->user()->id;
-            } else {
-                $model->updated_by = null;
-            }
-        });
-    }
+    use InteractsWithAuditable;
+    use SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -43,20 +26,5 @@ class Region extends Model
     public function brands()
     {
         return $this->hasMany(BrandRegion::class);
-    }
-
-    public function createdBy()
-    {
-        return $this->belongsTo(User::class, 'created_by');
-    }
-
-    public function updatedBy()
-    {
-        return $this->belongsTo(User::class, 'updated_by');
-    }
-
-    public function deletedBy()
-    {
-        return $this->belongsTo(User::class, 'deleted_by');
     }
 }

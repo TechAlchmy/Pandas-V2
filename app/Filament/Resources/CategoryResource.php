@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CategoryResource\Pages;
+use App\Forms\Components\AuditableView;
 use App\Models\Category;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -53,9 +54,7 @@ class CategoryResource extends Resource
                 Forms\Components\Toggle::make('is_active')
                     ->default(true)
                     ->required(),
-                Forms\Components\TextInput::make('created_by'),
-                Forms\Components\TextInput::make('updated_by'),
-                Forms\Components\TextInput::make('deleted_by'),
+                AuditableView::make('audit'),
             ]);
     }
 

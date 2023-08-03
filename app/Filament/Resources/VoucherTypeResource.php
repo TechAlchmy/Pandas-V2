@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\VoucherTypeResource\Pages;
+use App\Forms\Components\AuditableView;
 use App\Models\VoucherType;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -30,9 +31,7 @@ class VoucherTypeResource extends Resource
                 Forms\Components\TextInput::make('description')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('created_by'),
-                Forms\Components\TextInput::make('updated_by'),
-                Forms\Components\TextInput::make('deleted_by'),
+                AuditableView::make('audit'),
             ]);
     }
 
@@ -42,15 +41,6 @@ class VoucherTypeResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('type'),
                 Tables\Columns\TextColumn::make('description'),
-                Tables\Columns\TextColumn::make('created_by'),
-                Tables\Columns\TextColumn::make('updated_by'),
-                Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('deleted_by'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
             ])
             ->filters([
                 //

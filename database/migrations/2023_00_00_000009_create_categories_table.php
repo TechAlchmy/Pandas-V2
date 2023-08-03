@@ -23,10 +23,10 @@ return new class extends Migration
             $table->string('slug', 255)->unique();
             $table->integer('views')->default(0);
             $table->boolean('is_active')->default(false);
-            $table->foreignIdFor(User::class, 'created_by')->nullable();
-            $table->foreignIdFor(User::class, 'updated_by')->nullable();
+            $table->foreignIdFor(User::class, 'created_by_id')->nullable();
+            $table->foreignIdFor(User::class, 'updated_by_id')->nullable();
             $table->softDeletes();
-            $table->foreignIdFor(User::class, 'deleted_by')->nullable();
+            $table->foreignIdFor(User::class, 'deleted_by_id')->nullable();
             $table->timestamps();
         });
     }
