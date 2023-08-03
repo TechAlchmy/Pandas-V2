@@ -22,10 +22,10 @@ return new class extends Migration
             $table->string('logo')->nullable();
             $table->integer('views')->default(0);
             $table->integer('status')->default(1);
-            $table->foreignIdFor(User::class, 'created_by')->nullable();
-            $table->foreignIdFor(User::class, 'updated_by')->nullable();
+            $table->foreignIdFor(User::class, 'created_by_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignIdFor(User::class, 'updated_by_id')->nullable()->constrained()->nullOnDelete();
             $table->softDeletes();
-            $table->foreignIdFor(User::class, 'deleted_by')->nullable();
+            $table->foreignIdFor(User::class, 'deleted_by_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
         });
     }
