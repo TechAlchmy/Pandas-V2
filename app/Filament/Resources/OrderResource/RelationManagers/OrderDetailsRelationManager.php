@@ -8,6 +8,7 @@ use App\Models\OrderDetail;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Tables\Actions\Action;
 
 class OrderDetailsRelationManager extends RelationManager
 {
@@ -40,12 +41,11 @@ class OrderDetailsRelationManager extends RelationManager
                     ->searchable()
                     ->label('Name'),
 
-                Tables\Columns\TextColumn::make('user.name')
-                    ->url(fn (OrderDetail $record) => route('filament.resources.users.edit', $record->user->id))
-                    ->searchable()
-                    ->label('User'),
+                Tables\Columns\TextColumn::make('quantity')->label('Qauntity'),
 
-                Tables\Columns\TextColumn::make('discount.amount'),
+                Tables\Columns\TextColumn::make('discount.amount')->label('Item Price'),
+
+                Tables\Columns\TextColumn::make('total'),
             ])
             ->filters([
                 //
@@ -54,8 +54,9 @@ class OrderDetailsRelationManager extends RelationManager
                 Tables\Actions\CreateAction::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Action::make('refund')->button(),
+                // Tables\Actions\EditAction::make(),
+                // Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

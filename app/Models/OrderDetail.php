@@ -2,22 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class OrderDetail extends Model
 {
     use HasFactory;
-
-    protected $fillable = [
-        'order',
-        'discount',
-        'status',
-        'payment_method',
-        'payment_status',
-        'amount',
-        'purchase_date',
-    ];
 
     public function order()
     {
@@ -29,8 +20,10 @@ class OrderDetail extends Model
         return $this->belongsTo(Discount::class);
     }
 
-    public function user()
+    public function total(): Attribute
     {
-        return $this->belongsTo(User::class);
+        return new Attribute(
+            get: fn () => $this->quantity * $this->discount->amount
+        );
     }
 }

@@ -43,6 +43,10 @@ class DatabaseSeeder extends Seeder
                 });
         });
         User::factory(2)
+            ->sequence(
+                ['email' => 'admin1@test.com'],
+                ['email' => 'admin2@test.com'],
+            )
             ->admins()
             ->create()
             ->each(function ($user) {
@@ -78,7 +82,6 @@ class DatabaseSeeder extends Seeder
                 $orderDetail = OrderDetail::factory()->make();
                 $orderDetail->discount()->associate($discount);
                 $orderDetail->order()->associate($order);
-                $orderDetail->user()->associate($user);
                 $order->orderDetails()->save($orderDetail);
             }
         });
