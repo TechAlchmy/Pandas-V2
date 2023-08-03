@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\DiscountCallToActionEnum;
 use App\Filament\Resources\DiscountResource\Pages;
 use App\Forms\Components\AuditableView;
 use App\Models\Discount;
@@ -64,8 +65,9 @@ class DiscountResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('link')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('cta')
-                    ->maxLength(255),
+                Forms\Components\Select::make('cta')
+                    ->enum(DiscountCallToActionEnum::class)
+                    ->options(DiscountCallToActionEnum::class),
                 Forms\Components\TextInput::make('code')
                     ->maxLength(255),
                 Forms\Components\Tabs::make('Heading')
