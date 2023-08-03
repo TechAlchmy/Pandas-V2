@@ -15,10 +15,10 @@ return new class extends Migration
         Schema::create('user_preferences', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class, 'user_id')->nullable();
-            $table->smallInteger('email_notification')->default(0)->comment('0: no, 1: yes');
-            $table->smallInteger('sms_notification')->default(0)->comment('0: no, 1: yes');
-            $table->smallInteger('push_notification')->default(0)->comment('0: no, 1: yes');
-            $table->smallInteger('email_marketing')->default(0)->comment('0: no, 1: yes');
+            $table->boolean('email_notification')->default(false);
+            $table->boolean('sms_notification')->default(false);
+            $table->boolean('push_notification')->default(false);
+            $table->boolean('email_marketing')->default(false);
             $table->timestamps();
         });
     }
