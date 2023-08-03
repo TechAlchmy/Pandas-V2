@@ -20,7 +20,11 @@ return new class extends Migration
             $table->string('uniqid', 255);
             $table->string('phone', 45)->nullable();
             $table->string('email', 45);
-            $table->foreignIdFor(Region::class, 'region_id');
+            $table->foreignIdFor(Region::class)->nullable();
+            $table->foreignIdFor(User::class, 'created_by_id')->nullable();
+            $table->foreignIdFor(User::class, 'updated_by_id')->nullable();
+            $table->softDeletes();
+            $table->foreignIdFor(User::class, 'deleted_by_id')->nullable();
             $table->timestamps();
         });
     }
