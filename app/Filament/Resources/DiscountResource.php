@@ -92,6 +92,7 @@ class DiscountResource extends Resource
                                 Forms\Components\Select::make('Regions')
                                     ->placeholder('Select Regions')
                                     ->relationship('regions', 'name')
+                                    ->helperText('Leave blank to select all regions')
                                     ->multiple(),
                             ]),
                         Forms\Components\Tabs\Tab::make('Tags')
