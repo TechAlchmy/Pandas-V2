@@ -104,11 +104,11 @@ class BrandResource extends Resource
                             ]),
                         Tabs\Tab::make('Regions')
                             ->schema([
-                                Select::make('Brand Tags')
+                                Select::make('Brand Regions')
                                     ->placeholder('Select Brand Regions')
                                     ->relationship('regions', 'name')
-                                    ->required()
                                     ->reactive()
+                                    ->helperText('Leave blank to select all regions')
                                     ->multiple(),
 
                             ]),

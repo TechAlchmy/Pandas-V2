@@ -90,10 +90,10 @@ class DiscountResource extends Resource
                             ]),
                         Forms\Components\Tabs\Tab::make('Regions')
                             ->schema([
-                                Forms\Components\Select::make('Brand Tags')
+                                Forms\Components\Select::make('Regions')
                                     ->placeholder('Select Regions')
                                     ->relationship('regions', 'name')
-                                    ->required()
+                                    ->helperText('Leave blank to select all regions')
                                     ->multiple(),
                             ]),
                         Forms\Components\Tabs\Tab::make('Tags')
