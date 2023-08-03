@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\OrderStatus;
+use App\Enums\PaymentStatus;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,29 +14,12 @@ class Order extends Model
 {
     use HasFactory, SoftDeletes;
 
-    public const STATUS_PENDING = 'pending';
-
-    public const STATUS_PROCESSING = 'processing';
-
-    public const STATUS_ON_HOLD = 'on hold';
-
-    public const STATUS_COMPLETED = 'completed';
-
-    public const STATUS_CANCELLED = 'cancelled';
-
-    public const STATUS_REFUNDED = 'refunded';
-
-    public const STATUS_FAILED = 'failed';
-
-    public const PAYMENT_STATUS_PENDING = 'pending';
-
-    public const PAYMENT_STATUS_PAID = 'paid';
-
-    public const PAYMENT_STATUS_FAILED = 'failed';
-
-    public const PAYMENT_STATUS_REFUNDED = 'refunded';
-
     protected $guarded = [];
+
+    protected $casts = [
+        'payment_status' => PaymentStatus::class,
+        'order_status' => OrderStatus::class,
+    ];
 
     protected static function booted()
     {
