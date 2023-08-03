@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 class DiscountType extends Model
 {
     use HasFactory;
-    use InteractsWithAuditable;
 
     protected $fillable = [
         'discount_id',
