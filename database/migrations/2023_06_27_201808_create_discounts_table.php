@@ -28,7 +28,7 @@ return new class extends Migration
             $table->integer('status')->default(1);
             $table->string('api_link')->nullable();
             $table->string('link')->nullable();
-            $table->string('cta')->nullable();
+            $table->unsignedInteger('cta')->nullable();
             $table->integer('views')->default(0);
             $table->integer('clicks')->default(0);
             $table->string('code')->nullable();
