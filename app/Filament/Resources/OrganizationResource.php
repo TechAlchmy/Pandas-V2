@@ -65,16 +65,10 @@ class OrganizationResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('website'),
-                Tables\Columns\TextColumn::make('slug'),
-                Tables\Columns\TextColumn::make('uniqid'),
                 Tables\Columns\TextColumn::make('phone'),
                 Tables\Columns\TextColumn::make('email'),
-                Tables\Columns\TextColumn::make('region_id'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
+                Tables\Columns\TextColumn::make('region.name'),
+                Tables\Columns\TextColumn::make('website'),
             ])
             ->filters([
                 //
