@@ -19,9 +19,9 @@ class ManagerFactory extends Factory
         return [
             'user_id' => null,
             'organization_id' => null,
-            'created_by' => $this->faker->numberBetween(1, 20),
-            'updated_by' => $this->faker->numberBetween(1, 20),
-            'deleted_by' => null,
+            'created_by_id' => $this->faker->numberBetween(1, 20),
+            'updated_by_id' => $this->faker->numberBetween(1, 20),
+            'deleted_by_id' => null,
         ];
     }
 }
