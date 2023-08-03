@@ -28,6 +28,7 @@ class Discount extends Model
     ];
 
     protected $casts = [
+        'amounts' => 'array',
         'starts_at' => 'immutable_datetime',
         'ends_at' => 'immutable_datetime',
         'is_active' => 'boolean',
