@@ -35,15 +35,14 @@ class AuditableView extends Tabs
                             ->content(fn ($record) => $record->created_at->format('m/d/Y h:i:s A')),
                     ]),
                 Tabs\Tab::make('Deleted By')
-                    ->visible(fn ($record) => $record->trashed())
                     ->columns(3)
                     ->schema([
                         Placeholder::make('deleted_by')
                             ->content(fn ($record) => $record->deletedBy?->name),
                         Placeholder::make('email')
                             ->content(fn ($record) => $record->deletedBy?->email),
-                        Placeholder::make('created_at')
-                            ->content(fn ($record) => $record->deleted_at->format('m/d/Y h:i:s A')),
+                        Placeholder::make('deleted_at')
+                            ->content(fn ($record) => $record->deleted_at?->format('m/d/Y h:i:s A')),
                     ]),
             ]);
     }
