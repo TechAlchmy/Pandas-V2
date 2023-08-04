@@ -10,6 +10,8 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Tables;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class VoucherTypeResource extends Resource
 {
@@ -43,7 +45,7 @@ class VoucherTypeResource extends Resource
                 Tables\Columns\TextColumn::make('description'),
             ])
             ->filters([
-                //
+                Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -67,5 +69,13 @@ class VoucherTypeResource extends Resource
             'create' => Pages\CreateVoucherType::route('/create'),
             'edit' => Pages\EditVoucherType::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
     }
 }
