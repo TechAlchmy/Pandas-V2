@@ -65,8 +65,10 @@ class DiscountResource extends Resource
                         Forms\Components\Placeholder::make('Orders')
                             ->content(fn ($record) => $record->loadCount(['orders'])->orders_count),
                     ]),
-                Forms\Components\DateTimePicker::make('starts_at'),
-                Forms\Components\DateTimePicker::make('ends_at'),
+                Forms\Components\DateTimePicker::make('starts_at')
+                    ->native(false),
+                Forms\Components\DateTimePicker::make('ends_at')
+                    ->native(false),
                 Forms\Components\TextInput::make('status')
                     ->numeric()
                     ->required(),
