@@ -23,7 +23,7 @@ return new class extends Migration
             $table->longText('description')->nullable();
             $table->string('logo')->nullable();
             $table->integer('views')->default(0);
-            $table->integer('status')->default(1);
+            $table->boolean('is_active')->default(false);
             $table->foreignIdFor(User::class, 'created_by_id')->nullable();
             $table->foreignIdFor(User::class, 'updated_by_id')->nullable();
             $table->softDeletes();

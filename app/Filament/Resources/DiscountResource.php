@@ -52,9 +52,21 @@ class DiscountResource extends Resource
                 Forms\Components\Hidden::make('is_slug_changed_manually')
                     ->default(false)
                     ->dehydrated(false),
-                Forms\Components\Toggle::make('is_active')
-                    ->default(false)
-                    ->required(),
+                Forms\Components\Card::make()
+                    ->columns(4)
+                    ->columnSpan(1)
+                    ->schema([
+                        Forms\Components\Toggle::make('is_active')
+                            ->default(false)
+                            ->onColor('success')
+                            ->offColor('danger'),
+                        Forms\Components\Placeholder::make('views')
+                            ->content(fn ($record) => $record->views ?? 0),
+                        Forms\Components\Placeholder::make('clicks')
+                            ->content(fn ($record) => $record->clicks ?? 0),
+                        Forms\Components\Placeholder::make('Orders')
+                            ->content(fn ($record) => $record->loadCount(['orders'])->orders_count),
+                    ]),
                 Forms\Components\DateTimePicker::make('starts_at'),
                 Forms\Components\DateTimePicker::make('ends_at'),
                 Forms\Components\TextInput::make('status')

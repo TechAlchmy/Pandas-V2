@@ -72,6 +72,12 @@ class Discount extends Model
             ->withTimestamps();
     }
 
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class, 'order_details')
+            ->withTimestamps();
+    }
+
     public function offerType()
     {
         return $this->belongsTo(OfferType::class);

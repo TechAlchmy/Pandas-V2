@@ -22,7 +22,11 @@ class Brand extends Model
         'description',
         'logo',
         'views',
-        'status',
+        'is_active',
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
     ];
 
     public function brandCategories()

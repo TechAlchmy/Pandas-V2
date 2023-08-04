@@ -52,10 +52,19 @@ class CategoryResource extends Resource
                 Forms\Components\Select::make('parent_id')
                     ->relationship('parent', 'name')
                     ->searchable(),
-                Forms\Components\Toggle::make('is_active')
-                    ->default(true)
-                    ->required(),
                 AuditableView::make('audit'),
+                Forms\Components\Card::make()
+                    ->columns(3)
+                    ->columnSpan(1)
+                    ->schema([
+                        Forms\Components\Toggle::make('is_active')
+                            ->default(false)
+                            ->onColor('success')
+                            ->offColor('danger'),
+                        Forms\Components\Placeholder::make('views')
+                            ->content(fn ($record) => $record->views ?? 0),
+                        Forms\Components\Placeholder::make('Products'),
+                    ]),
             ]);
     }
 
