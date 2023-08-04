@@ -158,6 +158,7 @@ class DiscountResource extends Resource
                 Tables\Columns\TextColumn::make('brand.name'),
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('voucherType.type'),
+                Tables\Columns\TagsColumn::make('offerTypes.type'),
                 Tables\Columns\IconColumn::make('is_active')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('starts_at')
