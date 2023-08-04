@@ -28,9 +28,9 @@ class OfferTypeResource extends Resource
                 Forms\Components\TextInput::make('type')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('description')
-                    ->required()
-                    ->maxLength(255),
+                Forms\Components\RichEditor::make('description')
+                    ->columnSpanFull()
+                    ->required(),
                 AuditableView::make('audit'),
             ]);
     }
