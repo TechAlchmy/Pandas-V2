@@ -33,14 +33,14 @@ class DatabaseSeeder extends Seeder
     {
         Region::factory(10)->create();
         Organization::factory(10)->create()->each(function ($organization) {
-            User::factory()
+            $user = User::factory()
                 ->managers()
                 ->create([
                     'organization_id' => $organization->id,
-                ])
-                ->each(function ($user) {
-                    $user->userPreference()->save(UserPreference::factory()->make());
-                });
+                    'email' => 'manager' . $organization->getKey() . '@test.com',
+                ]);
+            $user->managers()->create(['organization_id' => $organization->getKey()]);
+            $user->userPreference()->save(UserPreference::factory()->make());
         });
         User::factory(2)
             ->sequence(
@@ -87,12 +87,5 @@ class DatabaseSeeder extends Seeder
         });
 
         DiscountType::factory(10)->create();
-        Manager::factory(10)->create()->each(function ($manager) {
-            $user = User::inRandomOrder()->first();
-            $manager->user()->associate($user);
-            $organization = Organization::inRandomOrder()->first();
-            $manager->organization()->associate($organization);
-            $manager->save();
-        });
     }
 }

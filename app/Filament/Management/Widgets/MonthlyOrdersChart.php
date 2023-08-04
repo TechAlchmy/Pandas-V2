@@ -1,18 +1,21 @@
 <?php
 
-namespace App\Filament\Widgets;
+namespace App\Filament\Management\Widgets;
 
 use App\Models\Order;
+use App\Models\User;
 use Filament\Widgets\ChartWidget;
 use Flowframe\Trend\Trend;
 
 class MonthlyOrdersChart extends ChartWidget
 {
-    protected static ?string $heading = 'Orders';
+    protected static ?string $heading = 'Monthly Spent';
 
     protected function getData(): array
     {
-        $data = Trend::model(Order::class)
+        $data = Trend::query(Order::query()->whereIn('user_id', User::query()->select('id')
+                ->whereBelongsTo(filament()->getTenant())
+            ))
             ->between(
                 start: now()->startOfYear(),
                 end: now()->endOfYear(),

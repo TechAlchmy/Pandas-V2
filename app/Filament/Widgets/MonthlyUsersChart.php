@@ -3,10 +3,11 @@
 namespace App\Filament\Widgets;
 
 use App\Models\User;
+use Filament\Widgets\ChartWidget;
 use Filament\Widgets\LineChartWidget;
 use Flowframe\Trend\Trend;
 
-class MonthlyUsersChart extends LineChartWidget
+class MonthlyUsersChart extends ChartWidget
 {
     protected static ?string $heading = 'Users';
 
@@ -28,5 +29,10 @@ class MonthlyUsersChart extends LineChartWidget
             ],
             'labels' => $data->map(fn ($value) => $value->date),
         ];
+    }
+
+    protected function getType(): string
+    {
+        return 'line';
     }
 }
