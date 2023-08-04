@@ -40,7 +40,8 @@ class OfferTypeResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('type'),
-                Tables\Columns\TextColumn::make('description'),
+                Tables\Columns\TextColumn::make('description')
+                    ->formatStateUsing(fn ($state) => str($state)->limit(50)),
             ])
             ->filters([
                 //
