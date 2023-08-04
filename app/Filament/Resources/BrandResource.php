@@ -15,9 +15,9 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
+use Filament\Tables\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\ImageColumn;
@@ -34,7 +34,7 @@ class BrandResource extends Resource
 {
     protected static ?string $model = Brand::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationGroup = 'Branding';
 
@@ -162,7 +162,7 @@ class BrandResource extends Resource
                             );
                     }),
             ],
-                layout: Layout::AboveContent,
+                layout: \Filament\Tables\Enums\FiltersLayout::AboveContent,
             )
             ->actions([
                 Tables\Actions\ActionGroup::make([

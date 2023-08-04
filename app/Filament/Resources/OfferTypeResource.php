@@ -6,16 +6,16 @@ use App\Filament\Resources\OfferTypeResource\Pages;
 use App\Forms\Components\AuditableView;
 use App\Models\OfferType;
 use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
+use Filament\Tables\Table;
 use Filament\Tables;
 
 class OfferTypeResource extends Resource
 {
     protected static ?string $model = OfferType::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationGroup = 'Prudct Types';
 

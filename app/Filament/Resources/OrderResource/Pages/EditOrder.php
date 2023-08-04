@@ -11,7 +11,7 @@ class EditOrder extends EditRecord
 {
     protected static string $resource = OrderResource::class;
 
-    protected function getActions(): array
+    protected function getHeaderActions(): array
     {
         return [
             Action::make('refund')->button(),
