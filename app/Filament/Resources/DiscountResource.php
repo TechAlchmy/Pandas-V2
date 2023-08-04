@@ -79,11 +79,6 @@ class DiscountResource extends Resource
                     ->options(DiscountCallToActionEnum::class),
                 Forms\Components\TextInput::make('code')
                     ->maxLength(255),
-                Forms\Components\Select::make('offer type')
-                    ->placeholder('Select Offer Types')
-                    ->relationship('offerTypes', 'type')
-                    ->reactive()
-                    ->multiple(),
                 Forms\Components\Tabs::make('Heading')
                     ->tabs([
                         Forms\Components\Tabs\Tab::make('Amounts')
