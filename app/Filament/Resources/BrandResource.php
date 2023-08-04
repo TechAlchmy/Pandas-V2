@@ -27,6 +27,7 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\Layout;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
 use Ramsey\Uuid\Uuid;
 
@@ -161,6 +162,7 @@ class BrandResource extends Resource
                                 fn (Builder $query, $name): Builder => $query->where('name', 'like', "%{$name}%")
                             );
                     }),
+                Tables\Filters\TrashedFilter::make(),
             ],
                 layout: \Filament\Tables\Enums\FiltersLayout::AboveContent,
             )
@@ -190,5 +192,13 @@ class BrandResource extends Resource
             'create' => Pages\CreateBrand::route('/create'),
             'edit' => Pages\EditBrand::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
     }
 }
