@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Concerns\InteractsWithAuditable;
+use App\Enums\DiscountCallToActionEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -32,6 +33,7 @@ class Discount extends Model
         'starts_at' => 'immutable_datetime',
         'ends_at' => 'immutable_datetime',
         'is_active' => 'boolean',
+        'cta' => DiscountCallToActionEnum::class,
     ];
 
     public function discountCategories()

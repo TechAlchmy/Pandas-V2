@@ -27,7 +27,7 @@ class DiscountFactory extends Factory
             'status' => $this->faker->numberBetween(0, 1),
             'api_link' => $this->faker->url,
             'link' => $this->faker->url,
-            'cta' => $this->faker->text,
+            'cta' => $this->faker->numberBetween(0, 8),
             'views' => $this->faker->numberBetween(1, 100),
             'clicks' => $this->faker->numberBetween(1, 100),
             'code' => $this->faker->word,
