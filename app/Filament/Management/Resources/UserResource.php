@@ -2,6 +2,7 @@
 
 namespace App\Filament\Management\Resources;
 
+use App\Enums\AuthLevelEnum;
 use App\Filament\Management\Resources\UserResource\Pages;
 use App\Filament\Management\Resources\UserResource\RelationManagers;
 use App\Models\User;
@@ -9,6 +10,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Infolists;
 use Filament\Infolists\Infolist;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -97,6 +99,45 @@ class UserResource extends Resource
                     }),
                 Infolists\Components\TextEntry::make('address')
                     ->columnSpanFull(),
+                Infolists\Components\Actions::make([
+                    Infolists\Components\Actions\Action::make('removeFromCompany')
+                        ->icon('heroicon-m-x-mark')
+                        ->color('danger')
+                        ->requiresConfirmation()
+                        ->action(function ($record) {
+                            if ($record->auth_level == AuthLevelEnum::Manager) {
+                                $manager = $record->managers()
+                                    ->where('organization_id', filament()->getTenant()->getKey())
+                                    ->first();
+
+                                $manager->delete();
+                                if ($record->managers()->exists()) {
+                                    $record->update([
+                                        'organization_id' => $record->managers()->first()->organization_id,
+                                    ]);
+                                } else {
+                                    $record->update([
+                                        'organization_id' => null,
+                                        'auth_level' => AuthLevelEnum::User
+                                    ]);
+                                }
+
+
+                                Notification::make()
+                                    ->success()
+                                    ->title('Manager removed from this company')
+                                    ->send();
+                                return;
+                            }
+
+                            Notification::make()
+                                ->success()
+                                ->title('User removed from this company')
+                                ->send();
+
+                            return redirect(self::getUrl());
+                        }),
+                ]),
             ]);
     }
 
