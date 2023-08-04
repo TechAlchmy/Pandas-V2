@@ -55,6 +55,19 @@ class UserResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('profile_picture')
                     ->maxLength(255),
+                Forms\Components\Section::make('preferences')
+                    ->collapsible()
+                    ->relationship('userPreference')
+                    ->schema([
+                        Forms\Components\Toggle::make('email_notification')
+                            ->default(false),
+                        Forms\Components\Toggle::make('sms_notification')
+                            ->default(false),
+                        Forms\Components\Toggle::make('push_notification')
+                            ->default(false),
+                        Forms\Components\Toggle::make('email_marketing')
+                            ->default(false),
+                    ]),
                 AuditableView::make('audit'),
             ]);
     }
