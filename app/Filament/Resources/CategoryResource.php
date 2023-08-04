@@ -49,10 +49,6 @@ class CategoryResource extends Resource
                 Forms\Components\RichEditor::make('description')
                     ->columnSpanFull()
                     ->maxLength(255),
-                Forms\Components\Select::make('parent_id')
-                    ->relationship('parent', 'name')
-                    ->searchable(),
-                AuditableView::make('audit'),
                 Forms\Components\Card::make()
                     ->columns(3)
                     ->columnSpan(1)
@@ -65,6 +61,10 @@ class CategoryResource extends Resource
                             ->content(fn ($record) => $record->views ?? 0),
                         Forms\Components\Placeholder::make('Products'),
                     ]),
+                Forms\Components\Select::make('parent_id')
+                    ->relationship('parent', 'name')
+                    ->searchable(),
+                AuditableView::make('audit'),
             ]);
     }
 
