@@ -127,7 +127,7 @@ class BrandResource extends Resource
                 TextColumn::make('slug')
                     ->limit(30),
                 TextColumn::make('views'),
-                ToggleColumn::make('status')
+                ToggleColumn::make('is_active')
                     ->onColor('success')
                     ->offColor('danger'),
 
