@@ -82,6 +82,7 @@ class DiscountResource extends Resource
                 Forms\Components\TextInput::make('code')
                     ->maxLength(255),
                 Forms\Components\Tabs::make('Heading')
+                    ->columnSpanFull()
                     ->tabs([
                         Forms\Components\Tabs\Tab::make('Amounts')
                             ->schema([
@@ -111,6 +112,9 @@ class DiscountResource extends Resource
                                     ->suffix('%')
                                     ->numeric(),
                             ]),
+                    ]),
+                Forms\Components\Tabs::make('Heading')
+                    ->tabs([
                         Forms\Components\Tabs\Tab::make('Catregories')
                             ->schema([
                                 Forms\Components\Select::make('category_id')
