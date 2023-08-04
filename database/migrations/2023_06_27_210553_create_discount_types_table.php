@@ -16,8 +16,8 @@ return new class extends Migration
     {
         Schema::create('discount_types', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Discount::class, 'discount_id')->nullable();
-            $table->foreignIdFor(OfferType::class, 'offertype_id')->nullable();
+            $table->foreignIdFor(Discount::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(OfferType::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

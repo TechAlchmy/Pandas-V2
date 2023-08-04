@@ -41,9 +41,6 @@ class DiscountResource extends Resource
                 Forms\Components\Select::make('voucher_type_id')
                     ->relationship('voucherType', 'type')
                     ->searchable(),
-                Forms\Components\Select::make('offer_type_id')
-                    ->relationship('offerType', 'type')
-                    ->searchable(),
                 Forms\Components\TextInput::make('slug')
                     ->afterStateUpdated(function ($set) {
                         $set('is_slug_changed_manually', true);
@@ -82,11 +79,16 @@ class DiscountResource extends Resource
                     ->options(DiscountCallToActionEnum::class),
                 Forms\Components\TextInput::make('code')
                     ->maxLength(255),
+                Forms\Components\Select::make('offer type')
+                    ->placeholder('Select Offer Types')
+                    ->relationship('offerTypes', 'type')
+                    ->reactive()
+                    ->multiple(),
                 Forms\Components\Tabs::make('Heading')
                     ->tabs([
                         Forms\Components\Tabs\Tab::make('Amounts')
                             ->schema([
-                                Forms\Components\TagsInput::make('amounts')
+                                Forms\Components\TagsInput::make('amount')
                                     ->placeholder('Input amounts'),
                             ]),
                         Forms\Components\Tabs\Tab::make('Limit')
@@ -132,6 +134,14 @@ class DiscountResource extends Resource
                                         Forms\Components\TextInput::make('name')
                                             ->required(),
                                     ])
+                                    ->multiple(),
+                            ]),
+                        Forms\Components\Tabs\Tab::make('Types')
+                            ->schema([
+                                Forms\Components\Select::make('offer type')
+                                    ->placeholder('Select Offer Types')
+                                    ->relationship('offerTypes', 'type')
+                                    ->reactive()
                                     ->multiple(),
                             ]),
                     ])->columnSpanFull(),
