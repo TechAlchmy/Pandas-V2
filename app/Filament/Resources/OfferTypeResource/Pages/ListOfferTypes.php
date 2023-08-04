@@ -10,7 +10,7 @@ class ListOfferTypes extends ListRecords
 {
     protected static string $resource = OfferTypeResource::class;
 
-    protected function getActions(): array
+    protected function getHeaderActions(): array
     {
         return [
             Actions\CreateAction::make(),
