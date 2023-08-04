@@ -114,7 +114,10 @@ class OrganizationResource extends Resource
                 Infolists\Components\TextEntry::make('website'),
                 Infolists\Components\TextEntry::make('email'),
                 Infolists\Components\TextEntry::make('phone'),
-                Infolists\Components\TextEntry::make('region.name'),
+                Infolists\Components\TextEntry::make('phone')
+                    ->label('Region')
+                    ->hidden(fn ($record) => empty($record->region))
+                    ->formatStateUsing(fn ($record) => $record->region?->name),
             ]);
     }
 
