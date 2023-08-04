@@ -2,17 +2,25 @@
 
 namespace App\Models;
 
+use App\Concerns\InteractsWithAuditable;
+use App\Enums\DiscountCallToActionEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Discount extends Model
 {
     use HasFactory;
+    use InteractsWithAuditable;
+    use SoftDeletes;
 
     protected $fillable = [
         'name',
         'link',
+        'api_link',
         'slug',
+        'code',
+        'cta',
         'uniqid',
         'description',
         'logo',
@@ -24,9 +32,11 @@ class Discount extends Model
     ];
 
     protected $casts = [
+        'amounts' => 'array',
         'starts_at' => 'immutable_datetime',
         'ends_at' => 'immutable_datetime',
         'is_active' => 'boolean',
+        'cta' => DiscountCallToActionEnum::class,
     ];
 
     public function discountCategories()
@@ -67,6 +77,12 @@ class Discount extends Model
             ->withTimestamps();
     }
 
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class, 'order_details')
+            ->withTimestamps();
+    }
+
     public function offerType()
     {
         return $this->belongsTo(OfferType::class);
@@ -80,5 +96,11 @@ class Discount extends Model
     public function brand()
     {
         return $this->belongsTo(Brand::class);
+    }
+
+    public function offerTypes()
+    {
+        return $this->belongsToMany(OfferType::class, 'discount_types')
+            ->withTimestamps();
     }
 }

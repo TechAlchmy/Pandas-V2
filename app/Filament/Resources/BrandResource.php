@@ -3,10 +3,11 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\BrandResource\Pages;
+use App\Forms\Components\AuditableView;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Region;
-use Filament\Forms\Components\Card;
+use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Placeholder;
@@ -14,9 +15,9 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
+use Filament\Tables\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\ImageColumn;
@@ -33,7 +34,7 @@ class BrandResource extends Resource
 {
     protected static ?string $model = Brand::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationGroup = 'Branding';
 
@@ -67,22 +68,18 @@ class BrandResource extends Resource
                     ->required()
                     ->columnSpan(2),
 
-                Card::make()
+                Forms\Components\Card::make()
+                    ->columns(3)
+                    ->columnSpan(1)
                     ->schema([
-                        Toggle::make('status')
+                        Toggle::make('is_active')
+                            ->default(false)
                             ->onColor('success')
                             ->offColor('danger'),
-
-                        Placeholder::make('views')->content(function ($record) {
-                            return $record && $record->views ? $record->views : 0;
-                        }),
-                        Placeholder::make('Products')->content(function ($record) {
-
-                        }),
-
-                    ])
-                    ->columns(3)
-                    ->columnSpan(1),
+                        Placeholder::make('views')
+                            ->content(fn ($record) => $record->views ?? 0),
+                        Placeholder::make('Products'),
+                    ]),
 
                 FileUpload::make('logo')
                     ->disk('public')
@@ -103,57 +100,17 @@ class BrandResource extends Resource
                             ]),
                         Tabs\Tab::make('Regions')
                             ->schema([
-                                Select::make('Brand Tags')
+                                Select::make('Brand Regions')
                                     ->placeholder('Select Brand Regions')
                                     ->relationship('regions', 'name')
-                                    ->required()
                                     ->reactive()
+                                    ->helperText('Leave blank to select all regions')
                                     ->multiple(),
 
                             ]),
                     ])->columnSpanFull(),
 
-                Tabs::make('Heading')
-                    ->tabs([
-                        Tabs\Tab::make('Edited By')
-                            ->schema([
-                                Placeholder::make('edited_by')->content(function ($record) {
-                                    return $record && $record->updatedBy ? $record->updatedBy->name : null;
-                                }),
-                                Placeholder::make('Email')->content(function ($record) {
-                                    return $record && $record->updatedBy ? $record->updatedBy->email : null;
-                                }),
-                                Placeholder::make('Last updated')->content(function ($record) {
-                                    return $record && $record->updated_at ? $record->updated_at->format('m/d/Y h:i:s A') : null;
-                                }),
-
-                            ])->columns(3),
-                        Tabs\Tab::make('Created By')
-                            ->schema([
-                                Placeholder::make('created_by')->content(function ($record) {
-                                    return $record && $record->createdBy ? $record->createdBy->name : null;
-                                }),
-                                Placeholder::make('email')->content(function ($record) {
-                                    return $record && $record->createdBy ? $record->createdBy->email : null;
-                                }),
-                                Placeholder::make('created_at')->content(function ($record) {
-                                    return $record && $record->created_at ? $record->created_at->format('m/d/Y h:i:s A') : null;
-                                }),
-                            ])->columns(3),
-                        Tabs\Tab::make('Deleted By')
-                            ->schema([
-                                Placeholder::make('deledted_by')->content(function ($record) {
-                                    return $record && $record->deletedBy ? $record->deletedBy->name : null;
-                                }),
-                                Placeholder::make('email')->content(function ($record) {
-                                    return $record && $record->deletedBy ? $record->deletedBy->email : null;
-                                }),
-                                Placeholder::make('created_at')->content(function ($record) {
-                                    return $record && $record->deelted_at ? $record->deelted_at->format('m/d/Y h:i:s A') : null;
-                                }),
-                            ])->columns(3),
-                    ])->columnSpanFull(),
-
+                AuditableView::make('Audit')
             ]);
     }
 
@@ -170,7 +127,7 @@ class BrandResource extends Resource
                 TextColumn::make('slug')
                     ->limit(30),
                 TextColumn::make('views'),
-                ToggleColumn::make('status')
+                ToggleColumn::make('is_active')
                     ->onColor('success')
                     ->offColor('danger'),
 
@@ -205,7 +162,7 @@ class BrandResource extends Resource
                             );
                     }),
             ],
-                layout: Layout::AboveContent,
+                layout: \Filament\Tables\Enums\FiltersLayout::AboveContent,
             )
             ->actions([
                 Tables\Actions\ActionGroup::make([

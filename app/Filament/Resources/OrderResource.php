@@ -7,8 +7,8 @@ use App\Enums\PaymentStatus;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Order;
-use Filament\Resources\Form;
-use Filament\Resources\Table;
+use Filament\Forms\Form;
+use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Section;
@@ -120,7 +120,7 @@ class OrderResource extends Resource
                 ...[
                     Tables\Columns\TextColumn::make('user.name')
                         ->searchable()
-                        ->url(fn (Order $record) => route('filament.resources.users.edit', $record->user->id)),
+                        ->url(fn (Order $record) => route('filament.admin.resources.users.edit', $record->user->id)),
                 ],
                 ...static::getTableColumns(),
             ])

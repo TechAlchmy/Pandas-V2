@@ -10,7 +10,7 @@ class EditOfferType extends EditRecord
 {
     protected static string $resource = OfferTypeResource::class;
 
-    protected function getActions(): array
+    protected function getHeaderActions(): array
     {
         return [
             Actions\DeleteAction::make(),

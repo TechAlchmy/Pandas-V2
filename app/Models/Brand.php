@@ -2,13 +2,17 @@
 
 namespace App\Models;
 
+use App\Concerns\InteractsWithAuditable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Brand extends Model
 {
     use HasFactory;
+    use InteractsWithAuditable;
+    use SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -18,10 +22,11 @@ class Brand extends Model
         'description',
         'logo',
         'views',
-        'status',
-        'created_by',
-        'updated_by',
-        'deleted_by',
+        'is_active',
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
     ];
 
     public function brandCategories()
@@ -49,20 +54,5 @@ class Brand extends Model
     public function setSlugAttribute($value)
     {
         $this->attributes['slug'] = Str::slug($value);
-    }
-
-    public function createdBy()
-    {
-        return $this->belongsTo(User::class, 'created_by');
-    }
-
-    public function updatedBy()
-    {
-        return $this->belongsTo(User::class, 'updated_by');
-    }
-
-    public function deletedBy()
-    {
-        return $this->belongsTo(User::class, 'deleted_by');
     }
 }

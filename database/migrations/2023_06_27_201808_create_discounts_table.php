@@ -28,19 +28,19 @@ return new class extends Migration
             $table->integer('status')->default(1);
             $table->string('api_link')->nullable();
             $table->string('link')->nullable();
-            $table->string('cta')->nullable();
+            $table->unsignedInteger('cta')->nullable();
             $table->integer('views')->default(0);
             $table->integer('clicks')->default(0);
             $table->string('code')->nullable();
-            $table->string('amount')->nullable();
+            $table->jsonb('amount')->nullable();
             $table->integer('limit_qty')->nullable();
             $table->decimal('limit_amount', 10, 2)->nullable();
             $table->decimal('public_percentage', 10, 2)->nullable();
             $table->decimal('percentage', 10, 2)->nullable();
-            $table->foreignIdFor(User::class, 'created_by')->nullable();
-            $table->foreignIdFor(User::class, 'updated_by')->nullable();
+            $table->foreignIdFor(User::class, 'created_by_id')->nullable();
+            $table->foreignIdFor(User::class, 'updated_by_id')->nullable();
             $table->softDeletes();
-            $table->foreignIdFor(User::class, 'deleted_by')->nullable();
+            $table->foreignIdFor(User::class, 'deleted_by_id')->nullable();
             $table->timestamps();
         });
     }

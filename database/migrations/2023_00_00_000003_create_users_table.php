@@ -30,10 +30,10 @@ return new class extends Migration
             $table->integer('zip_code')->nullable();
             $table->string('country')->nullable();
             $table->string('profile_picture')->nullable()->default('default.png');
-            $table->foreignIdFor(User::class, 'created_by')->nullable();
-            $table->foreignIdFor(User::class, 'updated_by')->nullable();
+            $table->foreignIdFor(User::class, 'created_by_id')->nullable();
+            $table->foreignIdFor(User::class, 'updated_by_id')->nullable();
             $table->softDeletes();
-            $table->foreignIdFor(User::class, 'deleted_by')->nullable();
+            $table->foreignIdFor(User::class, 'deleted_by_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

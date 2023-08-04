@@ -17,11 +17,8 @@ class DiscountTypeFactory extends Factory
     public function definition(): array
     {
         return [
-            'offertype_id' => $this->faker->numberBetween(1, 10),
+            'offer_type_id' => $this->faker->numberBetween(1, 10),
             'discount_id' => $this->faker->numberBetween(1, 10),
-            'created_by' => $this->faker->numberBetween(1, 20),
-            'updated_by' => $this->faker->numberBetween(1, 20),
-            'deleted_by' => null,
         ];
     }
 }

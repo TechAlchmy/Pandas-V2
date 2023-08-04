@@ -24,10 +24,10 @@ class BrandFactory extends Factory
             'description' => $this->faker->text,
             'logo' => $this->faker->imageUrl(),
             'views' => $this->faker->numberBetween(1, 100),
-            'status' => $this->faker->numberBetween(0, 1),
-            'created_by' => $this->faker->numberBetween(1, 20),
-            'updated_by' => $this->faker->numberBetween(1, 20),
-            'deleted_by' => null,
+            'is_active' => $this->faker->numberBetween(0, 1),
+            'created_by_id' => $this->faker->numberBetween(1, 20),
+            'updated_by_id' => $this->faker->numberBetween(1, 20),
+            'deleted_by_id' => null,
         ];
     }
 }

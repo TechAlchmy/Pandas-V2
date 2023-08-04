@@ -10,7 +10,7 @@ class EditDiscount extends EditRecord
 {
     protected static string $resource = DiscountResource::class;
 
-    protected function getActions(): array
+    protected function getHeaderActions(): array
     {
         return [
             Actions\DeleteAction::make(),

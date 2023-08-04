@@ -3,18 +3,19 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CategoryResource\Pages;
+use App\Forms\Components\AuditableView;
 use App\Models\Category;
 use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
+use Filament\Tables\Table;
 use Filament\Tables;
 
 class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationGroup = 'Utility Management';
 
@@ -45,17 +46,25 @@ class CategoryResource extends Resource
                 Forms\Components\TextInput::make('link')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('description')
+                Forms\Components\RichEditor::make('description')
+                    ->columnSpanFull()
                     ->maxLength(255),
+                Forms\Components\Card::make()
+                    ->columns(3)
+                    ->columnSpan(1)
+                    ->schema([
+                        Forms\Components\Toggle::make('is_active')
+                            ->default(false)
+                            ->onColor('success')
+                            ->offColor('danger'),
+                        Forms\Components\Placeholder::make('views')
+                            ->content(fn ($record) => $record->views ?? 0),
+                        Forms\Components\Placeholder::make('Products'),
+                    ]),
                 Forms\Components\Select::make('parent_id')
                     ->relationship('parent', 'name')
                     ->searchable(),
-                Forms\Components\Toggle::make('is_active')
-                    ->default(true)
-                    ->required(),
-                Forms\Components\TextInput::make('created_by'),
-                Forms\Components\TextInput::make('updated_by'),
-                Forms\Components\TextInput::make('deleted_by'),
+                AuditableView::make('audit'),
             ]);
     }
 

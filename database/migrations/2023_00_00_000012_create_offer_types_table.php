@@ -15,11 +15,11 @@ return new class extends Migration
         Schema::create('offer_types', function (Blueprint $table) {
             $table->id();
             $table->string('type', 255)->unique();
-            $table->string('description');
-            $table->foreignIdFor(User::class, 'created_by')->nullable();
-            $table->foreignIdFor(User::class, 'updated_by')->nullable();
+            $table->longText('description');
+            $table->foreignIdFor(User::class, 'created_by_id')->nullable();
+            $table->foreignIdFor(User::class, 'updated_by_id')->nullable();
             $table->softDeletes();
-            $table->foreignIdFor(User::class, 'deleted_by')->nullable();
+            $table->foreignIdFor(User::class, 'deleted_by_id')->nullable();
             $table->timestamps();
         });
     }

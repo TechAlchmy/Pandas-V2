@@ -5,8 +5,8 @@ namespace App\Filament\Resources\OrderResource\RelationManagers;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\OrderDetail;
-use Filament\Resources\Form;
-use Filament\Resources\Table;
+use Filament\Forms\Form;
+use Filament\Tables\Table;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Actions\Action;
 
@@ -16,7 +16,7 @@ class OrderDetailsRelationManager extends RelationManager
 
     protected static ?string $recordTitleAttribute = 'discount.name';
 
-    public static function form(Form $form): Form
+    public function form(Form $form): Form
     {
         return $form
             ->schema([
@@ -32,12 +32,12 @@ class OrderDetailsRelationManager extends RelationManager
             ]);
     }
 
-    public static function table(Table $table): Table
+    public function table(Table $table): Table
     {
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('discount.name')
-                    ->url(fn (OrderDetail $record) => route('filament.resources.discounts.edit', $record->discount->id))
+                    ->url(fn (OrderDetail $record) => route('filament.admin.resources.discounts.edit', $record->discount->id))
                     ->searchable()
                     ->label('Name'),
 

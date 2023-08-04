@@ -3,18 +3,20 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\OrganizationResource\Pages;
+use App\Forms\Components\AuditableView;
+use App\Filament\Resources\OrganizationResource\RelationManagers;
 use App\Models\Organization;
 use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
+use Filament\Tables\Table;
 use Filament\Tables;
 
 class OrganizationResource extends Resource
 {
     protected static ?string $model = Organization::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationGroup = 'Organizations';
 
@@ -25,12 +27,24 @@ class OrganizationResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('website')
+                    ->afterStateUpdated(function ($get, $set, ?string $state) {
+                        if (! $get('is_slug_changed_manually') && filled($state)) {
+                            $set('slug', str($state)->slug());
+                        }
+                    })
+                    ->reactive()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('slug')
+                    ->afterStateUpdated(function ($set) {
+                        $set('is_slug_changed_manually', true);
+                    })
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\Hidden::make('is_slug_changed_manually')
+                    ->default(false)
+                    ->dehydrated(false),
+                Forms\Components\TextInput::make('website')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('uniqid')
@@ -45,6 +59,7 @@ class OrganizationResource extends Resource
                     ->maxLength(45),
                 Forms\Components\TextInput::make('region_id')
                     ->required(),
+                AuditableView::make('audit'),
             ]);
     }
 
@@ -53,16 +68,10 @@ class OrganizationResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('website'),
-                Tables\Columns\TextColumn::make('slug'),
-                Tables\Columns\TextColumn::make('uniqid'),
                 Tables\Columns\TextColumn::make('phone'),
                 Tables\Columns\TextColumn::make('email'),
-                Tables\Columns\TextColumn::make('region_id'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
+                Tables\Columns\TextColumn::make('region.name'),
+                Tables\Columns\TextColumn::make('website'),
             ])
             ->filters([
                 //
@@ -78,7 +87,7 @@ class OrganizationResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\ManagersRelationManager::class,
         ];
     }
 

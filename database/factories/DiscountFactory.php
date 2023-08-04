@@ -27,7 +27,7 @@ class DiscountFactory extends Factory
             'status' => $this->faker->numberBetween(0, 1),
             'api_link' => $this->faker->url,
             'link' => $this->faker->url,
-            'cta' => $this->faker->text,
+            'cta' => $this->faker->numberBetween(0, 8),
             'views' => $this->faker->numberBetween(1, 100),
             'clicks' => $this->faker->numberBetween(1, 100),
             'code' => $this->faker->word,
@@ -36,9 +36,9 @@ class DiscountFactory extends Factory
             'limit_amount' => $this->faker->numberBetween(1, 100),
             'public_percentage' => $this->faker->numberBetween(1, 100),
             'percentage' => $this->faker->numberBetween(1, 100),
-            'created_by' => $this->faker->numberBetween(1, 20),
-            'updated_by' => $this->faker->numberBetween(1, 20),
-            'deleted_by' => null,
+            'created_by_id' => $this->faker->numberBetween(1, 20),
+            'updated_by_id' => $this->faker->numberBetween(1, 20),
+            'deleted_by_id' => null,
 
         ];
     }

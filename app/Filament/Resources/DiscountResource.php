@@ -2,19 +2,21 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\DiscountCallToActionEnum;
 use App\Filament\Resources\DiscountResource\Pages;
+use App\Forms\Components\AuditableView;
 use App\Models\Discount;
 use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
+use Filament\Tables\Table;
 use Filament\Tables;
 
 class DiscountResource extends Resource
 {
     protected static ?string $model = Discount::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationGroup = 'Products';
 
@@ -39,9 +41,6 @@ class DiscountResource extends Resource
                 Forms\Components\Select::make('voucher_type_id')
                     ->relationship('voucherType', 'type')
                     ->searchable(),
-                Forms\Components\Select::make('offer_type_id')
-                    ->relationship('offerType', 'type')
-                    ->searchable(),
                 Forms\Components\TextInput::make('slug')
                     ->afterStateUpdated(function ($set) {
                         $set('is_slug_changed_manually', true);
@@ -51,9 +50,21 @@ class DiscountResource extends Resource
                 Forms\Components\Hidden::make('is_slug_changed_manually')
                     ->default(false)
                     ->dehydrated(false),
-                Forms\Components\Toggle::make('is_active')
-                    ->default(false)
-                    ->required(),
+                Forms\Components\Card::make()
+                    ->columns(4)
+                    ->columnSpan(1)
+                    ->schema([
+                        Forms\Components\Toggle::make('is_active')
+                            ->default(false)
+                            ->onColor('success')
+                            ->offColor('danger'),
+                        Forms\Components\Placeholder::make('views')
+                            ->content(fn ($record) => $record->views ?? 0),
+                        Forms\Components\Placeholder::make('clicks')
+                            ->content(fn ($record) => $record->clicks ?? 0),
+                        Forms\Components\Placeholder::make('Orders')
+                            ->content(fn ($record) => $record->loadCount(['orders'])->orders_count),
+                    ]),
                 Forms\Components\DateTimePicker::make('starts_at'),
                 Forms\Components\DateTimePicker::make('ends_at'),
                 Forms\Components\TextInput::make('status')
@@ -63,22 +74,36 @@ class DiscountResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('link')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('cta')
-                    ->maxLength(255),
+                Forms\Components\Select::make('cta')
+                    ->enum(DiscountCallToActionEnum::class)
+                    ->options(DiscountCallToActionEnum::class),
                 Forms\Components\TextInput::make('code')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('amount')
-                    ->numeric(),
-                Forms\Components\TextInput::make('limit_qty')
-                    ->numeric(),
-                Forms\Components\TextInput::make('limit_amount')
-                    ->numeric(),
-                Forms\Components\TextInput::make('public_percentage')
-                    ->numeric(),
-                Forms\Components\TextInput::make('percentage')
-                    ->numeric(),
                 Forms\Components\Tabs::make('Heading')
                     ->tabs([
+                        Forms\Components\Tabs\Tab::make('Amounts')
+                            ->schema([
+                                Forms\Components\TagsInput::make('amount')
+                                    ->placeholder('Input amounts'),
+                            ]),
+                        Forms\Components\Tabs\Tab::make('Limit')
+                            ->columns()
+                            ->schema([
+                                Forms\Components\TextInput::make('limit_qty')
+                                    ->numeric(),
+                                Forms\Components\TextInput::make('limit_amount')
+                                    ->numeric(),
+                            ]),
+                        Forms\Components\Tabs\Tab::make('Percentage')
+                            ->columns()
+                            ->schema([
+                                Forms\Components\TextInput::make('public_percentage')
+                                    ->suffix('%')
+                                    ->numeric(),
+                                Forms\Components\TextInput::make('percentage')
+                                    ->suffix('%')
+                                    ->numeric(),
+                            ]),
                         Forms\Components\Tabs\Tab::make('Catregories')
                             ->schema([
                                 Forms\Components\Select::make('category_id')
@@ -89,10 +114,10 @@ class DiscountResource extends Resource
                             ]),
                         Forms\Components\Tabs\Tab::make('Regions')
                             ->schema([
-                                Forms\Components\Select::make('Brand Tags')
+                                Forms\Components\Select::make('Regions')
                                     ->placeholder('Select Regions')
                                     ->relationship('regions', 'name')
-                                    ->required()
+                                    ->helperText('Leave blank to select all regions')
                                     ->multiple(),
                             ]),
                         Forms\Components\Tabs\Tab::make('Tags')
@@ -106,10 +131,16 @@ class DiscountResource extends Resource
                                     ])
                                     ->multiple(),
                             ]),
+                        Forms\Components\Tabs\Tab::make('Types')
+                            ->schema([
+                                Forms\Components\Select::make('offer type')
+                                    ->placeholder('Select Offer Types')
+                                    ->relationship('offerTypes', 'type')
+                                    ->reactive()
+                                    ->multiple(),
+                            ]),
                     ])->columnSpanFull(),
-                Forms\Components\TextInput::make('created_by'),
-                Forms\Components\TextInput::make('updated_by'),
-                Forms\Components\TextInput::make('deleted_by'),
+                AuditableView::make('audit'),
             ]);
     }
 
