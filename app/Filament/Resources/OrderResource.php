@@ -44,30 +44,30 @@ class OrderResource extends Resource
                         Forms\Components\Select::make('order_status')->options(OrderStatus::options()),
 
                         Forms\Components\TextInput::make('order_number')
-                            ->disabled(fn (string $context): bool => $context !== 'create')
+                            ->dehydrated(fn (string $context): bool => $context !== 'create')
                             ->required(),
 
                         Forms\Components\TextInput::make('order_total')
-                            ->disabled(fn (string $context): bool => $context !== 'create')
+                            ->dehydrated(fn (string $context): bool => $context !== 'create')
                             ->numeric(),
 
                         Forms\Components\TextInput::make('order_subtotal')
-                            ->disabled(fn (string $context): bool => $context !== 'create')
+                            ->dehydrated(fn (string $context): bool => $context !== 'create')
                             ->numeric(),
 
                         Forms\Components\TextInput::make('order_discount')
-                            ->disabled(fn (string $context): bool => $context !== 'create')
+                            ->dehydrated(fn (string $context): bool => $context !== 'create')
                             ->numeric(),
 
                         Forms\Components\TextInput::make('order_tax')
-                            ->disabled(fn (string $context): bool => $context !== 'create')
+                            ->dehydrated(fn (string $context): bool => $context !== 'create')
                             ->numeric(),
 
-                        Forms\Components\TextInput::make('payment_method')->disabled(),
+                        Forms\Components\TextInput::make('payment_method')->dehydrated(false),
 
-                        Forms\Components\Select::make('payment_status')->options(PaymentStatus::options())->disabled(),
+                        Forms\Components\Select::make('payment_status')->options(PaymentStatus::options())->dehydrated(false),
 
-                        Forms\Components\DatePicker::make('order_date')->disabled()->default(now()),
+                        Forms\Components\DatePicker::make('order_date')->dehydrated(false)->default(now()),
                     ]),
 
                 Tabs::make('Heading')

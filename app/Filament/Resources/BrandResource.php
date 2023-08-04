@@ -5,8 +5,6 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\BrandResource\Pages;
 use App\Forms\Components\AuditableView;
 use App\Models\Brand;
-use App\Models\Category;
-use App\Models\Region;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\MarkdownEditor;
@@ -24,7 +22,6 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\Filter;
-use Filament\Tables\Filters\Layout;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
@@ -51,7 +48,7 @@ class BrandResource extends Resource
                     ->placeholder('Enter Brand Name')
                     ->afterStateUpdated(fn ($state, callable $set) => $set('slug', Str::slug($state))),
                 TextInput::make('slug')
-                    ->disabled()
+                    ->dehydrated(false)
                     ->required()
                     ->unique(Brand::class, 'slug', fn ($record) => $record),
                 TextInput::make('link')
@@ -62,7 +59,7 @@ class BrandResource extends Resource
                     ->default(function () {
                         return Uuid::uuid4()->toString();
                     })
-                    ->disabled(),
+                    ->dehydrated(false),
                 MarkdownEditor::make('description')
                     ->placeholder('Enter Brand Description')
                     ->required()
@@ -110,7 +107,7 @@ class BrandResource extends Resource
                             ]),
                     ])->columnSpanFull(),
 
-                AuditableView::make('Audit')
+                AuditableView::make('Audit'),
             ]);
     }
 
@@ -138,30 +135,31 @@ class BrandResource extends Resource
                     ->copyMessageDuration(1500),
 
             ])->defaultSort('name')
-            ->filters([
-                //is active filter
-                SelectFilter::make('status')
-                    ->options([
-                        '1' => 'Active',
-                        '0' => 'Inactive',
+            ->filters(
+                [
+                    //is active filter
+                    SelectFilter::make('status')
+                        ->options([
+                            '1' => 'Active',
+                            '0' => 'Inactive',
 
-                    ])
-                    ->attribute('status'),
-                //name search filter
-                Filter::make('Search')
-                    ->form([
-                        TextInput::make('search')
-                            ->placeholder('Search Brands'),
+                        ])
+                        ->attribute('status'),
+                    //name search filter
+                    Filter::make('Search')
+                        ->form([
+                            TextInput::make('search')
+                                ->placeholder('Search Brands'),
 
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['search'],
-                                fn (Builder $query, $name): Builder => $query->where('name', 'like', "%{$name}%")
-                            );
-                    }),
-            ],
+                        ])
+                        ->query(function (Builder $query, array $data): Builder {
+                            return $query
+                                ->when(
+                                    $data['search'],
+                                    fn (Builder $query, $name): Builder => $query->where('name', 'like', "%{$name}%")
+                                );
+                        }),
+                ],
                 layout: \Filament\Tables\Enums\FiltersLayout::AboveContent,
             )
             ->actions([
