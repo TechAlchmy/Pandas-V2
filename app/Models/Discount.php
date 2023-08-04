@@ -17,7 +17,10 @@ class Discount extends Model
     protected $fillable = [
         'name',
         'link',
+        'api_link',
         'slug',
+        'code',
+        'cta',
         'uniqid',
         'description',
         'logo',
