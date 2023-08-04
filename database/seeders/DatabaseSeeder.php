@@ -39,7 +39,7 @@ class DatabaseSeeder extends Seeder
                     'organization_id' => $organization->id,
                 ])
                 ->each(function ($user) {
-                    $user->userPreferences()->save(UserPreference::factory()->make());
+                    $user->userPreference()->save(UserPreference::factory()->make());
                 });
         });
         User::factory(2)
@@ -50,11 +50,11 @@ class DatabaseSeeder extends Seeder
             ->admins()
             ->create()
             ->each(function ($user) {
-                $user->userPreferences()->save(UserPreference::factory()->make());
+                $user->userPreference()->save(UserPreference::factory()->make());
             });
 
         User::factory(50)->create()->each(function ($user) {
-            $user->userPreferences()->save(UserPreference::factory()->make());
+            $user->userPreference()->save(UserPreference::factory()->make());
         });
 
         Brand::factory(10)->create();
