@@ -86,7 +86,12 @@ class DiscountResource extends Resource
                         Forms\Components\Tabs\Tab::make('Amounts')
                             ->schema([
                                 Forms\Components\TagsInput::make('amount')
-                                    ->placeholder('Input amounts'),
+                                    ->placeholder('Input amounts')
+                                    ->splitKeys(['Tab', ' ', ','])
+                                    ->nestedRecursiveRules([
+                                        'numeric',
+                                        'min:1',
+                                    ]),
                             ]),
                         Forms\Components\Tabs\Tab::make('Limit')
                             ->columns()
