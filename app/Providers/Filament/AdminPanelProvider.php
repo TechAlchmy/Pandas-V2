@@ -44,9 +44,6 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
-                StatsOverview::class,
-                MonthlyUsersChart::class,
-                MonthlyOrdersChart::class,
             ])
             ->middleware([
                 EncryptCookies::class,
