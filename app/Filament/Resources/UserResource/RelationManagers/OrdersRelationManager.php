@@ -35,7 +35,10 @@ class OrdersRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                Action::make('create')
+                    ->label('New Order')
+                    ->button()
+                    ->url(route('filament.admin.resources.orders.create')),
             ])
             ->actions([
                 Action::make('edit')
