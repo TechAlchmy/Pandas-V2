@@ -91,6 +91,7 @@ class DiscountResource extends Resource
                                 Forms\Components\TagsInput::make('amount')
                                     ->placeholder('Input amounts')
                                     ->splitKeys(['Tab', ' ', ','])
+                                    ->tagPrefix('$')
                                     ->nestedRecursiveRules([
                                         'numeric',
                                         'min:1',
