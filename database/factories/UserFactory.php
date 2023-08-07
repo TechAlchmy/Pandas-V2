@@ -41,17 +41,10 @@ class UserFactory extends Factory
         ];
     }
 
-    public function managers(): static
-    {
-        return $this->state(fn (array $attributes) => [
-            'auth_level' => 1,
-        ]);
-    }
-
     public function admins(): static
     {
         return $this->state(fn (array $attributes) => [
-            'auth_level' => 2,
+            'auth_level' => 1,
         ]);
     }
 
