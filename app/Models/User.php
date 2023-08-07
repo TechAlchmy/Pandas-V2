@@ -63,6 +63,7 @@ class User extends Authenticatable implements FilamentUser, HasTenants, HasDefau
     public function organizations()
     {
         return $this->belongsToMany(Organization::class, 'managers')
+            ->whereNull('managers.deleted_at')
             ->withTimestamps();
     }
 
