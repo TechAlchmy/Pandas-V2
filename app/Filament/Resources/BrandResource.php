@@ -163,9 +163,7 @@ class BrandResource extends Resource
                             );
                     }),
                 Tables\Filters\TrashedFilter::make(),
-            ],
-                layout: \Filament\Tables\Enums\FiltersLayout::AboveContent,
-            )
+            ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
