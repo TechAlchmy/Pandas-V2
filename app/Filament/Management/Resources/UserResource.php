@@ -100,6 +100,24 @@ class UserResource extends Resource
                 Infolists\Components\TextEntry::make('address')
                     ->columnSpanFull(),
                 Infolists\Components\Actions::make([
+                    Infolists\Components\Actions\Action::make('demote manager')
+                        ->visible(fn ($record) => $record->is_manager)
+                        ->hidden(fn ($record) => $record->is(auth()->user()))
+                        ->icon('heroicon-m-x-mark')
+                        ->color('danger')
+                        ->requiresConfirmation()
+                        ->action(function ($record) {
+                            // this will make sure we can audit who demote this manager...
+                            return $record->managers()
+                                ->whereBelongsTo(filament()->getTenant())
+                                ->first()
+                                ?->delete();
+                        })
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Manager demoted')
+                        ),
                     Infolists\Components\Actions\Action::make('suspend')
                         ->hidden(fn ($record) => $record->is_manager)
                         ->icon('heroicon-m-x-mark')
