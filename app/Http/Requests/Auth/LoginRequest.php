@@ -49,6 +49,15 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        if (auth()->user()->trashed()) {
+            auth()->logout();
+            session()->invalidate();
+            session()->regenerateToken();
+            throw ValidationException::withMessages([
+                'email' => 'Sorry, your account is suspended. Please contact to your Manager.',
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 
