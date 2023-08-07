@@ -100,43 +100,17 @@ class UserResource extends Resource
                 Infolists\Components\TextEntry::make('address')
                     ->columnSpanFull(),
                 Infolists\Components\Actions::make([
-                    Infolists\Components\Actions\Action::make('removeFromCompany')
+                    Infolists\Components\Actions\Action::make('suspend')
+                        ->hidden(fn ($record) => $record->is_manager)
                         ->icon('heroicon-m-x-mark')
                         ->color('danger')
                         ->requiresConfirmation()
-                        ->action(function ($record) {
-                            if ($record->auth_level == AuthLevelEnum::Manager) {
-                                $manager = $record->managers()
-                                    ->where('organization_id', filament()->getTenant()->getKey())
-                                    ->first();
-
-                                $manager->delete();
-                                if ($record->managers()->exists()) {
-                                    $record->update([
-                                        'organization_id' => $record->managers()->first()->organization_id,
-                                    ]);
-                                } else {
-                                    $record->update([
-                                        'organization_id' => null,
-                                        'auth_level' => AuthLevelEnum::User
-                                    ]);
-                                }
-
-
-                                Notification::make()
-                                    ->success()
-                                    ->title('Manager removed from this company')
-                                    ->send();
-                                return;
-                            }
-
+                        ->successRedirectUrl(fn () => UserResource::getUrl())
+                        ->successNotification(
                             Notification::make()
                                 ->success()
-                                ->title('User removed from this company')
-                                ->send();
-
-                            return redirect(self::getUrl());
-                        }),
+                                ->title('User suspended')
+                        ),
                 ]),
             ]);
     }
