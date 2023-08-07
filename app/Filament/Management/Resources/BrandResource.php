@@ -81,8 +81,8 @@ class BrandResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return Brand::query()
-            ->whereIn('id', BrandOrganization::query()->select('brand_id')
-                ->whereBelongsTo(filament()->getTenant()))
-            ->orDoesntHave('organizations');
+            ->leftJoinRelationship('brandOrganization', function ($join) {
+                $join->where('organization_id', filament()->getTenant()->getKey());
+            });
     }
 }
