@@ -41,19 +41,11 @@ class ManagersRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make()
-                    ->using(function ($data, $livewire) {
-                        User::find($data['user_id'])->update(['auth_level' => AuthLevelEnum::Manager]);
-                        return $livewire->getRelationship()->create($data);
-                    }),
+                Tables\Actions\CreateAction::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make()
-                    ->using(function ($record) {
-                        $record->user->update(['auth_level' => AuthLevelEnum::User]);
-                        return $record->delete();
-                    }),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
