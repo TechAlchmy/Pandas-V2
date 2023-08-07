@@ -101,6 +101,10 @@ class User extends Authenticatable implements FilamentUser, HasTenants, HasDefau
 
     public function canAccessPanel(Panel $panel): bool
     {
+        if ($this->trashed()) {
+            return false;
+        }
+
         if ($panel->getId() == 'admin') {
             return $this->is_admin;
         }
