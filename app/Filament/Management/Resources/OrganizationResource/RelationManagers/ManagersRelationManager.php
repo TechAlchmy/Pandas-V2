@@ -29,8 +29,10 @@ class ManagersRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('id')
             ->columns([
-                Tables\Columns\TextColumn::make('user.name'),
-                Tables\Columns\TextColumn::make('user.email'),
+                Tables\Columns\TextColumn::make('user.name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('user.email')
+                    ->searchable(),
             ])
             ->filters([
                 //
