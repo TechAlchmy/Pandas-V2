@@ -124,7 +124,9 @@ class BrandResource extends Resource
                     ->disk('public')
                     ->extraImgAttributes(['title' => 'Company logo']),
 
-                TextColumn::make('name')->sortable(),
+                TextColumn::make('name')
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('slug')
                     ->limit(30),
                 TextColumn::make('views'),
