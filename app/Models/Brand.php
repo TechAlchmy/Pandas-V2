@@ -51,6 +51,22 @@ class Brand extends Model
             ->withTimestamps();
     }
 
+    public function brandOrganizations()
+    {
+        return $this->hasMany(BrandOrganization::class);
+    }
+
+    public function brandOrganization()
+    {
+        return $this->brandOrganizations()->one();
+    }
+
+    public function organizations()
+    {
+        return $this->belongsToMany(Organization::class, 'brand_organizations')
+            ->withTimestamps();
+    }
+
     public function setSlugAttribute($value)
     {
         $this->attributes['slug'] = Str::slug($value);

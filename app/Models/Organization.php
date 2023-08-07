@@ -28,4 +28,10 @@ class Organization extends Model
     {
         return $this->hasMany(Manager::class);
     }
+
+    public function brands()
+    {
+        return $this->belongsToMany(Brand::class, 'brand_organizations')
+            ->withTimestamps();
+    }
 }
