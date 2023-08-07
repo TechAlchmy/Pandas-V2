@@ -7,12 +7,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Kirschbaum\PowerJoins\PowerJoins;
 
 class Brand extends Model
 {
     use HasFactory;
     use InteractsWithAuditable;
     use SoftDeletes;
+    use PowerJoins;
 
     protected $fillable = [
         'name',
@@ -45,9 +47,30 @@ class Brand extends Model
         return $this->hasMany(BrandRegion::class);
     }
 
+    public function discounts()
+    {
+        return $this->hasMany(Discount::class);
+    }
+
     public function regions()
     {
         return $this->belongsToMany(Region::class, 'brand_regions')
+            ->withTimestamps();
+    }
+
+    public function brandOrganizations()
+    {
+        return $this->hasMany(BrandOrganization::class);
+    }
+
+    public function brandOrganization()
+    {
+        return $this->brandOrganizations()->one();
+    }
+
+    public function organizations()
+    {
+        return $this->belongsToMany(Organization::class, 'brand_organizations')
             ->withTimestamps();
     }
 
