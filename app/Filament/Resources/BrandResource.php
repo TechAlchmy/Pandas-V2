@@ -144,20 +144,6 @@ class BrandResource extends Resource
             ->filters([
                 //is active filter
                 Tables\Filters\TernaryFilter::make('is_active'),
-                //name search filter
-                Filter::make('Search')
-                    ->form([
-                        TextInput::make('search')
-                            ->placeholder('Search Brands'),
-
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['search'],
-                                fn (Builder $query, $name): Builder => $query->where('name', 'like', "%{$name}%")
-                            );
-                    }),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
