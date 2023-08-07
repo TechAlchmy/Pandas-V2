@@ -143,13 +143,7 @@ class BrandResource extends Resource
             ])->defaultSort('name')
             ->filters([
                 //is active filter
-                SelectFilter::make('status')
-                    ->options([
-                        '1' => 'Active',
-                        '0' => 'Inactive',
-
-                    ])
-                    ->attribute('status'),
+                Tables\Filters\TernaryFilter::make('is_active'),
                 //name search filter
                 Filter::make('Search')
                     ->form([
