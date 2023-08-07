@@ -10,6 +10,7 @@ use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasDefaultTenant;
 use Filament\Models\Contracts\HasTenants;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -101,10 +102,10 @@ class User extends Authenticatable implements FilamentUser, HasTenants, HasDefau
     public function canAccessPanel(Panel $panel): bool
     {
         if ($panel->getId() == 'admin') {
-            return $this->auth_level->value >= AuthLevelEnum::Admin->value;
+            return $this->is_admin;
         }
 
-        return $this->auth_level->value > AuthLevelEnum::User->value;
+        return $this->is_manager;
     }
 
     public function getTenants(Panel $panel): array|Collection
@@ -119,10 +120,22 @@ class User extends Authenticatable implements FilamentUser, HasTenants, HasDefau
 
     public function canAccessTenant(Model $tenant): bool
     {
-        if ($this->auth_level->value >= AuthLevelEnum::Admin->value) {
+        if ($this->is_admin) {
             return true;
         }
 
         return $this->managers()->where('organization_id', $tenant->getKey())->exists();
+    }
+
+    protected function isAdmin(): Attribute
+    {
+        return Attribute::get(fn () => $this->auth_level->value >= AuthLevelEnum::Admin->value)
+            ->shouldCache();
+    }
+
+    protected function isManager(): Attribute
+    {
+        return Attribute::get(fn () => $this->loadExists('managers')->managers_exists)
+            ->shouldCache();
     }
 }
