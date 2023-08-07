@@ -47,6 +47,11 @@ class Brand extends Model
         return $this->hasMany(BrandRegion::class);
     }
 
+    public function discounts()
+    {
+        return $this->hasMany(Discount::class);
+    }
+
     public function regions()
     {
         return $this->belongsToMany(Region::class, 'brand_regions')

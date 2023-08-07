@@ -20,6 +20,8 @@ class BrandResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $recordRouteKeyName = 'brands.id';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -50,7 +52,7 @@ class BrandResource extends Resource
                 //
             ])
             ->actions([
-                // Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 // Tables\Actions\BulkActionGroup::make([
@@ -65,7 +67,7 @@ class BrandResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\DiscountsRelationManager::class,
         ];
     }
 
@@ -74,6 +76,7 @@ class BrandResource extends Resource
         return [
             'index' => Pages\ListBrands::route('/'),
             'create' => Pages\CreateBrand::route('/create'),
+            'view' => Pages\ViewBrand::route('/{record}'),
             'edit' => Pages\EditBrand::route('/{record}/edit'),
         ];
     }
