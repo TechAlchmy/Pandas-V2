@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Management\Resources\OrganizationResource\Pages\ViewOrganization;
 use App\Models\Organization;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -28,6 +29,7 @@ class ManagementPanelProvider extends PanelProvider
             ->path('management')
             ->darkMode(false)
             ->tenant(Organization::class)
+            ->tenantProfile(ViewOrganization::class)
             ->colors([
                 'primary' => Color::Amber,
             ])
