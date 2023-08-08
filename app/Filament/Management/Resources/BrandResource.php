@@ -75,6 +75,15 @@ class BrandResource extends Resource
             ]);
     }
 
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\TextEntry::make('name'),
+                Infolists\Components\TextEntry::make('description'),
+            ]);
+    }
+
     public static function getRelations(): array
     {
         return [
