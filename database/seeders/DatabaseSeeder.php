@@ -43,13 +43,12 @@ class DatabaseSeeder extends Seeder
         });
         User::factory(2)
             ->sequence(
-                ['email' => 'admin1@test.com', 'organization_id' => 1],
-                ['email' => 'admin2@test.com', 'organization_id' => 2],
+                ['email' => 'admin1@test.com'],
+                ['email' => 'admin2@test.com'],
             )
             ->admins()
             ->create()
             ->each(function ($user, $index) {
-                $user->managers()->create(['organization_id' => $index]);
                 $user->userPreference()->save(UserPreference::factory()->make());
             });
 

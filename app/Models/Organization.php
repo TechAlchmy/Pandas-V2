@@ -24,6 +24,11 @@ class Organization extends Model
         'region_id',
     ];
 
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
     public function managers()
     {
         return $this->hasMany(Manager::class);

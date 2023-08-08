@@ -110,7 +110,7 @@ class User extends Authenticatable implements FilamentUser, HasTenants, HasDefau
             return $this->is_admin;
         }
 
-        return $this->is_manager;
+        return $this->is_admin || $this->is_manager;
     }
 
     public function getTenants(Panel $panel): array|Collection

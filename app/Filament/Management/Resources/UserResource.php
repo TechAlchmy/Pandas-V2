@@ -106,29 +106,23 @@ class UserResource extends Resource
                         ->icon('heroicon-m-x-mark')
                         ->color('danger')
                         ->requiresConfirmation()
-                        ->action(function ($record) {
+                        ->action(function ($record, $action) {
                             // this will make sure we can audit who demote this manager...
-                            return $record->managers()
+                            $record->managers()
                                 ->whereBelongsTo(filament()->getTenant())
                                 ->first()
                                 ?->delete();
+
+                            $action->success();
                         })
-                        ->successNotification(
-                            Notification::make()
-                                ->success()
-                                ->title('Manager demoted')
-                        ),
+                        ->successNotificationTitle('Manager demoted'),
                     Infolists\Components\Actions\Action::make('suspend')
                         ->hidden(fn ($record) => $record->is_manager)
                         ->icon('heroicon-m-x-mark')
                         ->color('danger')
                         ->requiresConfirmation()
                         ->successRedirectUrl(fn () => UserResource::getUrl())
-                        ->successNotification(
-                            Notification::make()
-                                ->success()
-                                ->title('User suspended')
-                        ),
+                        ->successNotificationTitle('User suspended'),
                 ]),
             ]);
     }

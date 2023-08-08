@@ -24,7 +24,6 @@ class UserFactory extends Factory
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'auth_level' => 0,
             'social_security_number' => $this->faker->numberBetween(100000000, 999999999),
-            'invitation_token' => false,
             'organization_id' => null,
             'phone_number' => $this->faker->phoneNumber(),
             'address' => $this->faker->streetAddress(),
