@@ -46,7 +46,7 @@ class LoginRequest extends FormRequest
             ->withTrashed()
             ->firstWhere('email', $this->input('email'));
 
-        if ($user->trashed()) {
+        if ($user?->trashed()) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
