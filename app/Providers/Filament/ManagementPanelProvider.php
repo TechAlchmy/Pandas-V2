@@ -7,6 +7,7 @@ use App\Models\Organization;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -30,6 +31,13 @@ class ManagementPanelProvider extends PanelProvider
             ->darkMode(false)
             ->tenant(Organization::class)
             ->tenantProfile(ViewOrganization::class)
+            ->userMenuItems([
+                MenuItem::make()
+                    ->icon('heroicon-o-computer-desktop')
+                    ->visible(fn () => filament()->auth()->user()->is_admin)
+                    ->label('Return to admin')
+                    ->url('/admin/organizations'),
+            ])
             ->colors([
                 'primary' => Color::Amber,
             ])

@@ -83,6 +83,10 @@ class OrganizationResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('management')
+                    ->url(fn ($record) => route('filament.management.pages.dashboard', ['tenant' => $record]))
+                    ->link()
+                    ->openUrlInNewTab(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
