@@ -35,6 +35,7 @@ class BrandResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('brandOrganization.is_active', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
