@@ -124,11 +124,7 @@ class UserResource extends Resource
                         ->color('danger')
                         ->requiresConfirmation()
                         ->successRedirectUrl(fn () => UserResource::getUrl())
-                        ->successNotification(
-                            Notification::make()
-                                ->success()
-                                ->title('User suspended')
-                        ),
+                        ->successNotificationTitle('User suspended'),
                 ]),
             ]);
     }
