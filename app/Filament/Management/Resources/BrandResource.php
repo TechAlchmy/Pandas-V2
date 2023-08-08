@@ -8,6 +8,8 @@ use App\Models\Brand;
 use App\Models\BrandOrganization;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -33,6 +35,7 @@ class BrandResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('brandOrganization.is_active', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
@@ -49,7 +52,16 @@ class BrandResource extends Resource
                     }),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('brandOrganization')
+                    ->options([
+                        'Unrelated',
+                        'Related',
+                    ])
+                    ->query(function ($data, $query) {
+                        return $query
+                            ->when($data['value'] == '0', fn ($query) => $query->whereNull('organization_id'))
+                            ->when($data['value'] == '1', fn ($query) => $query->where('organization_id', filament()->getTenant()->getKey()));
+                    }),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -61,6 +73,15 @@ class BrandResource extends Resource
             ])
             ->emptyStateActions([
                 // Tables\Actions\CreateAction::make(),
+            ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\TextEntry::make('name'),
+                Infolists\Components\TextEntry::make('description'),
             ]);
     }
 
