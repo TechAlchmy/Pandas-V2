@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('auth_level')->default(0)->comment('0: user, 1: panda admin, 2: super admin');
             $table->string('social_security_number')->nullable();
             $table->boolean('invitation_token')->default(false);
-            $table->foreignIdFor(Organization::class)->nullable();
+            $table->foreignIdFor(Organization::class)->nullable()->constrained()->nullOnDelete();
             $table->string('phone_number')->nullable();
             $table->string('address')->nullable();
             $table->string('city')->nullable();
