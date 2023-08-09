@@ -124,6 +124,11 @@ class UserResource extends Resource
                         ->icon('heroicon-m-x-mark')
                         ->color('danger')
                         ->requiresConfirmation()
+                        ->action(function ($record, $action) {
+                            $record->delete();
+
+                            $action->success();
+                        })
                         ->successRedirectUrl(fn () => UserResource::getUrl())
                         ->successNotificationTitle('User suspended'),
                 ]),
