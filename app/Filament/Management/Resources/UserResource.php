@@ -101,12 +101,15 @@ class UserResource extends Resource
                     ->columnSpanFull(),
                 Infolists\Components\Actions::make([
                     Infolists\Components\Actions\Action::make('demote manager')
-                        ->visible(fn ($record) => $record->is_manager)
+                        ->visible(fn ($record) => $record->is_manager && filament()->auth()->user()->is_admin)
                         ->hidden(fn ($record) => $record->is(auth()->user()))
                         ->icon('heroicon-m-x-mark')
                         ->color('danger')
                         ->requiresConfirmation()
                         ->action(function ($record, $action) {
+                            if (! filament()->auth()->user()->is_admin) {
+                                $action->halt();
+                            }
                             // this will make sure we can audit who demote this manager...
                             $record->managers()
                                 ->whereBelongsTo(filament()->getTenant())
@@ -117,10 +120,21 @@ class UserResource extends Resource
                         })
                         ->successNotificationTitle('Manager demoted'),
                     Infolists\Components\Actions\Action::make('suspend')
-                        ->hidden(fn ($record) => $record->is_manager)
+                        ->hidden(fn ($record) => $record->is_manager || $record->is(filament()->auth()->user()))
                         ->icon('heroicon-m-x-mark')
                         ->color('danger')
                         ->requiresConfirmation()
+                        ->action(function ($record, $action) {
+                            if ($record->is(filament()->auth()->user())) {
+                                $action->halt();
+                            }
+
+                            if (filament()->auth()->user()->is_admin_or_manager) {
+                                $record->delete();
+
+                                $action->success();
+                            }
+                        })
                         ->successRedirectUrl(fn () => UserResource::getUrl())
                         ->successNotificationTitle('User suspended'),
                 ]),
