@@ -93,17 +93,34 @@ class BrandResource extends Resource
                                     ->relationship('categories', 'name')
                                     ->required()
                                     ->reactive()
-                                    ->multiple(),
-
+                                    ->multiple()
+                                    ->helperText(fn ($state) => count($state) < Category::query()->count() ? null : 'All selected')
+                                    ->hintActions([
+                                        Forms\Components\Actions\Action::make('clear')
+                                            ->visible(fn ($state) => ! empty($state))
+                                            ->action(fn ($component) => $component->state([])),
+                                        Forms\Components\Actions\Action::make('all')
+                                            ->hidden(fn ($state) => count($state) == Category::query()->count())
+                                            ->action(fn ($component) => $component->state(Category::query()->pluck('id')->all())),
+                                    ]),
                             ]),
                         Tabs\Tab::make('Regions')
                             ->schema([
-                                Select::make('Brand Regions')
+                                Select::make('region_id')
+                                    ->default(Region::query()->pluck('id')->all())
                                     ->placeholder('Select Brand Regions')
                                     ->relationship('regions', 'name')
                                     ->reactive()
-                                    ->helperText('Leave blank to select all regions')
-                                    ->multiple(),
+                                    ->multiple()
+                                    ->helperText(fn ($state) => count($state) < Region::query()->count() ? null : 'All selected')
+                                    ->hintActions([
+                                        Forms\Components\Actions\Action::make('clear')
+                                            ->visible(fn ($state) => ! empty($state))
+                                            ->action(fn ($component) => $component->state([])),
+                                        Forms\Components\Actions\Action::make('all')
+                                            ->hidden(fn ($state) => count($state) == Region::query()->count())
+                                            ->action(fn ($component) => $component->state(Region::query()->pluck('id')->all())),
+                                    ]),
 
                             ]),
                         Tabs\Tab::make('Organizations')
@@ -147,11 +164,28 @@ class BrandResource extends Resource
                     ->copyMessageDuration(1500),
 
             ])->defaultSort('name')
-            ->filters([
-                //is active filter
-                Tables\Filters\TernaryFilter::make('is_active'),
-                Tables\Filters\TrashedFilter::make(),
-            ])
+            ->filters(
+                [
+                    Tables\Filters\TernaryFilter::make('is_active'),
+                    Tables\Filters\TrashedFilter::make(),
+
+                    //name search filter
+                    Filter::make('Search')
+                        ->form([
+                            TextInput::make('search')
+                                ->placeholder('Search Brands'),
+
+                        ])
+                        ->query(function (Builder $query, array $data): Builder {
+                            return $query
+                                ->when(
+                                    $data['search'],
+                                    fn (Builder $query, $name): Builder => $query->where('name', 'like', "%{$name}%")
+                                );
+                        }),
+                ],
+                layout: \Filament\Tables\Enums\FiltersLayout::AboveContent,
+            )
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),

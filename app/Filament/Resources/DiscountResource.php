@@ -5,7 +5,11 @@ namespace App\Filament\Resources;
 use App\Enums\DiscountCallToActionEnum;
 use App\Filament\Resources\DiscountResource\Pages;
 use App\Forms\Components\AuditableView;
+use App\Models\Category;
 use App\Models\Discount;
+use App\Models\OfferType;
+use App\Models\Region;
+use App\Models\Tag;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -124,34 +128,70 @@ class DiscountResource extends Resource
                                     ->placeholder('Select Categories')
                                     ->relationship('categories', 'name')
                                     ->required()
-                                    ->multiple(),
+                                    ->multiple()
+                                    ->helperText(fn ($state) => count($state) < Category::query()->count() ? null : 'All selected')
+                                    ->hintActions([
+                                        Forms\Components\Actions\Action::make('clear')
+                                            ->visible(fn ($state) => ! empty($state))
+                                            ->action(fn ($component) => $component->state([])),
+                                        Forms\Components\Actions\Action::make('all')
+                                            ->hidden(fn ($state) => count($state) == Category::query()->count())
+                                            ->action(fn ($component) => $component->state(Category::query()->pluck('id')->all())),
+                                    ]),
                             ]),
                         Forms\Components\Tabs\Tab::make('Regions')
                             ->schema([
-                                Forms\Components\Select::make('Regions')
+                                Forms\Components\Select::make('region_id')
+                                    ->default(Region::query()->pluck('id')->all())
                                     ->placeholder('Select Regions')
                                     ->relationship('regions', 'name')
-                                    ->helperText('Leave blank to select all regions')
-                                    ->multiple(),
+                                    ->multiple()
+                                    ->helperText(fn ($state) => count($state) < Region::query()->count() ? null : 'All selected')
+                                    ->hintActions([
+                                        Forms\Components\Actions\Action::make('clear')
+                                            ->visible(fn ($state) => ! empty($state))
+                                            ->action(fn ($component) => $component->state([])),
+                                        Forms\Components\Actions\Action::make('all')
+                                            ->hidden(fn ($state) => count($state) == Region::query()->count())
+                                            ->action(fn ($component) => $component->state(Region::query()->pluck('id')->all())),
+                                    ]),
                             ]),
                         Forms\Components\Tabs\Tab::make('Tags')
                             ->schema([
-                                Forms\Components\Select::make('Tags')
+                                Forms\Components\Select::make('tag_id')
                                     ->placeholder('Select Tags')
                                     ->relationship('tags', 'name')
                                     ->createOptionForm([
                                         Forms\Components\TextInput::make('name')
                                             ->required(),
                                     ])
-                                    ->multiple(),
+                                    ->multiple()
+                                    ->helperText(fn ($state) => count($state) < Tag::query()->count() ? null : 'All selected')
+                                    ->hintActions([
+                                        Forms\Components\Actions\Action::make('clear')
+                                            ->visible(fn ($state) => ! empty($state))
+                                            ->action(fn ($component) => $component->state([])),
+                                        Forms\Components\Actions\Action::make('all')
+                                            ->hidden(fn ($state) => count($state) == Tag::query()->count())
+                                            ->action(fn ($component) => $component->state(Tag::query()->pluck('id')->all())),
+                                    ]),
                             ]),
                         Forms\Components\Tabs\Tab::make('Types')
                             ->schema([
-                                Forms\Components\Select::make('offer type')
+                                Forms\Components\Select::make('offer_type_id')
                                     ->placeholder('Select Offer Types')
                                     ->relationship('offerTypes', 'type')
                                     ->reactive()
-                                    ->multiple(),
+                                    ->multiple()
+                                    ->helperText(fn ($state) => count($state) < OfferType::query()->count() ? null : 'All selected')
+                                    ->hintActions([
+                                        Forms\Components\Actions\Action::make('clear')
+                                            ->visible(fn ($state) => ! empty($state))
+                                            ->action(fn ($component) => $component->state([])),
+                                        Forms\Components\Actions\Action::make('all')
+                                            ->hidden(fn ($state) => count($state) == OfferType::query()->count())
+                                            ->action(fn ($component) => $component->state(OfferType::query()->pluck('id')->all())),
+                                    ]),
                             ]),
                     ])->columnSpanFull(),
                 AuditableView::make('audit'),
