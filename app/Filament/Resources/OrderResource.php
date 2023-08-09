@@ -44,30 +44,30 @@ class OrderResource extends Resource
                         Forms\Components\Select::make('order_status')->options(OrderStatus::options()),
 
                         Forms\Components\TextInput::make('order_number')
-                            ->disabled(fn (string $context): bool => $context !== 'create')
+                            ->dehydrated(fn (string $context): bool => $context !== 'create')
                             ->required(),
 
                         Forms\Components\TextInput::make('order_total')
-                            ->disabled(fn (string $context): bool => $context !== 'create')
+                            ->dehydrated(fn (string $context): bool => $context !== 'create')
                             ->numeric(),
 
                         Forms\Components\TextInput::make('order_subtotal')
-                            ->disabled(fn (string $context): bool => $context !== 'create')
+                            ->dehydrated(fn (string $context): bool => $context !== 'create')
                             ->numeric(),
 
                         Forms\Components\TextInput::make('order_discount')
-                            ->disabled(fn (string $context): bool => $context !== 'create')
+                            ->dehydrated(fn (string $context): bool => $context !== 'create')
                             ->numeric(),
 
                         Forms\Components\TextInput::make('order_tax')
-                            ->disabled(fn (string $context): bool => $context !== 'create')
+                            ->dehydrated(fn (string $context): bool => $context !== 'create')
                             ->numeric(),
 
-                        Forms\Components\TextInput::make('payment_method')->disabled(),
+                        Forms\Components\TextInput::make('payment_method')->dehydrated(false),
 
-                        Forms\Components\Select::make('payment_status')->options(PaymentStatus::options())->disabled(),
+                        Forms\Components\Select::make('payment_status')->options(PaymentStatus::options())->dehydrated(false),
 
-                        Forms\Components\DatePicker::make('order_date')->disabled()->default(now()),
+                        Forms\Components\DatePicker::make('order_date')->dehydrated(false)->default(now()),
                     ]),
 
                 Tabs::make('Heading')
@@ -117,82 +117,12 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('order_number')
-                    ->searchable(),
-
-                Tables\Columns\TextColumn::make('user.name')
-                    ->searchable()
-                    ->url(fn (Order $record) => route('filament.resources.users.edit', $record->user->id)),
-
-                Tables\Columns\BadgeColumn::make('order_status')
-                    ->colors([
-                        'secondary' => 'pending',
-                        'secondary' => 'processing',
-                        'primary' => 'on hold',
-                        'warning' => 'refunded',
-                        'success' => 'completed',
-                        'danger' => 'cancelled',
-                        'danger' => 'failed',
-                    ]),
-
-                Tables\Columns\TextColumn::make('order_total'),
-
-                Tables\Columns\TextColumn::make('order_subtotal')
-                    ->toggleable()
-                    ->toggledHiddenByDefault(),
-
-                Tables\Columns\TextColumn::make('order_discount')
-                    ->toggleable()
-                    ->toggledHiddenByDefault(),
-
-                Tables\Columns\TextColumn::make('order_tax')
-                    ->toggleable()
-                    ->toggledHiddenByDefault(),
-
-                Tables\Columns\TextColumn::make('payment_method')
-                    ->toggleable()
-                    ->toggledHiddenByDefault(),
-
-                Tables\Columns\BadgeColumn::make('payment_status')
-                    ->colors([
-                        'primary',
-                        'secondary' => 'pending',
-                        'warning' => 'refunded',
-                        'success' => 'paid',
-                        'danger' => 'failed',
-                    ])
-                    ->toggleable(),
-
-                Tables\Columns\TextColumn::make('created_by')
-                    ->toggleable()
-                    ->toggledHiddenByDefault(),
-
-                Tables\Columns\TextColumn::make('updated_by')
-                    ->toggleable()
-                    ->toggledHiddenByDefault(),
-
-                Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime()
-                    ->toggleable()
-                    ->toggledHiddenByDefault(),
-
-                Tables\Columns\TextColumn::make('deleted_by')
-                    ->toggleable()
-                    ->toggledHiddenByDefault(),
-
-                Tables\Columns\TextColumn::make('order_date')
-                    ->toggleable()
-                    ->toggledHiddenByDefault(),
-
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->toggleable()
-                    ->toggledHiddenByDefault(),
-
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->toggleable()
-                    ->toggledHiddenByDefault(),
+                ...[
+                    Tables\Columns\TextColumn::make('user.name')
+                        ->searchable()
+                        ->url(fn (Order $record) => route('filament.admin.resources.users.edit', $record->user->id)),
+                ],
+                ...static::getTableColumns(),
             ])
             ->filters([
                 TernaryFilter::make('trashed')
@@ -213,6 +143,84 @@ class OrderResource extends Resource
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
+    }
+
+    public static function getTableColumns(): array
+    {
+        return [
+            Tables\Columns\TextColumn::make('order_number')
+                    ->searchable(),
+
+            Tables\Columns\BadgeColumn::make('order_status')
+                ->colors([
+                    'secondary' => 'pending',
+                    'secondary' => 'processing',
+                    'primary' => 'on hold',
+                    'warning' => 'refunded',
+                    'success' => 'completed',
+                    'danger' => 'cancelled',
+                    'danger' => 'failed',
+                ]),
+
+            Tables\Columns\TextColumn::make('order_total'),
+
+            Tables\Columns\TextColumn::make('order_subtotal')
+                ->toggleable()
+                ->toggledHiddenByDefault(),
+
+            Tables\Columns\TextColumn::make('order_discount')
+                ->toggleable()
+                ->toggledHiddenByDefault(),
+
+            Tables\Columns\TextColumn::make('order_tax')
+                ->toggleable()
+                ->toggledHiddenByDefault(),
+
+            Tables\Columns\TextColumn::make('payment_method')
+                ->toggleable()
+                ->toggledHiddenByDefault(),
+
+            Tables\Columns\BadgeColumn::make('payment_status')
+                ->colors([
+                    'primary',
+                    'secondary' => 'pending',
+                    'warning' => 'refunded',
+                    'success' => 'paid',
+                    'danger' => 'failed',
+                ])
+                ->toggleable(),
+
+            Tables\Columns\TextColumn::make('created_by')
+                ->toggleable()
+                ->toggledHiddenByDefault(),
+
+            Tables\Columns\TextColumn::make('updated_by')
+                ->toggleable()
+                ->toggledHiddenByDefault(),
+
+            Tables\Columns\TextColumn::make('deleted_at')
+                ->dateTime()
+                ->toggleable()
+                ->toggledHiddenByDefault(),
+
+            Tables\Columns\TextColumn::make('deleted_by')
+                ->toggleable()
+                ->toggledHiddenByDefault(),
+
+            Tables\Columns\TextColumn::make('order_date')
+                ->toggleable()
+                ->toggledHiddenByDefault(),
+
+            Tables\Columns\TextColumn::make('created_at')
+                ->dateTime()
+                ->toggleable()
+                ->toggledHiddenByDefault(),
+
+            Tables\Columns\TextColumn::make('updated_at')
+                ->dateTime()
+                ->toggleable()
+                ->toggledHiddenByDefault(),
+        ];
     }
 
     public static function getEloquentQuery(): Builder

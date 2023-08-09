@@ -37,7 +37,7 @@ class OrderDetailsRelationManager extends RelationManager
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('discount.name')
-                    ->url(fn (OrderDetail $record) => route('filament.resources.discounts.edit', $record->discount->id))
+                    ->url(fn (OrderDetail $record) => route('filament.admin.resources.discounts.edit', $record->discount->id))
                     ->searchable()
                     ->label('Name'),
 
