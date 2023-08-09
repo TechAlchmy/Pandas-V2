@@ -109,15 +109,6 @@ class BrandResource extends Resource
                                     ->multiple(),
 
                             ]),
-                        Tabs\Tab::make('Organizations')
-                            ->schema([
-                                Select::make('Brand Organizations')
-                                    ->placeholder('Select Brand Organizations')
-                                    ->relationship('organizations', 'name')
-                                    ->reactive()
-                                    ->helperText('Leave blank to select all organizations')
-                                    ->multiple(),
-                            ]),
                     ])->columnSpanFull(),
 
                 AuditableView::make('Audit')
