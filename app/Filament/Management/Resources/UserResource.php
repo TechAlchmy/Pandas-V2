@@ -129,9 +129,11 @@ class UserResource extends Resource
                                 $action->halt();
                             }
 
-                            $record->delete();
+                            if (filament()->auth()->user()->is_admin_or_manager) {
+                                $record->delete();
 
-                            $action->success();
+                                $action->success();
+                            }
                         })
                         ->successRedirectUrl(fn () => UserResource::getUrl())
                         ->successNotificationTitle('User suspended'),

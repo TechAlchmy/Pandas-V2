@@ -143,4 +143,9 @@ class User extends Authenticatable implements FilamentUser, HasTenants, HasDefau
         return Attribute::get(fn () => $this->loadExists('managers')->managers_exists)
             ->shouldCache();
     }
+
+    protected function isAdminOrManager(): Attribute
+    {
+        return Attribute::get(fn () => $this->is_admin || $this->is_manager);
+    }
 }
