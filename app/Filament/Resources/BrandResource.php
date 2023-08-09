@@ -5,6 +5,8 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\BrandResource\Pages;
 use App\Forms\Components\AuditableView;
 use App\Models\Brand;
+use App\Models\Category;
+use App\Models\Region;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\MarkdownEditor;
@@ -66,7 +68,7 @@ class BrandResource extends Resource
                     ->required()
                     ->columnSpan(2),
 
-                Forms\Components\Card::make()
+                Forms\Components\Card::make('Brand Details')
                     ->columns(3)
                     ->columnSpan(1)
                     ->schema([
@@ -79,10 +81,17 @@ class BrandResource extends Resource
                         Placeholder::make('Products'),
                     ]),
 
-                FileUpload::make('logo')
+                    Forms\Components\Card::make()
+                    ->columns(1)
+                    ->columnSpan(1)
+                    ->schema([
+                         FileUpload::make('Logo')
                     ->disk('public')
                     ->directory('brandsimages')
                     ->image(),
+                    ]),
+
+               
 
                 Tabs::make('Heading')
                     ->tabs([
