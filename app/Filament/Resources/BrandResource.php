@@ -24,6 +24,7 @@ use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
 use Ramsey\Uuid\Uuid;
 
@@ -105,6 +106,15 @@ class BrandResource extends Resource
                                     ->multiple(),
 
                             ]),
+                        Tabs\Tab::make('Organizations')
+                            ->schema([
+                                Select::make('Brand Organizations')
+                                    ->placeholder('Select Brand Organizations')
+                                    ->relationship('organizations', 'name')
+                                    ->reactive()
+                                    ->helperText('Leave blank to select all organizations')
+                                    ->multiple(),
+                            ]),
                     ])->columnSpanFull(),
 
                 AuditableView::make('Audit'),
@@ -120,7 +130,9 @@ class BrandResource extends Resource
                     ->disk('public')
                     ->extraImgAttributes(['title' => 'Company logo']),
 
-                TextColumn::make('name')->sortable(),
+                TextColumn::make('name')
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('slug')
                     ->limit(30),
                 TextColumn::make('views'),
@@ -188,5 +200,13 @@ class BrandResource extends Resource
             'create' => Pages\CreateBrand::route('/create'),
             'edit' => Pages\EditBrand::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
     }
 }
