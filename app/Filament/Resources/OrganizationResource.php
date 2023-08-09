@@ -97,6 +97,7 @@ class OrganizationResource extends Resource
     {
         return [
             RelationManagers\ManagersRelationManager::class,
+            RelationManagers\UsersRelationManager::class,
         ];
     }
 
