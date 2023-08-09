@@ -93,17 +93,34 @@ class BrandResource extends Resource
                                     ->relationship('categories', 'name')
                                     ->required()
                                     ->reactive()
-                                    ->multiple(),
-
+                                    ->multiple()
+                                    ->helperText(fn ($state) => count($state) < Category::query()->count() ? null : 'All selected')
+                                    ->hintActions([
+                                        Forms\Components\Actions\Action::make('clear')
+                                            ->visible(fn ($state) => ! empty($state))
+                                            ->action(fn ($component) => $component->state([])),
+                                        Forms\Components\Actions\Action::make('all')
+                                            ->hidden(fn ($state) => count($state) == Category::query()->count())
+                                            ->action(fn ($component) => $component->state(Category::query()->pluck('id')->all())),
+                                    ]),
                             ]),
                         Tabs\Tab::make('Regions')
                             ->schema([
-                                Select::make('Brand Regions')
+                                Select::make('region_id')
+                                    ->default(Region::query()->pluck('id')->all())
                                     ->placeholder('Select Brand Regions')
                                     ->relationship('regions', 'name')
                                     ->reactive()
-                                    ->helperText('Leave blank to select all regions')
-                                    ->multiple(),
+                                    ->multiple()
+                                    ->helperText(fn ($state) => count($state) < Region::query()->count() ? null : 'All selected')
+                                    ->hintActions([
+                                        Forms\Components\Actions\Action::make('clear')
+                                            ->visible(fn ($state) => ! empty($state))
+                                            ->action(fn ($component) => $component->state([])),
+                                        Forms\Components\Actions\Action::make('all')
+                                            ->hidden(fn ($state) => count($state) == Region::query()->count())
+                                            ->action(fn ($component) => $component->state(Region::query()->pluck('id')->all())),
+                                    ]),
 
                             ]),
                         Tabs\Tab::make('Organizations')
@@ -149,14 +166,9 @@ class BrandResource extends Resource
             ])->defaultSort('name')
             ->filters(
                 [
-                    //is active filter
-                    SelectFilter::make('status')
-                        ->options([
-                            '1' => 'Active',
-                            '0' => 'Inactive',
+                    Tables\Filters\TernaryFilter::make('is_active'),
+                    Tables\Filters\TrashedFilter::make(),
 
-                        ])
-                        ->attribute('status'),
                     //name search filter
                     Filter::make('Search')
                         ->form([
@@ -201,6 +213,7 @@ class BrandResource extends Resource
             'edit' => Pages\EditBrand::route('/{record}/edit'),
         ];
     }
+
 
     public static function getEloquentQuery(): Builder
     {
