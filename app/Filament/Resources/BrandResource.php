@@ -22,6 +22,7 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
@@ -212,6 +213,7 @@ class BrandResource extends Resource
             'edit' => Pages\EditBrand::route('/{record}/edit'),
         ];
     }
+
 
     public static function getEloquentQuery(): Builder
     {
