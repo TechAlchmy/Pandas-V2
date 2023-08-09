@@ -67,10 +67,23 @@ class UserResource extends Resource
                     ->searchable(),
             ])
             ->filters([
-                //
+                Tables\Filters\TernaryFilter::make('manager')
+                    ->queries(
+                        true: fn ($query) => $query->has('managers'),
+                        false: fn ($query) => $query->doesntHave('managers'),
+                    )
+                    ->trueLabel('Only Manager')
+                    ->falseLabel('Non Manager'),
+                Tables\Filters\TrashedFilter::make()
+                    ->label('Suspended')
+                    ->placeholder('All')
+                    ->trueLabel('Suspended')
+                    ->falseLabel('Active'),
             ])
             ->actions([
-                // Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->label('Suspend'),
+                Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 // Tables\Actions\BulkActionGroup::make([
@@ -87,6 +100,10 @@ class UserResource extends Resource
         return $infolist
             ->schema([
                 Infolists\Components\TextEntry::make('name'),
+                Infolists\Components\TextEntry::make('deleted_at')
+                    ->color('danger')
+                    ->label('Suspended')
+                    ->visible(fn ($record) => $record->trashed()),
                 Infolists\Components\TextEntry::make('email'),
                 Infolists\Components\TextEntry::make('phone_number'),
                 Infolists\Components\TextEntry::make('city'),
@@ -141,5 +158,13 @@ class UserResource extends Resource
             // 'create' => Pages\CreateUser::route('/create'),
             'view' => Pages\ViewUser::route('/{record}'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
     }
 }
