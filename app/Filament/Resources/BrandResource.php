@@ -102,6 +102,7 @@ class BrandResource extends Resource
                         Tabs\Tab::make('Regions')
                             ->schema([
                                 Select::make('Brand Regions')
+                                    ->default(Region::query()->pluck('id')->all())
                                     ->placeholder('Select Brand Regions')
                                     ->relationship('regions', 'name')
                                     ->reactive()

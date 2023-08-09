@@ -5,7 +5,9 @@ namespace App\Filament\Resources;
 use App\Enums\DiscountCallToActionEnum;
 use App\Filament\Resources\DiscountResource\Pages;
 use App\Forms\Components\AuditableView;
+use App\Models\Category;
 use App\Models\Discount;
+use App\Models\Region;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -129,6 +131,7 @@ class DiscountResource extends Resource
                         Forms\Components\Tabs\Tab::make('Regions')
                             ->schema([
                                 Forms\Components\Select::make('Regions')
+                                    ->default(Region::query()->pluck('id')->all())
                                     ->placeholder('Select Regions')
                                     ->relationship('regions', 'name')
                                     ->helperText('Leave blank to select all regions')
