@@ -3,10 +3,10 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Order;
-use Filament\Widgets\LineChartWidget;
+use Filament\Widgets\ChartWidget;
 use Flowframe\Trend\Trend;
 
-class MonthlyOrdersChart extends LineChartWidget
+class MonthlyOrdersChart extends ChartWidget
 {
     protected static ?string $heading = 'Orders';
 
@@ -28,5 +28,10 @@ class MonthlyOrdersChart extends LineChartWidget
             ],
             'labels' => $data->map(fn ($value) => $value->date),
         ];
+    }
+
+    protected function getType(): string
+    {
+        return 'line';
     }
 }
