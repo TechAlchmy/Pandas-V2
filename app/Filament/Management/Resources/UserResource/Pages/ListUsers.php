@@ -31,7 +31,7 @@ class ListUsers extends ListRecords
                         ]),
                 ])
                 ->mutateFormDataUsing(function ($data) {
-                    $data['is_manager'] = true;
+                    $data['is_manager'] = false;
                     $data['organization_id'] = filament()->getTenant()->getKey();
                     return $data;
                 })
