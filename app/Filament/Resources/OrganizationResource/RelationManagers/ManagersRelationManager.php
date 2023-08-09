@@ -38,7 +38,11 @@ class ManagersRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('user.email'),
             ])
             ->filters([
-                //
+                Tables\Filters\TrashedFilter::make()
+                    ->label('Demoted')
+                    ->placeholder('Active')
+                    ->trueLabel('All')
+                    ->falseLabel('Demoted')
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make()
@@ -54,6 +58,9 @@ class ManagersRelationManager extends RelationManager
             ])
             ->modifyQueryUsing(fn (Builder $query) => $query
                 ->with('user', fn ($query) => $query->withTrashed())
+                ->withoutGlobalScopes([
+                    SoftDeletingScope::class,
+                ])
             );
     }
 }
