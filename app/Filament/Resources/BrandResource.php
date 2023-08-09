@@ -106,7 +106,6 @@ class BrandResource extends Resource
                                     ->placeholder('Select Brand Regions')
                                     ->relationship('regions', 'name')
                                     ->reactive()
-                                    ->helperText('Leave blank to select all regions')
                                     ->multiple(),
 
                             ]),

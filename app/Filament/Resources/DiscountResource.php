@@ -134,7 +134,6 @@ class DiscountResource extends Resource
                                     ->default(Region::query()->pluck('id')->all())
                                     ->placeholder('Select Regions')
                                     ->relationship('regions', 'name')
-                                    ->helperText('Leave blank to select all regions')
                                     ->multiple(),
                             ]),
                         Forms\Components\Tabs\Tab::make('Tags')
