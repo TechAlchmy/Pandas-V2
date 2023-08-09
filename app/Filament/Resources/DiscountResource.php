@@ -133,14 +133,10 @@ class DiscountResource extends Resource
                                     ->hintActions([
                                         Forms\Components\Actions\Action::make('clear')
                                             ->visible(fn ($state) => ! empty($state))
-                                            ->action(function ($set) {
-                                                $set('category_id', []);
-                                            }),
+                                            ->action(fn ($component) => $component->state([])),
                                         Forms\Components\Actions\Action::make('all')
                                             ->hidden(fn ($state) => count($state) == Category::query()->count())
-                                            ->action(function ($set) {
-                                                $set('category_id', Category::query()->pluck('id')->all());
-                                            }),
+                                            ->action(fn ($component) => $component->state(Category::query()->pluck('id')->all())),
                                     ]),
                             ]),
                         Forms\Components\Tabs\Tab::make('Regions')
@@ -154,14 +150,10 @@ class DiscountResource extends Resource
                                     ->hintActions([
                                         Forms\Components\Actions\Action::make('clear')
                                             ->visible(fn ($state) => ! empty($state))
-                                            ->action(function ($set) {
-                                                $set('region_id', []);
-                                            }),
+                                            ->action(fn ($component) => $component->state([])),
                                         Forms\Components\Actions\Action::make('all')
                                             ->hidden(fn ($state) => count($state) == Region::query()->count())
-                                            ->action(function ($set) {
-                                                $set('region_id', Region::query()->pluck('id')->all());
-                                            }),
+                                            ->action(fn ($component) => $component->state(Region::query()->pluck('id')->all())),
                                     ]),
                             ]),
                         Forms\Components\Tabs\Tab::make('Tags')
@@ -178,14 +170,10 @@ class DiscountResource extends Resource
                                     ->hintActions([
                                         Forms\Components\Actions\Action::make('clear')
                                             ->visible(fn ($state) => ! empty($state))
-                                            ->action(function ($set) {
-                                                $set('tag_id', []);
-                                            }),
+                                            ->action(fn ($component) => $component->state([])),
                                         Forms\Components\Actions\Action::make('all')
                                             ->hidden(fn ($state) => count($state) == Tag::query()->count())
-                                            ->action(function ($set) {
-                                                $set('tag_id', Tag::query()->pluck('id')->all());
-                                            }),
+                                            ->action(fn ($component) => $component->state(Tag::query()->pluck('id')->all())),
                                     ]),
                             ]),
                         Forms\Components\Tabs\Tab::make('Types')
@@ -199,14 +187,10 @@ class DiscountResource extends Resource
                                     ->hintActions([
                                         Forms\Components\Actions\Action::make('clear')
                                             ->visible(fn ($state) => ! empty($state))
-                                            ->action(function ($set) {
-                                                $set('offer_type_id', []);
-                                            }),
+                                            ->action(fn ($component) => $component->state([])),
                                         Forms\Components\Actions\Action::make('all')
                                             ->hidden(fn ($state) => count($state) == OfferType::query()->count())
-                                            ->action(function ($set) {
-                                                $set('offer_type_id', OfferType::query()->pluck('id')->all());
-                                            }),
+                                            ->action(fn ($component) => $component->state(OfferType::query()->pluck('id')->all())),
                                     ]),
                             ]),
                     ])->columnSpanFull(),
