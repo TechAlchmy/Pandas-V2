@@ -28,12 +28,10 @@ class ListUsers extends ListRecords
                             Forms\Components\TextInput::make('email')
                                 ->required()
                                 ->email(),
-                            Forms\Components\Toggle::make('is_manager')
-                                ->required()
-                                ->default(false),
                         ]),
                 ])
                 ->mutateFormDataUsing(function ($data) {
+                    $data['is_manager'] = true;
                     $data['organization_id'] = filament()->getTenant()->getKey();
                     return $data;
                 })
