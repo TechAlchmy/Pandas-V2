@@ -101,14 +101,10 @@ class BrandResource extends Resource
                                     ->hintActions([
                                         Forms\Components\Actions\Action::make('clear')
                                             ->visible(fn ($state) => ! empty($state))
-                                            ->action(function ($set) {
-                                                $set('category_id', []);
-                                            }),
+                                            ->action(fn ($component) => $component->state([])),
                                         Forms\Components\Actions\Action::make('all')
                                             ->hidden(fn ($state) => count($state) == Category::query()->count())
-                                            ->action(function ($set) {
-                                                $set('category_id', Category::query()->pluck('id')->all());
-                                            }),
+                                            ->action(fn ($component) => $component->state(Category::query()->pluck('id')->all())),
                                     ]),
                             ]),
                         Tabs\Tab::make('Regions')
@@ -123,14 +119,10 @@ class BrandResource extends Resource
                                     ->hintActions([
                                         Forms\Components\Actions\Action::make('clear')
                                             ->visible(fn ($state) => ! empty($state))
-                                            ->action(function ($set) {
-                                                $set('region_id', []);
-                                            }),
+                                            ->action(fn ($component) => $component->state([])),
                                         Forms\Components\Actions\Action::make('all')
                                             ->hidden(fn ($state) => count($state) == Region::query()->count())
-                                            ->action(function ($set) {
-                                                $set('region_id', Region::query()->pluck('id')->all());
-                                            }),
+                                            ->action(fn ($component) => $component->state(Region::query()->pluck('id')->all())),
                                     ]),
 
                             ]),
