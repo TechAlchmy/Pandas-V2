@@ -128,10 +128,24 @@ class UserResource extends Resource
                     ->dateTime()->toggleable()->toggledHiddenByDefault(),
             ])
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\TernaryFilter::make('manager')
+                    ->queries(
+                        true: fn ($query) => $query->has('managers'),
+                        false: fn ($query) => $query->doesntHave('managers'),
+                    )
+                    ->trueLabel('Only Manager')
+                    ->falseLabel('Non Manager'),
+                Tables\Filters\TrashedFilter::make()
+                    ->label('Suspended')
+                    ->placeholder('All')
+                    ->trueLabel('Suspended')
+                    ->falseLabel('Active'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->label('Suspend'),
+                Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
