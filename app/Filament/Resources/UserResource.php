@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\AuthLevelEnum;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers\OrdersRelationManager;
 use App\Forms\Components\AuditableView;
@@ -50,7 +51,10 @@ class UserResource extends Resource
                             ->password()
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('auth_level')
+                        Forms\Components\Select::make('auth_level')
+                            ->enum(AuthLevelEnum::class)
+                            ->options(AuthLevelEnum::class)
+                            ->default(0)
                             ->required(),
                         Forms\Components\TextInput::make('social_security_number')
                             ->maxLength(255),
