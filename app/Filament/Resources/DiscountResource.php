@@ -11,6 +11,8 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Tables;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class DiscountResource extends Resource
 {
@@ -65,8 +67,10 @@ class DiscountResource extends Resource
                         Forms\Components\Placeholder::make('Orders')
                             ->content(fn ($record) => $record->loadCount(['orders'])->orders_count),
                     ]),
-                Forms\Components\DateTimePicker::make('starts_at'),
-                Forms\Components\DateTimePicker::make('ends_at'),
+                Forms\Components\DateTimePicker::make('starts_at')
+                    ->native(false),
+                Forms\Components\DateTimePicker::make('ends_at')
+                    ->native(false),
                 Forms\Components\TextInput::make('status')
                     ->numeric()
                     ->required(),
@@ -80,11 +84,18 @@ class DiscountResource extends Resource
                 Forms\Components\TextInput::make('code')
                     ->maxLength(255),
                 Forms\Components\Tabs::make('Heading')
+                    ->columnSpanFull()
                     ->tabs([
                         Forms\Components\Tabs\Tab::make('Amounts')
                             ->schema([
                                 Forms\Components\TagsInput::make('amount')
-                                    ->placeholder('Input amounts'),
+                                    ->placeholder('Input amounts')
+                                    ->splitKeys(['Tab', ' ', ','])
+                                    ->tagPrefix('$')
+                                    ->nestedRecursiveRules([
+                                        'numeric',
+                                        'min:1',
+                                    ]),
                             ]),
                         Forms\Components\Tabs\Tab::make('Limit')
                             ->columns()
@@ -104,6 +115,9 @@ class DiscountResource extends Resource
                                     ->suffix('%')
                                     ->numeric(),
                             ]),
+                    ]),
+                Forms\Components\Tabs::make('Heading')
+                    ->tabs([
                         Forms\Components\Tabs\Tab::make('Catregories')
                             ->schema([
                                 Forms\Components\Select::make('category_id')
@@ -149,7 +163,10 @@ class DiscountResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('brand.name'),
-                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('voucherType.type'),
+                Tables\Columns\TagsColumn::make('offerTypes.type'),
                 Tables\Columns\IconColumn::make('is_active')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('starts_at')
@@ -166,7 +183,7 @@ class DiscountResource extends Resource
                 Tables\Columns\TextColumn::make('percentage'),
             ])
             ->filters([
-                //
+                Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -190,5 +207,13 @@ class DiscountResource extends Resource
             'create' => Pages\CreateDiscount::route('/create'),
             'edit' => Pages\EditDiscount::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
     }
 }
