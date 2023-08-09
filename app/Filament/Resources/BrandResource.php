@@ -22,7 +22,6 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\Filter;
-use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
@@ -149,14 +148,9 @@ class BrandResource extends Resource
             ])->defaultSort('name')
             ->filters(
                 [
-                    //is active filter
-                    SelectFilter::make('status')
-                        ->options([
-                            '1' => 'Active',
-                            '0' => 'Inactive',
+                    Tables\Filters\TernaryFilter::make('is_active'),
+                    Tables\Filters\TrashedFilter::make(),
 
-                        ])
-                        ->attribute('status'),
                     //name search filter
                     Filter::make('Search')
                         ->form([
