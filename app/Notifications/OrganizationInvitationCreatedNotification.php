@@ -32,7 +32,7 @@ class OrganizationInvitationCreatedNotification extends Notification
             ->line(__('You have been invited to join the :organization !', ['organization' => $this->organizationInvitation->organization->name]))
             ->when($this->organizationInvitation->is_manager, fn ($mail) => $mail->line('We can\'t wait for your contribution as a manager'))
             ->line( __('You may accept this invitation by clicking the button below:'))
-            ->action('Accept Invitation', URL::signedRoute('organization-invitations.accept', ['organizationInvitation' => $this->organizationInvitation]))
+            ->action('Accept Invitation', URL::signedRoute('organization-invitations.accept', ['record' => $this->organizationInvitation]))
             ->line(__('If you did not expect to receive an invitation to this organization, you may discard this email.'));
     }
 
