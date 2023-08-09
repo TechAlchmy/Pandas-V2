@@ -49,6 +49,9 @@ class ManagersRelationManager extends RelationManager
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-            ]);
+            ])
+            ->modifyQueryUsing(fn (Builder $query) => $query
+                ->with('user', fn ($query) => $query->withTrashed())
+            );
     }
 }
