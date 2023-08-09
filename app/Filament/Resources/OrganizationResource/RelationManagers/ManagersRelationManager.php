@@ -41,7 +41,9 @@ class ManagersRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make()
+                    ->modalHeading('Assign new manager')
+                    ->label('Assign new manager'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
