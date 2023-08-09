@@ -97,15 +97,15 @@ class BrandResource extends Resource
                                     ->required()
                                     ->reactive()
                                     ->multiple()
-                                    ->helperText(fn ($get) => count($get('category_id')) < Category::query()->count() ? null : 'All selected')
+                                    ->helperText(fn ($state) => count($state) < Category::query()->count() ? null : 'All selected')
                                     ->hintActions([
                                         Forms\Components\Actions\Action::make('clear')
-                                            ->visible(fn ($get) => ! empty($get('category_id')))
+                                            ->visible(fn ($state) => ! empty($state))
                                             ->action(function ($set) {
                                                 $set('category_id', []);
                                             }),
                                         Forms\Components\Actions\Action::make('all')
-                                            ->hidden(fn ($get) => count($get('category_id')) == Category::query()->count())
+                                            ->hidden(fn ($state) => count($state) == Category::query()->count())
                                             ->action(function ($set) {
                                                 $set('category_id', Category::query()->pluck('id')->all());
                                             }),
@@ -119,15 +119,15 @@ class BrandResource extends Resource
                                     ->relationship('regions', 'name')
                                     ->reactive()
                                     ->multiple()
-                                    ->helperText(fn ($get) => count($get('region_id')) < Region::query()->count() ? null : 'All selected')
+                                    ->helperText(fn ($state) => count($state) < Region::query()->count() ? null : 'All selected')
                                     ->hintActions([
                                         Forms\Components\Actions\Action::make('clear')
-                                            ->visible(fn ($get) => ! empty($get('region_id')))
+                                            ->visible(fn ($state) => ! empty($state))
                                             ->action(function ($set) {
                                                 $set('region_id', []);
                                             }),
                                         Forms\Components\Actions\Action::make('all')
-                                            ->hidden(fn ($get) => count($get('region_id')) == Region::query()->count())
+                                            ->hidden(fn ($state) => count($state) == Region::query()->count())
                                             ->action(function ($set) {
                                                 $set('region_id', Region::query()->pluck('id')->all());
                                             }),

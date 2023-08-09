@@ -129,15 +129,15 @@ class DiscountResource extends Resource
                                     ->relationship('categories', 'name')
                                     ->required()
                                     ->multiple()
-                                    ->helperText(fn ($get) => count($get('category_id')) < Category::query()->count() ? null : 'All selected')
+                                    ->helperText(fn ($state) => count($state) < Category::query()->count() ? null : 'All selected')
                                     ->hintActions([
                                         Forms\Components\Actions\Action::make('clear')
-                                            ->visible(fn ($get) => ! empty($get('category_id')))
+                                            ->visible(fn ($state) => ! empty($state))
                                             ->action(function ($set) {
                                                 $set('category_id', []);
                                             }),
                                         Forms\Components\Actions\Action::make('all')
-                                            ->hidden(fn ($get) => count($get('category_id')) == Category::query()->count())
+                                            ->hidden(fn ($state) => count($state) == Category::query()->count())
                                             ->action(function ($set) {
                                                 $set('category_id', Category::query()->pluck('id')->all());
                                             }),
@@ -150,15 +150,15 @@ class DiscountResource extends Resource
                                     ->placeholder('Select Regions')
                                     ->relationship('regions', 'name')
                                     ->multiple()
-                                    ->helperText(fn ($get) => count($get('region_id')) < Region::query()->count() ? null : 'All selected')
+                                    ->helperText(fn ($state) => count($state) < Region::query()->count() ? null : 'All selected')
                                     ->hintActions([
                                         Forms\Components\Actions\Action::make('clear')
-                                            ->visible(fn ($get) => ! empty($get('region_id')))
+                                            ->visible(fn ($state) => ! empty($state))
                                             ->action(function ($set) {
                                                 $set('region_id', []);
                                             }),
                                         Forms\Components\Actions\Action::make('all')
-                                            ->hidden(fn ($get) => count($get('region_id')) == Region::query()->count())
+                                            ->hidden(fn ($state) => count($state) == Region::query()->count())
                                             ->action(function ($set) {
                                                 $set('region_id', Region::query()->pluck('id')->all());
                                             }),
@@ -174,15 +174,15 @@ class DiscountResource extends Resource
                                             ->required(),
                                     ])
                                     ->multiple()
-                                    ->helperText(fn ($get) => count($get('tag_id')) < Tag::query()->count() ? null : 'All selected')
+                                    ->helperText(fn ($state) => count($state) < Tag::query()->count() ? null : 'All selected')
                                     ->hintActions([
                                         Forms\Components\Actions\Action::make('clear')
-                                            ->visible(fn ($get) => ! empty($get('tag_id')))
+                                            ->visible(fn ($state) => ! empty($state))
                                             ->action(function ($set) {
                                                 $set('tag_id', []);
                                             }),
                                         Forms\Components\Actions\Action::make('all')
-                                            ->hidden(fn ($get) => count($get('tag_id')) == Tag::query()->count())
+                                            ->hidden(fn ($state) => count($state) == Tag::query()->count())
                                             ->action(function ($set) {
                                                 $set('tag_id', Tag::query()->pluck('id')->all());
                                             }),
@@ -195,15 +195,15 @@ class DiscountResource extends Resource
                                     ->relationship('offerTypes', 'type')
                                     ->reactive()
                                     ->multiple()
-                                    ->helperText(fn ($get) => count($get('offer_type_id')) < OfferType::query()->count() ? null : 'All selected')
+                                    ->helperText(fn ($state) => count($state) < OfferType::query()->count() ? null : 'All selected')
                                     ->hintActions([
                                         Forms\Components\Actions\Action::make('clear')
-                                            ->visible(fn ($get) => ! empty($get('offer_type_id')))
+                                            ->visible(fn ($state) => ! empty($state))
                                             ->action(function ($set) {
                                                 $set('offer_type_id', []);
                                             }),
                                         Forms\Components\Actions\Action::make('all')
-                                            ->hidden(fn ($get) => count($get('offer_type_id')) == OfferType::query()->count())
+                                            ->hidden(fn ($state) => count($state) == OfferType::query()->count())
                                             ->action(function ($set) {
                                                 $set('offer_type_id', OfferType::query()->pluck('id')->all());
                                             }),
