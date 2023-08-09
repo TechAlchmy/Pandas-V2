@@ -71,14 +71,10 @@ class OrganizationResource extends Resource
                     ->hintActions([
                         Forms\Components\Actions\Action::make('clear')
                             ->visible(fn ($state) => ! empty($state))
-                            ->action(function ($component) {
-                                $component->state([]);
-                            }),
+                            ->action(fn ($component) => $component->state([])),
                         Forms\Components\Actions\Action::make('all')
                             ->hidden(fn ($state) => count($state) == Brand::query()->count())
-                            ->action(function ($component) {
-                                $component->state(Brand::query()->pluck('id')->all());
-                            }),
+                            ->action(fn ($component) => $component->state(Brand::query()->pluck('id')->all())),
                     ]),
                 AuditableView::make('audit'),
             ]);
