@@ -3,6 +3,7 @@
 use App\Http\Controllers\AcceptOrganizationInvitationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
+use App\Livewire\Resources\OrganizationInvitationResource\Pages\AcceptInvitation;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,8 +33,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('organization-invitations/{organizationInvitation}/accept', AcceptOrganizationInvitationController::class)
-    ->middleware(['auth', 'signed'])
+Route::get('organization-invitations/{record}/accept', AcceptInvitation::class)
+    ->middleware(['signed'])
     ->name('organization-invitations.accept');
 
 require __DIR__.'/auth.php';
