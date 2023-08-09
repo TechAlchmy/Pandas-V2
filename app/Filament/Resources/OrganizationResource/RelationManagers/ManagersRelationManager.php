@@ -38,17 +38,31 @@ class ManagersRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('user.email'),
             ])
             ->filters([
-                //
+                Tables\Filters\TrashedFilter::make()
+                    ->label('Demoted')
+                    ->placeholder('Active')
+                    ->trueLabel('All')
+                    ->falseLabel('Demoted')
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make()
+                    ->modalHeading('Assign new manager')
+                    ->label('Assign new manager'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->label('Demote'),
+                Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-            ]);
+            ])
+            ->modifyQueryUsing(fn (Builder $query) => $query
+                ->with('user', fn ($query) => $query->withTrashed())
+                ->withoutGlobalScopes([
+                    SoftDeletingScope::class,
+                ])
+            );
     }
 }

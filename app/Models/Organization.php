@@ -39,4 +39,9 @@ class Organization extends Model
         return $this->belongsToMany(Brand::class, 'brand_organizations')
             ->withTimestamps();
     }
+
+    public function region()
+    {
+        return $this->belongsTo(Region::class);
+    }
 }

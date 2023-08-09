@@ -60,7 +60,9 @@ class OrganizationResource extends Resource
                     ->email()
                     ->required()
                     ->maxLength(45),
-                Forms\Components\TextInput::make('region_id')
+                Forms\Components\Select::make('region_id')
+                    ->relationship('region', 'name')
+                    ->searchable()
                     ->required(),
                 Forms\Components\Select::make('brand_id')
                     ->placeholder('Select Brands')
@@ -112,6 +114,7 @@ class OrganizationResource extends Resource
     {
         return [
             RelationManagers\ManagersRelationManager::class,
+            RelationManagers\UsersRelationManager::class,
         ];
     }
 
