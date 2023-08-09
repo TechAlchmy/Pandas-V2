@@ -83,7 +83,7 @@ class OrganizationResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\Action::make('management')
+                Tables\Actions\Action::make('portal')
                     ->url(fn ($record) => route('filament.management.pages.dashboard', ['tenant' => $record]))
                     ->link()
                     ->openUrlInNewTab(),
