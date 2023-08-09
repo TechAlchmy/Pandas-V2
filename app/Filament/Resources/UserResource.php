@@ -128,7 +128,11 @@ class UserResource extends Resource
                     ->dateTime()->toggleable()->toggledHiddenByDefault(),
             ])
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\TrashedFilter::make()
+                    ->label('Suspended')
+                    ->placeholder('All')
+                    ->trueLabel('Suspended')
+                    ->falseLabel('Active'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
