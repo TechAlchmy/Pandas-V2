@@ -15,6 +15,7 @@ class EditUser extends EditRecord
         return [
             Actions\DeleteAction::make()
                 ->label('Suspend'),
+            Actions\RestoreAction::make(),
         ];
     }
 }
