@@ -59,7 +59,9 @@ class OrganizationResource extends Resource
                     ->email()
                     ->required()
                     ->maxLength(45),
-                Forms\Components\TextInput::make('region_id')
+                Forms\Components\Select::make('region_id')
+                    ->relationship('region', 'name')
+                    ->searchable()
                     ->required(),
                 AuditableView::make('audit'),
             ]);
