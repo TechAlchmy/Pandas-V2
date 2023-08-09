@@ -55,7 +55,8 @@ class UserResource extends Resource
                         Forms\Components\TextInput::make('social_security_number')
                             ->maxLength(255),
                         Forms\Components\Select::make('organization_id')
-                            ->relationship('organization', 'name'),
+                            ->relationship('organization', 'name')
+                            ->default(request('organization_id')),
                         Forms\Components\TextInput::make('phone_number')
                             ->tel()
                             ->maxLength(255),
