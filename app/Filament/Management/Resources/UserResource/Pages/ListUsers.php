@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Notifications\OrganizationInvitationCreatedNotification;
 use Filament\Actions;
 use Filament\Forms;
+use Filament\Notifications\Actions\Action;
 use Filament\Notifications\Notification as NotificationsNotification;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Support\Facades\Notification;
@@ -41,12 +42,12 @@ class ListUsers extends ListRecords
                         ->firstWhere('email', $data['email']);
 
                     if (empty($user)) {
-                        $alreadyExists = OrganizationInvitation::query()
+                        $record = OrganizationInvitation::query()
                             ->where('organization_id', $data['organization_id'])
                             ->where('email', $data['email'])
                             ->exists();
 
-                        if (! $alreadyExists) {
+                        if (! $record) {
                             return;
                         }
 
@@ -54,6 +55,16 @@ class ListUsers extends ListRecords
                             ->warning()
                             ->title('This email has been invited already')
                             ->persistent()
+                            ->actions([
+                                Action::make('resend')
+                                    ->button()
+                                    ->action(function () use ($record) {
+                                        Notification::sendNow(
+                                            $record,
+                                            new OrganizationInvitationCreatedNotification($record)
+                                        );
+                                    }),
+                            ])
                             ->send();
 
                         $action->halt();
