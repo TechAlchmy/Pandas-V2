@@ -120,11 +120,15 @@ class UserResource extends Resource
                         })
                         ->successNotificationTitle('Manager demoted'),
                     Infolists\Components\Actions\Action::make('suspend')
-                        ->hidden(fn ($record) => $record->is_manager)
+                        ->hidden(fn ($record) => $record->is_manager || $record->is(filament()->auth()->user()))
                         ->icon('heroicon-m-x-mark')
                         ->color('danger')
                         ->requiresConfirmation()
                         ->action(function ($record, $action) {
+                            if ($record->is(filament()->auth()->user())) {
+                                $action->halt();
+                            }
+
                             $record->delete();
 
                             $action->success();
