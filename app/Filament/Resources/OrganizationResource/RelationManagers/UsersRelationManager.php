@@ -55,9 +55,9 @@ class UsersRelationManager extends RelationManager
 
                 Tables\Filters\TrashedFilter::make()
                     ->label('Suspended')
-                    ->placeholder('All')
-                    ->trueLabel('Suspended')
-                    ->falseLabel('Active'),
+                    ->placeholder('Active')
+                    ->trueLabel('All')
+                    ->falseLabel('Suspended'),
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make()
