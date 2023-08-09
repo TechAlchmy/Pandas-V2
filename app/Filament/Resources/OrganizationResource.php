@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\OrganizationResource\Pages;
 use App\Forms\Components\AuditableView;
 use App\Filament\Resources\OrganizationResource\RelationManagers;
+use App\Models\Brand;
 use App\Models\Organization;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -61,6 +62,20 @@ class OrganizationResource extends Resource
                     ->maxLength(45),
                 Forms\Components\TextInput::make('region_id')
                     ->required(),
+                Forms\Components\Select::make('brand_id')
+                    ->placeholder('Select Brands')
+                    ->relationship('brands', 'name')
+                    ->live()
+                    ->multiple()
+                    ->helperText(fn ($state) => count($state) < Brand::query()->count() ? null : 'All selected')
+                    ->hintActions([
+                        Forms\Components\Actions\Action::make('clear')
+                            ->visible(fn ($state) => ! empty($state))
+                            ->action(fn ($component) => $component->state([])),
+                        Forms\Components\Actions\Action::make('all')
+                            ->hidden(fn ($state) => count($state) == Brand::query()->count())
+                            ->action(fn ($component) => $component->state(Brand::query()->pluck('id')->all())),
+                    ]),
                 AuditableView::make('audit'),
             ]);
     }
