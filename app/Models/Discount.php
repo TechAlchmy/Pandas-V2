@@ -25,7 +25,6 @@ class Discount extends Model
         'description',
         'logo',
         'views',
-        'status',
         'is_active',
         'starts_at',
         'ends_at',
