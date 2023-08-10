@@ -57,12 +57,6 @@ class BrandResource extends Resource
                 TextInput::make('link')
                     ->required()
                     ->placeholder('Enter Brand Link'),
-                TextInput::make('uniqid')
-                    ->required()
-                    ->default(function () {
-                        return Uuid::uuid4()->toString();
-                    })
-                    ->dehydrated(false),
                 MarkdownEditor::make('description')
                     ->placeholder('Enter Brand Description')
                     ->required()
