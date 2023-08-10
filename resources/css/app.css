@@ -236,6 +236,7 @@ img {
     left: 10%;
     transform: translateY(100%);
 }
+/* Profiuel page */
 
 @media (max-width: 1440px) {
     /* Guest index page style */
