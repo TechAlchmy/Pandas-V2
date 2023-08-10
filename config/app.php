@@ -170,6 +170,8 @@ return [
         App\Providers\Filament\AdminPanelProvider::class,
         App\Providers\Filament\ManagementPanelProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\VoltServiceProvider::class,
+        App\Providers\FolioServiceProvider::class,
     ])->toArray(),
 
     /*
