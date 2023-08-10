@@ -21,7 +21,6 @@ it('can audit when doing create, update, delete on a model with auditable traits
         'name' => 'test',
         'link' => 'test',
         'slug' => 'test',
-        'uniqid' => 'test',
     ]);
 
     assertTrue($auditableModel->createdBy->is($user));

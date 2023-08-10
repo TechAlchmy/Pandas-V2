@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Concerns\InteractsWithAuditable;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -15,6 +16,7 @@ class Brand extends Model
     use InteractsWithAuditable;
     use SoftDeletes;
     use PowerJoins;
+    use HasUuids;
 
     protected $fillable = [
         'name',
@@ -77,5 +79,10 @@ class Brand extends Model
     public function setSlugAttribute($value)
     {
         $this->attributes['slug'] = Str::slug($value);
+    }
+
+    public function uniqueIds()
+    {
+        return ['uuid'];
     }
 }

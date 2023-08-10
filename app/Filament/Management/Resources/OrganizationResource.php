@@ -33,8 +33,6 @@ class OrganizationResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('slug')
                     ->required(),
-                Forms\Components\TextInput::make('uniqid')
-                    ->required(),
                 Forms\Components\TextInput::make('phone')
                     ->tel(),
                 Forms\Components\TextInput::make('email')
@@ -60,8 +58,6 @@ class OrganizationResource extends Resource
                 Tables\Columns\TextColumn::make('website')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('slug')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('uniqid')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
                     ->searchable(),

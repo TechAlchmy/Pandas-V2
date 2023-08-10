@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('organizations', function (Blueprint $table) {
             $table->id();
+            $table->uuid();
             $table->string('name', 255);
             $table->string('website', 255);
             $table->string('slug', 255);
-            $table->string('uniqid', 255);
             $table->string('phone', 45)->nullable();
             $table->string('email', 45);
             $table->foreignIdFor(Region::class)->nullable();

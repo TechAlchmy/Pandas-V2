@@ -16,10 +16,10 @@ return new class extends Migration
     {
         Schema::create('brands', function (Blueprint $table) {
             $table->id();
+            $table->uuid();
             $table->string('name', 255)->unique();
             $table->string('link', 255)->unique();
             $table->string('slug', 255)->unique();
-            $table->string('uniqid', 255)->unique();
             $table->longText('description')->nullable();
             $table->string('logo')->nullable();
             $table->integer('views')->default(0);

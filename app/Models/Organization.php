@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Concerns\InteractsWithAuditable;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -11,6 +12,7 @@ class Organization extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use HasUuids;
     use InteractsWithAuditable;
 
     protected $fillable = [
@@ -43,5 +45,10 @@ class Organization extends Model
     public function region()
     {
         return $this->belongsTo(Region::class);
+    }
+
+    public function uniqueIds()
+    {
+        return ['uuid'];
     }
 }
