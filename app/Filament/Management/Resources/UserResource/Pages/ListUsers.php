@@ -62,39 +62,36 @@ class ListUsers extends ListRecords
                         ->withTrashed()
                         ->firstWhere('email', $data['email']);
 
-                    if (empty($user)) {
-                        $record = OrganizationInvitation::query()
-                            ->where('organization_id', $data['organization_id'])
-                            ->where('email', $data['email'])
-                            ->exists();
-
-                        if (! $record) {
-                            return;
-                        }
-
+                    if ($user) {
                         NotificationsNotification::make()
                             ->warning()
-                            ->title('This email has been invited already')
+                            ->title('This email is already regsitered')
+                            ->body($user->trashed() ? 'and suspended' : null)
                             ->persistent()
-                            ->actions([
-                                Action::make('resend')
-                                    ->button()
-                                    ->visible(filament()->auth()->user()->is_admin_or_manager)
-                                    ->dispatch('sendInvitation', [['record' => $record->getKey()]]),
-                            ])
                             ->send();
 
                         $action->halt();
                     }
 
+                    $record = OrganizationInvitation::query()
+                        ->where('organization_id', $data['organization_id'])
+                        ->where('email', $data['email'])
+                        ->first();
+
+                    if (! $record) {
+                        return;
+                    }
+
                     NotificationsNotification::make()
                         ->warning()
-                        ->title(
-                            $user->trashed()
-                                ? 'This email is currently suspended!'
-                                : 'This email is already regsitered'
-                        )
+                        ->title('This email has been invited already')
                         ->persistent()
+                        ->actions([
+                            Action::make('resend')
+                                ->button()
+                                ->visible(filament()->auth()->user()->is_admin_or_manager)
+                                ->dispatch('sendInvitation', [['record' => $record->getKey()]]),
+                        ])
                         ->send();
 
                     $action->halt();

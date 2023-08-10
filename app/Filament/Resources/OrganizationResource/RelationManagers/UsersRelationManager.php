@@ -85,62 +85,39 @@ class UsersRelationManager extends RelationManager
                             ->withTrashed()
                             ->firstWhere('email', $data['email']);
 
-                        if (empty($user)) {
-                            $record = OrganizationInvitation::query()
-                                ->where('organization_id', $data['organization_id'])
-                                ->where('email', $data['email'])
-                                ->first();
-
-                            if (! $record) {
-                                return;
-                            }
-
+                        if ($user) {
                             Notifications\Notification::make()
                                 ->warning()
-                                ->title('This email has been invited already')
-                                ->actions([
-                                    Notifications\Actions\Action::make('resend')
-                                        ->button()
-                                        ->visible(filament()->auth()->user()->is_admin_or_manager)
-                                        ->dispatch('sendInvitation', [['record' => $record->getKey()]]),
-                                ])
+                                ->title('This email is already regsitered')
+                                ->body($user->trashed() ? 'and suspended' : null)
                                 ->persistent()
                                 ->send();
 
                             $action->halt();
                         }
 
-                        if ($user->trashed()) {
-                            Notifications\Notification::make()
-                                ->warning()
-                                ->title('This email is currently suspended!')
-                                ->persistent()
-                                ->actions([
-                                    Notifications\Actions\Action::make('view')
-                                        ->button()
-                                        ->url(UserResource::getUrl('edit', ['record' => $user]))
-                                        ->openUrlInNewTab(),
-                                ])
-                                ->send();
+                        $record = OrganizationInvitation::query()
+                            ->where('organization_id', $data['organization_id'])
+                            ->where('email', $data['email'])
+                            ->first();
 
-                            $action->halt();
+                        if (! $record) {
+                            return;
                         }
 
-                        if ($user->organization_id) {
-                            Notifications\Notification::make()
-                                ->warning()
-                                ->title('This email is currently part of an organization!')
-                                ->persistent()
-                                ->actions([
-                                    Notifications\Actions\Action::make('view')
-                                        ->button()
-                                        ->url(UserResource::getUrl('edit', ['record' => $user]))
-                                        ->openUrlInNewTab(),
-                                ])
-                                ->send();
+                        Notifications\Notification::make()
+                            ->warning()
+                            ->title('This email has been invited already')
+                            ->actions([
+                                Notifications\Actions\Action::make('resend')
+                                    ->button()
+                                    ->visible(filament()->auth()->user()->is_admin_or_manager)
+                                    ->dispatch('sendInvitation', [['record' => $record->getKey()]]),
+                            ])
+                            ->persistent()
+                            ->send();
 
-                            $action->halt();
-                        }
+                        $action->halt();
                     })
                     ->action(function ($data, $action) {
                         $record = OrganizationInvitation::query()
