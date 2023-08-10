@@ -64,35 +64,11 @@ class ListUsers extends ListRecords
                         ->withTrashed()
                         ->firstWhere('email', $data['email']);
 
-                    if (empty($user)) {
-                        $record = OrganizationInvitation::query()
-                            ->where('organization_id', $data['organization_id'])
-                            ->where('email', $data['email'])
-                            ->first();
-
-                        if (! $record) {
-                            return;
-                        }
-
+                    if ($user) {
                         NotificationsNotification::make()
                             ->warning()
-                            ->title('This email has been invited already')
-                            ->persistent()
-                            ->actions([
-                                Action::make('resend')
-                                    ->button()
-                                    ->visible(filament()->auth()->user()->is_admin_or_manager)
-                                    ->dispatch('sendInvitation', [['record' => $record->getKey()]]),
-                            ])
-                            ->send();
-
-                        $action->halt();
-                    }
-
-                    if ($user->trashed()) {
-                        NotificationsNotification::make()
-                            ->warning()
-                            ->title('This email is currently suspended!')
+                            ->title('This email is already registered!')
+                            ->body($user->trashed() ? 'and suspended' : null)
                             ->persistent()
                             ->actions([
                                 Action::make('view')
@@ -105,21 +81,28 @@ class ListUsers extends ListRecords
                         $action->halt();
                     }
 
-                    if ($user->organization_id) {
-                        NotificationsNotification::make()
-                            ->warning()
-                            ->title('This email is currently part of an organization!')
-                            ->persistent()
-                            ->actions([
-                                Action::make('view')
-                                    ->button()
-                                    ->url(UserResource::getUrl('edit', ['record' => $user]))
-                                    ->openUrlInNewTab(),
-                            ])
-                            ->send();
+                    $record = OrganizationInvitation::query()
+                        ->where('organization_id', $data['organization_id'])
+                        ->where('email', $data['email'])
+                        ->first();
 
-                        $action->halt();
+                    if (! $record) {
+                        return;
                     }
+
+                    NotificationsNotification::make()
+                        ->warning()
+                        ->title('This email has been invited already')
+                        ->persistent()
+                        ->actions([
+                            Action::make('resend')
+                                ->button()
+                                ->visible(filament()->auth()->user()->is_admin_or_manager)
+                                ->dispatch('sendInvitation', [['record' => $record->getKey()]]),
+                        ])
+                        ->send();
+
+                    $action->halt();
                 })
                 ->action(function ($data, $action) {
                     $record = OrganizationInvitation::query()
