@@ -89,37 +89,20 @@ class ListUsers extends ListRecords
                         $action->halt();
                     }
 
-                    if ($user->trashed()) {
-                        NotificationsNotification::make()
-                            ->warning()
-                            ->title('This email is currently suspended!')
-                            ->persistent()
-                            ->actions([
-                                Action::make('view')
-                                    ->button()
-                                    ->url(UserResource::getUrl('edit', ['record' => $user]))
-                                    ->openUrlInNewTab(),
-                            ])
-                            ->send();
+                    NotificationsNotification::make()
+                        ->warning()
+                        ->title('This email is already registered!')
+                        ->body($user->trashed() ? 'and suspended' : null)
+                        ->persistent()
+                        ->actions([
+                            Action::make('view')
+                                ->button()
+                                ->url(UserResource::getUrl('edit', ['record' => $user]))
+                                ->openUrlInNewTab(),
+                        ])
+                        ->send();
 
-                        $action->halt();
-                    }
-
-                    if ($user->organization_id) {
-                        NotificationsNotification::make()
-                            ->warning()
-                            ->title('This email is currently part of an organization!')
-                            ->persistent()
-                            ->actions([
-                                Action::make('view')
-                                    ->button()
-                                    ->url(UserResource::getUrl('edit', ['record' => $user]))
-                                    ->openUrlInNewTab(),
-                            ])
-                            ->send();
-
-                        $action->halt();
-                    }
+                    $action->halt();
                 })
                 ->action(function ($data, $action) {
                     $record = OrganizationInvitation::query()
