@@ -67,7 +67,7 @@ class BrandResource extends Resource
                 RichEditor::make('description')
                     ->placeholder('Enter Brand Description')
                     ->required()
-                    ->columnSpan(2),
+                    ->columnSpanFull(),
 
                 Forms\Components\Section::make('Brand Details')
                     ->columns(3)
