@@ -82,6 +82,8 @@ class UserResource extends Resource
             ])
             ->actions([
                 Tables\Actions\DeleteAction::make()
+                    ->modalHeading('Suspend User')
+                    ->successNotificationTitle('User Suspended')
                     ->label('Suspend'),
                 Tables\Actions\RestoreAction::make(),
             ])
