@@ -10,6 +10,7 @@ use App\Models\Region;
 use Filament\Forms;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Tabs;
@@ -57,7 +58,13 @@ class BrandResource extends Resource
                 TextInput::make('link')
                     ->required()
                     ->placeholder('Enter Brand Link'),
-                MarkdownEditor::make('description')
+                TextInput::make('uniqid')
+                    ->required()
+                    ->default(function () {
+                        return Uuid::uuid4()->toString();
+                    })
+                    ->dehydrated(false),
+                RichEditor::make('description')
                     ->placeholder('Enter Brand Description')
                     ->required()
                     ->columnSpan(2),
