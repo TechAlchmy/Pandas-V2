@@ -28,7 +28,6 @@ return new class extends Migration
             $table->string('state')->nullable();
             $table->integer('zip_code')->nullable();
             $table->string('country')->nullable();
-            $table->string('profile_picture')->nullable()->default('default.png');
             $table->foreignIdFor(User::class, 'created_by_id')->nullable();
             $table->foreignIdFor(User::class, 'updated_by_id')->nullable();
             $table->softDeletes();
