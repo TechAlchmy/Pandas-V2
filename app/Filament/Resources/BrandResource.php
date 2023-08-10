@@ -69,7 +69,7 @@ class BrandResource extends Resource
                     ->required()
                     ->columnSpan(2),
 
-                Forms\Components\Card::make('Brand Details')
+                Forms\Components\Section::make('Brand Details')
                     ->columns(3)
                     ->columnSpan(1)
                     ->schema([
@@ -82,7 +82,7 @@ class BrandResource extends Resource
                         Placeholder::make('Products'),
                     ]),
 
-                    Forms\Components\Card::make()
+                Forms\Components\Section::make()
                     ->columns(1)
                     ->columnSpan(1)
                     ->schema([
