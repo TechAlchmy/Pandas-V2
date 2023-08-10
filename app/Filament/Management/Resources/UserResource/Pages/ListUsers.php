@@ -87,25 +87,17 @@ class ListUsers extends ListRecords
                         $action->halt();
                     }
 
-                    if ($user->trashed()) {
-                        NotificationsNotification::make()
-                            ->warning()
-                            ->title('This email is currently suspended!')
-                            ->persistent()
-                            ->send();
+                    NotificationsNotification::make()
+                        ->warning()
+                        ->title(
+                            $user->trashed()
+                                ? 'This email is currently suspended!'
+                                : 'This email is already regsitered'
+                        )
+                        ->persistent()
+                        ->send();
 
-                        $action->halt();
-                    }
-
-                    if ($user->organization_id) {
-                        NotificationsNotification::make()
-                            ->warning()
-                            ->title('This email cannot be invited!')
-                            ->persistent()
-                            ->send();
-
-                        $action->halt();
-                    }
+                    $action->halt();
                 })
                 ->action(function ($data, $action) {
                     $record = OrganizationInvitation::query()
