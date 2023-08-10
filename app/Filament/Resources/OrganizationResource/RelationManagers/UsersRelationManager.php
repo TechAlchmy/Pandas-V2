@@ -15,6 +15,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Notification;
+use Livewire\Attributes\On;
 
 class UsersRelationManager extends RelationManager
 {
@@ -100,12 +101,8 @@ class UsersRelationManager extends RelationManager
                                 ->actions([
                                     Notifications\Actions\Action::make('resend')
                                         ->button()
-                                        ->action(function () use ($record) {
-                                            Notification::sendNow(
-                                                $record,
-                                                new OrganizationInvitationCreatedNotification($record)
-                                            );
-                                        }),
+                                        ->visible(filament()->auth()->user()->is_admin_or_manager)
+                                        ->dispatch('sendInvitation', [['record' => $record->getKey()]]),
                                 ])
                                 ->persistent()
                                 ->send();
@@ -175,5 +172,25 @@ class UsersRelationManager extends RelationManager
             ->modifyQueryUsing(fn (Builder $query) => $query->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]));
+    }
+
+    #[On('sendInvitation')]
+    public function sendInvitation($record)
+    {
+        if (! filament()->auth()->user()->is_admin_or_manager) {
+            return;
+        }
+
+        $record = OrganizationInvitation::query()->find($record);
+
+        Notification::sendNow(
+            $record,
+            new OrganizationInvitationCreatedNotification($record)
+        );
+
+        Notifications\Notification::make()
+            ->title('Successfully resent invitation')
+            ->success()
+            ->send();
     }
 }
