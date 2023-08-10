@@ -19,7 +19,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Brand::class, 'brand_id')->nullable();
             $table->string('name', 255)->unique();
-            $table->foreignIdFor(VoucherType::class, 'voucher_type_id')->nullable();
+            $table->foreignIdFor(VoucherType::class)->nullable()->constrained()->nullOnDelete();
             $table->string('slug', 255)->unique();
             $table->boolean('is_active')->default(false);
             $table->datetime('starts_at')->nullable();
