@@ -20,7 +20,6 @@ class OrganizationFactory extends Factory
             'name' => $this->faker->company,
             'website' => $this->faker->url,
             'slug' => $this->faker->slug,
-            'uniqid' => $this->faker->uuid,
             'phone' => $this->faker->phoneNumber,
             'email' => $this->faker->email,
             'region_id' => $this->faker->numberBetween(1, 10),

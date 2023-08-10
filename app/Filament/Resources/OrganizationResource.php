@@ -50,9 +50,6 @@ class OrganizationResource extends Resource
                 Forms\Components\TextInput::make('website')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('uniqid')
-                    ->required()
-                    ->maxLength(255),
                 Forms\Components\TextInput::make('phone')
                     ->tel()
                     ->maxLength(45),
