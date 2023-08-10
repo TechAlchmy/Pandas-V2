@@ -12,10 +12,31 @@ use Filament\Forms;
 use Filament\Notifications\Notification as NotificationsNotification;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Support\Facades\Notification;
+use Livewire\Attributes\On;
 
 class ListUsers extends ListRecords
 {
     protected static string $resource = UserResource::class;
+
+    #[On('sendInvitation')]
+    public function sendInvitation($record)
+    {
+        if (! filament()->auth()->user()->is_admin_or_manager) {
+            return;
+        }
+
+        $record = OrganizationInvitation::query()->find($record);
+
+        Notification::sendNow(
+            $record,
+            new OrganizationInvitationCreatedNotification($record)
+        );
+
+        NotificationsNotification::make()
+            ->title('Successfully resent invitation')
+            ->success()
+            ->send();
+    }
 
     protected function getHeaderActions(): array
     {
@@ -47,7 +68,7 @@ class ListUsers extends ListRecords
                         $record = OrganizationInvitation::query()
                             ->where('organization_id', $data['organization_id'])
                             ->where('email', $data['email'])
-                            ->exists();
+                            ->first();
 
                         if (! $record) {
                             return;
@@ -60,12 +81,8 @@ class ListUsers extends ListRecords
                             ->actions([
                                 Action::make('resend')
                                     ->button()
-                                    ->action(function () use ($record) {
-                                        Notification::sendNow(
-                                            $record,
-                                            new OrganizationInvitationCreatedNotification($record)
-                                        );
-                                    }),
+                                    ->visible(filament()->auth()->user()->is_admin_or_manager)
+                                    ->dispatch('sendInvitation', [['record' => $record->getKey()]]),
                             ])
                             ->send();
 
