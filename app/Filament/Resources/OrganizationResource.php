@@ -95,7 +95,7 @@ class OrganizationResource extends Resource
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
-                Tables\Filters\SelectFilter::make()
+                Tables\Filters\SelectFilter::make('region')
                     ->searchable()
                     ->relationship('region', 'name'),
             ])
