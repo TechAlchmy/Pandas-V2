@@ -61,7 +61,7 @@ class OrderRefundResource extends Resource
                 ]),
             ])
             ->emptyStateActions([
-                Tables\Actions\CreateAction::make(),
+                // Tables\Actions\CreateAction::make(),
             ]);
     }
 
@@ -76,7 +76,7 @@ class OrderRefundResource extends Resource
     {
         return [
             'index' => Pages\ListOrderRefunds::route('/'),
-            'create' => Pages\CreateOrderRefund::route('/create'),
+            // 'create' => Pages\CreateOrderRefund::route('/create'),
             'edit' => Pages\EditOrderRefund::route('/{record}/edit'),
         ];
     }
