@@ -4,6 +4,7 @@ namespace App\Filament\Resources\UserResource\Pages;
 
 use App\Filament\Resources\UserResource;
 use Filament\Actions;
+use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 
@@ -23,6 +24,12 @@ class EditUser extends EditRecord
                 ->danger()
                 ->send();
         }
+    }
+
+    public function form(Form $form): Form
+    {
+        return parent::form($form)
+            ->disabled(fn ($livewire) => $livewire->getRecord()->trashed());
     }
 
     public function getSubheading(): ?string
