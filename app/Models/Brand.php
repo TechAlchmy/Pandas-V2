@@ -9,14 +9,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Kirschbaum\PowerJoins\PowerJoins;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Brand extends Model
+class Brand extends Model implements HasMedia
 {
     use HasFactory;
     use InteractsWithAuditable;
     use SoftDeletes;
     use PowerJoins;
     use HasUuids;
+    use InteractsWithMedia;
 
     protected $fillable = [
         'name',
@@ -84,5 +87,11 @@ class Brand extends Model
     public function uniqueIds()
     {
         return ['uuid'];
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('logo')
+            ->singleFile();
     }
 }
