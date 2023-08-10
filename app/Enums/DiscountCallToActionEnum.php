@@ -2,7 +2,9 @@
 
 namespace App\Enums;
 
-enum DiscountCallToActionEnum: int
+use Filament\Support\Contracts\HasLabel;
+
+enum DiscountCallToActionEnum: int implements HasLabel
 {
     case AddToCart = 0;
     case RedeemNow = 1;
@@ -13,4 +15,12 @@ enum DiscountCallToActionEnum: int
     case CopyCode = 6;
     case GoToSite = 7;
     case VisitSite = 8;
+
+    public function getLabel(): ?string
+    {
+        return str($this->name)
+            ->snake()
+            ->replace('_', ' ')
+            ->title();
+    }
 }

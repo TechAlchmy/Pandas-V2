@@ -17,15 +17,13 @@ return new class extends Migration
     {
         Schema::create('discounts', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Brand::class, 'brand_id')->nullable();
+            $table->foreignIdFor(Brand::class)->nullable()->constrained()->nullOnDelete();
             $table->string('name', 255)->unique();
-            $table->foreignIdFor(VoucherType::class, 'voucher_type_id')->nullable();
-            $table->foreignIdFor(OfferType::class, 'offer_type_id')->nullable();
+            $table->foreignIdFor(VoucherType::class)->nullable()->constrained()->nullOnDelete();
             $table->string('slug', 255)->unique();
             $table->boolean('is_active')->default(false);
             $table->datetime('starts_at')->nullable();
             $table->datetime('ends_at')->nullable();
-            $table->integer('status')->default(1);
             $table->string('api_link')->nullable();
             $table->string('link')->nullable();
             $table->unsignedInteger('cta')->nullable();

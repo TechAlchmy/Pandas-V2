@@ -75,16 +75,14 @@ class DiscountResource extends Resource
                     ->native(false),
                 Forms\Components\DateTimePicker::make('ends_at')
                     ->native(false),
-                Forms\Components\TextInput::make('status')
-                    ->numeric()
-                    ->required(),
                 Forms\Components\TextInput::make('api_link')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('link')
                     ->maxLength(255),
                 Forms\Components\Select::make('cta')
                     ->enum(DiscountCallToActionEnum::class)
-                    ->options(DiscountCallToActionEnum::class),
+                    ->options(DiscountCallToActionEnum::class)
+                    ->searchable(),
                 Forms\Components\TextInput::make('code')
                     ->maxLength(255),
                 Forms\Components\Tabs::make('Heading')
@@ -206,24 +204,41 @@ class DiscountResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('voucherType.type'),
-                Tables\Columns\TagsColumn::make('offerTypes.type'),
-                Tables\Columns\IconColumn::make('is_active')
-                    ->boolean(),
+                Tables\Columns\ToggleColumn::make('is_active')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('starts_at')
+                    ->sortable()
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('ends_at')
+                    ->sortable()
                     ->dateTime(),
-                Tables\Columns\TextColumn::make('status'),
-                Tables\Columns\TextColumn::make('views'),
-                Tables\Columns\TextColumn::make('clicks'),
-                Tables\Columns\TextColumn::make('amount'),
-                Tables\Columns\TextColumn::make('limit_qty'),
-                Tables\Columns\TextColumn::make('limit_amount'),
-                Tables\Columns\TextColumn::make('public_percentage'),
-                Tables\Columns\TextColumn::make('percentage'),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\SelectFilter::make('brand')
+                    ->preload()
+                    ->searchable()
+                    ->relationship('brand', 'name'),
+                Tables\Filters\SelectFilter::make('voucher_type')
+                    ->preload()
+                    ->searchable()
+                    ->relationship('voucherType', 'type'),
+                Tables\Filters\SelectFilter::make('offer_type')
+                    ->preload()
+                    ->searchable()
+                    ->relationship('offerTypes', 'type'),
+                Tables\Filters\SelectFilter::make('regions')
+                    ->preload()
+                    ->searchable()
+                    ->relationship('regions', 'name'),
+                Tables\Filters\SelectFilter::make('tags')
+                    ->preload()
+                    ->searchable()
+                    ->relationship('tags', 'name'),
+                Tables\Filters\SelectFilter::make('categories')
+                    ->preload()
+                    ->searchable()
+                    ->relationship('categories', 'name'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

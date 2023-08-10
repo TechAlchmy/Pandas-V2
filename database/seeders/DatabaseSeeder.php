@@ -63,7 +63,7 @@ class DatabaseSeeder extends Seeder
         OfferType::factory(10)->create();
         VoucherType::factory(10)->create();
         Discount::factory(10)->create()->each(function ($discount) {
-            $discount->offerType()->associate(OfferType::inRandomOrder()->first());
+            $discount->offerTypes()->attach(OfferType::inRandomOrder()->first());
             $discount->voucherType()->associate(VoucherType::inRandomOrder()->first());
             $discount->save();
         });

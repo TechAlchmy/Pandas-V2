@@ -19,12 +19,10 @@ class DiscountFactory extends Factory
         return [
             'name' => $this->faker->name,
             'voucher_type_id' => null,
-            'offer_type_id' => null,
             'slug' => $this->faker->slug,
             'is_active' => $this->faker->boolean(),
             'starts_at' => $this->faker->dateTimeBetween('-1 years', 'now'),
             'ends_at' => $this->faker->dateTimeBetween('now', '+1 years'),
-            'status' => $this->faker->numberBetween(0, 1),
             'api_link' => $this->faker->url,
             'link' => $this->faker->url,
             'cta' => $this->faker->numberBetween(0, 8),

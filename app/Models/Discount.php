@@ -25,7 +25,6 @@ class Discount extends Model
         'description',
         'logo',
         'views',
-        'status',
         'is_active',
         'starts_at',
         'ends_at',
@@ -81,11 +80,6 @@ class Discount extends Model
     {
         return $this->belongsToMany(Order::class, 'order_details')
             ->withTimestamps();
-    }
-
-    public function offerType()
-    {
-        return $this->belongsTo(OfferType::class);
     }
 
     public function voucherType()
