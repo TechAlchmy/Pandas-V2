@@ -91,7 +91,7 @@ class BrandResource extends Resource
                     ->image(),
                     ]),
 
-               
+
 
                 Tabs::make('Heading')
                     ->tabs([
@@ -164,8 +164,7 @@ class BrandResource extends Resource
                     ->copyMessageDuration(1500),
 
             ])->defaultSort('name')
-            ->filters(
-                [
+            ->filters([
                     Tables\Filters\TernaryFilter::make('is_active'),
                     Tables\Filters\TrashedFilter::make(),
 
@@ -183,9 +182,7 @@ class BrandResource extends Resource
                                     fn (Builder $query, $name): Builder => $query->where('name', 'like', "%{$name}%")
                                 );
                         }),
-                ],
-                layout: \Filament\Tables\Enums\FiltersLayout::AboveContent,
-            )
+            ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
