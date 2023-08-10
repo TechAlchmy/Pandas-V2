@@ -13,8 +13,10 @@ trait InteractsWithAuditable
     {
         static::creating(fn ($model) => $model->created_by_id ??= auth()->id());
         static::updating(fn ($model) => $model->updated_by_id = auth()->id());
-        static::deleting(fn ($model) => $model->update(['deleted_by_id' => auth()->id()]));
-        static::restoring(fn ($model) => $model->deleted_by_id = null);
+        if (method_exists(static::class, 'bootSoftDeletes')) {
+            static::deleting(fn ($model) => $model->update(['deleted_by_id' => auth()->id()]));
+            static::restoring(fn ($model) => $model->deleted_by_id = null);
+        }
     }
 
     public function createdBy()
