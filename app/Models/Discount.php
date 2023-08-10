@@ -83,11 +83,6 @@ class Discount extends Model
             ->withTimestamps();
     }
 
-    public function offerType()
-    {
-        return $this->belongsTo(OfferType::class);
-    }
-
     public function voucherType()
     {
         return $this->belongsTo(VoucherType::class);
