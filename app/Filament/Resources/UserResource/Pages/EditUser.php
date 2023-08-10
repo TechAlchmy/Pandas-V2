@@ -15,6 +15,7 @@ class EditUser extends EditRecord
         return [
             Actions\DeleteAction::make()
                 ->modalHeading('Suspend User')
+                ->successNotificationTitle('User Suspended')
                 ->label('Suspend'),
             Actions\RestoreAction::make(),
         ];
