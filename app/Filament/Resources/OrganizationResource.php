@@ -92,11 +92,13 @@ class OrganizationResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('region.name'),
-                Tables\Columns\TextColumn::make('website'),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\SelectFilter::make('region')
+                    ->preload()
+                    ->searchable()
+                    ->relationship('region', 'name'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
