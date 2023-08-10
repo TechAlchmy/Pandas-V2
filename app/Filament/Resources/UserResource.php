@@ -142,9 +142,9 @@ class UserResource extends Resource
                     ->falseLabel('Non Manager'),
                 Tables\Filters\TrashedFilter::make()
                     ->label('Suspended')
-                    ->placeholder('All')
-                    ->trueLabel('Suspended')
-                    ->falseLabel('Active'),
+                    ->placeholder('Active')
+                    ->trueLabel('All')
+                    ->falseLabel('Suspended'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
