@@ -2,13 +2,9 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Widgets\MonthlyOrdersChart;
-use App\Filament\Widgets\MonthlyUsersChart;
-use App\Filament\Widgets\StatsOverview;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Navigation\NavigationGroup;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -31,6 +27,11 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->login()
+            ->registration()
+            ->passwordReset()
+            // ->emailVerification()
+            ->profile()
             ->darkMode(false)
             ->colors([
                 'primary' => Color::Amber,
