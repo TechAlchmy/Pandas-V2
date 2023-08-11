@@ -212,3 +212,4 @@
         </div>
     </div>
 </header>
+<x-topbar.extension />
