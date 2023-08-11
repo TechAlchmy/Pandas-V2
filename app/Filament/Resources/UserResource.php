@@ -15,6 +15,7 @@ use Filament\Tables\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Validation\Rules\Password;
 
 class UserResource extends Resource
 {
@@ -51,9 +52,19 @@ class UserResource extends Resource
                             ->maxLength(255),
                         // Forms\Components\DateTimePicker::make('email_verified_at'),
                         Forms\Components\TextInput::make('password')
+                            ->label(__('filament-panels::pages/auth/edit-profile.form.password.label'))
+                            ->password()
+                            ->rule(Password::default())
+                            ->autocomplete('new-password')
+                            ->dehydrated(fn ($state): bool => filled($state))
+                            ->live(debounce: 500)
+                            ->same('passwordConfirmation'),
+                        Forms\Components\TextInput::make('passwordConfirmation')
+                            ->label(__('filament-panels::pages/auth/edit-profile.form.password_confirmation.label'))
                             ->password()
                             ->required()
-                            ->maxLength(255),
+                            ->visible(fn ($get): bool => filled($get('password')))
+                            ->dehydrated(false),
                         Forms\Components\Select::make('auth_level')
                             ->enum(AuthLevelEnum::class)
                             ->options(AuthLevelEnum::class)
