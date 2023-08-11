@@ -13,6 +13,7 @@
         "filament/filament": "^3.0-stable",
         "filament/spatie-laravel-media-library-plugin": "^3.0",
         "flowframe/laravel-trend": "^0.1.5",
+        "gehrisandro/tailwind-merge-laravel": "^0.2.1",
         "guzzlehttp/guzzle": "^7.2",
         "kirschbaum-development/eloquent-power-joins": "^3.2",
         "laravel/folio": "^1.0@beta",
