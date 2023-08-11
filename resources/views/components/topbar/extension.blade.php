@@ -1,4 +1,4 @@
-<div class="hidden md:flex justify-end items-center py-5 px-8 border-b">
+<div class="hidden md:flex justify-end items-center gap-3 py-5 px-8 border-b">
     <x-link href="/help" class="px-8 py-3 leading-6 text-gray-900 rounded-[70%] border border-transparent hover:border-black">
         Contact Us
     </x-link>
