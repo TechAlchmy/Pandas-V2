@@ -19,12 +19,15 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class User extends Authenticatable implements FilamentUser, HasTenants, HasDefaultTenant, MustVerifyEmail
+class User extends Authenticatable implements FilamentUser, HasTenants, HasDefaultTenant, MustVerifyEmail, HasMedia
 {
     use HasApiTokens, HasFactory, Notifiable;
     use InteractsWithAuditable;
     use SoftDeletes;
+    use InteractsWithMedia;
 
     /**
      * The attributes that are mass assignable.
@@ -147,5 +150,11 @@ class User extends Authenticatable implements FilamentUser, HasTenants, HasDefau
     protected function isAdminOrManager(): Attribute
     {
         return Attribute::get(fn () => $this->is_admin || $this->is_manager);
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('avatar')
+            ->singleFile();
     }
 }

@@ -31,7 +31,6 @@ class UserFactory extends Factory
             'state' => $this->faker->state(),
             'zip_code' => $this->faker->numberBetween(10000, 99999),
             'country' => $this->faker->country(),
-            'profile_picture' => 'default.png',
             'created_by_id' => null,
             'updated_by_id' => null,
             'deleted_by_id' => null,

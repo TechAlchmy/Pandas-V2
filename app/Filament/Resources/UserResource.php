@@ -35,7 +35,10 @@ class UserResource extends Resource
                     ->columnSpan(2)
                     ->columns(2)
                     ->schema([
-                        Forms\Components\FileUpload::make('profile_picture')
+                        Forms\Components\SpatieMediaLibraryFileUpload::make('profile_picture')
+                            ->collection('avatar')
+                            ->downloadable()
+                            ->openable()
                             ->columnSpanFull()
                             ->image()
                             ->avatar(),
