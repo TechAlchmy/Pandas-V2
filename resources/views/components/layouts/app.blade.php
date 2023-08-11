@@ -20,7 +20,7 @@
     @vite('resources/css/app.css')
 </head>
 
-<body class="antialiased">
+<body class="antialiased font-aeonik">
     {{ $slot }}
 
     @filamentScripts
