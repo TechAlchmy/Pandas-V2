@@ -79,11 +79,6 @@ class Brand extends Model implements HasMedia
             ->withTimestamps();
     }
 
-    public function setSlugAttribute($value)
-    {
-        $this->attributes['slug'] = Str::slug($value);
-    }
-
     public function uniqueIds()
     {
         return ['uuid'];
