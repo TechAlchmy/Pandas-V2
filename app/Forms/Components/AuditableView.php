@@ -34,14 +34,15 @@ class AuditableView extends Tabs
                         Placeholder::make('created_at')
                             ->content(fn ($record) => $record->created_at->format('m/d/Y h:i:s A')),
                     ]),
-                Tabs\Tab::make('Deleted By')
+                Tabs\Tab::make('Suspended By')
                     ->columns(3)
                     ->schema([
                         Placeholder::make('deleted_by')
+                            ->label('Suspended By')
                             ->content(fn ($record) => $record->deletedBy?->name),
                         Placeholder::make('email')
                             ->content(fn ($record) => $record->deletedBy?->email),
-                        Placeholder::make('deleted_at')
+                        Placeholder::make('Suspended at')
                             ->content(fn ($record) => $record->deleted_at?->format('m/d/Y h:i:s A')),
                     ]),
             ]);
