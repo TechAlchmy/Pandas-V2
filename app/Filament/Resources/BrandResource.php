@@ -24,7 +24,6 @@ use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\Filter;
-use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
@@ -57,12 +56,6 @@ class BrandResource extends Resource
                 TextInput::make('link')
                     ->required()
                     ->placeholder('Enter Brand Link'),
-                TextInput::make('uniqid')
-                    ->required()
-                    ->default(function () {
-                        return Uuid::uuid4()->toString();
-                    })
-                    ->dehydrated(false),
                 RichEditor::make('description')
                     ->placeholder('Enter Brand Description')
                     ->required()
