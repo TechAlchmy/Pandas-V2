@@ -13,7 +13,7 @@
             default => ['text-gray-900'],
         },
         ...match ($size) {
-            'lg' => ['px-16 py-6 text-lg'],
+            'lg' => ['px-16 py-4 text-lg'],
             default => ['px-8 py-3 text-base'],
         },
         ...$outlined ? 
