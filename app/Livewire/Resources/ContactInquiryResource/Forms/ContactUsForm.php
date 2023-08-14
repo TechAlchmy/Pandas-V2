@@ -14,6 +14,13 @@ class ContactUsForm extends Component implements HasForms
 {
     use InteractsWithForms;
 
+    public $data;
+
+    public function mount()
+    {
+        $this->form->fill();
+    }
+
     public function create()
     {
         $data = $this->form->getState();
@@ -31,13 +38,26 @@ class ContactUsForm extends Component implements HasForms
     public function form(Form $form): Form
     {
         return $form
+            ->statePath('data')
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->required(),
+                    ->required()
+                    ->label('')
+                    ->placeholder('Name')
+                    ->view('forms.components.text-input')
+                    ->maxLength(255),
                 Forms\Components\TextInput::make('email')
-                    ->required(),
+                    ->required()
+                    ->label('')
+                    ->placeholder('Email')
+                    ->view('forms.components.text-input')
+                    ->maxLength(255),
                 Forms\Components\Textarea::make('content')
-                    ->required(),
+                    ->required()
+                    ->label('')
+                    ->placeholder('Message')
+                    ->view('forms.components.textarea')
+                    ->maxLength(255),
             ]);
     }
 }
