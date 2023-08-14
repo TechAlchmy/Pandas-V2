@@ -18,12 +18,14 @@ $componentName = computed(function () {
 ">
     <ul class="divide-y text-xl">
         @foreach (['Daily Deals', 'My Benefits', 'My Details', 'My Preferences', 'My Orders'] as $menu)
-            <li class="p-4" wire:key="{{ $loop->index }}">
+            <li class="p-4">
                 <div>
                     <button :class="{ 'font-bold': $wire.selected == {{ $loop->index }} }" x-on:click="$wire.set('selected', {{ $loop->index }})">{{ $menu }}</button>
                 </div>
                 @unless ($isDesktop)
-                    <livewire:is :component="$this->componentName" />
+                    @if ($selected == $loop->index)
+                        <livewire:is :component="$this->componentName" wire:key="{{ $loop->index }}" />
+                    @endif
                 @endunless
             </li>
         @endforeach
