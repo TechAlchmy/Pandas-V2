@@ -4,6 +4,7 @@ use function Livewire\Volt\{computed};
 
 $categories = computed(function () {
     return \App\Models\Category::query()
+        ->isRoot()
         ->take(7)
         ->get();
 });
