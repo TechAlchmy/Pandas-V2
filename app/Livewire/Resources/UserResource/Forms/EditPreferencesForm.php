@@ -6,6 +6,7 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Livewire\Component;
 
 class EditPreferencesForm extends Component implements HasForms
@@ -17,6 +18,18 @@ class EditPreferencesForm extends Component implements HasForms
     public function mount()
     {
         $this->form->fill(auth()->user()->userPreference->toArray());
+    }
+
+    public function save()
+    {
+        $data = $this->form->getState();
+
+        auth()->user()->userPreference->update($data);
+
+        Notification::make()
+            ->title('Successfully saved preferences')
+            ->success()
+            ->send();
     }
 
     public function form(Form $form): Form
