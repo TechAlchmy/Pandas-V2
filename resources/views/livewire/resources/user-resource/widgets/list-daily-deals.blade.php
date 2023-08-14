@@ -11,8 +11,7 @@ $categories = computed(function () {
 ?>
 
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 bg-panda-green">
-    <div class="p-8">
-
+    <div class="pt-[100%] bg-cover bg-center" style="background-image: url(https://images.unsplash.com/photo-1464746133101-a2c3f88e0dd9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1743&q=80)">
     </div>
     <div class="p-8 space-y-4">
         <h2 class="text-3xl">
