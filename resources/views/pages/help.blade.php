@@ -16,13 +16,13 @@
         </div>
         <div class="p-8 space-y-4">
             <h2 class="text-6xl font-light">Frequently Asked Questions</h2>
-            <ul class="divide-y">
+            <ul class="divide-y" x-data="{selected: null}">
                 @foreach (range(1, 6) as $question)
-                    <li class="p-6" x-data="{ open: false }">
+                    <li class="p-6">
                         <div>
-                            <button x-on:click="open = !open">Question</button>
+                            <button x-on:click="selected = (selected == {{ $loop->index }}) ? null : {{ $loop->index }}">Question</button>
                         </div>
-                        <p x-show="open" x-cloak x-transition>
+                        <p x-show="selected == {{ $loop->index }}" x-cloak x-transition>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pellentesque mi ac est ultrices sodales. Maecenas nec libero ut nibh euismod pharetra. Morbi diam lacus, sollicitudin quis est
                             in, molestie posuere augue. Vestibulum at lacus id erat posuere dignissim. Ut convallis nisl ex. Nam ornare porttitor mi, a eleifend lectus rutrum vel. Cras luctus, dui vel ullamcorper
                             aliquam, tellus mauris efficitur nunc, at dapibus orci nunc id mauris.
