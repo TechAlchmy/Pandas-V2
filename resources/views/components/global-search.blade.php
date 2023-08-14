@@ -4,7 +4,7 @@
             <label x-bind:for="$id('input')" class="sr-only" for="input-8">
                 Global search
             </label>
-            <div class="flex shadow-sm transition duration-75 bg-white border-b border-black">
+            <div class="flex shadow-sm transition duration-75 bg-white border border-black">
                 <div class="min-w-0 flex-1">
                     <form action="search">
                         <x-input placeholder="Search Deals" type="search" name="q" />
