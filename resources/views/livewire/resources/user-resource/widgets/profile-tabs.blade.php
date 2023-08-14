@@ -6,8 +6,10 @@ state(['selected' => 0, 'isDesktop' => false]);
 $componentName = computed(function () {
     return match ($this->selected) {
         0 => 'resources.user-resource.widgets.list-daily-deals',
+        1 => 'resources.user-resource.widgets.list-benefits',
         2 => 'resources.user-resource.forms.edit-profile-form',
         3 => 'resources.user-resource.forms.edit-preferences-form',
+        4 => 'resources.user-resource.widgets.list-orders',
         default => null,
     };
 });
