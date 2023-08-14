@@ -142,11 +142,11 @@
                 <x-button tag="a" href="/">Home</x-button>
             @endguest
             @auth
-                <x-button tag="a" href="/dashboard">Dashboard</x-button>
+                <x-button tag="a" href="/dashboard" :outlined="request()->is('dashboard')">Dashboard</x-button>
             @endauth
-            <x-button tag="a" href="/benefits">Benefits</x-button>
-            <x-button tag="a" href="/deals">Deals</x-button>
-            <x-button tag="a" href="/help">Help</x-button>
+            <x-button tag="a" href="/benefits" :outlined="request()->is('benefits')">Benefits</x-button>
+            <x-button tag="a" href="/deals" :outlined="request()->is('deals')">Deals</x-button>
+            <x-button tag="a" href="/help" :outlined="request()->is('help')">Help</x-button>
         </div>
         <div class="hidden lg:flex lg:flex-1 lg:justify-end gap-3">
             {{-- <x-link href="#" class="text-sm font-semibold leading-6 text-gray-900">Log in <span aria-hidden="true">&rarr;</span></x-link> --}}
