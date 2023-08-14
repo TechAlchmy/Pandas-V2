@@ -139,14 +139,14 @@
             </div> --}}
 
             @guest
-                <x-link href="/" class="px-8 py-3 leading-6 text-gray-900 rounded-[70%] border border-transparent hover:border-black hover:border-black">Home</x-link>
+                <x-button tag="a" href="/">Home</x-button>
             @endguest
             @auth
-                <x-link href="/dashboard" class="px-8 py-3 leading-6 text-gray-900 rounded-[70%] border border-transparent hover:border-black">Dashboard</x-link>
+                <x-button tag="a" href="/dashboard">Home</x-button>
             @endauth
-            <x-link href="/benefits" class="px-8 py-3 leading-6 text-gray-900 rounded-[70%] border border-transparent hover:border-black">Benefits</x-link>
-            <x-link href="/deals" class="px-8 py-3 leading-6 text-gray-900 rounded-[70%] border border-transparent hover:border-black">Deals</x-link>
-            <x-link href="/help" class="px-8 py-3 leading-6 text-gray-900 rounded-[70%] border border-transparent hover:border-black">Help</x-link>
+            <x-button tag="a" href="/benefits">Benefits</x-button>
+            <x-button tag="a" href="/deals">Deals</x-button>
+            <x-button tag="a" href="/help">Help</x-button>
         </div>
         <div class="hidden lg:flex lg:flex-1 lg:justify-end gap-3">
             {{-- <x-link href="#" class="text-sm font-semibold leading-6 text-gray-900">Log in <span aria-hidden="true">&rarr;</span></x-link> --}}
