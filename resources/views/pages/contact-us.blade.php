@@ -23,5 +23,5 @@
             <livewire:resources.contact-inquiry-resource.forms.contact-us-form />
         </div>
     </div>
-    <x-footer />
+    <livewire:footer simple />
 </x-layouts.app>

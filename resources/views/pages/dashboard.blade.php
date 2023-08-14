@@ -6,5 +6,5 @@
         <p class="hidden lg:block">{{ auth()->user()->organization?->name }}</p>
     </div>
     <livewire:resources.user-resource.widgets.profile-tabs />
-    <x-footer />
+    <livewire:footer />
 </x-layouts.app>

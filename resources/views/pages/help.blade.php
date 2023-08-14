@@ -16,7 +16,7 @@
         </div>
         <div class="p-8 space-y-4">
             <h2 class="text-6xl font-light">Frequently Asked Questions</h2>
-            <ul class="divide-y" x-data="{selected: null}">
+            <ul class="divide-y" x-data="{ selected: null }">
                 @foreach (range(1, 6) as $question)
                     <li class="p-6">
                         <div>
@@ -46,5 +46,5 @@
             </ul>
         </div>
     </div>
-    <x-footer />
+    <livewire:footer simple />
 </x-layouts.app>
