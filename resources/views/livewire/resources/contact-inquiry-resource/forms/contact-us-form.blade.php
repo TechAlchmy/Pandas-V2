@@ -1,9 +1,11 @@
 <div>
-    <form wire:submit="create">
+    <form wire:submit.prevent="create">
         {{ $this->form }}
 
-        <button type="submit" class="px-8 py-3 leading-6 text-gray-900 rounded-[70%] border border-transparent hover:border-black">
-            Submit
-        </button>
+        <div class="flex justify-end">
+            <x-button outlined class="inline-block mt-8">
+                Update
+            </x-button>
+        </div>
     </form>
 </div>
