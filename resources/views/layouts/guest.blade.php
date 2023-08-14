@@ -47,5 +47,6 @@
             </div>
         </section>
         <x-footer/>
+        @livewireScripts
     </body>
 </html>
