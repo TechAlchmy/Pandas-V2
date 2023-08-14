@@ -43,6 +43,8 @@ class EditProfileForm extends Component implements HasForms
                     ->placeholder('Name')
                     ->view('forms.components.text-input')
                     ->required()
+                    ->disabled()
+                    ->dehydrated(false)
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
                     ->label('')
@@ -50,6 +52,8 @@ class EditProfileForm extends Component implements HasForms
                     ->view('forms.components.text-input')
                     ->email()
                     ->required()
+                    ->disabled()
+                    ->dehydrated(false)
                     ->maxLength(255),
                 Forms\Components\TextInput::make('phone_number')
                     ->label('')
