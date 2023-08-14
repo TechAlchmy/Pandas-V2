@@ -15,7 +15,7 @@
                     curated to help you do what you love on your terms. We’re here to help you live 
                     inquisitively, play, and explore more of life with less stress. 
                 </p>
-                <x-btn-white class="panda-submit-white text-white absolute bottom-0">Learn More</x-btn-white>
+                <x-button size="lg" color="white" outlined class="absolute bottom-0">Learn More</x-button>
 
             </div>
             
