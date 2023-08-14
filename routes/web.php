@@ -23,7 +23,7 @@ Route::get('/signin', function () {
     return view('pages/login');
 });
 
-Route::get('/dashboard', function () {
+Route::get('/dashboardd', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
