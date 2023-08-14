@@ -1,10 +1,10 @@
-<div class="hidden md:flex justify-end items-center gap-3 py-5 px-8 border-b">
+<div class="hidden md:flex justify-end items-center gap-3 p-6 lg:px-8 border-b">
     <x-button tag="a" href="/contact-us" >Contact Us</x-button>
     @auth
         <div x-data="{
             dropdownOpen: false
         }" class="relative">
-            <x-button x-on:click="dropdownOpen=true" class="inline-flex items-center justify-center h-12 pl-3 pr-12 font-medium transition-colors bg-white active:bg-white focus:bg-white focus:outline-none disabled:opacity-50 disabled:pointer-events-none">
+            <x-button x-on:click="dropdownOpen=true" class="inline-flex items-center justify-center border-none pl-3 pr-12 font-medium transition-colors bg-white active:bg-white focus:bg-white focus:outline-none disabled:opacity-50 disabled:pointer-events-none">
                 <span>{{ auth()->user()->name }}</span>
                 <svg class="absolute right-0 w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
