@@ -51,7 +51,7 @@ class EditProfileForm extends Component implements HasForms
                     ->email()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('phone')
+                Forms\Components\TextInput::make('phone_number')
                     ->label('')
                     ->placeholder('Phone')
                     ->view('forms.components.text-input')
