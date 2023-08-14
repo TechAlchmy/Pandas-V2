@@ -57,6 +57,7 @@ class ContactUsForm extends Component implements HasForms
                     ->label('')
                     ->placeholder('Message')
                     ->view('forms.components.textarea')
+                    ->rows(6)
                     ->maxLength(255),
             ]);
     }
