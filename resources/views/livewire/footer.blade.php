@@ -1,13 +1,5 @@
-<?php
-use function Livewire\Volt\{state};
-state(['isDesktop' => false]);
-?>
-
-<footer x-init="$wire.set('isDesktop', window.innerWidth >= 1280)" class="bg-black text-white">
+<footer class="bg-black text-white">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-8">
-        @unless ($isDesktop)
-            <livewire:resources.subscriber-resource.forms.create-subscriber-form />
-        @endunless
         <x-link href="/">
             <x-logo class="text-white" />
         </x-link>
@@ -31,9 +23,7 @@ state(['isDesktop' => false]);
                 <li><x-link href="/help">Youtube</x-link></li>
             </ul>
         </div>
-        @if ($isDesktop)
-            <livewire:resources.subscriber-resource.forms.create-subscriber-form />
-        @endif
+        <livewire:resources.subscriber-resource.forms.create-subscriber-form />
     </div>
     <div class="border-t border-white p-8 flex gap-8 items-center">
         <h6 class="">Panda People® {{ date('Y') }} © All Rights Reserved</h6>
