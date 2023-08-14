@@ -84,6 +84,7 @@ export default {
                 "gray-light": "#d3dce6",
                 white: "#ffffff",
                 black: "#000000",
+                "panda-green": "#91b88f",
             },
         },
     },
