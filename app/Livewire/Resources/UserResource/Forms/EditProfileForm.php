@@ -13,6 +13,13 @@ class EditProfileForm extends Component implements HasForms
 {
     use InteractsWithForms;
 
+    public $data;
+
+    public function mount()
+    {
+        $this->form->fill(auth()->user()->toArray());
+    }
+
     public function save()
     {
         $data = $this->form->getState();
@@ -28,11 +35,14 @@ class EditProfileForm extends Component implements HasForms
     public function form(Form $form): Form
     {
         return $form
-            ->model(auth()->user())
             ->columns()
+            ->statePath('data')
             ->schema([
-                Forms\Components\TextInput::make('name'),
-                Forms\Components\TextInput::make('email'),
+                Forms\Components\TextInput::make('name')
+                    ->required(),
+                Forms\Components\TextInput::make('email')
+                    ->email()
+                    ->required(),
                 Forms\Components\TextInput::make('phone'),
                 Forms\Components\TextInput::make('address'),
             ]);
