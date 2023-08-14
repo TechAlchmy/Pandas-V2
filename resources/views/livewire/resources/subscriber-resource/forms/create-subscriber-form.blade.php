@@ -16,7 +16,10 @@ $submit = function () {
 
 <form wire:submit.prevent="submit" class="text-white space-y-6">
     <h4>Panda People</h4>
-    <input type="email" wire:model="email" class="block w-full bg-transparent border-b border-white text-white" placeholder="EMAIL" />
+    <div class="p-2 border-b border-white flex gap-x-2 items-center">
+        <span>Email</span>
+        <x-input type="email" class="text-lg" wire:model="email" />
+    </div>
     <x-button type="submit" outlined color="white" class="inline-block">
         Sign Up
     </x-button>
