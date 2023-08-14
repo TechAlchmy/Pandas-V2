@@ -1,4 +1,4 @@
-<div wire:id="t0INA49UjBo232lrQKGC" class="fi-global-search flex items-center">
+<div class="fi-global-search flex items-center">
     <div class="relative">
         <div x-id="['input']" class="fi-global-search-field">
             <label x-bind:for="$id('input')" class="sr-only" for="input-8">
