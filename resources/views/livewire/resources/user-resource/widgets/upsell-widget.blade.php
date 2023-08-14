@@ -12,8 +12,8 @@ use function Livewire\Volt\{state};
     </h2>
     <div class="py-4 lg:py-0"></div>
     <div>
-        <x-link href="/help" class="px-16 py-6 text-lg rounded-[70%] border-2 border-white">
+        <x-button tag="a" href="/help" size="lg" outlined color="white">
             Learn More
-        </x-link>
+        </x-button>
     </div>
 </div>
