@@ -39,12 +39,28 @@ class EditProfileForm extends Component implements HasForms
             ->statePath('data')
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->required(),
+                    ->label('')
+                    ->placeholder('Name')
+                    ->view('forms.components.text-input')
+                    ->required()
+                    ->maxLength(255),
                 Forms\Components\TextInput::make('email')
+                    ->label('')
+                    ->placeholder('Email')
+                    ->view('forms.components.text-input')
                     ->email()
-                    ->required(),
-                Forms\Components\TextInput::make('phone'),
-                Forms\Components\TextInput::make('address'),
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('phone')
+                    ->label('')
+                    ->placeholder('Phone')
+                    ->view('forms.components.text-input')
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('address')
+                    ->label('')
+                    ->placeholder('Address')
+                    ->view('forms.components.text-input')
+                    ->maxLength(255),
             ]);
     }
 }
