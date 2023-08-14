@@ -142,7 +142,7 @@
                 <x-button tag="a" href="/">Home</x-button>
             @endguest
             @auth
-                <x-button tag="a" href="/dashboard">Home</x-button>
+                <x-button tag="a" href="/dashboard">Dashboard</x-button>
             @endauth
             <x-button tag="a" href="/benefits">Benefits</x-button>
             <x-button tag="a" href="/deals">Deals</x-button>
