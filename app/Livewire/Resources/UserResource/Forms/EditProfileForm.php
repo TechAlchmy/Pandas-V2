@@ -42,7 +42,6 @@ class EditProfileForm extends Component implements HasForms
                     ->label('')
                     ->placeholder('Name')
                     ->view('forms.components.text-input')
-                    ->required()
                     ->disabled()
                     ->dehydrated(false)
                     ->maxLength(255),
@@ -51,17 +50,18 @@ class EditProfileForm extends Component implements HasForms
                     ->placeholder('Email')
                     ->view('forms.components.text-input')
                     ->email()
-                    ->required()
                     ->disabled()
                     ->dehydrated(false)
                     ->maxLength(255),
                 Forms\Components\TextInput::make('phone_number')
                     ->label('')
+                    ->required()
                     ->placeholder('Phone')
                     ->view('forms.components.text-input')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('address')
                     ->label('')
+                    ->required()
                     ->placeholder('Address')
                     ->view('forms.components.text-input')
                     ->maxLength(255),
