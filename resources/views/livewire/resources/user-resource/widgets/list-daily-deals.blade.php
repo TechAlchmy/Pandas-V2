@@ -24,7 +24,7 @@ $categories = computed(function () {
         <ul class="grid grid-cols-2">
             @foreach ($this->categories as $category)
                 <li>
-                    <x-link>{{ $category->name }}</x-link>
+                    <x-a>{{ $category->name }}</x-a>
                 </li>
             @endforeach
         </ul>

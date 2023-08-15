@@ -1,32 +1,32 @@
 <footer class="bg-black text-white">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-8">
-        <x-link href="/">
+        <x-a href="/">
             <x-logo class="text-white" />
-        </x-link>
+        </x-a>
         <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
             <ul>
-                <li><x-link href="/">Home</x-link></li>
-                <li><x-link href="/benefits">Benefits</x-link></li>
-                <li><x-link href="/deals">Deals</x-link></li>
-                <li><x-link href="/help">Help</x-link></li>
+                <li><x-a href="/">Home</x-a></li>
+                <li><x-a href="/benefits">Benefits</x-a></li>
+                <li><x-a href="/deals">Deals</x-a></li>
+                <li><x-a href="/help">Help</x-a></li>
             </ul>
             <ul>
-                <li><x-link href="/">Sign in</x-link></li>
-                <li><x-link href="/benefits">My Account</x-link></li>
-                <li><x-link href="/deals">Contact Us</x-link></li>
-                <li><x-link href="/help">For Employers</x-link></li>
+                <li><x-a href="/">Sign in</x-a></li>
+                <li><x-a href="/benefits">My Account</x-a></li>
+                <li><x-a href="/deals">Contact Us</x-a></li>
+                <li><x-a href="/help">For Employers</x-a></li>
             </ul>
             <ul>
-                <li><x-link href="/">LinkedIn</x-link></li>
-                <li><x-link href="/benefits">Instagram</x-link></li>
-                <li><x-link href="/deals">Facebook</x-link></li>
-                <li><x-link href="/help">Youtube</x-link></li>
+                <li><x-a href="/">LinkedIn</x-a></li>
+                <li><x-a href="/benefits">Instagram</x-a></li>
+                <li><x-a href="/deals">Facebook</x-a></li>
+                <li><x-a href="/help">Youtube</x-a></li>
             </ul>
         </div>
         <livewire:resources.subscriber-resource.forms.create-subscriber-form />
     </div>
     <div class="border-t border-white p-8 flex gap-8 items-center">
         <h6 class="">Panda People® {{ date('Y') }} © All Rights Reserved</h6>
-        <x-link href="#" class="">Privacy Policy</x-link>
+        <x-a href="#" class="">Privacy Policy</x-a>
     </div>
 </footer>
