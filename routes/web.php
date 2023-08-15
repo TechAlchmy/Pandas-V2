@@ -28,9 +28,6 @@ Route::get('organization-invitations/{record}/accept', AcceptInvitation::class)
     ->middleware(['signed'])
     ->name('organization-invitations.accept');
 
-Route::view('verify-email', 'pages.verify-email')
-    ->name('verification.notice');
-
 Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
     ->middleware(['signed', 'throttle:6,1'])
     ->name('verification.verify');
