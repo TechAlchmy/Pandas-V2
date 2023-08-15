@@ -19,19 +19,20 @@
             </div>
             <div class="py-24"></div>
             @php
-                $discounts = \App\Models\Discount::query()
-                    ->with('categories')
+                $categories = \App\Models\Category::query()
+                    ->withMax('discounts', 'percentage')
+                    ->inRandomOrder()
                     ->take(5)
                     ->get();
             @endphp
             <div class="flex">
-                @foreach ($discounts as $discount)
+                @foreach ($categories as $category)
                     <div class="p-4">
-                        <x-a href="/deals/{{ $discount->slug }}">
-                            <h3 class="font-editorial text-5xl leading-[60px]">{{ $discount->name }}</h3>
+                        <x-a href="/deals">
+                            <h3 class="font-editorial text-5xl leading-[60px]">{{ $category->name }}</h3>
                         </x-a>
                         <div>
-                            <p class="uppercase text-2xl">Up to {{ $discount->percentage }}% off</p>
+                            <p class="uppercase text-2xl">Up to {{ $category->discounts_max_percentage }}% off</p>
                             <p class="text-xl leading-7">24-hour access to primary care for less</p>
                         </div>
                     </div>
