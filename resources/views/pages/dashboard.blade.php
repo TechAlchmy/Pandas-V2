@@ -1,7 +1,8 @@
 <?php
-use function Laravel\Folio\{middleware};
+use function Laravel\Folio\{middleware, name};
 
 middleware(['auth', 'verified']);
+name('dashboard');
 ?>
 <x-layouts.app>
     <livewire:resources.user-resource.widgets.upsell-widget />

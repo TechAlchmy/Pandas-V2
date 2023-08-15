@@ -1,3 +1,8 @@
+<?php
+use function Laravel\Folio\{name};
+
+name('help');
+?>
 <x-layouts.app>
     <div class="grid grid-cols-1 md:grid-cols-2">
         <div>

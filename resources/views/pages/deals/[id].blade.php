@@ -1,3 +1,8 @@
+<?php
+use function Laravel\Folio\{name};
+
+name('deals.show');
+?>
 @php
     $record = \App\Models\Discount::query()
         ->where('slug', $id)
