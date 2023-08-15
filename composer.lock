@@ -2398,32 +2398,32 @@
         },
         {
             "name": "laravel/folio",
-            "version": "v1.0.0-beta.4",
+            "version": "v1.0.0-beta.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/folio.git",
-                "reference": "0d42ee9485f83e2c57b2a5d40cd4f651c2ff95e3"
+                "reference": "ffb7777ece0a387d1fa4bb35a85bf0fa4cc4df85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/folio/zipball/0d42ee9485f83e2c57b2a5d40cd4f651c2ff95e3",
-                "reference": "0d42ee9485f83e2c57b2a5d40cd4f651c2ff95e3",
+                "url": "https://api.github.com/repos/laravel/folio/zipball/ffb7777ece0a387d1fa4bb35a85bf0fa4cc4df85",
+                "reference": "ffb7777ece0a387d1fa4bb35a85bf0fa4cc4df85",
                 "shasum": ""
             },
             "require": {
-                "illuminate/console": "^10.15|^11.0",
-                "illuminate/container": "^10.15|^11.0",
-                "illuminate/contracts": "^10.15|^11.0",
-                "illuminate/filesystem": "^10.15|^11.0",
-                "illuminate/pipeline": "^10.15|^11.0",
-                "illuminate/routing": "^10.15|^11.0",
-                "illuminate/support": "^10.15|^11.0",
-                "illuminate/view": "^10.15|^11.0",
+                "illuminate/console": "^10.19|^11.0",
+                "illuminate/container": "^10.19|^11.0",
+                "illuminate/contracts": "^10.19|^11.0",
+                "illuminate/filesystem": "^10.19|^11.0",
+                "illuminate/pipeline": "^10.19|^11.0",
+                "illuminate/routing": "^10.19|^11.0",
+                "illuminate/support": "^10.19|^11.0",
+                "illuminate/view": "^10.19|^11.0",
                 "php": "^8.1",
                 "spatie/once": "^3.1"
             },
             "require-dev": {
-                "orchestra/testbench": "^8.5.10",
+                "orchestra/testbench": "^8.6.0",
                 "pestphp/pest": "^2.5",
                 "phpstan/phpstan": "^1.10"
             },
@@ -2466,7 +2466,7 @@
                 "issues": "https://github.com/laravel/folio/issues",
                 "source": "https://github.com/laravel/folio"
             },
-            "time": "2023-08-08T11:33:29+00:00"
+            "time": "2023-08-15T13:56:53+00:00"
         },
         {
             "name": "laravel/framework",
@@ -3613,27 +3613,27 @@
         },
         {
             "name": "livewire/volt",
-            "version": "v1.0.0-beta.4",
+            "version": "v1.0.0-beta.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/livewire/volt.git",
-                "reference": "75f3985162a5525e826ba189a26fe5c3df9f6b0c"
+                "reference": "2e1e9469d668d0051e8b16e25748d95e02dbb714"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/livewire/volt/zipball/75f3985162a5525e826ba189a26fe5c3df9f6b0c",
-                "reference": "75f3985162a5525e826ba189a26fe5c3df9f6b0c",
+                "url": "https://api.github.com/repos/livewire/volt/zipball/2e1e9469d668d0051e8b16e25748d95e02dbb714",
+                "reference": "2e1e9469d668d0051e8b16e25748d95e02dbb714",
                 "shasum": ""
             },
             "require": {
-                "laravel/framework": "^10.16|^11.0",
+                "laravel/framework": "^10.17|^11.0",
                 "livewire/livewire": "^3.0",
                 "php": "^8.1"
             },
             "require-dev": {
                 "laravel/folio": "^1.0",
                 "mockery/mockery": "^1.6",
-                "orchestra/testbench": "^8.5",
+                "orchestra/testbench": "^8.6.2",
                 "pestphp/pest": "^2.9.5",
                 "phpstan/phpstan": "^1.10"
             },
@@ -3681,7 +3681,7 @@
                 "issues": "https://github.com/livewire/volt/issues",
                 "source": "https://github.com/livewire/volt"
             },
-            "time": "2023-08-08T15:28:03+00:00"
+            "time": "2023-08-15T13:56:20+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
