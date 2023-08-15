@@ -198,19 +198,19 @@
                                 <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Contact sales</a>
                             </div>
                         </div> --}}
-                        <x-a href="/" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Home</x-a>
-                        <x-a href="/benefits" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Benefits</x-a>
-                        <x-a href="/deals" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Deals</x-a>
-                        <x-a href="/help" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Help</x-a>
-                        <x-a href="/contact-us" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Contact Us</x-a>
-                        <x-a href="/help" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">For Employers</x-a>
+                        <x-a href="/" class="-mx-3 block rounded-lg px-3 py-2 text-2xl font-light leading-7 text-gray-900 hover:bg-gray-50">Home</x-a>
+                        <x-a href="/benefits" class="-mx-3 block rounded-lg px-3 py-2 text-2xl font-light leading-7 text-gray-900 hover:bg-gray-50">Benefits</x-a>
+                        <x-a href="/deals" class="-mx-3 block rounded-lg px-3 py-2 text-2xl font-light leading-7 text-gray-900 hover:bg-gray-50">Deals</x-a>
+                        <x-a href="/help" class="-mx-3 block rounded-lg px-3 py-2 text-2xl font-light leading-7 text-gray-900 hover:bg-gray-50">Help</x-a>
+                        <x-a href="/contact-us" class="-mx-3 block rounded-lg px-3 py-2 text-2xl font-light leading-7 text-gray-900 hover:bg-gray-50">Contact Us</x-a>
+                        <x-a href="/help" class="-mx-3 block rounded-lg px-3 py-2 text-2xl font-light leading-7 text-gray-900 hover:bg-gray-50">For Employers</x-a>
                     </div>
                     <div class="py-6">
                         @auth
-                            <x-a href="/dashboard" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">My Account</x-a>
+                            <x-a href="/dashboard" class="-mx-3 block rounded-lg px-3 py-2 text-2xl font-light leading-7 text-gray-900 hover:bg-gray-50">My Account</x-a>
                         @endauth
                         @guest
-                            <x-a href="/login" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Login</x-a>
+                            <x-a href="/login" class="-mx-3 block rounded-lg px-3 py-2 text-2xl font-light leading-7 text-gray-900 hover:bg-gray-50">Login</x-a>
                         @endguest
                     </div>
                 </div>
