@@ -7,24 +7,24 @@
 
 @php
     $buttonClasses = \Illuminate\Support\Arr::toCssClasses([
-        'border leading-6 rounded-[70%]',
-        ... match ($color) {
+        'inline-block text-center border leading-6 rounded-[70%]',
+        ...match ($color) {
             'white' => ['text-white'],
             default => ['text-gray-900'],
         },
         ...match ($size) {
-            'lg' => ['px-16 py-4 text-lg'],
+            'lg' => ['px-16 py-4 text-lg min-w-[236px]'],
             default => ['px-8 py-3 text-base'],
         },
-        ...$outlined ? 
-            [
+        ...$outlined
+            ? [
                 'border-2' => $size == 'lg',
                 ...match ($color) {
                     'white' => ['border-white'],
                     default => ['border-black'],
                 },
-            ] : 
-            [
+            ]
+            : [
                 'border-transparent',
                 ...match ($color) {
                     'white' => ['hover:border-white'],
@@ -40,7 +40,7 @@
     </button>
 @endif
 @if ($tag == 'a')
-    <x-link {{ $attributes->twMerge([$buttonClasses]) }}>
+    <x-a {{ $attributes->twMerge([$buttonClasses]) }}>
         {{ $slot }}
-    </x-link>
+    </x-a>
 @endif
