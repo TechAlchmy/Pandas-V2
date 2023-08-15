@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AcceptOrganizationInvitationController;
+use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Livewire\Resources\OrganizationInvitationResource\Pages\AcceptInvitation;
@@ -17,7 +18,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/signin', function () {
     return view('pages/login');
@@ -37,4 +37,9 @@ Route::get('organization-invitations/{record}/accept', AcceptInvitation::class)
     ->middleware(['signed'])
     ->name('organization-invitations.accept');
 
-require __DIR__.'/auth.php';
+Route::view('verify-email', 'pages.verify-email')
+    ->name('verification.notice');
+
+Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
+    ->middleware(['signed', 'throttle:6,1'])
+    ->name('verification.verify');
