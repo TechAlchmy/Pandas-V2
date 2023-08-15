@@ -1,5 +1,4 @@
 <x-layouts.app>
-    <x-topbar />
     <div class="grid grid-cols-1 md:grid-cols-2">
         <div>
             <div class="relative min-h-screen"
@@ -46,5 +45,4 @@
             </ul>
         </div>
     </div>
-    <livewire:footer simple />
 </x-layouts.app>
