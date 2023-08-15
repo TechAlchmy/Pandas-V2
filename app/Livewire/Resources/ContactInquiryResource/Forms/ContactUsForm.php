@@ -42,19 +42,19 @@ class ContactUsForm extends Component implements HasForms
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->label('')
+                    ->hiddenLabel()
                     ->placeholder('Name')
                     ->view('forms.components.text-input')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
                     ->required()
-                    ->label('')
+                    ->hiddenLabel()
                     ->placeholder('Email')
                     ->view('forms.components.text-input')
                     ->maxLength(255),
                 Forms\Components\Textarea::make('content')
                     ->required()
-                    ->label('')
+                    ->hiddenLabel()
                     ->placeholder('Message')
                     ->view('forms.components.textarea')
                     ->rows(6)

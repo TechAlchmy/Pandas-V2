@@ -39,14 +39,14 @@ class EditProfileForm extends Component implements HasForms
             ->statePath('data')
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label('')
+                    ->hiddenLabel()
                     ->placeholder('Name')
                     ->view('forms.components.text-input')
                     ->disabled()
                     ->dehydrated(false)
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
-                    ->label('')
+                    ->hiddenLabel()
                     ->placeholder('Email')
                     ->view('forms.components.text-input')
                     ->email()
@@ -54,13 +54,13 @@ class EditProfileForm extends Component implements HasForms
                     ->dehydrated(false)
                     ->maxLength(255),
                 Forms\Components\TextInput::make('phone_number')
-                    ->label('')
+                    ->hiddenLabel()
                     ->required()
                     ->placeholder('Phone')
                     ->view('forms.components.text-input')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('address')
-                    ->label('')
+                    ->hiddenLabel()
                     ->required()
                     ->placeholder('Address')
                     ->view('forms.components.text-input')
