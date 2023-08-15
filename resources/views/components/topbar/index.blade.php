@@ -139,14 +139,14 @@
             </div> --}}
 
             @guest
-                <x-button tag="a" href="/">Home</x-button>
+                <x-link href="/">Home</x-link>
             @endguest
             @auth
-                <x-button tag="a" href="/dashboard" :outlined="request()->is('dashboard')">Dashboard</x-button>
+                <x-link href="/dashboard" :outlined="request()->is('dashboard')">Dashboard</x-link>
             @endauth
-            <x-button tag="a" href="/benefits" :outlined="request()->is('benefits')">Benefits</x-button>
-            <x-button tag="a" href="/deals" :outlined="request()->is('deals')">Deals</x-button>
-            <x-button tag="a" href="/help" :outlined="request()->is('help')">Help</x-button>
+            <x-link href="/benefits" :outlined="request()->is('benefits')">Benefits</x-link>
+            <x-link href="/deals" :outlined="request()->is('deals')">Deals</x-link>
+            <x-link href="/help" :outlined="request()->is('help')">Help</x-link>
         </div>
         <div class="hidden lg:flex lg:flex-1 lg:justify-end gap-3">
             {{-- <x-link href="#" class="text-sm font-semibold leading-6 text-gray-900">Log in <span aria-hidden="true">&rarr;</span></x-link> --}}
@@ -162,10 +162,10 @@
         <div class="fixed inset-0 z-10"></div>
         <div class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
             <div class="flex items-center justify-between">
-                <x-link href="/" class="-m-1.5 p-1.5">
+                <x-a href="/" class="-m-1.5 p-1.5">
                     <span class="sr-only">Your Company</span>
                     <x-logo />
-                </x-link>
+                </x-a>
                 <button x-on:click="mobileMenuOpened = false" type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700">
                     <span class="sr-only">Close menu</span>
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -212,4 +212,3 @@
         </div>
     </div>
 </header>
-<x-topbar.extension />
