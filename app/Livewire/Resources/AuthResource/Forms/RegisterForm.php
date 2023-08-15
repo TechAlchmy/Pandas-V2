@@ -50,6 +50,8 @@ class RegisterForm extends Component implements HasForms
 
         $user = User::query()->create($data);
 
+        $user->userPreference()->create();
+
         event(new Registered($user));
 
         auth()->login($user);
