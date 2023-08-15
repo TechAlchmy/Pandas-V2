@@ -18,15 +18,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-Route::get('/signin', function () {
-    return view('pages/login');
-});
-
-Route::get('/dashboardd', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profilee', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
