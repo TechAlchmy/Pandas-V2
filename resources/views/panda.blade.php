@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-banner-upsell/>
-    <x-banner :link="asset('storage/banners/panda-main.png')">
+    <x-banner :background="asset('storage/banners/panda-main.png')">
     </x-banner>
     <section class="container px-[min(6.99vw,50px)] ">
         <x-break/>
