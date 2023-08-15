@@ -1,6 +1,7 @@
 <?php
-use function Laravel\Folio\{name};
+use function Laravel\Folio\{name, middleware};
 
+middleware(['auth']);
 name('verification.notice');
 ?>
 <x-layouts.guest class="bg-panda-green">
