@@ -6,7 +6,7 @@
     <section class="px-[min(6.99vw,50px)] py-8 bg-neutral-200">
         <h3 class="text-4xl">Recently Viewed</h3>
         <x-hr />
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
             @foreach ($recentlyViewed as $viewable)
                 <div class="space-y-2">
                     <x-a :href="route('deals.show', ['id' => $viewable->slug])">
