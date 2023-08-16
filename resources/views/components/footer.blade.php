@@ -1,5 +1,5 @@
 <footer class="w-full flex flex-col justify-between px-[min(6.99vw,50px)] lg:pl-12 h-[75px] lg:h-[100px] items-center mx-auto max-w-[1920px]">
-    <div class="h-[200px]"></div>
+    <div class="h-48"></div>
     <div class="w-full">
         <x-hr />
         <div class="w-full my-5">
