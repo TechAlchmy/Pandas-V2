@@ -58,9 +58,20 @@
         <x-break :height="'20px'"/>
         <x-black-line/>
     </section>
-    
-    {{-- //banner --}}
 
+    <section class="container px-[min(6.99vw,50px)] ">
+        <div class="bg:black h-[500px]" style="height: 500px; bacground:black">
+            <div class="flex justify-between mt-10">
+                <h1 class="text-[100px] font-editorial leading-[110px] ">Deals on Daily <br> Essentials</h1>
+                <div>
+                    <p class="mb-10">asdasdas dsad sa dasd asd asd.</p>
+                    <x-button size="lg" outlined>Learn More</x-button>
+                </div>
+            </div>
+        </div>
     </section>
+  
+
+
     <x-footer/>
 </x-app-layout>
