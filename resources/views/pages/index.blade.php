@@ -2,7 +2,7 @@
     <x-layouts.app>
         <x-banner-upsell />
         <x-banner :background="asset('storage/banners/panda-main.png')" />
-        <section class="px-[min(6.99vw,50px)] py-4">
+        <section class="px-[min(6.99vw,50px)] py-8">
             <x-hr />
             <div class="lg:flex justify-between gap-4">
                 <h2 class="text-2xl lg:text-6xl font-editorial">
