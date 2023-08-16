@@ -4,7 +4,7 @@ use function Laravel\Folio\{name};
 name('deals.index');
 ?>
 <x-layouts.app>
-    <section class="px-[min(6.99vw,50px)] py-8 lg:flex">
+    <section class="px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto lg:flex">
         <h1 class="text-2xl lg:text-4xl">
             Live More with Panda-Powered Deals + Discounts
         </h1>
