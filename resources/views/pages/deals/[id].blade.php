@@ -5,6 +5,7 @@ name('deals.show');
 ?>
 @php
     $record = \App\Models\Discount::query()
+        ->where('is_active', true)
         ->where('slug', $id)
         ->firstOrFail();
 @endphp
@@ -15,7 +16,6 @@ name('deals.show');
             <h1 class="text-4xl">
                 {{ $record->name }}
             </h1>
-            <div>{!! $record->description !!}</div>
             <div>
                 <x-button outlined size="lg">
                     Redeem
@@ -23,4 +23,5 @@ name('deals.show');
             </div>
         </div>
     </div>
+    <livewire:resources.recently-viewed-resource.widgets.create-recently-viewed :viewable="$record" />
 </x-layouts.app>
