@@ -25,6 +25,7 @@
         "ramsey/uuid": "^4.7",
         "spatie/eloquent-sortable": "^4.0",
         "spatie/laravel-medialibrary": "^10.11",
+        "spatie/laravel-model-info": "^1.4",
         "staudenmeir/laravel-adjacency-list": "^1.13"
     },
     "require-dev": {
@@ -46,7 +47,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
