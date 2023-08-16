@@ -1,9 +1,6 @@
 <?php
 
-use App\Http\Controllers\AcceptOrganizationInvitationController;
 use App\Http\Controllers\Auth\VerifyEmailController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ProfileController;
 use App\Livewire\Resources\OrganizationInvitationResource\Pages\AcceptInvitation;
 use Illuminate\Support\Facades\Route;
 
@@ -17,12 +14,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profilee', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
 Route::get('organization-invitations/{record}/accept', AcceptInvitation::class)
     ->middleware(['signed'])

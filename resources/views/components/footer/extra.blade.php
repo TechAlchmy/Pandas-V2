@@ -11,9 +11,13 @@
                 <li><x-a href="/help">Help</x-a></li>
             </ul>
             <ul>
-                <li><x-a href="/">Sign in</x-a></li>
-                <li><x-a href="/benefits">My Account</x-a></li>
-                <li><x-a href="/deals">Contact Us</x-a></li>
+                @guest
+                    <li><x-a href="/login">Sign in</x-a></li>
+                @endguest
+                @auth
+                    <li><x-a href="/dashboard">My Account</x-a></li>
+                @endauth
+                <li><x-a href="/contact-us">Contact Us</x-a></li>
                 <li><x-a href="/help">For Employers</x-a></li>
             </ul>
             <ul>

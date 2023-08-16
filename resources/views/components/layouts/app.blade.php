@@ -4,5 +4,5 @@
         <x-topbar.extension />
     @endauth
     {{ $slot }}
-    <livewire:footer />
+    <x-footer.extra />
 </x-layouts.base>
