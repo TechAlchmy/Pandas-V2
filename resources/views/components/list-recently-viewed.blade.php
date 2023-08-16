@@ -3,7 +3,7 @@
 @endphp
 
 @if ($recentlyViewed->isNotEmpty())
-    <section class="px-[min(6.99vw,50px)] py-8">
+    <section class="px-[min(6.99vw,50px)] py-8 bg-neutral-200">
         <h3 class="text-4xl">Recently Viewed</h3>
         <x-hr />
         <div class="grid grid-cols-2 lg:grid-cols-5 gap-6">
