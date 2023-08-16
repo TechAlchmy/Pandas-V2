@@ -8,14 +8,17 @@
         </div>
 
         <x-input
-            {{ $attributes->merge([
-                'autocapitalize' => $getAutocapitalize(),
-                'autocomplete' => $getAutocomplete(),
-                'autofocus' => $isAutofocused(),
-                'disabled' => $isDisabled(),
-                'required' => $isRequired(),
-                'type' => $getType() ?? 'text',
-            ]) }}
-            x-model="state" />
+            {{ 
+                $attributes->merge([
+                    'autocapitalize' => $getAutocapitalize(),
+                    'autocomplete' => $getAutocomplete(),
+                    'autofocus' => $isAutofocused(),
+                    'disabled' => $isDisabled(),
+                    'required' => $isRequired(),
+                    'type' => $getType() ?? 'text',
+                    $applyStateBindingModifiers('wire:model') => $getStatePath(),
+                ]) 
+            }}
+        />
     </div>
 </x-dynamic-component>
