@@ -103,6 +103,11 @@ class User extends Authenticatable implements FilamentUser, HasTenants, HasDefau
         return $this->hasMany(Manager::class);
     }
 
+    public function recentViews()
+    {
+        return $this->hasMany(RecentView::class);
+    }
+
     public function canAccessPanel(Panel $panel): bool
     {
         if ($this->trashed()) {
