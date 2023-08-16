@@ -2398,16 +2398,16 @@
         },
         {
             "name": "laravel/folio",
-            "version": "v1.0.0-beta.5",
+            "version": "v1.0.0-beta.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/folio.git",
-                "reference": "ffb7777ece0a387d1fa4bb35a85bf0fa4cc4df85"
+                "reference": "7a6f61300a8d9294d04dd227243883eec75d1b28"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/folio/zipball/ffb7777ece0a387d1fa4bb35a85bf0fa4cc4df85",
-                "reference": "ffb7777ece0a387d1fa4bb35a85bf0fa4cc4df85",
+                "url": "https://api.github.com/repos/laravel/folio/zipball/7a6f61300a8d9294d04dd227243883eec75d1b28",
+                "reference": "7a6f61300a8d9294d04dd227243883eec75d1b28",
                 "shasum": ""
             },
             "require": {
@@ -2466,7 +2466,7 @@
                 "issues": "https://github.com/laravel/folio/issues",
                 "source": "https://github.com/laravel/folio"
             },
-            "time": "2023-08-15T13:56:53+00:00"
+            "time": "2023-08-16T15:46:00+00:00"
         },
         {
             "name": "laravel/framework",
