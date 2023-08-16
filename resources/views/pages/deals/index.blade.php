@@ -28,4 +28,5 @@ name('deals.index');
             @endforeach
         </div>
     </section>
+    <x-list-recently-viewed />
 </x-layouts.app>
