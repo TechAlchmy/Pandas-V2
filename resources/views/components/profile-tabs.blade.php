@@ -17,7 +17,7 @@
                         {{ $key }}
                     </button>
                 </div>
-                <div x-bind:class="{ 'block lg:hidden': selected == {{ $loop->index }}, 'hidden': selected != {{ $loop->index }} }">
+                <div x-cloak x-bind:class="{ 'block lg:hidden': selected == {{ $loop->index }}, 'hidden': selected != {{ $loop->index }} }">
                     <livewire:is :component="$menu" wire:key="{{ $loop->index }}" />
                 </div>
             </li>
