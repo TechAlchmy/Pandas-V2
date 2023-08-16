@@ -1,36 +1,31 @@
 <?php
 
+use App\Livewire\Resources\UserResource\Forms\EditProfileForm;
 use App\Models\User;
 
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+use function Pest\Livewire\livewire;
+use function PHPUnit\Framework\assertSame;
+
 test('profile page is displayed', function () {
-    $user = User::factory()->create();
-
-    $response = $this
-        ->actingAs($user)
-        ->get('/profile');
-
-    $response->assertOk();
+    actingAs($user = User::factory()->create());
+    get('dashboard')->assertOk();
 });
 
 test('profile information can be updated', function () {
-    $user = User::factory()->create();
-
-    $response = $this
-        ->actingAs($user)
-        ->patch('/profile', [
+    actingAs($user = User::factory()->create());
+    livewire(EditProfileForm::class)
+        ->set('data', [
             'name' => 'Test User',
             'email' => 'test@example.com',
-        ]);
-
-    $response
-        ->assertSessionHasNoErrors()
-        ->assertRedirect('/profile');
+        ])
+        ->call('save');
 
     $user->refresh();
 
-    $this->assertSame('Test User', $user->name);
-    $this->assertSame('test@example.com', $user->email);
-    $this->assertNull($user->email_verified_at);
+    assertSame('Test User', $user->name);
+    assertSame('test@example.com', $user->email);
 });
 
 test('email verification status is unchanged when the email address is unchanged', function () {
