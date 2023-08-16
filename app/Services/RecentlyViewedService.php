@@ -23,9 +23,15 @@ class RecentlyViewedService
 
     public function get(string $viewable)
     {
-        return collect(session('recently_viewed.'.$viewable))
-            ->diff($this->filterViewables($viewable))
-            ->take(10);
+        session()->put(
+            key: 'recently_viewed.'.$viewable,
+            value: collect(session('recently_viewed.'.$viewable))
+                ->diff($this->filterViewables($viewable))
+                ->take(10)
+                ->all()
+        );
+
+        return session('recently_viewed.'.$viewable);
     }
 
     public function filterViewables(string $model)
