@@ -11,5 +11,5 @@ name('dashboard');
         <h1 class="text-4xl lg:text-7xl">My Panda</h1>
         <p class="hidden lg:block">{{ auth()->user()->organization?->name }}</p>
     </div>
-    <livewire:resources.user-resource.widgets.profile-tabs />
+    <x-profile-tabs />
 </x-layouts.app>
