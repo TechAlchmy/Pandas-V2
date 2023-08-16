@@ -1,3 +1,3 @@
-<a {{ $attributes->except('wire:navigate') }} wire:navigate>
+<a {{ $attributes->except('wire:navigate') }}>
     {{ $slot }}
 </a>
