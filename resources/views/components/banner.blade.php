@@ -1,7 +1,7 @@
 @props([
     'background' => null,
 ])
-<div class="banner-container d-flex align-items-center justify-content-start" style="background-image: url('{{ $background }}'); height: 700px; background-size: cover; background-position: bottom;">
+<div class="bg-cover bg-bottom h-[700px]" style="background-image: url('{{ $background }}');">
     <div class="container flex items-center space-x-4 mx-auto">
         <div class="p-10 w-full relative flex">
             <div class="w-3/4">
