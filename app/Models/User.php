@@ -152,6 +152,25 @@ class User extends Authenticatable implements FilamentUser, HasTenants, HasDefau
         return Attribute::get(fn () => $this->is_admin || $this->is_manager);
     }
 
+    protected function avatarUrl(): Attribute
+    {
+        return Attribute::get(function ($value, $attributes) {
+            if ($this->hasMedia('avatar')) {
+                return $this->getFirstMediaUrl('avatar');
+            }
+
+            $name = str($attributes['name'])
+                ->trim()
+                ->explode(' ')
+                ->map(fn (string $segment): string => filled($segment) ? mb_substr($segment, 0, 1) : '')
+                ->join(' ');
+
+            // $backgroundColor = Rgb::fromString('rgb(' . FilamentColor::getColors()['gray'][950] . ')')->toHex();
+
+            return 'https://ui-avatars.com/api/?name=' . urlencode($name) . '&color=FFFFFF&background=' . str('#111111')->after('#');
+        } );
+    }
+
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('avatar')

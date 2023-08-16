@@ -1,24 +1,28 @@
-<div class="banner-container d-flex align-items-center justify-content-start" style="background-image: url('{{ $link }}'); height: 700px; background-size: cover; background-position: bottom;">
+@props([
+    'background' => null,
+])
+<div class="banner-container d-flex align-items-center justify-content-start" style="background-image: url('{{ $background }}'); height: 700px; background-size: cover; background-position: bottom;">
     <div class="container flex items-center space-x-4 mx-auto">
         <div class="p-10 w-full relative flex">
             <div class="w-3/4">
-                <img src="{{ asset('storage/assets/circler-white.png') }}" alt="2 Circles " class="h-[600px]"/>
+                <img src="{{ asset('storage/assets/circler-white.png') }}" alt="2 Circles " class="h-[600px]" />
                 <div class="bottom-out-blade">
                     <h1 class="font-editorial text-[60px] font-thin text-white">Live. Grow. Play. <br> Panda.</h1>
                 </div>
             </div>
-            
-            
             <div class="w-1/4 text-white relative">
-                <p class="text-[50px] w-[700px] ml-[-60%] leading-[60px] py-10 ">Explore a new world of benefits that help you grow</p>
-                <p class="text-[20px]">Welcome to your Panda People portal. Here, you’ll find a new world of benefits 
-                    curated to help you do what you love on your terms. We’re here to help you live 
-                    inquisitively, play, and explore more of life with less stress. 
+                <p class="text-[50px] w-[700px] ml-[-60%] leading-[60px] py-10 ">
+                    Explore a new world of benefits that help you grow
                 </p>
-                <x-btn-white class="panda-submit-white text-white absolute bottom-0">Learn More</x-btn-white>
-
+                <p class="text-[20px]">
+                    Welcome to your Panda People portal. Here, you’ll find a new world of benefits
+                    curated to help you do what you love on your terms. We’re here to help you live
+                    inquisitively, play, and explore more of life with less stress.
+                </p>
+                <x-button size="lg" color="white" outlined class="absolute bottom-0">
+                    Learn More
+                </x-button>
             </div>
-            
         </div>
     </div>
 </div>

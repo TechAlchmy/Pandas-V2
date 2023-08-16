@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Concerns\InteractsWithAuditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Kirschbaum\PowerJoins\PowerJoins;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
@@ -18,6 +19,7 @@ class Category extends Model implements Sortable
     use HasRecursiveRelationships;
     use InteractsWithAuditable;
     use SoftDeletes;
+    use PowerJoins;
 
     protected $fillable = [
         'name',
@@ -40,6 +42,12 @@ class Category extends Model implements Sortable
     public function discountCategories()
     {
         return $this->hasMany(DiscountCategory::class);
+    }
+
+    public function discounts()
+    {
+        return $this->belongsToMany(Discount::class, 'discount_categories')
+            ->withTimestamps();
     }
 
     public function buildSortQuery(): Builder
