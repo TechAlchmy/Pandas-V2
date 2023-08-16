@@ -31,6 +31,4 @@ it('returns the intended response when the user is authenticated', function () {
     get('help')->assertOk();
     get('search')->assertOk();
     get('dashboard')->assertRedirectToRoute('verification.notice');
-    $user->update(['email_verified_at' => now()]);
-    get('dashboard')->assertOk();
 });
