@@ -1,1 +1,0 @@
-<div class="w-full border-t border-black mx-auto"></div>

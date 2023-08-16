@@ -1,1 +1,0 @@
-<div style="height:{{ $height ?? '50px' }}"></div>
