@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\FeaturedDealResource\Pages;
 use App\Filament\Resources\FeaturedDealResource\RelationManagers;
 use App\Models\BrandOrganization;
+use App\Models\Discount;
 use App\Models\FeaturedDeal;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -46,6 +47,23 @@ class FeaturedDealResource extends Resource
                     })
                     ->searchable()
                     ->relationship('organization', 'name')
+                    ->rules([
+                        function ($get) {
+                            return function (string $attribute, $value, $fail) use ($get) {
+                                $checked = BrandOrganization::query()
+                                    ->where('is_active', true)
+                                    ->where('organization_id', $value)
+                                    ->whereIn('brand_id', Discount::query()
+                                        ->select('brand_id')
+                                        ->whereKey($get('brand_id')))
+                                    ->exists();
+
+                                if (! $checked) {
+                                    $fail("This {$attribute} doesnt include this brand's discount");
+                                }
+                            };
+                        },
+                    ])
                     ->helperText('Leave blank to make this featured global'),
             ]);
     }
