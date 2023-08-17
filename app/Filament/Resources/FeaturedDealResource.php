@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\FeaturedDealResource\Pages;
 use App\Filament\Resources\FeaturedDealResource\RelationManagers;
+use App\Models\BrandOrganization;
 use App\Models\FeaturedDeal;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -19,7 +20,7 @@ class FeaturedDealResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationGroup = 'E-Commerce';
+    protected static ?string $navigationGroup = 'Products';
 
     public static function form(Form $form): Form
     {
@@ -28,8 +29,20 @@ class FeaturedDealResource extends Resource
                 Forms\Components\Select::make('discount_id')
                     ->required()
                     ->searchable()
-                    ->relationship('discount', 'name'),
+                    ->relationship('discount', 'name', function ($query, $get) {
+                        return $query->when($get('organization_id'), function ($query, $value) {
+                            $query->whereIn('id', BrandOrganization::query()
+                                ->select('brand_id')
+                                ->where('organization_id', $value));
+                        });
+                    }),
                 Forms\Components\Select::make('organization_id')
+                    ->live()
+                    ->afterStateUpdated(function ($set, $state) {
+                        $set('discount_id', BrandOrganization::query()
+                            ->firstWhere('organization_id', $state)
+                            ?->brand_id);
+                    })
                     ->searchable()
                     ->relationship('organization', 'name')
                     ->helperText('Leave blank to make this featured global'),
