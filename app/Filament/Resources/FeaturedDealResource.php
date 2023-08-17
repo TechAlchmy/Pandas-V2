@@ -59,7 +59,7 @@ class FeaturedDealResource extends Resource
                                     ->exists();
 
                                 if (! $checked) {
-                                    $fail("This {$attribute} doesnt include this brand's discount");
+                                    $fail("This {$attribute} doesnt include this discount's brand");
                                 }
                             };
                         },
