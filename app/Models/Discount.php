@@ -7,12 +7,14 @@ use App\Enums\DiscountCallToActionEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Kirschbaum\PowerJoins\PowerJoins;
 
 class Discount extends Model
 {
     use HasFactory;
     use InteractsWithAuditable;
     use SoftDeletes;
+    use PowerJoins;
 
     protected $fillable = [
         'name',
