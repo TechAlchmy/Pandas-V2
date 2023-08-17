@@ -27,8 +27,8 @@ return new class extends Migration
             $table->string('api_link')->nullable();
             $table->string('link')->nullable();
             $table->unsignedInteger('cta')->nullable();
-            $table->integer('views')->default(0);
-            $table->integer('clicks')->default(0);
+            $table->unsignedInteger('views')->default(0);
+            $table->unsignedInteger('clicks')->default(0);
             $table->string('code')->nullable();
             $table->jsonb('amount')->nullable();
             $table->integer('limit_qty')->nullable();
