@@ -29,6 +29,7 @@ class FeaturedDealResource extends Resource
                     ->required()
                     ->searchable()
                     ->relationship('discount', 'name', function ($query) {
+                        $query->where('is_active', true);
                         return $query->whereIn('brand_id', BrandOrganization::query()
                             ->select('brand_id')
                             ->where('is_active', true)
