@@ -10,6 +10,7 @@ export default {
         "./resources/views/**/*.blade.php",
         "./vendor/filament/**/*.blade.php",
         "./app/Filament/**/*.php",
+        "./app/Livewire/**/*.php",
     ],
 
     theme: {
