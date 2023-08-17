@@ -4,6 +4,8 @@ namespace App\Filament\Management\Resources;
 
 use App\Filament\Management\Resources\FeaturedDealResource\Pages;
 use App\Filament\Management\Resources\FeaturedDealResource\RelationManagers;
+use App\Models\Brand;
+use App\Models\BrandOrganization;
 use App\Models\FeaturedDeal;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -26,7 +28,11 @@ class FeaturedDealResource extends Resource
                 Forms\Components\Select::make('discount_id')
                     ->required()
                     ->searchable()
-                    ->relationship('discount', 'name'),
+                    ->relationship('discount', 'name', function ($query) {
+                        return $query->whereIn('brand_id', BrandOrganization::query()
+                            ->select('brand_id')
+                            ->whereBelongsTo(filament()->getTenant()));
+                    }),
             ]);
     }
 
