@@ -69,12 +69,6 @@ class DatabaseSeeder extends Seeder
             $discount->save();
 
             FeaturedDeal::query()->create(['discount_id' => $discount->getKey()]);
-            Organization::query()->get()->each(function ($organization) use ($discount) {
-                FeaturedDeal::query()->firstOrCreate([
-                    'discount_id' => $discount->getKey(),
-                    'organization_id' => $organization->getKey(),
-                ]);
-            });
         });
         Tag::factory(10)->create();
         DiscountCategory::factory(10)->create();
