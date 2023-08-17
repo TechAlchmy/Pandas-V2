@@ -30,11 +30,11 @@ class FeaturedDealResource extends Resource
                     ->required()
                     ->searchable()
                     ->relationship('discount', 'name', function ($query, $get) {
-                        return $query->when($get('organization_id'), function ($query, $value) {
-                            $query->whereIn('id', BrandOrganization::query()
+                        if ($get('organization_id')) {
+                            return $query->whereIn('id', BrandOrganization::query()
                                 ->select('brand_id')
-                                ->where('organization_id', $value));
-                        });
+                                ->where('organization_id', $get('organization_id')));
+                        }
                     }),
                 Forms\Components\Select::make('organization_id')
                     ->live()
