@@ -6,10 +6,12 @@ name('deals.show');
 @php
     $record = \App\Models\Discount::query()
         ->with('categories')
+        ->forOrganization(auth()->user()?->organization_id)
         ->where('is_active', true)
         ->where('slug', $id)
         ->firstOrFail();
     $related = \App\Models\Discount::query()
+        ->forOrganization(auth()->user()?->organization_id)
         ->where('is_active', true)
         ->whereIn(
             'id',
@@ -21,6 +23,7 @@ name('deals.show');
         ->get();
     
     $popular = \App\Models\Discount::query()
+        ->forOrganization(auth()->user()?->organization_id)
         ->where('is_active', true)
         ->orderByDesc('views')
         ->take(4)

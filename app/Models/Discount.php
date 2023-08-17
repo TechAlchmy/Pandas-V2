@@ -104,4 +104,14 @@ class Discount extends Model
     {
         return $this->hasMany(FeaturedDeal::class);
     }
+
+    public function scopeForOrganization($query, $organizationId)
+    {
+        return $query->when($organizationId, function ($query, $value) {
+            $query->whereIn('brand_id', BrandOrganization::query()
+                ->select('brand_id')
+                ->where('is_active', true)
+                ->where('organization_id', $value));
+        });
+    }
 }

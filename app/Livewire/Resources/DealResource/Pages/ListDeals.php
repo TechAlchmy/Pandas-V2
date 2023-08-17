@@ -45,13 +45,7 @@ class ListDeals extends Component implements HasForms
                     ->getSearchResultsUsing(fn ($search) => Brand::query()
                         ->where('name', 'like', "%{$search}%")
                         ->where('is_active', true)
-                        ->when(auth()->user()?->organization_id, function ($query, $value) {
-                            return $query->whereIn('id', BrandOrganization::query()
-                                ->select('brand_id')
-                                ->where('is_active', true)
-                                ->where('organization_id', $value)
-                            );
-                        })
+                        ->forOrganization(auth()->user()?->organization_id)
                         ->take(7)
                         ->get()
                         ->mapWithKeys(fn ($record) => [
@@ -88,6 +82,7 @@ class ListDeals extends Component implements HasForms
     public function deals()
     {
         return \App\Models\Discount::query()
+            ->forOrganization(auth()->user()?->organization_id)
             ->where('is_active', true)
             ->when($this->filter['search'], fn($query) => $query->where('name', 'like', "%{$this->filter['search']}%"))
             ->when($this->filter['brand_id'], fn($query) => $query->where('discounts.brand_id', $this->filter['brand_id']))
@@ -103,6 +98,7 @@ class ListDeals extends Component implements HasForms
     public function featuredDeals()
     {
         return \App\Models\Discount::query()
+            ->forOrganization(auth()->user()?->organization_id)
             ->where('is_active', true)
             ->when($this->filter['search'], fn($query) => $query->where('name', 'like', "%{$this->filter['search']}%"))
             ->when($this->filter['brand_id'], fn($query) => $query->where('discounts.brand_id', $this->filter['brand_id']))
@@ -118,12 +114,8 @@ class ListDeals extends Component implements HasForms
                 }
 
                 return \App\Models\Discount::query()
+                    ->forOrganization(auth()->user()?->organization_id)
                     ->where('is_active', true)
-                    ->when(auth()->user()?->organization_id, function ($query, $value) {
-                        return $query->whereIn('brand_id', BrandOrganization::query()
-                            ->where('is_active', true)
-                            ->where('organization_id', $value));
-                    })
                     ->inRandomOrder()
                     ->take(4)
                     ->get();
