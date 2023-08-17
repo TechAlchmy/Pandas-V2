@@ -1,6 +1,6 @@
-@props(['record'])
+@props(['record', 'recordClicks' => false])
 
-<div class="space-y-2">
+<div class="space-y-2" x-data="{ recordClicks: @js($recordClicks) }" x-on:click="if (recordClicks) $dispatch('deal-clicked', {id: {{ $record->getKey() }}})">
     <x-a :href="route('deals.show', ['id' => $record->slug])">
         <h4 class="text-4xl">{{ $record->name }}</h4>
     </x-a>
