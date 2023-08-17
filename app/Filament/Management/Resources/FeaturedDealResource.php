@@ -31,6 +31,7 @@ class FeaturedDealResource extends Resource
                     ->relationship('discount', 'name', function ($query) {
                         return $query->whereIn('brand_id', BrandOrganization::query()
                             ->select('brand_id')
+                            ->where('is_active', true)
                             ->whereBelongsTo(filament()->getTenant()));
                     }),
             ]);

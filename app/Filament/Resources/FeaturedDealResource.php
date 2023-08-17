@@ -40,6 +40,7 @@ class FeaturedDealResource extends Resource
                     ->live()
                     ->afterStateUpdated(function ($set, $state) {
                         $set('discount_id', BrandOrganization::query()
+                            ->where('is_active', true)
                             ->firstWhere('organization_id', $state)
                             ?->brand_id);
                     })
