@@ -9,7 +9,7 @@
     </section>
     @if ($filter['search'] && $this->deals->isEmpty())
         <section class="px-[min(6.99vw,50px)] max-w-[1920px] mx-auto py-8 text-center font-light">
-            <span class="text-6xl">
+            <span class="text-6xl break-words">
                 No results for "{{ $filter['search'] }}"<br />
             </span>
         </section>
