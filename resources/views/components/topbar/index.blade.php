@@ -8,9 +8,7 @@
             </a>
         </div>
         <div class="flex gap-x-4 lg:hidden">
-            <button class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
-                @svg('magnifying-glass', 'w-6')
-            </button>
+            <x-global-search />
             <button class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
                 @svg('shopping-bag', 'w-6')
             </button>
