@@ -5,12 +5,14 @@ name('deals.show');
 ?>
 @php
     $record = \App\Models\Discount::query()
+        ->with('brand.media')
         ->with('categories')
         ->forOrganization(auth()->user()?->organization_id)
         ->where('is_active', true)
         ->where('slug', $id)
         ->firstOrFail();
     $related = \App\Models\Discount::query()
+        ->with('brand.media')
         ->forOrganization(auth()->user()?->organization_id)
         ->where('is_active', true)
         ->whereIn(
@@ -23,6 +25,7 @@ name('deals.show');
         ->get();
     
     $popular = \App\Models\Discount::query()
+        ->with('brand.media')
         ->forOrganization(auth()->user()?->organization_id)
         ->where('is_active', true)
         ->orderByDesc('views')

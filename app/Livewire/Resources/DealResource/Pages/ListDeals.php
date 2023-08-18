@@ -79,6 +79,7 @@ class ListDeals extends Component implements HasForms
     public function deals()
     {
         return \App\Models\Discount::query()
+            ->with('brand.media')
             ->forOrganization(auth()->user()?->organization_id)
             ->where('is_active', true)
             ->when($this->filter['search'], fn($query) => $query->where('name', 'like', "%{$this->filter['search']}%"))
@@ -95,6 +96,7 @@ class ListDeals extends Component implements HasForms
     public function featuredDeals()
     {
         return \App\Models\Discount::query()
+            ->with('brand.media')
             ->forOrganization(auth()->user()?->organization_id)
             ->where('is_active', true)
             ->when($this->filter['search'], fn($query) => $query->where('name', 'like', "%{$this->filter['search']}%"))
@@ -111,6 +113,7 @@ class ListDeals extends Component implements HasForms
                 }
 
                 return \App\Models\Discount::query()
+                    ->with('brand.media')
                     ->forOrganization(auth()->user()?->organization_id)
                     ->where('is_active', true)
                     ->inRandomOrder()
