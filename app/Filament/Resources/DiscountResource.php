@@ -33,6 +33,7 @@ class DiscountResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('brand_id')
+                    ->required()
                     ->relationship('brand', 'name')
                     ->searchable(),
                 Forms\Components\TextInput::make('name')

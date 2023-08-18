@@ -37,7 +37,7 @@ class DiscountFactory extends Factory
             'created_by_id' => $this->faker->numberBetween(1, 20),
             'updated_by_id' => $this->faker->numberBetween(1, 20),
             'deleted_by_id' => null,
-
+            'brand_id' => fake()->numberBetween(1, 10),
         ];
     }
 }
