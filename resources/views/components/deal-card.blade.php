@@ -10,7 +10,7 @@
             </div>
         @endif
     </div>
-    <x-a :href="route('deals.show', ['id' => $record->slug])">
+    <x-a class="inline-block" :href="route('deals.show', ['id' => $record->slug])">
         <h4 class="text-4xl">{{ $record->name }}</h4>
     </x-a>
     <p class="text-2xl">{{ $record->percentage }}%</p>
