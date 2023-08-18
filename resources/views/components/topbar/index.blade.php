@@ -7,7 +7,7 @@
                 {{-- <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt=""> --}}
             </a>
         </div>
-        <div class="flex gap-x-4 lg:hidden">
+        <div class="flex items-center gap-x-4 lg:hidden">
             <x-global-search />
             <x-cart-button />
             <button x-on:click="mobileMenuOpened = true" type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
