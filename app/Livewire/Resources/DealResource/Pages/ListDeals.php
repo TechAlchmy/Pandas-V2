@@ -39,8 +39,7 @@ class ListDeals extends Component implements HasForms
                     ->live()
                     ->label('')
                     ->placeholder('Find Brands')
-                    ->extraAttributes(['class' => '!rounded-none'])
-                    ->extraInputAttributes(['class' => '!border-black'])
+                    ->extraAttributes(['class' => 'rounded-none ring-transparent border-[0.5px] border-black list-deals'])
                     ->getOptionLabelUsing(fn ($value) => Brand::find($value)?->name)
                     ->getSearchResultsUsing(fn ($search) => Brand::query()
                         ->where('name', 'like', "%{$search}%")
@@ -56,8 +55,7 @@ class ListDeals extends Component implements HasForms
                     ->live()
                     ->label('')
                     ->placeholder('Find Category...')
-                    ->extraAttributes(['class' => '!rounded-none'])
-                    ->extraInputAttributes(['class' => '!border-black'])
+                    ->extraAttributes(['class' => 'rounded-none ring-transparent border-[0.5px] border-black list-deals'])
                     ->getOptionLabelUsing(fn ($value) => Category::find($value)?->name)
                     ->getSearchResultsUsing(function ($search) {
                         return Category::query()
@@ -71,8 +69,7 @@ class ListDeals extends Component implements HasForms
                     ->searchable(),
                 Forms\Components\TextInput::make('search')
                     ->live(debounce: 500)
-                    ->extraAttributes(['class' => '!rounded-none'])
-                    ->extraInputAttributes(['class' => '!border-black'])
+                    ->extraAttributes(['class' => 'rounded-none ring-transparent border border-black'])
                     ->label('')
                     ->placeholder('Search Deals'),
             ]);
