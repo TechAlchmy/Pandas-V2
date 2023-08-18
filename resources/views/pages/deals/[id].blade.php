@@ -33,7 +33,15 @@ name('deals.show');
     <section class="px-[min(6.99vw,50px)] max-w-[1920px] mx-auto py-8">
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div class="bg-gray"></div>
+            <div class="">
+                @if ($record->brand->hasMedia('logo'))
+                    {{ $record->brand->getFirstMedia('logo')->img()->attributes(['class' => 'w-full']) }}
+                @else
+                    <div class="bg-gray w-full h-8">
+                        No Image
+                    </div>
+                @endif
+            </div>
             <div class="space-y-6">
                 <h1 class="text-4xl">
                     {{ $record->name }}
