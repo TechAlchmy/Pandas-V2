@@ -66,9 +66,16 @@
                     </button>
                 </div>
                 <div class="relative w-auto">
-                    <form action="/deals">
-                        <x-input class="p-2" placeholder="Search Deals" type="search" name="filter[search]" value="{{ request('filter.search') }}" />
-                    </form>
+                    <div class="flex shadow-sm transition duration-75 bg-white border border-black">
+                        <div class="min-w-0 flex-1">
+                            <form action="/deals">
+                                <x-input class="p-2" placeholder="Search Deals" type="search" name="filter[search]" value="{{ request('filter.search') }}" />
+                            </form>
+                        </div>
+                        <div class="flex items-center gap-x-3 ps-3 pe-2">
+                            @svg('magnifying-glass', 'w-6 h-6')
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
