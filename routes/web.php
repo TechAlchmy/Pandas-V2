@@ -1,8 +1,10 @@
 <?php
 
-use App\Http\Controllers\Auth\VerifyEmailController;
-use App\Livewire\Resources\OrganizationInvitationResource\Pages\AcceptInvitation;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Livewire\Pages\Checkout;
+use App\Livewire\Pages\OrderSummary;
+use App\Livewire\Resources\OrganizationInvitationResource\Pages\AcceptInvitation;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,3 +24,6 @@ Route::get('organization-invitations/{record}/accept', AcceptInvitation::class)
 Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
     ->middleware(['signed', 'throttle:6,1'])
     ->name('verification.verify');
+
+Route::get('/checkout', Checkout::class)->name('pages.checkout');
+Route::get('/order/{order:uuid}/summary', OrderSummary::class)->name('pages.order.summary');

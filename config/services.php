@@ -31,4 +31,7 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'cardknox' => [
+        'transaction_key' => env('TRANSACTION_KEY'),
+    ],
 ];
