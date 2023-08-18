@@ -9,9 +9,7 @@
         </div>
         <div class="flex gap-x-4 lg:hidden">
             <x-global-search />
-            <button class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
-                @svg('shopping-bag', 'w-6')
-            </button>
+            <x-cart-button />
             <button x-on:click="mobileMenuOpened = true" type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
                 <span class="sr-only">Open main menu</span>
                 @svg('hamburger-menu', null, ['class' => 'w-6 h-6'])
@@ -147,9 +145,7 @@
         <div class="hidden lg:flex lg:flex-1 lg:justify-end gap-3">
             {{-- <x-link href="#" class="text-sm font-semibold leading-6 text-gray-900">Log in <span aria-hidden="true">&rarr;</span></x-link> --}}
             <x-global-search />
-            <button class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
-                @svg('shopping-bag', 'w-6')
-            </button>
+            <x-cart-button />
         </div>
     </nav>
     <!-- Mobile menu, show/hide based on menu open state. -->
