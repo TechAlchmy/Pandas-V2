@@ -125,6 +125,7 @@ class ListDeals extends Component implements HasForms
     public function recentlyViewed()
     {
         return \App\Models\Discount::query()
+            ->with('brand.media')
             ->find(recentlyViewed()->get(\App\Models\Discount::class));
     }
 
