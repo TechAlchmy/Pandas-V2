@@ -1,5 +1,7 @@
 @php
-    $recentlyViewed = \App\Models\Discount::query()->find(recentlyViewed()->get(\App\Models\Discount::class));
+    $recentlyViewed = \App\Models\Discount::query()
+        ->with('brand.media')
+        ->find(recentlyViewed()->get(\App\Models\Discount::class));
 @endphp
 
 @if ($recentlyViewed->isNotEmpty())
