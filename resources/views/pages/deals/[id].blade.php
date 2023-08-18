@@ -38,6 +38,11 @@ name('deals.show');
                 <h1 class="text-4xl">
                     {{ $record->name }}
                 </h1>
+                <div x-data>
+                    <x-button x-on:click="$dispatch('cart-item-added', {id: {{ $record->getKey() }}})" outlined size="lg">
+                        Add to cart
+                    </x-button>
+                </div>
                 <div x-data="{ modalOpen: false }">
                     <x-button x-on:click="modalOpen = true" outlined size="lg">
                         Redeem
