@@ -74,19 +74,22 @@ class DatabaseSeeder extends Seeder
         DiscountCategory::factory(10)->create();
         DiscountRegion::factory(10)->create();
         DiscountTag::factory(10)->create();
-        Order::factory(125)->create()->each(function ($order) {
-            $user = User::inRandomOrder()->first();
-            $order->user()->associate($user);
-            $order->save();
+        Order::factory(125)
+            ->sequence(...collect()->range(1, 125)->map(fn ($orderColumn) => ['order_column' => $orderColumn])->all())
+            ->create()
+            ->each(function ($order) {
+                $user = User::inRandomOrder()->first();
+                $order->user()->associate($user);
+                $order->save();
 
-            foreach (range(1, 6) as $count) {
-                $discount = Discount::inRandomOrder()->first();
-                $orderDetail = OrderDetail::factory()->make();
-                $orderDetail->discount()->associate($discount);
-                $orderDetail->order()->associate($order);
-                $order->orderDetails()->save($orderDetail);
-            }
-        });
+                foreach (range(1, 6) as $count) {
+                    $discount = Discount::inRandomOrder()->first();
+                    $orderDetail = OrderDetail::factory()->make();
+                    $orderDetail->discount()->associate($discount);
+                    $orderDetail->order()->associate($order);
+                    $order->orderDetails()->save($orderDetail);
+                }
+            });
 
         DiscountType::factory(10)->create();
     }
