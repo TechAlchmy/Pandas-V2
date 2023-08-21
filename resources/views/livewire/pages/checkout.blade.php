@@ -53,19 +53,15 @@
                 <tbody>
                     <tr>
                         <td>Subtotal</td>
-                        <td align="right">{{ Filament\Support\format_money(60, 'USD') }}</td>
-                    </tr>
-                    <tr>
-                        <td>Shipping</td>
-                        <td align="right">{{ Filament\Support\format_money(60, 'USD') }}</td>
+                        <td align="right">{{ Filament\Support\format_money(cart()->subtotal(), 'USD') }}</td>
                     </tr>
                     <tr>
                         <td>Est. Tax</td>
-                        <td align="right">{{ Filament\Support\format_money(60, 'USD') }}</td>
+                        <td align="right">{{ Filament\Support\format_money(cart()->tax(), 'USD') }}</td>
                     </tr>
                     <tr>
                         <td>Total</td>
-                        <td align="right">{{ Filament\Support\format_money(60, 'USD') }}</td>
+                        <td align="right">{{ Filament\Support\format_money(cart()->total(), 'USD') }}</td>
                     </tr>
                 </tbody>
             </table>
