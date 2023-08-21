@@ -64,12 +64,12 @@ class CartService
     {
         if (auth()->check()) {
             $cart = Cart::query()
-                ->firstOrCreate([
+                ->updateOrCreate([
                     'user_id' => auth()->id(),
                     'order_id' => null,
+                ], [
+                    'items' => session('cart_items'),
                 ]);
-
-            $cart->update(['items' => session('cart_items')]);
         }
     }
 }
