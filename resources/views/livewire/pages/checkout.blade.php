@@ -1,4 +1,82 @@
-<div class="bg-gray-50">
+<div class="max-w-[1920px] mx-auto px-[min(6.99vw,50px)] py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="col-span-2">
+            <h2 class="font-light text-3xl">Shopping bags</h2>
+            <x-hr />
+            @if (true)
+                <div class="divide-y">
+                    <div class="p-4 hidden lg:block">
+                        <div class="flex gap-6">
+                            <div class="w-20"></div>
+                            <div class="w-full grid grid-cols-1 lg:grid-cols-4 gap-6">
+                                <div>Item</div>
+                                <div>Item Price</div>
+                                <div>Qty</div>
+                                <div>Total Price</div>
+                            </div>
+                        </div>
+                    </div>
+                    @foreach (range(1, 6) as $item)
+                        <div class="p-4">
+                            <div class="flex gap-6">
+                                <img src="https://tailwindui.com/img/ecommerce-images/checkout-page-02-product-01.jpg" alt="Front of men&#039;s Basic Tee in black." class="w-20 rounded-md">
+                                <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                                    <div>
+                                        <h5>Item {{ $loop->index }}</h5>
+                                    </div>
+                                    <div>
+                                        {{ Filament\Support\format_money(60, 'USD') }}
+                                    </div>
+                                    <div>
+                                        <x-input type="number" class="px-2 max-w-full border !border-solid border-black" min="1" />
+                                    </div>
+                                    <div>
+                                        {{ Filament\Support\format_money(60, 'USD') }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-end gap-6">
+                                <button>Remove</button>
+                                <button>Save for later</button>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                <div>No Item</div>
+            @endif
+        </div>
+        <div>
+            <h2 class="font-light text-3xl">Order Summary</h2>
+            <x-hr />
+            <table class="table w-full">
+                <tbody>
+                    <tr>
+                        <td>Subtotal</td>
+                        <td align="right">{{ Filament\Support\format_money(60, 'USD') }}</td>
+                    </tr>
+                    <tr>
+                        <td>Shipping</td>
+                        <td align="right">{{ Filament\Support\format_money(60, 'USD') }}</td>
+                    </tr>
+                    <tr>
+                        <td>Est. Tax</td>
+                        <td align="right">{{ Filament\Support\format_money(60, 'USD') }}</td>
+                    </tr>
+                    <tr>
+                        <td>Total</td>
+                        <td align="right">{{ Filament\Support\format_money(60, 'USD') }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <x-hr />
+            <x-button outlined>
+                Proceed to checkout
+            </x-button>
+        </div>
+    </div>
+</div>
+{{-- <div class="bg-gray-50">
     <div class="container mx-auto px-4 pb-24 pt-16 sm:px-6 lg:px-8">
         <h2 class="sr-only">Checkout</h2>
 
@@ -16,27 +94,23 @@
                     <ul role="list" class="divide-y divide-gray-200">
                         <li class="flex px-4 py-6 sm:px-6">
                             <div class="flex-shrink-0">
-                                <img src="https://tailwindui.com/img/ecommerce-images/checkout-page-02-product-01.jpg"
-                                    alt="Front of men&#039;s Basic Tee in black." class="w-20 rounded-md">
+                                <img src="https://tailwindui.com/img/ecommerce-images/checkout-page-02-product-01.jpg" alt="Front of men&#039;s Basic Tee in black." class="w-20 rounded-md">
                             </div>
 
                             <div class="ml-6 flex flex-1 flex-col">
                                 <div class="flex">
                                     <div class="min-w-0 flex-1">
                                         <h4 class="text-sm">
-                                            <a href="#"
-                                                class="font-medium text-gray-700 hover:text-gray-800">Basic Tee</a>
+                                            <a href="#" class="font-medium text-gray-700 hover:text-gray-800">Basic Tee</a>
                                         </h4>
                                         <p class="mt-1 text-sm text-gray-500">Black</p>
                                         <p class="mt-1 text-sm text-gray-500">Large</p>
                                     </div>
 
                                     <div class="ml-4 flow-root flex-shrink-0">
-                                        <button type="button"
-                                            class="-m-2.5 flex items-center justify-center bg-white p-2.5 text-gray-400 hover:text-gray-500">
+                                        <button type="button" class="-m-2.5 flex items-center justify-center bg-white p-2.5 text-gray-400 hover:text-gray-500">
                                             <span class="sr-only">Remove</span>
-                                            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"
-                                                aria-hidden="true">
+                                            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                                 <path fill-rule="evenodd"
                                                     d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.52.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z"
                                                     clip-rule="evenodd" />
@@ -96,4 +170,4 @@
             </div>
         </form>
     </div>
-</div>
+</div> --}}
