@@ -41,7 +41,7 @@ class Order extends Model implements Sortable
 
     protected function orderNumber(): Attribute
     {
-        return Attribute::get(fn ($value, $attributes) => $attributes['order_column']);
+        return Attribute::get(fn ($value, $attributes) => data_get($attributes, 'order_column'));
     }
 
     public function uniqueIds()
