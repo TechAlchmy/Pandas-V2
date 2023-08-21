@@ -57,6 +57,11 @@ name('deals.show');
                             </x-button>
                         </div>
                     @endif
+                    @if ($record->cta == \App\Enums\DiscountCallToActionEnum::GoToSite)
+                        <x-link :href="$record->link" outlined size="lg">
+                            Go to link
+                        </x-link>
+                    @endif
                     @if ($record->cta == \App\Enums\DiscountCallToActionEnum::RedeemNow)
                     @endif
                     @if ($record->cta == \App\Enums\DiscountCallToActionEnum::CopyCode)
