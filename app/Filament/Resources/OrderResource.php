@@ -38,6 +38,7 @@ class OrderResource extends Resource
                 Section::make('Order Data')
                     ->columnSpan(2)
                     ->columns(2)
+                    ->disabled(fn (string $context): bool => $context !== 'create')
                     ->schema([
                         Forms\Components\Select::make('user_id')
                             ->relationship('user', 'name'),
