@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Concerns\InteractsWithAuditable;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -15,6 +16,7 @@ class Order extends Model
 {
     use HasFactory, SoftDeletes;
     use InteractsWithAuditable;
+    use HasUuids;
 
     protected $guarded = [];
 
@@ -36,6 +38,8 @@ class Order extends Model
     {
     }
 
+    public function uniqueIds()
     {
+        return ['uuid'];
     }
 }
