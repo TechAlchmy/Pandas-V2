@@ -27,8 +27,6 @@ class OrderFactory extends Factory
         return [
             'user_id' => null,
             'order_status' => $this->faker->randomElement(OrderStatus::values()),
-            'order_total' => $orderTotal,
-            'order_subtotal' => $orderSubtotal,
             'order_discount' => $orderDiscount,
             'order_tax' => $orderTax,
             'payment_method' => $this->faker->randomElement(['cash', 'card']),
