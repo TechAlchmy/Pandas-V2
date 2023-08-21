@@ -89,6 +89,7 @@ $record = computed(fn() => \App\Models\Discount::firstWhere('slug', $this->id));
                         </x-link>
                     @endif
                     @if ($record->cta == \App\Enums\DiscountCallToActionEnum::RedeemNow)
+                        <livewire:resources.deal-resource.forms.redeem-now-form />
                     @endif
                     @if ($record->cta == \App\Enums\DiscountCallToActionEnum::CopyCode)
                         <div x-data="{ modalOpen: false }">
