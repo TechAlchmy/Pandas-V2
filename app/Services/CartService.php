@@ -7,6 +7,8 @@ use App\Models\Discount;
 
 class CartService
 {
+    protected $cachedItems;
+
     public function add($id, $quantity = 1)
     {
         $this->update($id, session('cart_items.'.$id, 0) + $quantity);
@@ -39,6 +41,10 @@ class CartService
 
     public function items()
     {
+        if ($this->cachedItems) {
+            return $this->cachedItems;
+        }
+
         session()->put(
             'cart_items',
             collect(session('cart_items'))
@@ -57,7 +63,11 @@ class CartService
             ->map(fn ($quantity, $itemId) => [
                 'itemable' => $records->find($itemId),
                 'quantity' => $quantity,
-            ]);
+            ])
+            ->whenNotEmpty(function ($items) {
+                $this->cachedItems = $items;
+                return $items;
+            });
     }
 
     protected function persist()
