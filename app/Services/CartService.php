@@ -49,11 +49,13 @@ class CartService
             'cart_items',
             collect(session('cart_items'))
                 ->when(auth()->check(), function () {
-                    return Cart::query()
+                    $cartItems = Cart::query()
                         ->where('user_id', auth()->id())
                         ->whereNull('order_id')
                         ->first(['items'])
                         ?->items;
+
+                    return collect($cartItems);
                 })
                 ->forget(Discount::query()
                     ->onlyTrashed()
