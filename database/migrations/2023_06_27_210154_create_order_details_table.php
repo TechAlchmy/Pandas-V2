@@ -12,8 +12,8 @@ return new class extends Migration
     {
         Schema::create('order_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Order::class, 'order_id')->nullable();
-            $table->foreignIdFor(Discount::class, 'discount_id')->nullable();
+            $table->foreignIdFor(Order::class)->nullable()->constrained()->nullOnDelete();
+            $table->foreignIdFor(Discount::class)->nullable()->constrained()->nullOnDelete();
             $table->unsignedInteger('quantity')->default(1);
             $table->date('purchase_date')->nullable();
             $table->timestamps();
