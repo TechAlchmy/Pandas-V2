@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Concerns\InteractsWithAuditable;
 use App\Enums\DiscountCallToActionEnum;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -113,5 +114,10 @@ class Discount extends Model
                 ->where('is_active', true)
                 ->where('organization_id', $value));
         });
+    }
+
+    protected function isAmountSingle(): Attribute
+    {
+        return Attribute::get(fn () => count($this->amount) == 1);
     }
 }
