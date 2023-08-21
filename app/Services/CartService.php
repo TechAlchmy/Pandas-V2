@@ -9,14 +9,14 @@ class CartService
 {
     protected $cachedItems;
 
-    public function add($id, $quantity = 1)
+    public function add($id, $quantity, $amount)
     {
-        $this->update($id, session('cart_items.'.$id, 0) + $quantity);
+        $this->update($id, session('cart_items.'.$id.'.quantity', 0) + $quantity, $amount);
     }
 
-    public function update($id, $quantity)
+    public function update($id, $quantity, $amount)
     {
-        session()->put('cart_items.'.$id, $quantity);
+        session()->put('cart_items.'.$id, ['quantity' => $quantity, 'amount' => $amount]);
 
         $this->persist();
     }
@@ -69,9 +69,10 @@ class CartService
         $records = Discount::query()->find(array_keys(session('cart_items')));
 
         return collect(session('cart_items'))
-            ->map(fn ($quantity, $itemId) => [
+            ->map(fn ($item, $itemId) => [
                 'itemable' => $records->find($itemId),
-                'quantity' => $quantity,
+                'quantity' => $item['quantity'],
+                'amount' => $item['amount'],
             ])
             ->when(empty($this->cachedItems), function ($items) {
                 if ($items->isNotEmpty()) {
@@ -85,7 +86,7 @@ class CartService
     {
         return collect($this->items())
             ->reduce(function ($carry, $item) {
-                return $carry + ($item['itemable']->amount * $item['quantity']);
+                return $carry + ($item['amount'] * $item['quantity']);
             }, 0);
     }
 
