@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Concerns\InteractsWithAuditable;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
@@ -38,7 +39,9 @@ class Order extends Model implements Sortable
         return $this->hasMany(OrderDetail::class);
     }
 
+    protected function orderNumber(): Attribute
     {
+        return Attribute::get(fn ($value, $attributes) => $attributes['order_column']);
     }
 
     public function uniqueIds()
