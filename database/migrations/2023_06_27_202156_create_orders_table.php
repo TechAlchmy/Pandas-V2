@@ -18,11 +18,11 @@ return new class extends Migration
             $table->dateTime('order_date')->nullable();
             $table->foreignIdFor(User::class)->nullable()->constrained()->nullOnDelete();
             $table->string('order_status')->comment('pending, processing, on hold, completed, cancelled, refunded, failed')->nullable();
-            $table->string('order_number', 255)->unique();
             $table->string('order_total', 255)->nullable();
             $table->string('order_subtotal', 255)->nullable();
             $table->string('order_discount', 255)->nullable();
             $table->string('order_tax', 255)->nullable();
+            $table->unsignedBigInteger('order_column')->nullable()->index();
             $table->string('payment_method', 255)->nullable();
             $table->string('payment_status', 255)->comment('pending, paid, failed, refunded')->nullable();
 

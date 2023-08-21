@@ -27,7 +27,6 @@ class OrderFactory extends Factory
         return [
             'user_id' => null,
             'order_status' => $this->faker->randomElement(OrderStatus::values()),
-            'order_number' => $this->faker->numberBetween(100000, 999999),
             'order_total' => $orderTotal,
             'order_subtotal' => $orderSubtotal,
             'order_discount' => $orderDiscount,
