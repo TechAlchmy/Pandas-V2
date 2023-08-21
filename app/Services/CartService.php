@@ -48,6 +48,13 @@ class CartService
         session()->put(
             'cart_items',
             collect(session('cart_items'))
+                ->when(auth()->check(), function () {
+                    return Cart::query()
+                        ->where('user_id', auth()->id())
+                        ->whereNull('order_id')
+                        ->first(['items'])
+                        ?->items;
+                })
                 ->forget(Discount::query()
                     ->onlyTrashed()
                     ->orWhere('is_active', false)
