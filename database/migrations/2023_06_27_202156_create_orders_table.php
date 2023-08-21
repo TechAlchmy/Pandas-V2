@@ -19,8 +19,8 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->nullable()->constrained()->nullOnDelete();
             $table->string('order_status')->comment('pending, processing, on hold, completed, cancelled, refunded, failed')->nullable();
             $table->unsignedBigInteger('order_column')->nullable()->index();
-            $table->unsignedInteger('order_discount', 255)->nullable();
-            $table->unsignedInteger('order_tax', 255)->nullable();
+            $table->unsignedInteger('order_discount')->nullable();
+            $table->unsignedInteger('order_tax')->nullable();
             $table->string('payment_method', 255)->nullable();
             $table->string('payment_status', 255)->comment('pending, paid, failed, refunded')->nullable();
 
