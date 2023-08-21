@@ -3,7 +3,7 @@
         <div class="col-span-2">
             <h2 class="font-light text-3xl">Shopping bags</h2>
             <x-hr />
-            @if (true)
+            @if (cart()->items()->isNotEmpty())
                 <div class="divide-y">
                     <div class="p-4 hidden lg:block">
                         <div class="flex gap-6">
@@ -16,7 +16,7 @@
                             </div>
                         </div>
                     </div>
-                    @foreach (range(1, 6) as $item)
+                    @foreach (cart()->items() as $item)
                         <div class="p-4">
                             <div class="flex gap-6">
                                 <img src="https://tailwindui.com/img/ecommerce-images/checkout-page-02-product-01.jpg" alt="Front of men&#039;s Basic Tee in black." class="w-20 rounded-md">
