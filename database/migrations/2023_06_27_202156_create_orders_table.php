@@ -14,6 +14,7 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->uuid();
             $table->foreignIdFor(User::class)->nullable()->constrained()->nullOnDelete();
             $table->string('order_status')->comment('pending, processing, on hold, completed, cancelled, refunded, failed')->nullable();
             $table->string('order_number', 255)->unique();
@@ -25,7 +26,6 @@ return new class extends Migration
             $table->string('payment_status', 255)->comment('pending, paid, failed, refunded')->nullable();
             $table->string('order_date', 255)->nullable();
 
-            $table->uuid('uuid')->nullable();
             $table->foreignIdFor(User::class, 'created_by_id')->nullable();
             $table->foreignIdFor(User::class, 'updated_by_id')->nullable();
             $table->foreignIdFor(User::class, 'deleted_by_id')->nullable();
