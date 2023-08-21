@@ -33,9 +33,9 @@ class OrderFactory extends Factory
             'order_tax' => $orderTax,
             'payment_method' => $this->faker->randomElement(['cash', 'card']),
             'payment_status' => $this->faker->randomElement(PaymentStatus::values()),
-            'created_by' => $this->faker->numberBetween(1, 20),
-            'updated_by' => $this->faker->numberBetween(1, 20),
-            'deleted_by' => null,
+            'created_by_id' => $this->faker->numberBetween(1, 20),
+            'updated_by_id' => $this->faker->numberBetween(1, 20),
+            'deleted_by_id' => null,
             'order_date' => $this->faker->dateTimeBetween('-1 year', 'now'),
 
         ];
