@@ -42,7 +42,7 @@ class OrderDetailsRelationManager extends RelationManager
 
                 Tables\Columns\TextColumn::make('quantity')->label('Qauntity'),
 
-                Tables\Columns\TextColumn::make('discount.amount')->label('Item Price'),
+                Tables\Columns\TextColumn::make('amount')->label('Item Price'),
 
                 Tables\Columns\TextColumn::make('total'),
             ])
