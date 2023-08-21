@@ -106,17 +106,18 @@ class Checkout extends Component implements HasForms
                    ->columns(2)
                    ->schema([
                        Forms\Components\TextInput::make('xCardNum')
-                        ->columnSpanFull()
-                           ->label('Card number')
-                           ->required(),
+                            ->columnSpanFull()
+                            ->label('Card number')
+                            ->required(),
                        Forms\Components\DatePicker::make('xExp')
                             ->minDate(now())
-                           ->label('Expiration date')
-                           ->required(),
+                            ->label('Expiration date')
+                            ->required(),
                        Forms\Components\TextInput::make('xCVV')
                            ->label('CVC')
                            ->numeric()
                            ->minLength(3)
+                           ->maxLength(3)
                            ->required(),
                    ]),
             ]);
