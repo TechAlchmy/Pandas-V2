@@ -98,7 +98,6 @@ class OrderResource extends Resource
                     ),
             ])
             ->actions([
-                Action::make('refund')->button(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
