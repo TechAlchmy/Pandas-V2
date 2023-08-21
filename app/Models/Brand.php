@@ -79,6 +79,16 @@ class Brand extends Model implements HasMedia
             ->withTimestamps();
     }
 
+    public function scopeForOrganization($query, $organizationId)
+    {
+        return $query->when($organizationId, function ($query, $value) {
+            return $query->whereIn('id', BrandOrganization::query()
+                ->select('brand_id')
+                ->where('is_active', true)
+                ->where('organization_id', $value));
+        });
+    }
+
     public function uniqueIds()
     {
         return ['uuid'];

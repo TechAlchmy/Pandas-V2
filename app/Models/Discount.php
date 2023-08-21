@@ -7,12 +7,14 @@ use App\Enums\DiscountCallToActionEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Kirschbaum\PowerJoins\PowerJoins;
 
 class Discount extends Model
 {
     use HasFactory;
     use InteractsWithAuditable;
     use SoftDeletes;
+    use PowerJoins;
 
     protected $fillable = [
         'name',
@@ -96,5 +98,20 @@ class Discount extends Model
     {
         return $this->belongsToMany(OfferType::class, 'discount_types')
             ->withTimestamps();
+    }
+
+    public function featuredDeals()
+    {
+        return $this->hasMany(FeaturedDeal::class);
+    }
+
+    public function scopeForOrganization($query, $organizationId)
+    {
+        return $query->when($organizationId, function ($query, $value) {
+            $query->whereIn('brand_id', BrandOrganization::query()
+                ->select('brand_id')
+                ->where('is_active', true)
+                ->where('organization_id', $value));
+        });
     }
 }

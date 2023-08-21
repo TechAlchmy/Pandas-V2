@@ -47,6 +47,18 @@ class Organization extends Model
         return $this->belongsTo(Region::class);
     }
 
+    public function featuredDeals()
+    {
+        return $this->hasMany(FeaturedDeal::class);
+    }
+
+    public function featuredDiscounts()
+    {
+        return $this->belongsToMany(Discount::class, 'featured_deals')
+            ->orderByPivot('order_column')
+            ->withTimestamps();
+    }
+
     public function uniqueIds()
     {
         return ['uuid'];

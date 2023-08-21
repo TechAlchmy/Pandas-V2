@@ -12,6 +12,7 @@ use App\Models\DiscountCategory;
 use App\Models\DiscountRegion;
 use App\Models\DiscountTag;
 use App\Models\DiscountType;
+use App\Models\FeaturedDeal;
 use App\Models\Manager;
 use App\Models\OfferType;
 use App\Models\Order;
@@ -66,6 +67,8 @@ class DatabaseSeeder extends Seeder
             $discount->offerTypes()->attach(OfferType::inRandomOrder()->first());
             $discount->voucherType()->associate(VoucherType::inRandomOrder()->first());
             $discount->save();
+
+            FeaturedDeal::query()->create(['discount_id' => $discount->getKey()]);
         });
         Tag::factory(10)->create();
         DiscountCategory::factory(10)->create();

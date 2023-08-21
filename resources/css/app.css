@@ -294,3 +294,7 @@ img {
         right: 45%;
     }
 }
+
+.list-deals .choices__list--dropdown {
+    @apply rounded-none border border-black;
+}

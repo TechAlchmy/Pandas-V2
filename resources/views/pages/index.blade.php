@@ -1,6 +1,6 @@
 @auth
     <x-layouts.app>
-        <livewire:resources.user-resource.widgets.upsell-widget />
+        <x-banner-upsell />
         <x-banner :background="asset('storage/banners/panda-main.png')" />
         <section class="px-[min(6.99vw,50px)] py-4" style="max-width: 1920px; margin:auto">
             <x-hr />
