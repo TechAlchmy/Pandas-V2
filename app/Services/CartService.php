@@ -81,6 +81,25 @@ class CartService
             });
     }
 
+    public function subtotal()
+    {
+        return collect($this->items())
+            ->reduce(function ($carry, $item) {
+                return $carry + ($item['itemable']->amount * $item['quantity']);
+            }, 0);
+    }
+
+    public function tax()
+    {
+        return 0;
+    }
+
+    public function total()
+    {
+        return $this->tax()
+            + $this->subtotal();
+    }
+
     protected function persist()
     {
         if (auth()->check()) {
