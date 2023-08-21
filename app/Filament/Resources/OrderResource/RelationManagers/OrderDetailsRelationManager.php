@@ -28,8 +28,6 @@ class OrderDetailsRelationManager extends RelationManager
                 Forms\Components\Select::make('user_id')
                     ->relationship('user', 'name')
                     ->required(),
-
-                Forms\Components\DatePicker::make('purchase_date'),
             ]);
     }
 
