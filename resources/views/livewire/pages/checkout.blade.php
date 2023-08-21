@@ -19,19 +19,21 @@
                     @foreach (cart()->items() as $item)
                         <div class="p-4">
                             <div class="flex gap-6">
-                                <img src="https://tailwindui.com/img/ecommerce-images/checkout-page-02-product-01.jpg" alt="Front of men&#039;s Basic Tee in black." class="w-20 rounded-md">
+                                <div class="w-20 min-h-[5rem]">
+                                    {{ $item['itemable']->brand->getFirstMedia('logo')?->img()->attributes(['class' => 'w-20']) }}
+                                </div>
                                 <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
                                     <div>
-                                        <h5>Item {{ $loop->index }}</h5>
+                                        <h5>{{ $item['itemable']->name }}</h5>
                                     </div>
                                     <div>
-                                        {{ Filament\Support\format_money(60, 'USD') }}
+                                        {{ Filament\Support\format_money($item['amount'], 'USD') }}
                                     </div>
                                     <div>
-                                        <x-input type="number" class="px-2 max-w-full border !border-solid border-black" min="1" />
+                                        <x-input value="{{ $item['quantity'] }}" type="number" class="px-2 max-w-full border !border-solid border-black" min="1" />
                                     </div>
                                     <div>
-                                        {{ Filament\Support\format_money(60, 'USD') }}
+                                        {{ Filament\Support\format_money($item['amount'] * $item['quantity'], 'USD') }}
                                     </div>
                                 </div>
                             </div>
