@@ -1,7 +1,19 @@
 <?php
 use function Laravel\Folio\{name};
+use function Livewire\Volt\{state, computed, rules};
 
 name('deals.show');
+
+state('id');
+state(['quantity' => 0, 'amount' => fn() => $this->record->amount[0]]);
+rules(['quantity' => ['required', 'min:1']]);
+$addToCart = function () {
+    $this->validate();
+    cart()->add($this->record?->getKey(), $this->quantity, $this->amount);
+    $this->dispatch('cart-item-added', ['id' => $this->record?->getKey()]);
+};
+
+$record = computed(fn() => \App\Models\Discount::firstWhere('slug', $this->id));
 ?>
 @php
     $record = \App\Models\Discount::query()
@@ -51,11 +63,25 @@ name('deals.show');
                 </h1>
                 <div class="flex gap-6">
                     @if ($record->cta == \App\Enums\DiscountCallToActionEnum::AddToCart)
-                        <div x-data>
-                            <x-button x-on:click="$dispatch('cart-item-added', {id: {{ $record->getKey() }}})" outlined size="lg">
-                                Add to cart
-                            </x-button>
-                        </div>
+                        @volt('add-to-cart')
+                            <div x-data class="flex gap-6 items-center">
+                                <div class="flex gap-6 items-center">
+                                    @if (!empty($this->record->amount))
+                                        @if (!$this->record->is_amount_single)
+                                            <select wire:model.live="amount" class="border border-black">
+                                                @foreach ($this->record->amount as $amount)
+                                                    <option value="{{ $amount }}">{{ Filament\Support\format_money($amount, 'USD') }}</option>
+                                                @endforeach
+                                            </select>
+                                        @endif
+                                    @endif
+                                    <x-input class="!border-solid border-black" type="number" wire:model="quantity" value="0" />
+                                </div>
+                                <x-button x-on:click="$wire.addToCart()" outlined size="lg">
+                                    Add to cart
+                                </x-button>
+                            </div>
+                        @endvolt
                     @endif
                     @if ($record->cta == \App\Enums\DiscountCallToActionEnum::GoToSite)
                         <x-link :href="$record->link" outlined size="lg">
