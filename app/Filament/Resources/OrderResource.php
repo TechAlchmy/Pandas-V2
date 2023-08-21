@@ -45,7 +45,8 @@ class OrderResource extends Resource
 
                         Forms\Components\Select::make('order_status')->options(OrderStatus::options()),
 
-                        Forms\Components\TextInput::make('order_number')
+                        Forms\Components\TextInput::make('order_column')
+                            ->label('Order Number')
                             ->dehydrated(fn (string $context): bool => $context !== 'create')
                             ->required(),
 
