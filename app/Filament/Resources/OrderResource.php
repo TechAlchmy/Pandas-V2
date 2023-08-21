@@ -152,34 +152,7 @@ class OrderResource extends Resource
                 ])
                 ->toggleable(),
 
-            Tables\Columns\TextColumn::make('created_by')
-                ->toggleable()
-                ->toggledHiddenByDefault(),
-
-            Tables\Columns\TextColumn::make('updated_by')
-                ->toggleable()
-                ->toggledHiddenByDefault(),
-
-            Tables\Columns\TextColumn::make('deleted_at')
-                ->dateTime()
-                ->toggleable()
-                ->toggledHiddenByDefault(),
-
-            Tables\Columns\TextColumn::make('deleted_by')
-                ->toggleable()
-                ->toggledHiddenByDefault(),
-
             Tables\Columns\TextColumn::make('order_date')
-                ->toggleable()
-                ->toggledHiddenByDefault(),
-
-            Tables\Columns\TextColumn::make('created_at')
-                ->dateTime()
-                ->toggleable()
-                ->toggledHiddenByDefault(),
-
-            Tables\Columns\TextColumn::make('updated_at')
-                ->dateTime()
                 ->toggleable()
                 ->toggledHiddenByDefault(),
         ];
