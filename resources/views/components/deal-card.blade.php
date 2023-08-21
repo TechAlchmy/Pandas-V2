@@ -1,7 +1,7 @@
 @props(['record', 'recordClicks' => false])
 
 <div class="space-y-2" x-data="{ recordClicks: @js($recordClicks) }" x-on:click="if (recordClicks) $dispatch('deal-clicked', {id: {{ $record->getKey() }}})">
-    <div class="">
+    <div class="min-h-[8rem]">
         @if ($record->brand->hasMedia('logo'))
             {{ $record->brand->getFirstMedia('logo')->img()->attributes(['class' => 'w-full']) }}
         @else
