@@ -71,8 +71,10 @@ class CartService
                 'itemable' => $records->find($itemId),
                 'quantity' => $quantity,
             ])
-            ->whenNotEmpty(function ($items) {
-                $this->cachedItems = $items;
+            ->when(empty($this->cachedItems), function ($items) {
+                if ($items->isNotEmpty()) {
+                    $this->cachedItems = $items;
+                }
                 return $items;
             });
     }
