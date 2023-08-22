@@ -8,8 +8,9 @@
         </div>
 
         <x-input
-            {{ 
-                $attributes->merge([
+            :attributes="\Filament\Support\prepare_inherited_attributes($getExtraInputAttributeBag())
+                ->merge($getExtraAlpineAttributes(), escape: false)
+                ->merge([
                     'autocapitalize' => $getAutocapitalize(),
                     'autocomplete' => $getAutocomplete(),
                     'autofocus' => $isAutofocused(),
@@ -17,8 +18,8 @@
                     'required' => $isRequired(),
                     'type' => $getType() ?? 'text',
                     $applyStateBindingModifiers('wire:model') => $getStatePath(),
-                ]) 
-            }}
+                ], escape: false)
+                "
         />
     </div>
 </x-dynamic-component>
