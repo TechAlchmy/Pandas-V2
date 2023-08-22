@@ -146,34 +146,45 @@ class Checkout extends Component implements HasForms, HasActions
                     ->schema([
                         Forms\Components\TextInput::make('xEmail')
                            ->email()
-                           ->label('Email')
+                           ->view('forms.components.text-input')
+                           ->hiddenLabel()
+                           ->placeholder('Email')
                            ->default(auth()->user()?->email)
                            ->required(),
                         Forms\Components\TextInput::make('xCardNum')
-                            ->label('Card number')
+                            ->view('forms.components.text-input')
+                            ->hiddenLabel()
+                            ->placeholder('Card number')
                             ->maxLength(16)
                             ->required(),
-                        Forms\Components\Grid::make(3)
+                        Forms\Components\Grid::make(2)
                             ->columnSpan(1)
-                            ->columns(['default' => 3])
+                            ->columns(['default' => 2])
                             ->schema([
                                 Forms\Components\TextInput::make('xExp_month')
+                                    ->view('forms.components.text-input')
+                                    ->extraInputAttributes(['class' => '!flex-0 w-full'])
+                                    ->hiddenLabel()
                                     ->maxLength(2)
                                     ->minLength(2)
-                                    ->label('month')
+                                    ->placeholder('month')
                                     ->required(),
                                 Forms\Components\TextInput::make('xExp_year')
-                                    ->maxLength(2)
-                                    ->minLength(2)
-                                    ->label('year')
-                                    ->required(),
-                                Forms\Components\TextInput::make('xCVV')
-                                    ->label('CVC')
-                                    ->numeric()
-                                    ->minLength(3)
-                                    ->maxLength(3)
+                                    ->view('forms.components.text-input')
+                                    ->extraInputAttributes(['class' => '!flex-0 w-full'])
+                                    ->hiddenLabel()
+                                    ->maxLength(4)
+                                    ->minLength(4)
+                                    ->placeholder('year')
                                     ->required(),
                             ]),
+                            Forms\Components\TextInput::make('xCVV')
+                                ->view('forms.components.text-input')
+                                ->hiddenLabel()
+                                ->placeholder('CVC')
+                                ->minLength(3)
+                                ->maxLength(3)
+                                ->required(),
                     ]),
             ])
             ->action(function ($data) {
@@ -209,6 +220,7 @@ class Checkout extends Component implements HasForms, HasActions
                         ->body($response->xError)
                         ->send();
         
+
                     return;
                 }
         
