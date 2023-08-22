@@ -30,7 +30,8 @@
                                         {{ Filament\Support\format_money($item['amount'], 'USD') }}
                                     </div>
                                     <div>
-                                        <x-input x-on:input.debounce="$wire.updateItem('{{ $id }}', $event.target.value, '{{ $item['amount'] }}')" value="{{ $item['quantity'] }}" type="number" class="px-2 max-w-full border !border-solid border-black" min="1" />
+                                        <x-input x-on:input.debounce="$wire.updateItem('{{ $id }}', $event.target.value, '{{ $item['amount'] }}')" value="{{ $item['quantity'] }}" type="number"
+                                            class="px-2 max-w-full border !border-solid border-black" min="1" />
                                     </div>
                                     <div>
                                         {{ Filament\Support\format_money($item['amount'] * $item['quantity'], 'USD') }}
@@ -49,28 +50,30 @@
             @endif
         </div>
         <div>
-            <h2 class="font-light text-3xl">Order Summary</h2>
-            <x-hr />
-            <table class="table w-full">
-                <tbody>
-                    <tr>
-                        <td>Subtotal</td>
-                        <td align="right">{{ Filament\Support\format_money(cart()->subtotal(), 'USD') }}</td>
-                    </tr>
-                    <tr>
-                        <td>Est. Tax</td>
-                        <td align="right">{{ Filament\Support\format_money(cart()->tax(), 'USD') }}</td>
-                    </tr>
-                    <tr>
-                        <td>Total</td>
-                        <td align="right">{{ Filament\Support\format_money(cart()->total(), 'USD') }}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <x-hr />
-            <x-button outlined>
-                Proceed to checkout
-            </x-button>
+            <div class="sticky top-[5rem]">
+                <h2 class="font-light text-3xl">Order Summary</h2>
+                <x-hr />
+                <table class="table w-full">
+                    <tbody>
+                        <tr>
+                            <td>Subtotal</td>
+                            <td align="right">{{ Filament\Support\format_money(cart()->subtotal(), 'USD') }}</td>
+                        </tr>
+                        <tr>
+                            <td>Est. Tax</td>
+                            <td align="right">{{ Filament\Support\format_money(cart()->tax(), 'USD') }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total</td>
+                            <td align="right">{{ Filament\Support\format_money(cart()->total(), 'USD') }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <x-hr />
+                <x-button outlined>
+                    Proceed to checkout
+                </x-button>
+            </div>
         </div>
     </div>
 </div>
