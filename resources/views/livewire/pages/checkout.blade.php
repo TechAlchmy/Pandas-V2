@@ -16,7 +16,7 @@
                             </div>
                         </div>
                     </div>
-                    @foreach (cart()->items() as $item)
+                    @foreach (cart()->items() as $id => $item)
                         <div class="p-4">
                             <div class="flex gap-6">
                                 <div class="w-20 min-h-[5rem]">
@@ -30,7 +30,7 @@
                                         {{ Filament\Support\format_money($item['amount'], 'USD') }}
                                     </div>
                                     <div>
-                                        <x-input value="{{ $item['quantity'] }}" type="number" class="px-2 max-w-full border !border-solid border-black" min="1" />
+                                        <x-input x-on:input.debounce="$wire.updateItem('{{ $id }}', $event.target.value, '{{ $item['amount'] }}')" value="{{ $item['quantity'] }}" type="number" class="px-2 max-w-full border !border-solid border-black" min="1" />
                                     </div>
                                     <div>
                                         {{ Filament\Support\format_money($item['amount'] * $item['quantity'], 'USD') }}
