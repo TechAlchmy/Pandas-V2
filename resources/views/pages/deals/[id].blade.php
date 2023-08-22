@@ -5,7 +5,7 @@ use function Livewire\Volt\{state, computed, rules};
 name('deals.show');
 
 state('id');
-state(['quantity' => 0, 'amount' => fn() => $this->record->amount[0]]);
+state(['quantity' => 1, 'amount' => fn() => $this->record->amount[0]]);
 rules(['quantity' => ['required', 'min:1']]);
 $addToCart = function () {
     $this->validate();
@@ -75,7 +75,7 @@ $record = computed(fn() => \App\Models\Discount::firstWhere('slug', $this->id));
                                             </select>
                                         @endif
                                     @endif
-                                    <x-input class="!border-solid border-black" type="number" wire:model="quantity" value="0" />
+                                    <x-input class="!border-solid border-black p-2" type="number" wire:model="quantity" value="0" />
                                 </div>
                                 <x-button x-on:click="$wire.addToCart()" outlined size="lg">
                                     Add to cart
