@@ -70,9 +70,7 @@
                     </tbody>
                 </table>
                 <x-hr />
-                <x-button outlined>
-                    Proceed to checkout
-                </x-button>
+                {{ $this->checkoutAction }}
             </div>
         </div>
     </div>
@@ -86,6 +84,7 @@
             @endforeach
         </div>
     </div>
+    <x-filament-actions::modals />
 </div>
 {{-- <div class="bg-gray-50">
     <div class="container mx-auto px-4 pb-24 pt-16 sm:px-6 lg:px-8">

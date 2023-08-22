@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Pages;
 
+use App\Enums\OrderStatus;
+use App\Enums\PaymentStatus;
 use App\Models\Order;
 use App\Services\CardknoxPayment\CardknoxBody;
 use App\Services\CardknoxPayment\CardknoxPayment;
@@ -11,12 +13,16 @@ use Filament\Forms\Form;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Concerns\InteractsWithForms;
 use DanHarrin\LivewireRateLimiting\WithRateLimiting;
+use Filament\Actions\Action;
+use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Actions\Contracts\HasActions;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Carbon;
 
-class Checkout extends Component implements HasForms
+class Checkout extends Component implements HasForms, HasActions
 {
     use InteractsWithForms;
+    use InteractsWithActions;
     use WithRateLimiting;
 
     public $data;
@@ -126,6 +132,90 @@ class Checkout extends Component implements HasForms
     public function updateItem($id, $quantity, $amount)
     {
         cart()->update($id, $quantity, $amount);
+    }
+
+    public function checkoutAction()
+    {
+        return Action::make('checkout')
+            // ->view('components.button', ['slot' => 'Proceed to checkout'])
+            ->fillForm([
+                'xEmail' => auth()->user()?->email,
+            ])
+            ->form([
+                Forms\Components\Grid::make()
+                    ->schema([
+                        Forms\Components\TextInput::make('xEmail')
+                           ->email()
+                           ->label('Email')
+                           ->default(auth()->user()?->email)
+                           ->required(),
+                        Forms\Components\TextInput::make('xCardNum')
+                            ->label('Card number')
+                            ->maxLength(16)
+                            ->required(),
+                        Forms\Components\Grid::make(3)
+                            ->columnSpan(1)
+                            ->columns(['default' => 3])
+                            ->schema([
+                                Forms\Components\TextInput::make('xExp_month')
+                                    ->maxLength(2)
+                                    ->minLength(2)
+                                    ->label('month')
+                                    ->required(),
+                                Forms\Components\TextInput::make('xExp_year')
+                                    ->maxLength(2)
+                                    ->minLength(2)
+                                    ->label('year')
+                                    ->required(),
+                                Forms\Components\TextInput::make('xCVV')
+                                    ->label('CVC')
+                                    ->numeric()
+                                    ->minLength(3)
+                                    ->maxLength(3)
+                                    ->required(),
+                            ]),
+                    ]),
+            ])
+            ->action(function ($data) {
+                $data = $this->form->getState();
+                $data['xAmount'] = 23;
+                $data['xExp'] = $data['xExp_month'].$data['xExp_year'];
+        
+                // TODO: add email to the orders table or pass a user_id when creating the order.
+                $order = Order::create([
+                    'user_id' => auth()->id(),
+                    'order_status' => OrderStatus::Pending,
+                    'payment_status' => PaymentStatus::Pending,
+                    'payment_method' => 'card',
+                    'ordered_at' => now(),
+                ]);
+
+                foreach (cart()->items() as $id => $item) {
+                    $order->orderDetails()->create([
+                        'discount_id' => $id,
+                        'amount' => $item['amount'],
+                        'quantity' => $item['quantity'],
+                    ]);
+                }
+        
+                $data['xInvoice'] = $order->order_column;
+        
+                $cardknoxPayment = new CardknoxPayment;
+                $response = $cardknoxPayment->charge(new CardknoxBody($data));
+        
+                if (filled($response->xResult) && $response->xStatus === 'Error') {
+                    Notification::make()->danger()
+                        ->title('Error')
+                        ->body($response->xError)
+                        ->send();
+        
+                    return;
+                }
+        
+                $order->update(['payment_status' => $response->xStatus]);
+        
+                return redirect()->route('dashboard', ['activeTab' => 'orders']);
+            });
     }
 
     public function render()
