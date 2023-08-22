@@ -191,7 +191,7 @@ class Checkout extends Component implements HasForms, HasActions
                 $data = $this->form->getState();
                 $data['xAmount'] = 23;
                 $data['xExp'] = $data['xExp_month'].$data['xExp_year'];
-        
+
                 // TODO: add email to the orders table or pass a user_id when creating the order.
                 $order = Order::create([
                     'user_id' => auth()->id(),
@@ -208,24 +208,24 @@ class Checkout extends Component implements HasForms, HasActions
                         'quantity' => $item['quantity'],
                     ]);
                 }
-        
+
                 $data['xInvoice'] = $order->order_column;
-        
+
                 $cardknoxPayment = new CardknoxPayment;
                 $response = $cardknoxPayment->charge(new CardknoxBody($data));
-        
+
                 if (filled($response->xResult) && $response->xStatus === 'Error') {
                     Notification::make()->danger()
                         ->title('Error')
                         ->body($response->xError)
                         ->send();
-        
 
                     return;
                 }
-        
+
                 $order->update(['payment_status' => $response->xStatus]);
-        
+                //TODO: Send Notification
+
                 return redirect()->route('dashboard', ['activeTab' => 'orders']);
             });
     }
