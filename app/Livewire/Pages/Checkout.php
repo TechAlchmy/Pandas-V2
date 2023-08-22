@@ -123,6 +123,11 @@ class Checkout extends Component implements HasForms
             ]);
     }
 
+    public function updateItem($id, $quantity, $amount)
+    {
+        cart()->update($id, $quantity, $amount);
+    }
+
     public function render()
     {
         return view('livewire.pages.checkout');
