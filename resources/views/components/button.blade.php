@@ -3,6 +3,7 @@
     'outlined' => false,
     'size' => 'md',
     'color' => 'black',
+    'action' => null,
 ])
 
 @php
@@ -35,7 +36,10 @@
 @endphp
 
 @if ($tag == 'button')
-    <button {{ $attributes->twMerge([$buttonClasses]) }}>
+    <button
+        {{ $attributes->when($action, function ($attributes, $action) {
+                return $attributes->merge(['x-on:click' => $action->getAlpineClickHandler(), 'wire:click' => $action->getLivewireClickHandler(), 'wire:target' => $action->getLivewireTarget()]);
+            })->twMerge([$buttonClasses]) }}>
         {{ $slot }}
     </button>
 @endif
