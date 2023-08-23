@@ -21,6 +21,8 @@ return new class extends Migration
             $table->unsignedBigInteger('order_column')->nullable()->index();
             $table->unsignedInteger('order_discount')->nullable();
             $table->unsignedInteger('order_tax')->nullable();
+            $table->unsignedInteger('order_subtotal')->nullable();
+            $table->unsignedInteger('order_total')->nullable();
             $table->string('payment_method', 255)->nullable();
             $table->string('payment_status', 255)->comment('pending, paid, failed, refunded')->nullable();
 
