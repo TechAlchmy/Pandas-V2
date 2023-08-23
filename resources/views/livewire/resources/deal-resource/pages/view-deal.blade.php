@@ -1,50 +1,4 @@
-<?php
-use function Laravel\Folio\{name};
-use function Livewire\Volt\{state, computed, rules};
-
-name('deals.show');
-
-state('id');
-state(['quantity' => 1, 'amount' => fn() => $this->record->amount[0]]);
-rules(['quantity' => ['required', 'min:1']]);
-$addToCart = function () {
-    $this->validate();
-    cart()->add($this->record?->getKey(), $this->quantity, $this->amount);
-    $this->dispatch('cart-item-added', ['id' => $this->record?->getKey()]);
-};
-
-$record = computed(fn() => \App\Models\Discount::firstWhere('slug', $this->id));
-?>
-@php
-    $record = \App\Models\Discount::query()
-        ->with('brand.media')
-        ->with('categories')
-        ->forOrganization(auth()->user()?->organization_id)
-        ->where('is_active', true)
-        ->where('slug', $id)
-        ->firstOrFail();
-    $related = \App\Models\Discount::query()
-        ->with('brand.media')
-        ->forOrganization(auth()->user()?->organization_id)
-        ->where('is_active', true)
-        ->whereIn(
-            'id',
-            \App\Models\DiscountCategory::query()
-                ->select('discount_id')
-                ->whereIn('category_id', $record->categories->pluck('id')),
-        )
-        ->take(4)
-        ->get();
-
-    $popular = \App\Models\Discount::query()
-        ->with('brand.media')
-        ->forOrganization(auth()->user()?->organization_id)
-        ->where('is_active', true)
-        ->orderByDesc('views')
-        ->take(4)
-        ->get();
-@endphp
-<x-layouts.app>
+<div>
     <section class="px-[min(6.99vw,50px)] max-w-[1920px] mx-auto py-8">
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -69,25 +23,21 @@ $record = computed(fn() => \App\Models\Discount::firstWhere('slug', $this->id));
                 @endif
                 <div class="flex gap-6">
                     @if ($record->cta == \App\Enums\DiscountCallToActionEnum::AddToCart)
-                        @volt('add-to-cart')
-                            <div x-data class="flex gap-6 items-center">
-                                <div class="flex gap-6 items-center">
-                                    @if (!empty($this->record->amount))
-                                        @if (!$this->record->is_amount_single)
-                                            <select wire:model.live="amount" class="border border-black">
-                                                @foreach ($this->record->amount as $amount)
-                                                    <option value="{{ $amount }}">{{ Filament\Support\format_money($amount, 'USD') }}</option>
-                                                @endforeach
-                                            </select>
-                                        @endif
-                                    @endif
-                                    <x-input class="!border-solid border-black p-2" type="number" wire:model="quantity" value="0" />
-                                </div>
-                                <x-button x-on:click="$wire.addToCart()" outlined size="lg">
-                                    Add to cart
-                                </x-button>
+                        <div x-data class="flex gap-6 items-center">
+                            <div class="flex gap-6 items-center">
+                                @if (!$this->record->is_amount_single)
+                                    <select wire:model.live="amount" class="border border-black">
+                                        @foreach ($this->record->amount as $amount)
+                                            <option value="{{ $amount }}">{{ Filament\Support\format_money($amount, 'USD') }}</option>
+                                        @endforeach
+                                    </select>
+                                @endif
+                                <x-input class="!border-solid border-black p-2" type="number" wire:model="quantity" />
                             </div>
-                        @endvolt
+                            <x-button x-on:click="$wire.addToCart()" outlined size="lg">
+                                Add to cart
+                            </x-button>
+                        </div>
                     @endif
                     @if ($record->cta == \App\Enums\DiscountCallToActionEnum::GoToSite)
                         <x-link :href="$record->link" outlined size="lg">
@@ -175,4 +125,4 @@ $record = computed(fn() => \App\Models\Discount::firstWhere('slug', $this->id));
         </section>
     @endif
     <livewire:resources.recently-viewed-resource.widgets.create-recently-viewed :viewable="$record" />
-</x-layouts.app>
+</div>
