@@ -188,7 +188,6 @@ class Checkout extends Component implements HasForms, HasActions
                     ]),
             ])
             ->action(function ($data) {
-                $data = $this->form->getState();
                 $data['xAmount'] = 23;
                 $data['xExp'] = $data['xExp_month'].$data['xExp_year'];
 
