@@ -84,7 +84,9 @@
             @endforeach
         </div>
     </div>
-    <x-filament-actions::modals />
+    <div class="checkout-modal">
+        <x-filament-actions::modals />
+    </div>
 </div>
 {{-- <div class="bg-gray-50">
     <div class="container mx-auto px-4 pb-24 pt-16 sm:px-6 lg:px-8">
