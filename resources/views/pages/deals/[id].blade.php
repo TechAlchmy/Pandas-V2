@@ -35,7 +35,7 @@ $record = computed(fn() => \App\Models\Discount::firstWhere('slug', $this->id));
         )
         ->take(4)
         ->get();
-    
+
     $popular = \App\Models\Discount::query()
         ->with('brand.media')
         ->forOrganization(auth()->user()?->organization_id)
@@ -61,6 +61,12 @@ $record = computed(fn() => \App\Models\Discount::firstWhere('slug', $this->id));
                 <h1 class="text-4xl">
                     {{ $record->name }}
                 </h1>
+                @if ($record->is_amount_single)
+                    <div>
+                        <span>$</span>
+                        <span class="text-3xl font-light">{{ $record->amount[0] }}</span>
+                    </div>
+                @endif
                 <div class="flex gap-6">
                     @if ($record->cta == \App\Enums\DiscountCallToActionEnum::AddToCart)
                         @volt('add-to-cart')
