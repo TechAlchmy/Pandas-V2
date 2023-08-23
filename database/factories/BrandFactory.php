@@ -29,4 +29,13 @@ class BrandFactory extends Factory
             'deleted_by_id' => null,
         ];
     }
+
+    public function configure()
+    {
+        return $this->afterCreating(function ($record) {
+            $record->addMedia(public_path('storages/logo/adidas-white.png'))
+                ->preservingOriginal()
+                ->toMediaCollection('logo');
+        });
+    }
 }
