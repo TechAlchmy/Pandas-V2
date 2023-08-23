@@ -25,7 +25,7 @@ class OrderFactory extends Factory
         $orderTotal = $orderSubtotal - $orderDiscount + $orderTax;
 
         return [
-            'user_id' => null,
+            'user_id' => $this->faker->numberBetween(1, 50),
             'order_status' => $this->faker->randomElement(OrderStatus::values()),
             'order_discount' => $orderDiscount,
             'order_tax' => $orderTax,
