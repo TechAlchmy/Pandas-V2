@@ -105,7 +105,7 @@ class ListDeals extends Component implements HasForms
             ->take(4)
             ->get()
             ->whenEmpty(function () {
-                if ($this->hasActiveFilter()) {
+                if ($this->hasActiveFilter) {
                     return null;
                 }
 
