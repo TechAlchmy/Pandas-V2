@@ -77,11 +77,6 @@ class DatabaseSeeder extends Seeder
         Order::factory(125)
             ->sequence(...collect()->range(1, 125)->map(fn ($orderColumn) => ['order_column' => $orderColumn])->all())
             ->create()
-            ->each(function ($order) {
-                $user = User::inRandomOrder()->first();
-                $order->user()->associate($user);
-                $order->save();
-
             ->each(function ($order) use ($users, $discounts) {
                 foreach (range(1, 6) as $count) {
                     OrderDetail::factory()
