@@ -1,7 +1,7 @@
 @auth
     <x-layouts.app>
         <x-banner-upsell />
-        <x-banner :background="asset('storage/banners/panda-main.png')" />
+        <x-banner :background="asset('storages/banners/panda-main.png')" />
         <section class="px-[min(6.99vw,50px)] py-4" style="max-width: 1920px; margin:auto">
             <x-hr />
             <div class="lg:flex justify-between gap-4">
@@ -41,17 +41,17 @@
             <x-hr />
         </section>
         <section class="bg-black ">
-            <div >
+            <div>
                 <div class="text-white flex space-x-8 px-[min(6.99vw,50px)] py-9 m-auto" style="max-width: 1920px;">
                     <div class="w-1/2">
                         <h3 class="font-editorial text-7xl leading-[70px]">Benefits for <br> Life Essentials</h3>
                     </div>
                     <div class="w-1/2 max-w-[700px] text-xl px-7">
                         <p class="font-aeonik">
-                            At Panda People, we believe in real benefits that 
-                            make a difference. We know pretend perks only go so 
+                            At Panda People, we believe in real benefits that
+                            make a difference. We know pretend perks only go so
                             far, so we’ve done something about it. Real people like
-                            you deserve better, so we’re delivering benefits for life 
+                            you deserve better, so we’re delivering benefits for life
                             essentials like housing, phone plans, and health + wellness.
                         </p>
                     </div>
@@ -59,11 +59,11 @@
                 <div class="text-white flex space-x-8">
                     <div class="flex-shrink-1 w-3/5 lef-0">
                         <div class="max-w-[900px]">
-                             <img src="{{ asset('storage/assets/pandas-3-circle.png') }}" alt="3 different color of circles" class="ml-0"/>
+                            <img src="{{ asset('storages/assets/pandas-3-circle.png') }}" alt="3 different color of circles" class="ml-0" />
                         </div>
-                       
+
                     </div>
-                    <div class="flex flex-col justify-center h-full m-auto">   
+                    <div class="flex flex-col justify-center h-full m-auto">
                         <h1 class="font-editorial text-4xl leading-[40px]">Benefits with Panda</h1>
                         <ul class="font-aeonik list-disc list-inside p-5">
                             <li>Discounts on rent</li>
@@ -84,81 +84,81 @@
         </section>
         <section>
 
-        </section> 
-        <section  class="px-[min(6.99vw,50px)] py-4" style="max-width: 1920px; margin:auto">
+        </section>
+        <section class="px-[min(6.99vw,50px)] py-4" style="max-width: 1920px; margin:auto">
             <h1 class="font-editorial text-7xl leading-[70px]">Guides</h1>
             <x-hr />
             <div class="flex">
                 <div class="w-1/3 p-7">
-                    <img src="{{ asset('storage/assets/grey-bg.png') }}" alt="Panda images" class="my-5"/>
+                    <img src="{{ asset('storages/assets/grey-bg.png') }}" alt="Panda images" class="my-5" />
                     <h1 class="font-editorial text-4xl leading-[40px] my-5">5 Ways to Save on Everyday Groceries</h1>
-                    <p class="line-clamp-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                        Vivamus consequat urna vitae ornare ullamcorper. Quisque 
+                    <p class="line-clamp-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Vivamus consequat urna vitae ornare ullamcorper. Quisque
                         nec ipsum a libero feugiat consequat. Fusce efficitur eu dui
-                        a sollicitudin…. Maecenas nulla nisl, mollis et sapien sed, 
+                        a sollicitudin…. Maecenas nulla nisl, mollis et sapien sed,
                         tincidunt sodales est. Vivamus sed scelerisque mi, auctor accumsa
-                        n massa. Vestibulum vitae enim consectetur, semper massa at, vulputate 
-                        justo. Maecenas ligula ligula, dictum ac urna elementum, elementum imperdiet 
-                        diam. Pellentesque gravida sollicitudin vestibulum. Vivamus dignissim 
-                        laoreet tortor, condimentum elementum ante maximus eu. Sed iaculis mi 
-                        quis velit egestas volutpat. Vestibulum ante ipsum primis in faucibus 
+                        n massa. Vestibulum vitae enim consectetur, semper massa at, vulputate
+                        justo. Maecenas ligula ligula, dictum ac urna elementum, elementum imperdiet
+                        diam. Pellentesque gravida sollicitudin vestibulum. Vivamus dignissim
+                        laoreet tortor, condimentum elementum ante maximus eu. Sed iaculis mi
+                        quis velit egestas volutpat. Vestibulum ante ipsum primis in faucibus
                         orci luctus. et ultrices posuere cubilia curae; Aenean ut tortor dignissim,
-                        sollicitudin turpis a, egestas augue. Duis eget hendrerit elit. Duis 
-                        lacinia sed lectus a rhoncus. Quisque iaculis mi sapien, eu malesuada 
+                        sollicitudin turpis a, egestas augue. Duis eget hendrerit elit. Duis
+                        lacinia sed lectus a rhoncus. Quisque iaculis mi sapien, eu malesuada
                         ligula eleifend nec. Sed venenatis fringilla justo id aliquam.
                         Praesent lectus odio, pretium id ligula quis, blandit sagittis justo.
                     </p>
-                    <x-link class="my-5"  outlined href="/deals">Read Article</x-link>
+                    <x-link class="my-5" outlined href="/deals">Read Article</x-link>
 
                 </div>
                 <div class="w-1/3 p-7">
-                    <img src="{{ asset('storage/assets/grey-bg.png') }}" alt="Panda images" class="my-5"/>
+                    <img src="{{ asset('storages/assets/grey-bg.png') }}" alt="Panda images" class="my-5" />
                     <h1 class="font-editorial text-4xl leading-[40px] my-5">5 Ways to Save on Everyday Groceries</h1>
-                    <p class="line-clamp-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                        Vivamus consequat urna vitae ornare ullamcorper. Quisque 
+                    <p class="line-clamp-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Vivamus consequat urna vitae ornare ullamcorper. Quisque
                         nec ipsum a libero feugiat consequat. Fusce efficitur eu dui
-                        a sollicitudin…. Maecenas nulla nisl, mollis et sapien sed, 
+                        a sollicitudin…. Maecenas nulla nisl, mollis et sapien sed,
                         tincidunt sodales est. Vivamus sed scelerisque mi, auctor accumsa
-                        n massa. Vestibulum vitae enim consectetur, semper massa at, vulputate 
-                        justo. Maecenas ligula ligula, dictum ac urna elementum, elementum imperdiet 
-                        diam. Pellentesque gravida sollicitudin vestibulum. Vivamus dignissim 
-                        laoreet tortor, condimentum elementum ante maximus eu. Sed iaculis mi 
-                        quis velit egestas volutpat. Vestibulum ante ipsum primis in faucibus 
+                        n massa. Vestibulum vitae enim consectetur, semper massa at, vulputate
+                        justo. Maecenas ligula ligula, dictum ac urna elementum, elementum imperdiet
+                        diam. Pellentesque gravida sollicitudin vestibulum. Vivamus dignissim
+                        laoreet tortor, condimentum elementum ante maximus eu. Sed iaculis mi
+                        quis velit egestas volutpat. Vestibulum ante ipsum primis in faucibus
                         orci luctus. et ultrices posuere cubilia curae; Aenean ut tortor dignissim,
-                        sollicitudin turpis a, egestas augue. Duis eget hendrerit elit. Duis 
-                        lacinia sed lectus a rhoncus. Quisque iaculis mi sapien, eu malesuada 
+                        sollicitudin turpis a, egestas augue. Duis eget hendrerit elit. Duis
+                        lacinia sed lectus a rhoncus. Quisque iaculis mi sapien, eu malesuada
                         ligula eleifend nec. Sed venenatis fringilla justo id aliquam.
                         Praesent lectus odio, pretium id ligula quis, blandit sagittis justo.
                     </p>
-                    <x-link class="my-5"  outlined href="/deals">Read Article</x-link>
+                    <x-link class="my-5" outlined href="/deals">Read Article</x-link>
 
                 </div>
                 <div class="w-1/3 p-7">
-                    <img src="{{ asset('storage/assets/grey-bg.png') }}" alt="Panda images" class="my-5"/>
+                    <img src="{{ asset('storages/assets/grey-bg.png') }}" alt="Panda images" class="my-5" />
                     <h1 class="font-editorial text-4xl leading-[40px] my-5">5 Ways to Save on Everyday Groceries</h1>
-                    <p class="line-clamp-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                        Vivamus consequat urna vitae ornare ullamcorper. Quisque 
+                    <p class="line-clamp-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Vivamus consequat urna vitae ornare ullamcorper. Quisque
                         nec ipsum a libero feugiat consequat. Fusce efficitur eu dui
-                        a sollicitudin…. Maecenas nulla nisl, mollis et sapien sed, 
+                        a sollicitudin…. Maecenas nulla nisl, mollis et sapien sed,
                         tincidunt sodales est. Vivamus sed scelerisque mi, auctor accumsa
-                        n massa. Vestibulum vitae enim consectetur, semper massa at, vulputate 
-                        justo. Maecenas ligula ligula, dictum ac urna elementum, elementum imperdiet 
-                        diam. Pellentesque gravida sollicitudin vestibulum. Vivamus dignissim 
-                        laoreet tortor, condimentum elementum ante maximus eu. Sed iaculis mi 
-                        quis velit egestas volutpat. Vestibulum ante ipsum primis in faucibus 
+                        n massa. Vestibulum vitae enim consectetur, semper massa at, vulputate
+                        justo. Maecenas ligula ligula, dictum ac urna elementum, elementum imperdiet
+                        diam. Pellentesque gravida sollicitudin vestibulum. Vivamus dignissim
+                        laoreet tortor, condimentum elementum ante maximus eu. Sed iaculis mi
+                        quis velit egestas volutpat. Vestibulum ante ipsum primis in faucibus
                         orci luctus. et ultrices posuere cubilia curae; Aenean ut tortor dignissim,
-                        sollicitudin turpis a, egestas augue. Duis eget hendrerit elit. Duis 
-                        lacinia sed lectus a rhoncus. Quisque iaculis mi sapien, eu malesuada 
+                        sollicitudin turpis a, egestas augue. Duis eget hendrerit elit. Duis
+                        lacinia sed lectus a rhoncus. Quisque iaculis mi sapien, eu malesuada
                         ligula eleifend nec. Sed venenatis fringilla justo id aliquam.
                         Praesent lectus odio, pretium id ligula quis, blandit sagittis justo.
                     </p>
-                    <x-link class="my-5"  outlined href="/deals">Read Article</x-link>
+                    <x-link class="my-5" outlined href="/deals">Read Article</x-link>
 
                 </div>
-                
+
             </div>
-            
-        </section>  
+
+        </section>
 
         <livewire:resources.contact-inquiry-resource.forms.contact-us-form />
     </x-layouts.app>

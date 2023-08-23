@@ -5,7 +5,7 @@
     <div class="container flex items-center space-x-4 mx-auto">
         <div class="p-10 w-full relative flex">
             <div class="w-3/4">
-                <img src="{{ asset('storage/assets/circler-white.png') }}" alt="2 Circles " class="h-[600px]" />
+                <img src="{{ asset('storages/assets/circler-white.png') }}" alt="2 Circles " class="h-[600px]" />
                 <div class="bottom-out-blade">
                     <h1 class="font-editorial text-[60px] font-thin text-white">Live. Grow. Play. <br> Panda.</h1>
                 </div>

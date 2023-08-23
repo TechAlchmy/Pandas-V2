@@ -12,7 +12,7 @@ $categories = computed(function () {
 ?>
 
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 bg-panda-green">
-    <div class="pt-[100%] bg-cover bg-center" style="background-image: url({{ asset('storage/assets/list-daily-deals.png') }})">
+    <div class="pt-[100%] bg-cover bg-center" style="background-image: url({{ asset('storages/assets/list-daily-deals.png') }})">
     </div>
     <div class="p-8 space-y-4">
         <h2 class="text-3xl">
