@@ -1,6 +1,7 @@
 @php
     $recentlyViewed = \App\Models\Discount::query()
         ->with('brand.media')
+        ->take(4)
         ->find(recentlyViewed()->get(\App\Models\Discount::class));
 @endphp
 

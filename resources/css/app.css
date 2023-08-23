@@ -298,3 +298,7 @@ img {
 .list-deals .choices__list--dropdown {
     @apply rounded-none border border-black;
 }
+
+.checkout-modal .fi-modal-window {
+    @apply rounded-none ring-black;
+}

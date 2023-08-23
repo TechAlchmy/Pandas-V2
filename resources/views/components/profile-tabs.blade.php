@@ -8,7 +8,7 @@
     ];
 @endphp
 
-<section x-data="{ selected: 0 }" class="grid grid-cols-1 lg:grid-cols-4 py-8 px-[min(6.99vw,50px)]">
+<section x-data="{ selected: @js(request('activeTab', 0)) }" class="grid grid-cols-1 lg:grid-cols-4 py-8 px-[min(6.99vw,50px)]">
     <ul class="divide-y text-xl">
         @foreach ($tabs as $key => $menu)
             <li class="p-4">

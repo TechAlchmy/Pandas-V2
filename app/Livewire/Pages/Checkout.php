@@ -2,6 +2,9 @@
 
 namespace App\Livewire\Pages;
 
+use App\Enums\OrderStatus;
+use App\Enums\PaymentStatus;
+use App\Models\Discount;
 use App\Models\Order;
 use App\Services\CardknoxPayment\CardknoxBody;
 use App\Services\CardknoxPayment\CardknoxPayment;
@@ -11,12 +14,16 @@ use Filament\Forms\Form;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Concerns\InteractsWithForms;
 use DanHarrin\LivewireRateLimiting\WithRateLimiting;
+use Filament\Actions\Action;
+use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Actions\Contracts\HasActions;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Carbon;
 
-class Checkout extends Component implements HasForms
+class Checkout extends Component implements HasForms, HasActions
 {
     use InteractsWithForms;
+    use InteractsWithActions;
     use WithRateLimiting;
 
     public $data;
@@ -106,25 +113,168 @@ class Checkout extends Component implements HasForms
                    ->columns(2)
                    ->schema([
                        Forms\Components\TextInput::make('xCardNum')
-                        ->columnSpanFull()
-                           ->label('Card number')
-                           ->required(),
+                            ->columnSpanFull()
+                            ->label('Card number')
+                            ->required(),
                        Forms\Components\DatePicker::make('xExp')
                             ->minDate(now())
-                           ->label('Expiration date')
-                           ->required(),
+                            ->label('Expiration date')
+                            ->required(),
                        Forms\Components\TextInput::make('xCVV')
                            ->label('CVC')
                            ->numeric()
                            ->minLength(3)
+                           ->maxLength(3)
                            ->required(),
                    ]),
             ]);
     }
 
+    public function updateItem($id, $quantity, $amount)
+    {
+        $record = Discount::find($id);
+        if ($record->limit_qty >= $quantity) {
+            cart()->update($id, $quantity, $amount);
+            return;
+        }
+
+        Notification::make()
+            ->title('Quantity limit reached ' . $record->name)
+            ->danger()
+            ->send();
+    }
+
+    public function checkoutAction()
+    {
+        return Action::make('checkout')
+            ->view('components.button', ['slot' => 'Proceed to checkout'])
+            ->fillForm([
+                'xEmail' => auth()->user()?->email,
+            ])
+            ->form([
+                Forms\Components\Grid::make()
+                    ->schema([
+                        Forms\Components\TextInput::make('xEmail')
+                           ->email()
+                           ->view('forms.components.text-input')
+                           ->hiddenLabel()
+                           ->placeholder('Email')
+                           ->default(auth()->user()?->email)
+                           ->required(),
+                        Forms\Components\TextInput::make('xCardNum')
+                            ->view('forms.components.text-input')
+                            ->hiddenLabel()
+                            ->placeholder('Card number')
+                            ->maxLength(16)
+                            ->required(),
+                        Forms\Components\Grid::make(2)
+                            ->columnSpan(1)
+                            ->columns(['default' => 2])
+                            ->schema([
+                                Forms\Components\TextInput::make('xExp_month')
+                                    ->view('forms.components.text-input')
+                                    ->extraInputAttributes(['class' => 'w-full'])
+                                    ->hiddenLabel()
+                                    ->maxLength(2)
+                                    ->minLength(2)
+                                    ->placeholder('month')
+                                    ->required(),
+                                Forms\Components\TextInput::make('xExp_year')
+                                    ->view('forms.components.text-input')
+                                    ->extraInputAttributes(['class' => 'w-full'])
+                                    ->hiddenLabel()
+                                    ->maxLength(4)
+                                    ->minLength(4)
+                                    ->placeholder('year')
+                                    ->required(),
+                            ]),
+                            Forms\Components\TextInput::make('xCVV')
+                                ->view('forms.components.text-input')
+                                ->hiddenLabel()
+                                ->placeholder('CVC')
+                                ->minLength(3)
+                                ->maxLength(3)
+                                ->required(),
+                    ]),
+            ])
+            ->action(function ($data) {
+                $data['xAmount'] = 23;
+                $data['xExp'] = $data['xExp_month'].$data['xExp_year'];
+
+                // TODO: add email to the orders table or pass a user_id when creating the order.
+                $order = Order::create([
+                    'user_id' => auth()->id(),
+                    'order_status' => OrderStatus::Pending,
+                    'payment_status' => PaymentStatus::Pending,
+                    'payment_method' => 'card',
+                    'ordered_at' => now(),
+                    'order_tax' => cart()->tax(),
+                    'order_subtotal' => cart()->subtotal(),
+                    'order_total' => cart()->total(),
+                ]);
+
+                foreach (cart()->items() as $id => $item) {
+                    $order->orderDetails()->create([
+                        'discount_id' => $id,
+                        'amount' => $item['amount'],
+                        'quantity' => $item['quantity'],
+                    ]);
+                }
+
+                $data['xInvoice'] = $order->order_column;
+
+                $cardknoxPayment = new CardknoxPayment;
+                $response = $cardknoxPayment->charge(new CardknoxBody($data));
+
+                if (filled($response->xResult) && $response->xStatus === 'Error') {
+                    Notification::make()->danger()
+                        ->title('Error')
+                        ->body($response->xError)
+                        ->send();
+
+                    return;
+                }
+
+                $order->update(['payment_status' => $response->xStatus]);
+                //TODO: Send Notification
+                Notification::make()
+                    ->title('Order placed')
+                    ->danger()
+                    ->send();
+
+                return redirect()->route('dashboard', ['activeTab' => 4]);
+            });
+    }
+
+    public function saveItemAction()
+    {
+        return Action::make('saveItem')
+            ->requiresConfirmation()
+            ->action(function ($arguments) {
+                cart()->remove($arguments['id']);
+
+                Notification::make()
+                    ->title('Item saved')
+                    ->success()
+                    ->send();
+            });
+    }
+
+    public function removeItemAction()
+    {
+        return Action::make('removeItem')
+            ->requiresConfirmation()
+            ->action(function ($arguments) {
+                cart()->remove($arguments['id']);
+                Notification::make()
+                    ->title('Cart Item removed')
+                    ->success()
+                    ->send();
+            });
+    }
+
     public function render()
     {
-        return view('livewire.pages.checkout')
-            ->layout('components.layouts.guest');
+        return view('livewire.pages.checkout');
     }
 }

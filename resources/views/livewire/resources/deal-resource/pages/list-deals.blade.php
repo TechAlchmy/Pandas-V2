@@ -7,24 +7,30 @@
             {{ $this->form }}
         </div>
     </section>
-    @if ($filter['search'] && $this->deals->isEmpty())
+    @if ($this->deals->isEmpty())
         <section class="px-[min(6.99vw,50px)] max-w-[1920px] mx-auto py-8 text-center font-light">
             <span class="text-6xl break-words">
-                No results for "{{ $filter['search'] }}"<br />
+                @if ($filter['search'])
+                    No results for "{{ $filter['search'] }}"<br />
+                @else
+                    No Deals
+                @endif
             </span>
         </section>
     @endif
-    @if ($this->featuredDeals->isNotEmpty())
-        <section class='px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto'>
-            <x-hr />
-            <h3 class="text-4xl">Featured Deals</h3>
-            <div class="h-28"></div>
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
-                @foreach ($this->featuredDeals as $deal)
-                    <x-deal-card :record="$deal" :record-clicks="true" />
-                @endforeach
-            </div>
-        </section>
+    @if (!$this->hasActiveFilter)
+        @if ($this->featuredDeals->isNotEmpty())
+            <section class='px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto'>
+                <x-hr />
+                <h3 class="text-4xl">Featured Deals</h3>
+                <div class="h-28"></div>
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                    @foreach ($this->featuredDeals as $deal)
+                        <x-deal-card :record="$deal" :record-clicks="true" />
+                    @endforeach
+                </div>
+            </section>
+        @endif
     @endif
     @if ($this->deals->isNotEmpty())
         <section class='px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto'>
