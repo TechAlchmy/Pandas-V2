@@ -246,6 +246,20 @@ class Checkout extends Component implements HasForms, HasActions
             });
     }
 
+    public function removeItemAction()
+    {
+        return Action::make('removeItem')
+            ->view('components.button', ['slot' => 'Remove', 'unstyled' => true, 'class' => 'animated-underline'])
+            ->requiresConfirmation()
+            ->action(function ($arguments) {
+                cart()->remove($arguments['id']);
+                Notification::make()
+                    ->title('Cart Item removed')
+                    ->success()
+                    ->send();
+            });
+    }
+
     public function render()
     {
         return view('livewire.pages.checkout');
