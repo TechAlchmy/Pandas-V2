@@ -7,10 +7,14 @@
             {{ $this->form }}
         </div>
     </section>
-    @if ($filter['search'] && $this->deals->isEmpty())
+    @if ($this->deals->isEmpty())
         <section class="px-[min(6.99vw,50px)] max-w-[1920px] mx-auto py-8 text-center font-light">
             <span class="text-6xl break-words">
-                No results for "{{ $filter['search'] }}"<br />
+                @if ($filter['search'])
+                    No results for "{{ $filter['search'] }}"<br />
+                @else
+                    No Deals
+                @endif
             </span>
         </section>
     @endif
