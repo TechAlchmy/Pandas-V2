@@ -29,7 +29,7 @@ class DiscountFactory extends Factory
             'views' => $this->faker->numberBetween(1, 100),
             'clicks' => $this->faker->numberBetween(1, 100),
             'code' => $this->faker->word,
-            'amount' => $this->faker->numberBetween(1, 100),
+            'amount' => [$this->faker->numberBetween(1, 100)],
             'limit_qty' => $this->faker->numberBetween(1, 100),
             'limit_amount' => $this->faker->numberBetween(1, 100),
             'public_percentage' => $this->faker->numberBetween(1, 100),
