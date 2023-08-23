@@ -33,7 +33,7 @@ class BrandFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function ($record) {
-            $record->addMedia(public_path('storages/logo/adidas-white.png'))
+            $record->addMedia(public_path('storage/logo/adidas-white.png'))
                 ->preservingOriginal()
                 ->toMediaCollection('logo');
         });

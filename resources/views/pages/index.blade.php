@@ -1,7 +1,7 @@
 @auth
     <x-layouts.app>
         <x-banner-upsell />
-        <x-banner :background="asset('storages/banners/panda-main.png')" />
+        <x-banner :background="asset('storage/banners/panda-main.png')" />
         <section class="px-[min(6.99vw,50px)] py-4" style="max-width: 1920px; margin:auto">
             <x-hr />
             <div class="lg:flex justify-between gap-4">
@@ -44,7 +44,7 @@
             <div>
                 <div class="text-white flex space-x-8 px-[min(6.99vw,50px)] py-9 m-auto" style="max-width: 1920px;">
                     <div class="w-1/2">
-                        <h3 class="font-editorial text-7xl leading-[70px]">Benefits for <br> Life Essentials</h3>
+                        <h3 class="font-editorial text-6xl leading-[70px]">Benefits for <br> Life Essentials</h3>
                     </div>
                     <div class="w-1/2 max-w-[700px] text-xl px-7">
                         <p class="font-aeonik">
@@ -59,7 +59,7 @@
                 <div class="text-white flex space-x-8">
                     <div class="flex-shrink-1 w-3/5 lef-0">
                         <div class="max-w-[900px]">
-                            <img src="{{ asset('storages/assets/pandas-3-circle.png') }}" alt="3 different color of circles" class="ml-0" />
+                            <img src="{{ asset('storage/assets/pandas-3-circle.png') }}" alt="3 different color of circles" class="ml-0" />
                         </div>
 
                     </div>
@@ -82,15 +82,19 @@
                 </div>
             </div>
         </section>
-        <section>
-
+        <section  class="px-[min(6.99vw,50px)] py-4 " style="max-width: 1920px; margin:auto">
+            <div>
+                <h1 class="font-editorial text-6xl leading-[70px] mt-9">Panda Partners with Brands You Know</h1>
+            </div>
+            <livewire:brands-logos />
+            
         </section>
         <section class="px-[min(6.99vw,50px)] py-4" style="max-width: 1920px; margin:auto">
-            <h1 class="font-editorial text-7xl leading-[70px]">Guides</h1>
+            <h1 class="font-editorial text-6xl leading-[70px]">Guides</h1>
             <x-hr />
             <div class="flex">
                 <div class="w-1/3 p-7">
-                    <img src="{{ asset('storages/assets/grey-bg.png') }}" alt="Panda images" class="my-5" />
+                    <img src="{{ asset('storage/assets/grey-bg.png') }}" alt="Panda images" class="my-5" />
                     <h1 class="font-editorial text-4xl leading-[40px] my-5">5 Ways to Save on Everyday Groceries</h1>
                     <p class="line-clamp-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                         Vivamus consequat urna vitae ornare ullamcorper. Quisque
@@ -112,7 +116,7 @@
 
                 </div>
                 <div class="w-1/3 p-7">
-                    <img src="{{ asset('storages/assets/grey-bg.png') }}" alt="Panda images" class="my-5" />
+                    <img src="{{ asset('storage/assets/grey-bg.png') }}" alt="Panda images" class="my-5" />
                     <h1 class="font-editorial text-4xl leading-[40px] my-5">5 Ways to Save on Everyday Groceries</h1>
                     <p class="line-clamp-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                         Vivamus consequat urna vitae ornare ullamcorper. Quisque
@@ -134,7 +138,7 @@
 
                 </div>
                 <div class="w-1/3 p-7">
-                    <img src="{{ asset('storages/assets/grey-bg.png') }}" alt="Panda images" class="my-5" />
+                    <img src="{{ asset('storage/assets/grey-bg.png') }}" alt="Panda images" class="my-5" />
                     <h1 class="font-editorial text-4xl leading-[40px] my-5">5 Ways to Save on Everyday Groceries</h1>
                     <p class="line-clamp-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                         Vivamus consequat urna vitae ornare ullamcorper. Quisque

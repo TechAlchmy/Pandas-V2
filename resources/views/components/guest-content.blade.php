@@ -5,7 +5,7 @@
                     class="hidden max-xl:block"> world<br class="max-xl:hidden"> of benefits...</h1>
         </div>
         <div id="imageContainer" class="flex max-h-[660px] justify-center">
-            <img src="{{ asset('storages/banners/banner-guest.png') }}" alt="Collages images" class="max-w-[1500px] h-auto " />
+            <img src="{{ asset('storage/banners/banner-guest.png') }}" alt="Collages images" class="max-w-[1500px] h-auto " />
         </div>
     </div>
 
