@@ -4,6 +4,7 @@ namespace App\Livewire\Pages;
 
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
+use App\Models\Discount;
 use App\Models\Order;
 use App\Services\CardknoxPayment\CardknoxBody;
 use App\Services\CardknoxPayment\CardknoxPayment;
@@ -131,7 +132,16 @@ class Checkout extends Component implements HasForms, HasActions
 
     public function updateItem($id, $quantity, $amount)
     {
-        cart()->update($id, $quantity, $amount);
+        $record = Discount::find($id);
+        if ($record->limit_qty >= $quantity) {
+            cart()->update($id, $quantity, $amount);
+            return;
+        }
+
+        Notification::make()
+            ->title('Quantity limit reached ' . $record->name)
+            ->danger()
+            ->send();
     }
 
     public function checkoutAction()
