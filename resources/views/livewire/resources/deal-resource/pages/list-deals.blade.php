@@ -14,7 +14,7 @@
             </span>
         </section>
     @endif
-    @if (!$this->hasActiveFilters)
+    @if (!$this->hasActiveFilter)
         @if ($this->featuredDeals->isNotEmpty())
             <section class='px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto'>
                 <x-hr />
