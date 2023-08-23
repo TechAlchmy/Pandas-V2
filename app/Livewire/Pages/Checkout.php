@@ -263,7 +263,6 @@ class Checkout extends Component implements HasForms, HasActions
     public function removeItemAction()
     {
         return Action::make('removeItem')
-            ->view('components.button', ['slot' => 'Remove', 'unstyled' => true, 'class' => 'animated-underline'])
             ->requiresConfirmation()
             ->action(function ($arguments) {
                 cart()->remove($arguments['id']);
