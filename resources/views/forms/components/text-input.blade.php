@@ -16,6 +16,10 @@
                     'autofocus' => $isAutofocused(),
                     'disabled' => $isDisabled(),
                     'required' => $isRequired(),
+                    'max' => (! $isConcealed()) ? $getMaxValue() : null,
+                    'maxlength' => (! $isConcealed()) ? $getMaxLength() : null,
+                    'min' => (! $isConcealed()) ? $getMinValue() : null,
+                    'minlength' => (! $isConcealed()) ? $getMinLength() : null,
                     'type' => $getType() ?? 'text',
                     $applyStateBindingModifiers('wire:model') => $getStatePath(),
                 ], escape: false)
