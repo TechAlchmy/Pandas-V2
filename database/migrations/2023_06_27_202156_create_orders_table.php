@@ -14,21 +14,21 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class, 'user_id')->nullable();
+            $table->uuid();
+            $table->dateTime('order_date')->nullable();
+            $table->foreignIdFor(User::class)->nullable()->constrained()->nullOnDelete();
             $table->string('order_status')->comment('pending, processing, on hold, completed, cancelled, refunded, failed')->nullable();
-            $table->string('order_number', 255)->unique();
-            $table->string('order_total', 255)->nullable();
-            $table->string('order_subtotal', 255)->nullable();
-            $table->string('order_discount', 255)->nullable();
-            $table->string('order_tax', 255)->nullable();
+            $table->unsignedBigInteger('order_column')->nullable()->index();
+            $table->unsignedInteger('order_discount')->nullable();
+            $table->unsignedInteger('order_tax')->nullable();
+            $table->unsignedInteger('order_subtotal')->nullable();
+            $table->unsignedInteger('order_total')->nullable();
             $table->string('payment_method', 255)->nullable();
             $table->string('payment_status', 255)->comment('pending, paid, failed, refunded')->nullable();
-            $table->foreignIdFor(User::class, 'created_by')->nullable();
-            $table->foreignIdFor(User::class, 'updated_by')->nullable();
-            $table->foreignIdFor(User::class, 'deleted_by')->nullable();
-            $table->string('order_date', 255)->nullable();
 
-            $table->uuid('uuid')->nullable();
+            $table->foreignIdFor(User::class, 'created_by_id')->nullable();
+            $table->foreignIdFor(User::class, 'updated_by_id')->nullable();
+            $table->foreignIdFor(User::class, 'deleted_by_id')->nullable();
 
             $table->softDeletes();
             $table->timestamps();

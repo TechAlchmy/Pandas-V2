@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\OrderResource\RelationManagers;
 
+use App\Filament\Resources\DiscountResource;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\OrderDetail;
@@ -27,8 +28,6 @@ class OrderDetailsRelationManager extends RelationManager
                 Forms\Components\Select::make('user_id')
                     ->relationship('user', 'name')
                     ->required(),
-
-                Forms\Components\DatePicker::make('purchase_date'),
             ]);
     }
 
@@ -37,13 +36,13 @@ class OrderDetailsRelationManager extends RelationManager
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('discount.name')
-                    ->url(fn (OrderDetail $record) => route('filament.admin.resources.discounts.edit', $record->discount->id))
+                    ->url(fn (OrderDetail $record) => DiscountResource::getUrl('edit', ['record' => $record->discount]))
                     ->searchable()
                     ->label('Name'),
 
                 Tables\Columns\TextColumn::make('quantity')->label('Qauntity'),
 
-                Tables\Columns\TextColumn::make('discount.amount')->label('Item Price'),
+                Tables\Columns\TextColumn::make('amount')->label('Item Price'),
 
                 Tables\Columns\TextColumn::make('total'),
             ])

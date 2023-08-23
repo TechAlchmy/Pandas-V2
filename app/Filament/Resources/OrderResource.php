@@ -18,6 +18,7 @@ use Filament\Tables\Filters\TernaryFilter;
 use App\Filament\Resources\OrderResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\OrderResource\RelationManagers\OrderDetailsRelationManager;
+use App\Forms\Components\AuditableView;
 use Filament\Tables\Actions\Action;
 
 class OrderResource extends Resource
@@ -37,13 +38,15 @@ class OrderResource extends Resource
                 Section::make('Order Data')
                     ->columnSpan(2)
                     ->columns(2)
+                    ->disabled(fn (string $context): bool => $context !== 'create')
                     ->schema([
                         Forms\Components\Select::make('user_id')
                             ->relationship('user', 'name'),
 
                         Forms\Components\Select::make('order_status')->options(OrderStatus::options()),
 
-                        Forms\Components\TextInput::make('order_number')
+                        Forms\Components\TextInput::make('order_column')
+                            ->label('Order Number')
                             ->dehydrated(fn (string $context): bool => $context !== 'create')
                             ->required(),
 
@@ -70,46 +73,7 @@ class OrderResource extends Resource
                         Forms\Components\DatePicker::make('order_date')->dehydrated(false)->default(now()),
                     ]),
 
-                Tabs::make('Heading')
-                    ->tabs([
-                        Tabs\Tab::make('Edited By')
-                            ->schema([
-                                Placeholder::make('edited_by')->content(function ($record) {
-                                    return $record && $record->updatedBy ? $record->updatedBy->name : null;
-                                }),
-                                Placeholder::make('Email')->content(function ($record) {
-                                    return $record && $record->updatedBy ? $record->updatedBy->email : null;
-                                }),
-                                Placeholder::make('Last updated')->content(function ($record) {
-                                    return $record && $record->updated_at ? $record->updated_at->format('m/d/Y h:i:s A') : null;
-                                }),
-
-                            ])->columns(3),
-                        Tabs\Tab::make('Created By')
-                            ->schema([
-                                Placeholder::make('created_by')->content(function ($record) {
-                                    return $record && $record->createdBy ? $record->createdBy->name : null;
-                                }),
-                                Placeholder::make('email')->content(function ($record) {
-                                    return $record && $record->createdBy ? $record->createdBy->email : null;
-                                }),
-                                Placeholder::make('created_at')->content(function ($record) {
-                                    return $record && $record->created_at ? $record->created_at->format('m/d/Y h:i:s A') : null;
-                                }),
-                            ])->columns(3),
-                        Tabs\Tab::make('Deleted By')
-                            ->schema([
-                                Placeholder::make('deledted_by')->content(function ($record) {
-                                    return $record && $record->deletedBy ? $record->deletedBy->name : null;
-                                }),
-                                Placeholder::make('email')->content(function ($record) {
-                                    return $record && $record->deletedBy ? $record->deletedBy->email : null;
-                                }),
-                                Placeholder::make('created_at')->content(function ($record) {
-                                    return $record && $record->deelted_at ? $record->deelted_at->format('m/d/Y h:i:s A') : null;
-                                }),
-                            ])->columns(3),
-                    ])->columnSpanFull(),
+                AuditableView::make(),
             ]);
     }
 
@@ -136,7 +100,6 @@ class OrderResource extends Resource
                     ),
             ])
             ->actions([
-                Action::make('refund')->button(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
@@ -190,34 +153,7 @@ class OrderResource extends Resource
                 ])
                 ->toggleable(),
 
-            Tables\Columns\TextColumn::make('created_by')
-                ->toggleable()
-                ->toggledHiddenByDefault(),
-
-            Tables\Columns\TextColumn::make('updated_by')
-                ->toggleable()
-                ->toggledHiddenByDefault(),
-
-            Tables\Columns\TextColumn::make('deleted_at')
-                ->dateTime()
-                ->toggleable()
-                ->toggledHiddenByDefault(),
-
-            Tables\Columns\TextColumn::make('deleted_by')
-                ->toggleable()
-                ->toggledHiddenByDefault(),
-
             Tables\Columns\TextColumn::make('order_date')
-                ->toggleable()
-                ->toggledHiddenByDefault(),
-
-            Tables\Columns\TextColumn::make('created_at')
-                ->dateTime()
-                ->toggleable()
-                ->toggledHiddenByDefault(),
-
-            Tables\Columns\TextColumn::make('updated_at')
-                ->dateTime()
                 ->toggleable()
                 ->toggledHiddenByDefault(),
         ];
