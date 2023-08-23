@@ -237,6 +237,10 @@ class Checkout extends Component implements HasForms, HasActions
 
                 $order->update(['payment_status' => $response->xStatus]);
                 //TODO: Send Notification
+                Notification::make()
+                    ->title('Order placed')
+                    ->danger()
+                    ->send();
 
                 return redirect()->route('dashboard', ['activeTab' => 4]);
             });
