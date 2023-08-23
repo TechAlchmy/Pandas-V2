@@ -53,7 +53,7 @@ class DatabaseSeeder extends Seeder
                 $user->userPreference()->save(UserPreference::factory()->make());
             });
 
-        User::factory(50)->create()->each(function ($user) {
+        $users = User::factory(50)->create()->each(function ($user) {
             $user->userPreference()->save(UserPreference::factory()->make());
         });
 
@@ -61,11 +61,11 @@ class DatabaseSeeder extends Seeder
         Category::factory(10)->create();
         BrandCategory::factory(10)->create();
         BrandRegion::factory(10)->create();
-        OfferType::factory(10)->create();
-        VoucherType::factory(10)->create();
-        Discount::factory(10)->create()->each(function ($discount) {
-            $discount->offerTypes()->attach(OfferType::inRandomOrder()->first());
-            $discount->voucherType()->associate(VoucherType::inRandomOrder()->first());
+        $offerTypes = OfferType::factory(10)->create();
+        $voucherTypes = VoucherType::factory(10)->create();
+        $discounts = Discount::factory(10)->create()->each(function ($discount) use ($offerTypes, $voucherTypes) {
+            $discount->offerTypes()->attach($offerTypes->random());
+            $discount->voucherType()->associate($voucherTypes->random());
             $discount->save();
 
             FeaturedDeal::query()->create(['discount_id' => $discount->getKey()]);
@@ -82,12 +82,12 @@ class DatabaseSeeder extends Seeder
                 $order->user()->associate($user);
                 $order->save();
 
+            ->each(function ($order) use ($users, $discounts) {
                 foreach (range(1, 6) as $count) {
-                    $discount = Discount::inRandomOrder()->first();
-                    $orderDetail = OrderDetail::factory()->make();
-                    $orderDetail->discount()->associate($discount);
-                    $orderDetail->order()->associate($order);
-                    $order->orderDetails()->save($orderDetail);
+                    OrderDetail::factory()
+                        ->for($discounts->random())
+                        ->for($order)
+                        ->create();
                 }
             });
 
