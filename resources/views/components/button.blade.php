@@ -4,6 +4,7 @@
     'size' => 'md',
     'color' => 'black',
     'action' => null,
+    'unstyled' => false,
 ])
 
 @php
@@ -35,15 +36,18 @@
     ]);
 @endphp
 
-@if ($tag == 'button')
+@if ($unstyled)
+    <button {{ $attributes }}>
+        {{ $slot }}
+    </button>
+@elseif ($tag == 'button')
     <button
         {{ $attributes->when($action, function ($attributes, $action) {
                 return $attributes->merge(['x-on:click' => $action->getAlpineClickHandler(), 'wire:click' => $action->getLivewireClickHandler(), 'wire:target' => $action->getLivewireTarget()]);
             })->twMerge([$buttonClasses]) }}>
         {{ $slot }}
     </button>
-@endif
-@if ($tag == 'a')
+@elseif ($tag == 'a')
     <x-a {{ $attributes->twMerge([$buttonClasses]) }}>
         {{ $slot }}
     </x-a>
