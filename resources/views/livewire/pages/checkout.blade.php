@@ -39,8 +39,8 @@
                                 </div>
                             </div>
                             <div class="flex justify-end gap-6">
-                                <button>Save for later</button>
                                 {{ ($this->removeItem)(['id' => $id]) }}
+                                {{ ($this->saveItem)(['id' => $id]) }}
                             </div>
                         </div>
                     @endforeach

@@ -246,6 +246,20 @@ class Checkout extends Component implements HasForms, HasActions
             });
     }
 
+    public function saveItemAction()
+    {
+        return Action::make('saveItem')
+            ->requiresConfirmation()
+            ->action(function ($arguments) {
+                cart()->remove($arguments['id']);
+
+                Notification::make()
+                    ->title('Item saved')
+                    ->success()
+                    ->send();
+            });
+    }
+
     public function removeItemAction()
     {
         return Action::make('removeItem')
