@@ -8,7 +8,7 @@ class SavedProductService
 {
     public function add($id)
     {
-        session('saved_products', collect(session('saved_products'))
+        session()->put('saved_products', collect(session('saved_products'))
             ->prepend($id)
             ->unique()
             ->diff($this->filter())
