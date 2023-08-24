@@ -32,7 +32,7 @@
                                         @endforeach
                                     </select>
                                 @endif
-                                <x-input class="md:max-w-[50%] !border-solid border-black p-2" type="number" wire:model="quantity" min="1" />
+                                <x-input class="lg:max-w-[50%] !border-solid border-black p-2" type="number" wire:model="quantity" min="1" />
                             </div>
                             <div class="flex gap-6 items-center">
                                 <x-button wire:click="addToCart" outlined>
