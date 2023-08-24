@@ -205,24 +205,7 @@ class Checkout extends Component implements HasForms, HasActions
                 $data['xExp'] = $data['xExp_month'].$data['xExp_year'];
 
                 // TODO: add email to the orders table or pass a user_id when creating the order.
-                $order = Order::create([
-                    'user_id' => auth()->id(),
-                    'order_status' => OrderStatus::Pending,
-                    'payment_status' => PaymentStatus::Pending,
-                    'payment_method' => 'card',
-                    'order_date' => now(),
-                    'order_tax' => cart()->tax(),
-                    'order_subtotal' => cart()->subtotal(),
-                    'order_total' => cart()->total(),
-                ]);
-
-                foreach (cart()->items() as $id => $item) {
-                    $order->orderDetails()->create([
-                        'discount_id' => $id,
-                        'amount' => $item['amount'],
-                        'quantity' => $item['quantity'],
-                    ]);
-                }
+                $order = cart()->createOrder();
 
                 $data['xInvoice'] = $order->order_column;
 

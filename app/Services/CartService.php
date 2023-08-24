@@ -2,8 +2,11 @@
 
 namespace App\Services;
 
+use App\Enums\OrderStatus;
+use App\Enums\PaymentStatus;
 use App\Models\Cart;
 use App\Models\Discount;
+use App\Models\Order;
 
 class CartService
 {
@@ -99,6 +102,40 @@ class CartService
     {
         return $this->tax()
             + $this->subtotal();
+    }
+
+    public function createOrder()
+    {
+        $order = Order::query()
+            ->create([
+                'user_id' => auth()->id(),
+                'order_status' => OrderStatus::Pending,
+                'payment_status' => PaymentStatus::Pending,
+                'payment_method' => 'card',
+                'order_date' => now(),
+                'order_tax' => $this->tax(),
+                'order_subtotal' => $this->subtotal(),
+                'order_total' => $this->total(),
+            ]);
+
+        foreach (cart()->items() as $id => $item) {
+            $order->orderDetails()->create([
+                'discount_id' => $id,
+                'amount' => $item['amount'],
+                'quantity' => $item['quantity'],
+            ]);
+        }
+
+        if (auth()->check()) {
+            Cart::query()
+                ->whereBelongsTo(auth()->user())
+                ->whereNull('order_id')
+                ->update([
+                    'order_id' => $order->getKey(),
+                ]);
+        }
+
+        return $order;
     }
 
     protected function persist()
