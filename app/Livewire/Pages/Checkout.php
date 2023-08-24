@@ -190,14 +190,14 @@ class Checkout extends Component implements HasForms, HasActions
                                     ->placeholder('year')
                                     ->required(),
                             ]),
-                            Forms\Components\TextInput::make('xCVV')
-                                ->view('forms.components.text-input')
-                                ->extraInputAttributes(['x-bind:placeholder' => 123])
-                                ->hiddenLabel()
-                                ->placeholder('CVC')
-                                ->minLength(3)
-                                ->maxLength(3)
-                                ->required(),
+                        Forms\Components\TextInput::make('xCVV')
+                            ->view('forms.components.text-input')
+                            ->extraInputAttributes(['x-bind:placeholder' => 123])
+                            ->hiddenLabel()
+                            ->placeholder('CVC')
+                            ->minLength(3)
+                            ->maxLength(3)
+                            ->required(),
                     ]),
             ])
             ->action(function ($data) {
