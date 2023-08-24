@@ -37,6 +37,7 @@
                             <x-button wire:click="addToCart" outlined>
                                 Add to cart
                             </x-button>
+                            {{ $this->redeemAction }}
                         </div>
                     @if ($record->cta == \App\Enums\DiscountCallToActionEnum::GoToSite)
                         <x-link :href="$record->link" outlined size="lg">
