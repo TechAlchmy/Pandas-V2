@@ -75,15 +75,20 @@
         </div>
     </div>
     <div class="my-20"></div>
-    <div class="">
-        <h3 class="text-4xl">Saved for later</h3>
-        <x-hr />
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
-            @foreach (\App\Models\Discount::query()->with('brand')->take(6)->inRandomOrder()->get() as $record)
-                <x-deal-card :record="$record" />
-            @endforeach
+    @php
+        $savedProducts = savedProduct()->get();
+    @endphp
+    @if ($savedProducts->isNotEmpty())
+        <div class="">
+            <h3 class="text-4xl">Saved for later</h3>
+            <x-hr />
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                @foreach ($savedProducts as $record)
+                    <x-deal-card :$record />
+                @endforeach
+            </div>
         </div>
-    </div>
+    @endif
     <div class="checkout-modal">
         <x-filament-actions::modals />
     </div>
