@@ -18,6 +18,7 @@ use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
 use Filament\Notifications\Notification;
+use Filament\Support\RawJs;
 use Illuminate\Support\Carbon;
 
 class Checkout extends Component implements HasForms, HasActions
@@ -162,6 +163,7 @@ class Checkout extends Component implements HasForms, HasActions
                            ->default(auth()->user()?->email)
                            ->required(),
                         Forms\Components\TextInput::make('xCardNum')
+                            ->mask(RawJs::make('$input.startsWith(\'34\') || $input.startsWith(\'37\')? \'9999 999999 99999\' : \'9999 9999 9999 9999\''))
                             ->view('forms.components.text-input')
                             ->hiddenLabel()
                             ->placeholder('Card number')
