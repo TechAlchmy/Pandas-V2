@@ -210,7 +210,7 @@ class Checkout extends Component implements HasForms, HasActions
                     'order_status' => OrderStatus::Pending,
                     'payment_status' => PaymentStatus::Pending,
                     'payment_method' => 'card',
-                    'ordered_at' => now(),
+                    'order_date' => now(),
                     'order_tax' => cart()->tax(),
                     'order_subtotal' => cart()->subtotal(),
                     'order_total' => cart()->total(),
