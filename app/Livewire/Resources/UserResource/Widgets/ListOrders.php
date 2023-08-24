@@ -58,7 +58,7 @@ class ListOrders extends Component implements HasTable, HasForms
                     ->link()
                     ->visible(fn ($record) => $record->payment_status == PaymentStatus::Approved)
                     ->form(function ($record) {
-                        $record->loadMissing(['orderDetails.discount'])
+                        $record->loadMissing(['orderDetails.discount']);
                         return [
                             Forms\Components\Actions::make($record->orderDetails
                                 ->map(function ($orderDetail) {
