@@ -175,7 +175,7 @@ class Checkout extends Component implements HasForms, HasActions
                             ->schema([
                                 Forms\Components\TextInput::make('xExp_month')
                                     ->view('forms.components.text-input')
-                                    ->extraInputAttributes(['class' => 'w-full'])
+                                    ->extraInputAttributes(['class' => 'w-full', 'x-bind:placeholder' => 12])
                                     ->hiddenLabel()
                                     ->maxLength(2)
                                     ->minLength(2)
@@ -183,7 +183,7 @@ class Checkout extends Component implements HasForms, HasActions
                                     ->required(),
                                 Forms\Components\TextInput::make('xExp_year')
                                     ->view('forms.components.text-input')
-                                    ->extraInputAttributes(['class' => 'w-full'])
+                                    ->extraInputAttributes(['class' => 'w-full', 'x-bind:placeholder' => now()->year])
                                     ->hiddenLabel()
                                     ->maxLength(4)
                                     ->minLength(4)
@@ -192,6 +192,7 @@ class Checkout extends Component implements HasForms, HasActions
                             ]),
                             Forms\Components\TextInput::make('xCVV')
                                 ->view('forms.components.text-input')
+                                ->extraInputAttributes(['x-bind:placeholder' => 123])
                                 ->hiddenLabel()
                                 ->placeholder('CVC')
                                 ->minLength(3)
