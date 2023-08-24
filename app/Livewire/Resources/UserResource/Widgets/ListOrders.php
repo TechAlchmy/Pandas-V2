@@ -57,6 +57,7 @@ class ListOrders extends Component implements HasTable, HasForms
                 Tables\Actions\Action::make('redeem')
                     ->link()
                     ->visible(fn ($record) => $record->payment_status == PaymentStatus::Approved)
+                    ->modalSubmitAction(false)
                     ->form(function ($record) {
                         $record->loadMissing(['orderDetails.discount']);
                         return [
