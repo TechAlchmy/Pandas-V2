@@ -213,6 +213,11 @@ class Checkout extends Component implements HasForms, HasActions
                 $response = $cardknoxPayment->charge(new CardknoxBody($data));
 
                 if (filled($response->xResult) && $response->xStatus === 'Error') {
+                    $order->update([
+                        'order_status' => OrderStatus::Failed,
+                        'payment_status' => PaymentStatus::Failed,
+                    ]);
+
                     Notification::make()->danger()
                         ->title('Error')
                         ->body($response->xError)

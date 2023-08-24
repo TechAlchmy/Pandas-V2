@@ -125,6 +125,11 @@ class ViewDeal extends Component implements HasActions, HasForms
                     ->object();
 
                 if (filled($response->xResult) && $response->xStatus === 'Error') {
+                    $order->update([
+                        'order_status' => OrderStatus::Failed,
+                        'payment_status' => PaymentStatus::Failed,
+                    ]);
+
                     Notification::make()->danger()
                         ->title('Error')
                         ->body($response->xError)
