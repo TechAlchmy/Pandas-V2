@@ -21,8 +21,8 @@ class SavedProductService
     public function get()
     {
         session()->put(
-            key: 'saved_prodcuts',
-            value: collect(session('saved_prodcuts'))
+            key: 'saved_products',
+            value: collect(session('saved_products'))
                 ->when(auth()->check(), function ($views) {
                     return $views->concat(auth()->user()->savedProducts()
                         ->first(['items'])
