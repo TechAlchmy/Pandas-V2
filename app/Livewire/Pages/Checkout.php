@@ -253,6 +253,8 @@ class Checkout extends Component implements HasForms, HasActions
             ->action(function ($arguments) {
                 cart()->remove($arguments['id']);
 
+                savedProduct()->add($arguments['id']);
+
                 Notification::make()
                     ->title('Item saved')
                     ->success()
