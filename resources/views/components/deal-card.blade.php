@@ -3,7 +3,9 @@
 <div class="space-y-2" x-data="{ recordClicks: @js($recordClicks) }" x-on:click="if (recordClicks) $dispatch('deal-clicked', {id: {{ $record->getKey() }}})">
     <div class="min-h-[4rem]">
         @if ($record->brand->hasMedia('logo'))
-            {{ $record->brand->getFirstMedia('logo')->img()->attributes(['class' => 'max-w-[6rem] w-full']) }}
+            <x-a class="inline-block" :href="route('deals.show', ['id' => $record->slug])">
+                {{ $record->brand->getFirstMedia('logo')->img()->attributes(['class' => 'max-w-[6rem] w-full']) }}
+            </x-a>
         @else
             <div class="bg-gray w-full h-8">
                 No Image
