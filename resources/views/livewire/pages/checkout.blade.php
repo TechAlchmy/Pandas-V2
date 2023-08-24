@@ -75,15 +75,20 @@
         </div>
     </div>
     <div class="my-20"></div>
-    <div class="">
-        <h3 class="text-4xl">Saved for later</h3>
-        <x-hr />
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
-            @foreach (savedProduct()->get() as $record)
-                <x-deal-card :$record />
-            @endforeach
+    @php
+        $savedProducts = savedProduct()->get();
+    @endphp
+    @if ($savedProducts->isNotEmpty())
+        <div class="">
+            <h3 class="text-4xl">Saved for later</h3>
+            <x-hr />
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                @foreach ($savedProducts as $record)
+                    <x-deal-card :$record />
+                @endforeach
+            </div>
         </div>
-    </div>
+    @endif
     <div class="checkout-modal">
         <x-filament-actions::modals />
     </div>
