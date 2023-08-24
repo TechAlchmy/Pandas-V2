@@ -113,6 +113,12 @@ class ViewDeal extends Component implements HasActions, HasForms
                         'order_total' => $this->amount,
                     ]);
 
+                $order->orderDetails()->create([
+                    'discount_id' => $this->record->getKey(),
+                    'quantity' => $this->quantity,
+                    'amount' => $this->amount,
+                ]);
+
                 $data['xInvoice'] = $order->order_column;
 
                 $response = Http::post('https://x1.cardknox.com/gatewayjson', new CardknoxBody($data))
