@@ -75,7 +75,6 @@ class DatabaseSeeder extends Seeder
         DiscountRegion::factory(10)->create();
         DiscountTag::factory(10)->create();
         Order::factory(125)
-            ->sequence(...collect()->range(1, 125)->map(fn ($orderColumn) => ['order_column' => $orderColumn])->all())
             ->create()
             ->each(function ($order) use ($users, $discounts) {
                 foreach (range(1, 6) as $count) {
