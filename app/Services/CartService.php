@@ -98,6 +98,11 @@ class CartService
         return 0;
     }
 
+    public function discount()
+    {
+        return 0;
+    }
+
     public function total()
     {
         return $this->tax()
@@ -115,6 +120,7 @@ class CartService
                 'order_date' => now(),
                 'order_tax' => $this->tax(),
                 'order_subtotal' => $this->subtotal(),
+                'order_discount' => $this->discount(),
                 'order_total' => $this->total(),
             ]);
 
