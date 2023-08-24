@@ -229,7 +229,7 @@ class Checkout extends Component implements HasForms, HasActions
                 //TODO: Send Notification
                 Notification::make()
                     ->title('Order placed')
-                    ->danger()
+                    ->success()
                     ->send();
 
                 return redirect()->route('dashboard', ['activeTab' => 4]);
