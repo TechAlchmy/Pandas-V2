@@ -80,7 +80,7 @@
         <x-hr />
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
             @foreach (savedProduct()->get() as $record)
-                <x-deal-card :record="$record" />
+                <x-deal-card :$record />
             @endforeach
         </div>
     </div>
