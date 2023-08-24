@@ -38,6 +38,7 @@ class SavedProductService
         $this->persist();
 
         return Discount::query()
+            ->with('brand.media')
             ->find(session('saved_products'));
     }
 
