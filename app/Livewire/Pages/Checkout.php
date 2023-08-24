@@ -201,7 +201,7 @@ class Checkout extends Component implements HasForms, HasActions
                     ]),
             ])
             ->action(function ($data) {
-                $data['xAmount'] = 23;
+                $data['xAmount'] = cart()->total();
                 $data['xExp'] = $data['xExp_month'].$data['xExp_year'];
 
                 // TODO: add email to the orders table or pass a user_id when creating the order.
