@@ -12,10 +12,12 @@
                 @endif
             </div>
             <div class="space-y-6">
-                <h1 class="text-4xl">
-                    {{ $record->brand->name }}
-                </h1>
-                <p>{{ $record->name }} {{ $record->percentage }}%</p>
+                <div class="space-y-1">
+                    <h1 class="text-4xl">
+                        {{ $record->brand->name }}
+                    </h1>
+                    <p>{{ $record->name }} {{ $record->percentage }}%</p>
+                </div>
                 @if ($record->is_amount_single)
                     <div>
                         <span>$</span>
