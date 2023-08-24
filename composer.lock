@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1eff8106ae01598aba231e4fcbb19390",
+    "content-hash": "9eba6e24a2f67e0799770a3bd858309a",
     "packages": [
         {
             "name": "blade-ui-kit/blade-heroicons",
@@ -2399,16 +2399,16 @@
         },
         {
             "name": "laravel/folio",
-            "version": "v1.0.0-beta.6",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/folio.git",
-                "reference": "7a6f61300a8d9294d04dd227243883eec75d1b28"
+                "reference": "e3ca1bf727f009ef8cc4810a43c0beacdcb5f0dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/folio/zipball/7a6f61300a8d9294d04dd227243883eec75d1b28",
-                "reference": "7a6f61300a8d9294d04dd227243883eec75d1b28",
+                "url": "https://api.github.com/repos/laravel/folio/zipball/e3ca1bf727f009ef8cc4810a43c0beacdcb5f0dd",
+                "reference": "e3ca1bf727f009ef8cc4810a43c0beacdcb5f0dd",
                 "shasum": ""
             },
             "require": {
@@ -2467,7 +2467,7 @@
                 "issues": "https://github.com/laravel/folio/issues",
                 "source": "https://github.com/laravel/folio"
             },
-            "time": "2023-08-16T15:46:00+00:00"
+            "time": "2023-08-23T16:48:41+00:00"
         },
         {
             "name": "laravel/framework",
@@ -12318,7 +12318,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "laravel/folio": 10,
         "livewire/livewire": 10,
         "livewire/volt": 10
     },
