@@ -2,7 +2,7 @@
     <section class="px-[min(6.99vw,50px)] max-w-[1920px] mx-auto py-8">
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div class="flex items-center justify-center">
+            <div class="flex items-center lg:justify-center">
                 @if ($record->brand->hasMedia('logo'))
                     {{ $record->brand->getFirstMedia('logo')->img()->attributes(['class' => 'max-w-[10rem] w-full']) }}
                 @else
