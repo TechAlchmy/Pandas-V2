@@ -22,8 +22,6 @@ class OrderDetail extends Model
 
     public function total(): Attribute
     {
-        return new Attribute(
-            get: fn () => $this->quantity * $this->amount
-        );
+        return Attribute::get(fn () => $this->quantity * $this->amount);
     }
 }
