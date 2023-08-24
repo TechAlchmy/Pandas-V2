@@ -302,3 +302,7 @@ img {
 .checkout-modal .fi-modal-window {
     @apply rounded-none ring-black;
 }
+
+.checkout-modal .fi-btn {
+    @apply rounded-[70%] border-black !ring-transparent border bg-white text-black hover:bg-white hover:text-black;
+}
