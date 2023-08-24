@@ -20,7 +20,7 @@ trait InteractsWithAuditable
         if (method_exists(static::class, 'bootSoftDeletes')) {
             static::deleting(function ($model) {
                 $model->update(['deleted_by_id' => auth()->id()]);
-            })
+            });
             static::restoring(function ($model) {
                 $model->deleted_by_id = null;
             });
