@@ -67,6 +67,11 @@ class ViewDeal extends Component
         return \App\Models\Discount::query()
             ->with('brand.media')
             ->with('categories')
+            ->withExists(['orderDetails AS is_purchased' => function ($query) {
+                $query->whereIn('order_id', Order::query()
+                    ->select('id')
+                    ->whereBelongsTo(auth()->user()));
+            }])
             ->forOrganization(auth()->user()?->organization_id)
             ->where('is_active', true)
             ->where('slug', $this->id)
