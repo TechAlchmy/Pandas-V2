@@ -249,6 +249,7 @@ class Checkout extends Component implements HasForms, HasActions
     public function saveItemAction()
     {
         return Action::make('saveItem')
+            ->view('components.cart-item-button', ['slot' => 'Save for later'])
             ->requiresConfirmation()
             ->action(function ($arguments) {
                 cart()->remove($arguments['id']);
@@ -263,6 +264,7 @@ class Checkout extends Component implements HasForms, HasActions
     public function removeItemAction()
     {
         return Action::make('removeItem')
+            ->view('components.cart-item-button', ['slot' => 'Remove'])
             ->requiresConfirmation()
             ->action(function ($arguments) {
                 cart()->remove($arguments['id']);
