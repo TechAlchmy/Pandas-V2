@@ -18,6 +18,7 @@ use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
 use Filament\Notifications\Notification;
+use Filament\Support\RawJs;
 use Illuminate\Support\Carbon;
 
 class Checkout extends Component implements HasForms, HasActions
@@ -162,6 +163,7 @@ class Checkout extends Component implements HasForms, HasActions
                            ->default(auth()->user()?->email)
                            ->required(),
                         Forms\Components\TextInput::make('xCardNum')
+                            ->mask(RawJs::make('$input.startsWith(\'34\') || $input.startsWith(\'37\')? \'9999 999999 99999\' : \'9999 9999 9999 9999\''))
                             ->view('forms.components.text-input')
                             ->hiddenLabel()
                             ->placeholder('Card number')
@@ -173,7 +175,7 @@ class Checkout extends Component implements HasForms, HasActions
                             ->schema([
                                 Forms\Components\TextInput::make('xExp_month')
                                     ->view('forms.components.text-input')
-                                    ->extraInputAttributes(['class' => 'w-full'])
+                                    ->extraInputAttributes(['class' => 'w-full', 'x-bind:placeholder' => 12])
                                     ->hiddenLabel()
                                     ->maxLength(2)
                                     ->minLength(2)
@@ -181,15 +183,16 @@ class Checkout extends Component implements HasForms, HasActions
                                     ->required(),
                                 Forms\Components\TextInput::make('xExp_year')
                                     ->view('forms.components.text-input')
-                                    ->extraInputAttributes(['class' => 'w-full'])
+                                    ->extraInputAttributes(['class' => 'w-full', 'x-bind:placeholder' => str(date('Y'))->substr(2, 2)])
                                     ->hiddenLabel()
-                                    ->maxLength(4)
-                                    ->minLength(4)
+                                    ->maxLength(2)
+                                    ->minLength(2)
                                     ->placeholder('year')
                                     ->required(),
                             ]),
                             Forms\Components\TextInput::make('xCVV')
                                 ->view('forms.components.text-input')
+                                ->extraInputAttributes(['x-bind:placeholder' => 123])
                                 ->hiddenLabel()
                                 ->placeholder('CVC')
                                 ->minLength(3)
@@ -207,7 +210,7 @@ class Checkout extends Component implements HasForms, HasActions
                     'order_status' => OrderStatus::Pending,
                     'payment_status' => PaymentStatus::Pending,
                     'payment_method' => 'card',
-                    'ordered_at' => now(),
+                    'order_date' => now(),
                     'order_tax' => cart()->tax(),
                     'order_subtotal' => cart()->subtotal(),
                     'order_total' => cart()->total(),
@@ -235,7 +238,11 @@ class Checkout extends Component implements HasForms, HasActions
                     return;
                 }
 
-                $order->update(['payment_status' => $response->xStatus]);
+                $order->update([
+                    'order_status' => OrderStatus::Processing,
+                    'payment_status' => $response->xStatus,
+                ]);
+
                 //TODO: Send Notification
                 Notification::make()
                     ->title('Order placed')
@@ -249,6 +256,7 @@ class Checkout extends Component implements HasForms, HasActions
     public function saveItemAction()
     {
         return Action::make('saveItem')
+            ->view('components.cart-item-button', ['slot' => 'Save for later'])
             ->requiresConfirmation()
             ->action(function ($arguments) {
                 cart()->remove($arguments['id']);
@@ -265,6 +273,7 @@ class Checkout extends Component implements HasForms, HasActions
     public function removeItemAction()
     {
         return Action::make('removeItem')
+            ->view('components.cart-item-button', ['slot' => 'Remove'])
             ->requiresConfirmation()
             ->action(function ($arguments) {
                 cart()->remove($arguments['id']);

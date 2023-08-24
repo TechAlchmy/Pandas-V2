@@ -21,6 +21,7 @@
                     'min' => (! $isConcealed()) ? $getMinValue() : null,
                     'minlength' => (! $isConcealed()) ? $getMinLength() : null,
                     'type' => $getType() ?? 'text',
+                    'x-mask' . ($getMask() instanceof \Filament\Support\RawJs ? ':dynamic' : '') => filled($getMask()) ? $getMask() : null,
                     $applyStateBindingModifiers('wire:model') => $getStatePath(),
                 ], escape: false)
                 "
