@@ -26,7 +26,13 @@ class ViewDeal extends Component
     public function addToCart() {
         $this->validate();
         cart()->add($this->record?->getKey(), $this->quantity, $this->amount);
-        $this->dispatch('cart-item-added', ['id' => $this->record?->getKey()]);
+
+        $this->dispatch('cart-item-added', ...['record' => [
+            'name' => $this->record->name,
+            'amount' => \Filament\Support\format_money($this->amount, 'USD'),
+            'quantity' => $this->quantity,
+            'image_url' => $this->record->brand->getFirstMediaUrl('logo'),
+        ]]);
     }
 
     public function render()
