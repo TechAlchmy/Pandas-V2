@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Discount;
+use Illuminate\Support\Arr;
 
 class SavedProductService
 {
@@ -38,6 +39,18 @@ class SavedProductService
 
         return Discount::query()
             ->find(session('saved_products'));
+    }
+
+    public function remove($ids)
+    {
+        session()->put('saved_products', collect(session('saved_products'))
+            ->reject(fn ($productId) => in_array($productId, Arr::wrap($ids)))
+            ->unique()
+            ->diff($this->filter())
+            ->take(99)
+            ->all());
+
+        $this->persist();
     }
 
     public function filter()
