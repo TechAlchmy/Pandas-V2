@@ -183,10 +183,10 @@ class Checkout extends Component implements HasForms, HasActions
                                     ->required(),
                                 Forms\Components\TextInput::make('xExp_year')
                                     ->view('forms.components.text-input')
-                                    ->extraInputAttributes(['class' => 'w-full', 'x-bind:placeholder' => now()->year])
+                                    ->extraInputAttributes(['class' => 'w-full', 'x-bind:placeholder' => str(date('Y'))->substr(2, 2)])
                                     ->hiddenLabel()
-                                    ->maxLength(4)
-                                    ->minLength(4)
+                                    ->maxLength(2)
+                                    ->minLength(2)
                                     ->placeholder('year')
                                     ->required(),
                             ]),
