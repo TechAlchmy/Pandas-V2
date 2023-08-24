@@ -38,12 +38,7 @@ class ListOrders extends Component implements HasTable, HasForms
                         'danger' => 'cancelled',
                         'danger' => 'failed',
                     ]),
-                Tables\Columns\TextColumn::make('order_total')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('order_subtotal'),
-                Tables\Columns\TextColumn::make('order_discount'),
-                Tables\Columns\TextColumn::make('order_tax'),
-                Tables\Columns\TextColumn::make('payment_method'),
+                Tables\Columns\TextColumn::make('order_total'),
                 Tables\Columns\TextColumn::make('payment_status')
                     ->badge()
                     ->colors([
