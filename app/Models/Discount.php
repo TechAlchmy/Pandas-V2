@@ -106,6 +106,11 @@ class Discount extends Model
         return $this->hasMany(FeaturedDeal::class);
     }
 
+    public function orderDetails()
+    {
+        return $this->hasMany(OrderDetail::class);
+    }
+
     public function scopeForOrganization($query, $organizationId)
     {
         return $query->when($organizationId, function ($query, $value) {
