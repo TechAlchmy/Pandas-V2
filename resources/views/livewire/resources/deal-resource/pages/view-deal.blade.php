@@ -22,24 +22,26 @@
                     </div>
                 @endif
                 <div class="flex gap-6">
-                    <div x-data class="space-y-6">
-                        <div class="flex gap-6 items-center">
-                            @if (!$this->record->is_amount_single)
-                                <select wire:model.live="amount" class="border border-black">
-                                    @foreach ($this->record->amount as $amount)
-                                        <option value="{{ $amount }}">{{ Filament\Support\format_money($amount, 'USD') }}</option>
-                                    @endforeach
-                                </select>
-                            @endif
-                            <x-input class="md:max-w-[50%] !border-solid border-black p-2" type="number" wire:model="quantity" min="1" />
+                    @if (!$this->record->is_purchased)
+                        <div x-data class="space-y-6">
+                            <div class="flex gap-6 items-center">
+                                @if (!$this->record->is_amount_single)
+                                    <select wire:model.live="amount" class="border border-black">
+                                        @foreach ($this->record->amount as $amount)
+                                            <option value="{{ $amount }}">{{ Filament\Support\format_money($amount, 'USD') }}</option>
+                                        @endforeach
+                                    </select>
+                                @endif
+                                <x-input class="md:max-w-[50%] !border-solid border-black p-2" type="number" wire:model="quantity" min="1" />
+                            </div>
+                            <div class="flex gap-6 items-center">
+                                <x-button wire:click="addToCart" outlined>
+                                    Add to cart
+                                </x-button>
+                                {{ $this->redeemAction }}
+                            </div>
                         </div>
-                        <div class="flex gap-6 items-center">
-                            <x-button wire:click="addToCart" outlined>
-                                Add to cart
-                            </x-button>
-                            {{ $this->redeemAction }}
-                        </div>
-                    </div>
+                    @endif
                     @if ($record->is_purchased)
                         @if ($record->cta == \App\Enums\DiscountCallToActionEnum::GoToSite)
                             <x-link :href="$record->link" outlined size="lg">
