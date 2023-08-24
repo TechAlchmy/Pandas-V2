@@ -51,7 +51,6 @@ class ListOrders extends Component implements HasTable, HasForms
             ])
             ->actions([
                 Tables\Actions\Action::make('refund')
-                    ->color('secondary')
                     ->link()
                     ->visible(fn ($record) => $record->payment_status == PaymentStatus::Approved
                         && now()->isBefore($record->created_at->addWeeks(2)))
