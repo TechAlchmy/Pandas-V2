@@ -58,7 +58,7 @@ class ListOrders extends Component implements HasTable, HasForms
                 Tables\Actions\Action::make('refund')
                     ->color('secondary')
                     ->link()
-                    ->visible(fn ($record) => $record->payment_status == PaymentStatus::Paid
+                    ->visible(fn ($record) => $record->payment_status == PaymentStatus::Approved
                         && now()->isBefore($record->created_at->addWeeks(2)))
                     ->requiresConfirmation()
                     ->action(function ($record) {
@@ -71,7 +71,7 @@ class ListOrders extends Component implements HasTable, HasForms
                             return;
                         }
 
-                        if ($record->payment_status == PaymentStatus::Paid) {
+                        if ($record->payment_status == PaymentStatus::Approved) {
                             OrderRefund::query()
                                 ->create([
                                     'order_id' => $record->getKey(),
