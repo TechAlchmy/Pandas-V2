@@ -48,49 +48,52 @@ class ViewDeal extends Component implements HasActions, HasForms
                 'xEmail' => auth()->user()?->email,
             ])
             ->form([
-                Forms\Components\TextInput::make('xEmail')
-                    ->email()
-                    ->view('forms.components.text-input')
-                    ->hiddenLabel()
-                    ->placeholder('Email')
-                    ->default(auth()->user()?->email)
-                    ->required(),
-                Forms\Components\TextInput::make('xCardNum')
-                    ->mask(RawJs::make('$input.startsWith(\'34\') || $input.startsWith(\'37\')? \'9999 999999 99999\' : \'9999 9999 9999 9999\''))
-                    ->view('forms.components.text-input')
-                    ->hiddenLabel()
-                    ->placeholder('Card number')
-                    ->maxLength(16)
-                    ->required(),
-                Forms\Components\Grid::make(2)
-                    ->columnSpan(1)
-                    ->columns(['default' => 2])
+                Forms\Components\Grid::make()
                     ->schema([
-                        Forms\Components\TextInput::make('xExp_month')
+                        Forms\Components\TextInput::make('xEmail')
+                            ->email()
                             ->view('forms.components.text-input')
-                            ->extraInputAttributes(['class' => 'w-full', 'x-bind:placeholder' => 12])
                             ->hiddenLabel()
-                            ->maxLength(2)
-                            ->minLength(2)
-                            ->placeholder('month')
+                            ->placeholder('Email')
+                            ->default(auth()->user()?->email)
                             ->required(),
-                        Forms\Components\TextInput::make('xExp_year')
+                        Forms\Components\TextInput::make('xCardNum')
+                            ->mask(RawJs::make('$input.startsWith(\'34\') || $input.startsWith(\'37\')? \'9999 999999 99999\' : \'9999 9999 9999 9999\''))
                             ->view('forms.components.text-input')
-                            ->extraInputAttributes(['class' => 'w-full', 'x-bind:placeholder' => str(date('Y'))->substr(2, 2)])
                             ->hiddenLabel()
-                            ->maxLength(2)
-                            ->minLength(2)
-                            ->placeholder('year')
+                            ->placeholder('Card number')
+                            ->maxLength(16)
                             ->required(),
-                    ]),
-                Forms\Components\TextInput::make('xCVV')
-                    ->view('forms.components.text-input')
-                    ->extraInputAttributes(['x-bind:placeholder' => 123])
-                    ->hiddenLabel()
-                    ->placeholder('CVC')
-                    ->minLength(3)
-                    ->maxLength(3)
-                    ->required(),
+                        Forms\Components\Grid::make(2)
+                            ->columnSpan(1)
+                            ->columns(['default' => 2])
+                            ->schema([
+                                Forms\Components\TextInput::make('xExp_month')
+                                    ->view('forms.components.text-input')
+                                    ->extraInputAttributes(['class' => 'w-full', 'x-bind:placeholder' => 12])
+                                    ->hiddenLabel()
+                                    ->maxLength(2)
+                                    ->minLength(2)
+                                    ->placeholder('month')
+                                    ->required(),
+                                Forms\Components\TextInput::make('xExp_year')
+                                    ->view('forms.components.text-input')
+                                    ->extraInputAttributes(['class' => 'w-full', 'x-bind:placeholder' => str(date('Y'))->substr(2, 2)])
+                                    ->hiddenLabel()
+                                    ->maxLength(2)
+                                    ->minLength(2)
+                                    ->placeholder('year')
+                                    ->required(),
+                            ]),
+                        Forms\Components\TextInput::make('xCVV')
+                            ->view('forms.components.text-input')
+                            ->extraInputAttributes(['x-bind:placeholder' => 123])
+                            ->hiddenLabel()
+                            ->placeholder('CVC')
+                            ->minLength(3)
+                            ->maxLength(3)
+                            ->required(),
+                ]),
             ])
             ->action(function ($data) {
                 $data['xAmount'] = $this->amount;
