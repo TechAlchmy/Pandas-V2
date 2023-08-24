@@ -40,11 +40,11 @@ class OrderDetailsRelationManager extends RelationManager
                     ->searchable()
                     ->label('Name'),
 
-                Tables\Columns\TextColumn::make('quantity')->label('Qauntity'),
+                Tables\Columns\TextColumn::make('quantity')->label('Quantity'),
 
-                Tables\Columns\TextColumn::make('amount')->label('Item Price'),
+                Tables\Columns\TextColumn::make('amount')->label('Item Price')->money('USD'),
 
-                Tables\Columns\TextColumn::make('total'),
+                Tables\Columns\TextColumn::make('total')->money('USD'),
             ])
             ->filters([
                 //
