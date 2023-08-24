@@ -18,8 +18,8 @@
                     </div>
                     @foreach (cart()->items() as $id => $item)
                         <div class="p-4">
-                            <div class="flex gap-6">
-                                <div class="w-20 min-h-[5rem]">
+                            <div class="flex items-center gap-6">
+                                <div class="w-20 min-h-[5rem] flex items-center">
                                     {{ $item['itemable']->brand->getFirstMedia('logo')?->img()->attributes(['class' => 'w-20']) }}
                                 </div>
                                 <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
