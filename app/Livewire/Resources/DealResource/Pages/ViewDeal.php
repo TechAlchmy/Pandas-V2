@@ -5,6 +5,7 @@ namespace App\Livewire\Resources\DealResource\Pages;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Models\Order;
+use App\Notifications\OrderApprovedNotification;
 use App\Services\CardknoxPayment\CardknoxBody;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
@@ -142,6 +143,8 @@ class ViewDeal extends Component implements HasActions, HasForms
                     'order_status' => OrderStatus::Processing,
                     'payment_status' => $response->xStatus,
                 ]);
+
+                auth()->user()->notify(new OrderApprovedNotification($order));
 
                 //TODO: Send Notification
                 Notification::make()

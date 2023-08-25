@@ -6,6 +6,7 @@ use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Models\Discount;
 use App\Models\Order;
+use App\Notifications\OrderApprovedNotification;
 use App\Services\CardknoxPayment\CardknoxBody;
 use App\Services\CardknoxPayment\CardknoxPayment;
 use Filament\Forms;
@@ -230,6 +231,8 @@ class Checkout extends Component implements HasForms, HasActions
                     'order_status' => OrderStatus::Processing,
                     'payment_status' => $response->xStatus,
                 ]);
+
+                auth()->user()->notify(new OrderApprovedNotification($order));
 
                 //TODO: Send Notification
                 Notification::make()
