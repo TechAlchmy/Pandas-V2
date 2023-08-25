@@ -1,11 +1,11 @@
 <div x-data="{ activeCategory: null }">
 
     @foreach ($categories as $category)
-        <div @click="$wire.set('activeCategory', @js($category->getKey()))"
+        <div @click="activeCategory = @js($category->getKey())"
             class="border-t border-b border-black h-[120px] transition-colors flex items-center justify-center"
-            :class="{ 'bg-black': $wire.activeCategory === @js($category->getKey()) }">
+            :class="{ 'bg-black': activeCategory == @js($category->getKey()) }">
             <h2 class="font-editorial text-5xl leading-[70px] text-center"
-                :class="{ 'text-white': $wire.activeCategory === @js($category->getKey()) }">{{ $category->name }}</h2>
+                :class="{ 'text-white': activeCategory == @js($category->getKey()) }">{{ $category->name }}</h2>
         </div>
     @endforeach
 
