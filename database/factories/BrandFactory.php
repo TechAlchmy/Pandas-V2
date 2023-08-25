@@ -17,7 +17,7 @@ class BrandFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name,
+            'name' => $this->faker->randomElement(['Adidas', 'Nike', 'New Balance', 'Reebok']),
             'link' => $this->faker->url,
             'slug' => $this->faker->slug,
             'description' => $this->faker->text,
