@@ -7,24 +7,28 @@
             <h2 class="font-editorial text-5xl leading-[70px] text-center"
                 :class="{ 'text-white': activeCategory == @js($category->getKey()) }">{{ $category->name }}</h2>
         </button>
-    @endforeach
-
-    <div x-show="activeCategory" class="logos-slider bg-black p-4">
-        @foreach ($categories as $category)
-            <div x-show="activeCategory == @js($category->getKey())">
-                <div class="swiper-container">
-                    <div class="swiper-wrapper">
-                        @foreach ($category->brands as $brand)
-                            <div class="swiper-slide bg-black flex items-center justify-center">
-                                <img src="{{ $brand->getFirstMediaUrl('logo') }}" alt="{{ $brand->name }} Logo" class="invert max-w-[150px] max-h-[100px]">
-                            </div>
-                        @endforeach
-                    </div>
-                    <div class="swiper-pagination"></div>
+        <div x-show="activeCategory == @js($category->getKey())">
+            <div x-data="{ swiper: null }" x-init="swiper = new Swiper($el, {
+                slidesPerView: 'auto',
+                autoplay: true,
+                spaceBetween: 0,
+                loop: true,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+            })" class="swiper-container">
+                <div class="swiper-wrapper">
+                    @foreach ($category->brands as $brand)
+                        <div class="swiper-slide bg-black flex justify-center items-center">
+                            <img class="invert" src="{{ $brand->getFirstMediaUrl('logo') }}" alt="{{ $brand->name }} Logo">
+                        </div>
+                    @endforeach
                 </div>
+                <div class="swiper-pagination"></div>
             </div>
-        @endforeach
-    </div>
+        </div>
+    @endforeach
 </div>
 
 {{-- Use this as a backup --}}
