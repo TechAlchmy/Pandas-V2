@@ -3,7 +3,9 @@
 use function Livewire\Volt\{computed};
 
 $categories = computed(function () {
-    return \App\Models\Category::query()->get();
+    return \App\Models\Category::query()
+        ->where('is_active', true)
+        ->get();
 });
 
 ?>

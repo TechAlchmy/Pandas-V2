@@ -13,6 +13,7 @@ class BrandsLogos extends Component
     {
         return view('livewire.brands-logos', [
             'categories' => Category::query()
+                ->where('is_active', true)
                 ->withWhereHas('brands')
                 ->get(),
         ]);
