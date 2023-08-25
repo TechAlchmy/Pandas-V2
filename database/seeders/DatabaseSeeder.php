@@ -16,7 +16,6 @@ use App\Models\OfferType;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Organization;
-use App\Models\Region;
 use App\Models\Tag;
 use App\Models\User;
 use App\Models\UserPreference;
