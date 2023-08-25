@@ -24,7 +24,8 @@ class OrderApprovedNotification extends Notification
     {
         return (new MailMessage)
                     ->line('Thank you for your purchase!')
-                    ->line('Order ' . $this->order->order_column)
+                    ->line('Order #' . $this->order->order_column)
+                    ->line('Total $' . $this->order->order_total)
                     ->action('View Orders', route('dashboard', ['activeTab' => 4]))
                     ->line('Thank you for using panda!');
     }
