@@ -2,6 +2,7 @@
 
     @foreach ($categories as $category)
         <button @click="activeCategory = @js($category->getKey())"
+            x-show="activeCategory != @js($category->getKey())"
             class="w-full border-t border-b border-black h-[120px] transition-colors flex items-center justify-center"
             :class="{ 'bg-black': activeCategory == @js($category->getKey()) }">
             <h2 class="font-editorial text-5xl leading-[70px] text-center"
