@@ -17,7 +17,7 @@ class DiscountFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->randomElement(['Discount Up to', 'Off By']),
+            'name' => $this->faker->randomElement(['Discount Up to 99%', 'Off By 50%', 'Garage Sale 35%', 'Total Cashback $250']),
             'voucher_type_id' => null,
             'slug' => $this->faker->slug,
             'excerpt' => $this->faker->text(),
