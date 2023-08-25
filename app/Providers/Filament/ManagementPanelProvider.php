@@ -51,7 +51,7 @@ class ManagementPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Management/Widgets'), for: 'App\\Filament\\Management\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                // Widgets\FilamentInfoWidget::class,
+                \App\Filament\Widgets\InfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
