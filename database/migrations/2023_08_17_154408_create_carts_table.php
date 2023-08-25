@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(\App\Models\Order::class)->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(\App\Models\User::class)->nullable()->constrained()->nullOnDelete();
-            $table->jsonb('items')->default('{}');
+            $table->jsonb('items')->nullable();
             $table->timestamps();
         });
     }
