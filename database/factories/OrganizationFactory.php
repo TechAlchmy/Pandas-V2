@@ -22,7 +22,7 @@ class OrganizationFactory extends Factory
             'slug' => $this->faker->slug,
             'phone' => $this->faker->phoneNumber,
             'email' => $this->faker->email,
-            'region_id' => 'us',
+            'region_id' => 'us-nh',
 
         ];
     }
