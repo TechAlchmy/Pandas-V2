@@ -58,19 +58,23 @@ class DatabaseSeeder extends Seeder
         });
 
         collect([
-            'Adidas', 'Nike', 'New Balance', 'LG', 'Panasonic',
-            'Reebok', 'Sketchers', 'Polo', 'Ralph Laurens', 'Jerome',
-        ])
-            ->map(function ($brand) {
-                return Brand::factory()->state(['name' => $brand])->create();
-            });
-        collect([
             'Apparel', 'Entertainment','Groceries', 'Health & Wellness', 'Travel',
         ])
-            ->map(function ($category) {
-                Category::factory()->create(['name' => $category]);
+            ->map(function ($category, $index) {
+                $category = Category::factory()->create(['name' => $category]);
+                if ($index == 0) {
+                    collect([
+                        'Reebok', 'Sketchers', 'Polo', 'Adidas', 'New Balance',
+                    ])
+                        ->map(function ($brand) use ($category) {
+                            $brand = Brand::factory()->state(['name' => $brand])->create();
+                            BrandCategory::factory()
+                                ->for($brand)
+                                ->for($category)
+                                ->create();
+                        });
+                }
             });
-        BrandCategory::factory(10)->create();
         BrandRegion::factory(10)->create();
         $offerTypes = OfferType::factory(10)->create();
         $voucherTypes = VoucherType::factory(10)->create();
