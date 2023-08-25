@@ -29,7 +29,7 @@
             <div class="flex m-auto">
                 @foreach ($categories as $category)
                     <div class="flex-1 p-4 flex flex-col justify-between">
-                        <x-a href="/deals">
+                        <x-a :href="route('deals.index', ['filter' => ['category_id' => $category->getKey()]])">
                             <h3 class="font-editorial text-5xl leading-[60px]">{{ $category->name }}</h3>
                         </x-a>
                         <div>
