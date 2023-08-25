@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('saved_products', function (Blueprint $table) {
             $table->id();
-            $table->jsonb('items');
+            $table->jsonb('items')->nullable();
             $table->foreignIdFor(\App\Models\User::class)->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
         });
