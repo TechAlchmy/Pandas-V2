@@ -36,7 +36,7 @@
                     @endif
                     @foreach ($category->brands as $brand)
                         <div class="swiper-slide bg-black flex justify-center items-center">
-                            <img class="invert" src="{{ $brand->getFirstMediaUrl('logo') }}" alt="{{ $brand->name }} Logo">
+                            <img class="max-w-[150px] max-h-[100px]" src="{{ $brand->getFirstMediaUrl('logo') }}" alt="{{ $brand->name }} Logo">
                         </div>
                     @endforeach
                 </div>
