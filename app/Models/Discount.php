@@ -39,6 +39,7 @@ class Discount extends Model
         'ends_at' => 'immutable_datetime',
         'is_active' => 'boolean',
         'cta' => DiscountCallToActionEnum::class,
+        'region_ids' => 'array',
     ];
 
     public function discountCategories()

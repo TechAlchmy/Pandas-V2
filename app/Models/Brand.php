@@ -34,6 +34,7 @@ class Brand extends Model implements HasMedia
 
     protected $casts = [
         'is_active' => 'boolean',
+        'region_ids' => 'array',
     ];
 
     public function brandCategories()

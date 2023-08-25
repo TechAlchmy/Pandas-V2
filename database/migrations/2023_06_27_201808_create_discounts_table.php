@@ -32,6 +32,7 @@ return new class extends Migration
             $table->unsignedInteger('clicks')->default(0);
             $table->string('code')->nullable();
             $table->jsonb('amount')->nullable();
+            $table->jsonb('region_ids')->nullable();
             $table->integer('limit_qty')->nullable();
             $table->decimal('limit_amount', 10, 2)->nullable();
             $table->decimal('public_percentage', 10, 2)->nullable();
