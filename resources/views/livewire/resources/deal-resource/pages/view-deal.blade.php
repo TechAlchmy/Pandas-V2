@@ -24,6 +24,9 @@
                         <span class="text-3xl font-light">{{ $record->amount[0] }}</span>
                     </div>
                 @endif
+                @if ($record->excerpt)
+                    <div>{{ $record->excerpt }}</div>
+                @endif
                 <div class="flex gap-6">
                     @if (!$this->record->is_purchased)
                         <div x-data class="space-y-6">
