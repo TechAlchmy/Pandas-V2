@@ -1,4 +1,4 @@
-<div x-data="{ activeCategory: @entangle('activeCategory') }">
+<div x-data="{ activeCategory: null }">
 
     @foreach ($categories as $category)
         <div @click="$wire.set('activeCategory', @js($category->getKey()))"
