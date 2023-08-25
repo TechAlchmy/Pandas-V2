@@ -50,6 +50,12 @@ class Category extends Model implements Sortable
             ->withTimestamps();
     }
 
+    public function brands()
+    {
+        return $this->belongsToMany(Brand::class, 'brand_categories')
+            ->withTimestamps();
+    }
+
     public function buildSortQuery(): Builder
     {
         return static::query()->where('parent_id', $this->parent_id);
