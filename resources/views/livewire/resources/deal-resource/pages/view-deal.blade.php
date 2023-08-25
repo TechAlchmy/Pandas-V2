@@ -16,7 +16,7 @@
                     <h1 class="text-4xl">
                         {{ $record->brand->name }}
                     </h1>
-                    <p>{{ $record->name }} {{ $record->percentage }}%</p>
+                    <p>{{ $record->name }}</p>
                 </div>
                 @if ($record->is_amount_single)
                     <div>
