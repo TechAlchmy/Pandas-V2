@@ -5,10 +5,12 @@
     'color' => 'black',
     'action' => null,
     'unstyled' => false,
+    'buttonClasses' => null,
 ])
 
 @php
     $buttonClasses = \Illuminate\Support\Arr::toCssClasses([
+        $buttonClasses,
         'inline-block text-center border leading-6 rounded-[70%]',
         ...match ($color) {
             'white' => ['text-white'],

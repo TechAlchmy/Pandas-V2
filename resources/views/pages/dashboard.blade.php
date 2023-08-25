@@ -4,7 +4,7 @@ use function Laravel\Folio\{middleware, name};
 middleware(['auth', 'verified']);
 name('dashboard');
 ?>
-<x-layouts.app>
+<x-layouts.app class="bg-neutral-100">
     <x-banner-upsell />
 
     <div class="flex px-[min(6.99vw,50px)] max-w-[1920px] mx-auto py-8 justify-between">

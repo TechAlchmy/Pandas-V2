@@ -34,6 +34,7 @@ class Brand extends Model implements HasMedia
 
     protected $casts = [
         'is_active' => 'boolean',
+        'region_ids' => 'array',
     ];
 
     public function brandCategories()
@@ -47,20 +48,9 @@ class Brand extends Model implements HasMedia
             ->withTimestamps();
     }
 
-    public function brandRegions()
-    {
-        return $this->hasMany(BrandRegion::class);
-    }
-
     public function discounts()
     {
         return $this->hasMany(Discount::class);
-    }
-
-    public function regions()
-    {
-        return $this->belongsToMany(Region::class, 'brand_regions')
-            ->withTimestamps();
     }
 
     public function brandOrganizations()

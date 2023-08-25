@@ -1,3 +1,4 @@
+@import '../../node_modules/swiper/swiper-bundle.css';
 @font-face {
     font-family: "Aeonik";
     src: url("../../public/fonts/Aeonik-Regular.woff2") format("woff2"),
@@ -301,4 +302,14 @@ img {
 
 .checkout-modal .fi-modal-window {
     @apply rounded-none ring-black;
+}
+
+.checkout-modal .fi-btn {
+    @apply rounded-[70%] border-black !ring-transparent border bg-white text-black hover:bg-white hover:text-black;
+}
+
+.fi-ta-ctn,
+.fi-input-wrp
+{
+    @apply rounded-none border border-black;
 }

@@ -6,7 +6,7 @@ use App\Filament\Resources\BrandResource\Pages;
 use App\Forms\Components\AuditableView;
 use App\Models\Brand;
 use App\Models\Category;
-use App\Models\Region;
+use Squire\Models\Region;
 use Filament\Forms;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Placeholder;
@@ -109,20 +109,22 @@ class BrandResource extends Resource
                             ]),
                         Tabs\Tab::make('Regions')
                             ->schema([
-                                Select::make('region_id')
-                                    ->default(Region::query()->pluck('id')->all())
-                                    ->placeholder('Select Brand Regions')
-                                    ->relationship('regions', 'name')
-                                    ->reactive()
+                                Forms\Components\Select::make('region_ids')
+                                    ->live()
+                                    ->default(Region::query()->where('country_id', 'us')->pluck('id')->all())
+                                    ->placeholder('Select Regions')
                                     ->multiple()
-                                    ->helperText(fn ($state) => count($state) < Region::query()->count() ? null : 'All selected')
+                                    ->getOptionLabelsUsing(function ($values) {
+                                        return Region::query()->find($values)->pluck('name');
+                                    })
+                                    ->helperText(fn ($state) => count($state) < Region::query()->where('country_id', 'us')->count() ? null : 'All selected')
                                     ->hintActions([
                                         Forms\Components\Actions\Action::make('clear')
                                             ->visible(fn ($state) => ! empty($state))
                                             ->action(fn ($component) => $component->state([])),
                                         Forms\Components\Actions\Action::make('all')
-                                            ->hidden(fn ($state) => count($state) == Region::query()->count())
-                                            ->action(fn ($component) => $component->state(Region::query()->pluck('id')->all())),
+                                            ->hidden(fn ($state) => count($state) == Region::query()->where('country_id', 'us')->count())
+                                            ->action(fn ($component) => $component->state(Region::query()->where('country_id', 'us')->pluck('id')->all())),
                                     ]),
 
                             ]),

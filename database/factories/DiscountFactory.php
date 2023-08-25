@@ -17,15 +17,16 @@ class DiscountFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name,
+            'name' => $this->faker->randomElement(['Discount Up to 99%', 'Off By 50%', 'Garage Sale 35%', 'Total Cashback $250']),
             'voucher_type_id' => null,
             'slug' => $this->faker->slug,
+            'excerpt' => $this->faker->text(),
             'is_active' => $this->faker->boolean(),
             'starts_at' => $this->faker->dateTimeBetween('-1 years', 'now'),
             'ends_at' => $this->faker->dateTimeBetween('now', '+1 years'),
             'api_link' => $this->faker->url,
             'link' => $this->faker->url,
-            'cta' => $this->faker->numberBetween(0, 8),
+            'cta' => $this->faker->numberBetween(0, 1),
             'views' => $this->faker->numberBetween(1, 100),
             'clicks' => $this->faker->numberBetween(1, 100),
             'code' => $this->faker->word,
@@ -37,7 +38,7 @@ class DiscountFactory extends Factory
             'created_by_id' => $this->faker->numberBetween(1, 20),
             'updated_by_id' => $this->faker->numberBetween(1, 20),
             'deleted_by_id' => null,
-            'brand_id' => fake()->numberBetween(1, 10),
+            'brand_id' => fake()->numberBetween(1, 5),
         ];
     }
 }

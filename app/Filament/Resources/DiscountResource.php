@@ -8,7 +8,7 @@ use App\Forms\Components\AuditableView;
 use App\Models\Category;
 use App\Models\Discount;
 use App\Models\OfferType;
-use App\Models\Region;
+use Squire\Models\Region;
 use App\Models\Tag;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -140,19 +140,22 @@ class DiscountResource extends Resource
                             ]),
                         Forms\Components\Tabs\Tab::make('Regions')
                             ->schema([
-                                Forms\Components\Select::make('region_id')
-                                    ->default(Region::query()->pluck('id')->all())
+                                Forms\Components\Select::make('region_ids')
+                                    ->live()
+                                    ->default(Region::query()->where('country_id', 'us')->pluck('id')->all())
                                     ->placeholder('Select Regions')
-                                    ->relationship('regions', 'name')
                                     ->multiple()
-                                    ->helperText(fn ($state) => count($state) < Region::query()->count() ? null : 'All selected')
+                                    ->getOptionLabelsUsing(function ($values) {
+                                        return Region::query()->find($values)->pluck('name');
+                                    })
+                                    ->helperText(fn ($state) => count($state) < Region::query()->where('country_id', 'us')->count() ? null : 'All selected')
                                     ->hintActions([
                                         Forms\Components\Actions\Action::make('clear')
                                             ->visible(fn ($state) => ! empty($state))
                                             ->action(fn ($component) => $component->state([])),
                                         Forms\Components\Actions\Action::make('all')
-                                            ->hidden(fn ($state) => count($state) == Region::query()->count())
-                                            ->action(fn ($component) => $component->state(Region::query()->pluck('id')->all())),
+                                            ->hidden(fn ($state) => count($state) == Region::query()->where('country_id', 'us')->count())
+                                            ->action(fn ($component) => $component->state(Region::query()->where('country_id', 'us')->pluck('id')->all())),
                                     ]),
                             ]),
                         Forms\Components\Tabs\Tab::make('Tags')
@@ -228,10 +231,6 @@ class DiscountResource extends Resource
                     ->preload()
                     ->searchable()
                     ->relationship('offerTypes', 'type'),
-                Tables\Filters\SelectFilter::make('regions')
-                    ->preload()
-                    ->searchable()
-                    ->relationship('regions', 'name'),
                 Tables\Filters\SelectFilter::make('tags')
                     ->preload()
                     ->searchable()

@@ -14,6 +14,7 @@ use Filament\Tables\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Squire\Models\Region;
 
 class OrganizationResource extends Resource
 {
@@ -58,7 +59,7 @@ class OrganizationResource extends Resource
                     ->required()
                     ->maxLength(45),
                 Forms\Components\Select::make('region_id')
-                    ->relationship('region', 'name')
+                    ->options(Region::query()->where('country_id', 'us')->pluck('name', 'id'))
                     ->searchable()
                     ->required(),
                 Forms\Components\Select::make('brand_id')
@@ -92,10 +93,10 @@ class OrganizationResource extends Resource
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
-                Tables\Filters\SelectFilter::make('region')
+                Tables\Filters\SelectFilter::make('region_id')
                     ->preload()
                     ->searchable()
-                    ->relationship('region', 'name'),
+                    ->options(Region::query()->where('country_id', 'us')->pluck('name', 'id')),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

@@ -39,6 +39,7 @@ class Discount extends Model
         'ends_at' => 'immutable_datetime',
         'is_active' => 'boolean',
         'cta' => DiscountCallToActionEnum::class,
+        'region_ids' => 'array',
     ];
 
     public function discountCategories()
@@ -49,17 +50,6 @@ class Discount extends Model
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'discount_categories')
-            ->withTimestamps();
-    }
-
-    public function discountRegions()
-    {
-        return $this->hasMany(DiscountRegion::class);
-    }
-
-    public function regions()
-    {
-        return $this->belongsToMany(Region::class, 'discount_regions')
             ->withTimestamps();
     }
 
@@ -104,6 +94,11 @@ class Discount extends Model
     public function featuredDeals()
     {
         return $this->hasMany(FeaturedDeal::class);
+    }
+
+    public function orderDetails()
+    {
+        return $this->hasMany(OrderDetail::class);
     }
 
     public function scopeForOrganization($query, $organizationId)

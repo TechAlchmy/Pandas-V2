@@ -1,4 +1,4 @@
-<div class="p-8">
+<div class="lg:p-8">
     <form wire:submit.prevent="save">
         {{ $this->form }}
         <div class="flex justify-end">

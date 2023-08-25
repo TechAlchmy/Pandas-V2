@@ -4,7 +4,8 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\RegionResource\Pages;
 use App\Forms\Components\AuditableView;
-use App\Models\Region;
+use Squire\Models\Region;
+use Squire\Models\Country;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -33,8 +34,6 @@ class RegionResource extends Resource
                 Forms\Components\TextInput::make('code')
                     ->required()
                     ->maxLength(5),
-                Forms\Components\Textarea::make('areas'),
-                AuditableView::make('audit'),
             ]);
     }
 
@@ -42,21 +41,25 @@ class RegionResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('code')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('areas')
+                Tables\Columns\TextColumn::make('name')
                     ->searchable(),
             ])
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
+                // Tables\Filters\TrashedFilter::make(),
+                // Tables\Filters\SelectFilter::make('country_id')
+                //     ->default('us')
+                //     ->searchable()
+                //     ->options(Country::query()
+                //         ->where('country_id', 'us')
+                //         ->pluck('name', 'id'))
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                // Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 
@@ -71,14 +74,15 @@ class RegionResource extends Resource
     {
         return [
             'index' => Pages\ListRegions::route('/'),
-            'create' => Pages\CreateRegion::route('/create'),
-            'edit' => Pages\EditRegion::route('/{record}/edit'),
+            // 'create' => Pages\CreateRegion::route('/create'),
+            // 'edit' => Pages\EditRegion::route('/{record}/edit'),
         ];
     }
 
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
+            ->where('country_id', 'us')
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
