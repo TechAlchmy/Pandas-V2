@@ -4,7 +4,8 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\RegionResource\Pages;
 use App\Forms\Components\AuditableView;
-use App\Models\Region;
+use Squire\Models\Region;
+use Squire\Models\Country;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
