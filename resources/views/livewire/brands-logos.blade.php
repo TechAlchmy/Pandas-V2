@@ -1,83 +1,80 @@
-<div x-data="{ activeCategory: @entangle('activeCategory') }">
+<div x-data="{ activeCategory: null }">
 
-    <div @click="activeCategory = 'Health & Wellness'"
-         class="border-t border-b border-black h-[120px] transition-colors flex items-center justify-center"
-         :class="{ 'bg-black': activeCategory === 'Health & Wellness' }">
-        <h2 class="font-editorial text-5xl leading-[70px] text-center"
-            :class="{ 'text-white': activeCategory === 'Health & Wellness' }">Health & Wellness</h2>
-    </div>
-
-    <div @click="activeCategory = 'Groceries'"
-         class="border-b border-black h-[120px] transition-colors flex items-center justify-center"
-         :class="{ 'bg-black': activeCategory === 'Groceries' }">
-        <h2 class="font-editorial text-5xl leading-[70px] text-center"
-            :class="{ 'text-white': activeCategory === 'Groceries' }">Groceries</h2>
-    </div>
-
-    <div @click="activeCategory = 'Apparel'"
-         class="border-b border-black h-[120px] transition-colors flex items-center justify-center"
-         :class="{ 'bg-black': activeCategory === 'Apparel' }">
-        <h2 class="font-editorial text-5xl leading-[70px] text-center"
-            :class="{ 'text-white': activeCategory === 'Apparel' }">Apparel</h2>
-    </div>
-
-    <div @click="activeCategory = 'Entertainment'"
-         class="border-b border-black h-[120px] transition-colors flex items-center justify-center"
-         :class="{ 'bg-black': activeCategory === 'Entertainment' }">
-        <h2 class="font-editorial text-5xl leading-[70px] text-center"
-            :class="{ 'text-white': activeCategory === 'Entertainment' }">Entertainment</h2>
-    </div>
-
-    <div @click="activeCategory = 'Travel'"
-         class="border-b border-black h-[120px] transition-colors flex items-center justify-center"
-         :class="{ 'bg-black': activeCategory === 'Travel' }">
-        <h2 class="font-editorial text-5xl leading-[70px] text-center"
-            :class="{ 'text-white': activeCategory === 'Travel' }">Travel</h2>
-    </div>
-
-    <div x-show="activeCategory" class="logos-slider bg-black p-4">
-    <template x-if="activeCategory === 'Health & Wellness'">
-        <!-- Display logos for Health & Wellness here -->
-    </template>
-
-    <template x-if="activeCategory === 'Apparel'">
-        <div class="swiper-container">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide bg-black flex items-center justify-center">
-                    <img src="{{ asset('storage/logo/adidas-white.png') }}" alt="Adidas Logo" class="max-w-[150px] max-h-[100px]">
+    @foreach ($categories as $category)
+        <button @click="activeCategory = @js($category->getKey())"
+            x-show="activeCategory != @js($category->getKey())"
+            class="w-full border-t border-b border-black h-[120px] transition-colors flex items-center justify-center"
+            :class="{ 'bg-black': activeCategory == @js($category->getKey()) }">
+            <h2 class="font-editorial text-5xl leading-[70px] text-center"
+                :class="{ 'text-white': activeCategory == @js($category->getKey()) }">{{ $category->name }}</h2>
+        </button>
+        <div x-show="activeCategory == @js($category->getKey())">
+            <div x-data="{ swiper: null }" x-init="swiper = new Swiper($el, {
+                slidesPerView: 'auto',
+                autoplay: true,
+                spaceBetween: 0,
+                loop: true,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+            })" class="swiper-container">
+                <div class="swiper-wrapper">
+                    @if (app()->isLocal())
+                        @foreach ([
+                            'adidas-white',
+                            'boss',
+                            'nb',
+                            'nike_white',
+                            'puma',
+                            'reebok',
+                            'sketchers',
+                        ] as $logo)
+                            <div class="swiper-slide bg-black flex justify-center items-center">
+                                <img class="max-w-[150px] max-h-[100px] py-4" src="{{ asset('storage/logo/' . $logo . '.png') }}" alt="{{ $logo }} Logo">
+                            </div>
+                        @endforeach
+                    @endif
+                    @foreach ($category->brands as $brand)
+                        <div class="swiper-slide bg-black flex justify-center items-center">
+                            <img class="max-w-[150px] max-h-[100px] py-4" src="{{ $brand->getFirstMediaUrl('logo') }}" alt="{{ $brand->name }} Logo">
+                        </div>
+                    @endforeach
                 </div>
-
-                <div class="swiper-slide bg-black flex items-center justify-center">
-                    <img src="{{ asset('storage/logo/boss.png') }}" alt="Hugo Boss Logo" class="max-w-[150px] max-h-[100px]">
-                </div>
-
-                <div class="swiper-slide bg-black flex items-center justify-center">
-                    <img src="{{ asset('storage/logo/nb.png') }}" alt="NB Logo" class="max-w-[150px] max-h-[100px]">
-                </div>
-
-                <div class="swiper-slide bg-black flex items-center justify-center">
-                    <img src="{{ asset('storage/logo/nike_white.png') }}" alt="Nike Logo" class="max-w-[150px] max-h-[100px]">
-                </div>
-
-                <div class="swiper-slide bg-black flex items-center justify-center">
-                    <img src="{{ asset('storage/logo/puma.png') }}" alt="Puma Logo" class="max-w-[150px] max-h-[100px]">
-                </div>
-
-                <div class="swiper-slide bg-black flex items-center justify-center">
-                    <img src="{{ asset('storage/logo/reebok.png') }}" alt="Reebok Logo" class="max-w-[150px] max-h-[100px]">
-                </div>
-
-                <div class="swiper-slide bg-black flex items-center justify-center">
-                    <img src="{{ asset('storage/logo/skechers.png') }}" alt="Skechers Logo" class="max-w-[150px] max-h-[100px]">
-                </div>
+                <div class="swiper-pagination"></div>
             </div>
-            
-            <div class="swiper-pagination"></div>
         </div>
-    </template>
-
-
-    
+    @endforeach
 </div>
 
-</div>
+{{-- Use this as a backup --}}
+{{-- <div class="swiper-container">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide bg-black flex items-center justify-center">
+            <img src="{{ asset('storage/logo/adidas-white.png') }}" alt="Adidas Logo" class="max-w-[150px] max-h-[100px]">
+        </div>
+        <div class="swiper-slide bg-black flex items-center justify-center">
+            <img src="{{ asset('storage/logo/boss.png') }}" alt="Hugo Boss Logo" class="max-w-[150px] max-h-[100px]">
+        </div>
+
+        <div class="swiper-slide bg-black flex items-center justify-center">
+            <img src="{{ asset('storage/logo/nb.png') }}" alt="NB Logo" class="max-w-[150px] max-h-[100px]">
+        </div>
+
+        <div class="swiper-slide bg-black flex items-center justify-center">
+            <img src="{{ asset('storage/logo/nike_white.png') }}" alt="Nike Logo" class="max-w-[150px] max-h-[100px]">
+        </div>
+
+        <div class="swiper-slide bg-black flex items-center justify-center">
+            <img src="{{ asset('storage/logo/puma.png') }}" alt="Puma Logo" class="max-w-[150px] max-h-[100px]">
+        </div>
+
+        <div class="swiper-slide bg-black flex items-center justify-center">
+            <img src="{{ asset('storage/logo/reebok.png') }}" alt="Reebok Logo" class="max-w-[150px] max-h-[100px]">
+        </div>
+
+        <div class="swiper-slide bg-black flex items-center justify-center">
+            <img src="{{ asset('storage/logo/skechers.png') }}" alt="Skechers Logo" class="max-w-[150px] max-h-[100px]">
+        </div>
+    </div>
+</div> --}}

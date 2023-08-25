@@ -38,8 +38,6 @@ class OrganizationResource extends Resource
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required(),
-                Forms\Components\TextInput::make('region_id')
-                    ->numeric(),
                 Forms\Components\TextInput::make('created_by_id')
                     ->numeric(),
                 Forms\Components\TextInput::make('updated_by_id')
@@ -63,9 +61,6 @@ class OrganizationResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('region_id')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_by_id')
                     ->numeric()
                     ->sortable(),

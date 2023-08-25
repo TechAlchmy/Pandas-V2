@@ -1,4 +1,4 @@
-<x-layouts.base>
+<x-layouts.base {{ $attributes }}>
     <x-topbar />
     @auth
         <x-topbar.extension />

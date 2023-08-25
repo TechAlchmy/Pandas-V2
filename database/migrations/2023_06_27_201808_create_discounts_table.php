@@ -18,9 +18,10 @@ return new class extends Migration
         Schema::create('discounts', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Brand::class)->nullable()->constrained()->nullOnDelete();
-            $table->string('name', 255)->unique();
+            $table->string('name');
             $table->foreignIdFor(VoucherType::class)->nullable()->constrained()->nullOnDelete();
-            $table->string('slug', 255)->unique();
+            $table->string('slug')->unique();
+            $table->text('excerpt')->nullable();
             $table->boolean('is_active')->default(false);
             $table->datetime('starts_at')->nullable();
             $table->datetime('ends_at')->nullable();
@@ -31,6 +32,7 @@ return new class extends Migration
             $table->unsignedInteger('clicks')->default(0);
             $table->string('code')->nullable();
             $table->jsonb('amount')->nullable();
+            $table->jsonb('region_ids')->nullable();
             $table->integer('limit_qty')->nullable();
             $table->decimal('limit_amount', 10, 2)->nullable();
             $table->decimal('public_percentage', 10, 2)->nullable();

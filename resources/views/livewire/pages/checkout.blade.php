@@ -1,7 +1,7 @@
 <div class="max-w-[1920px] mx-auto px-[min(6.99vw,50px)] py-8">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="col-span-2">
-            <h2 class="font-light text-3xl">Shopping bags</h2>
+            <h2 class="font-light text-3xl">Shopping bag</h2>
             <x-hr />
             @if (cart()->items()->isNotEmpty())
                 <div class="divide-y">

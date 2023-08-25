@@ -6,6 +6,7 @@ use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Models\Discount;
 use App\Models\Order;
+use App\Notifications\OrderApprovedNotification;
 use App\Services\CardknoxPayment\CardknoxBody;
 use App\Services\CardknoxPayment\CardknoxPayment;
 use Filament\Forms;
@@ -190,39 +191,22 @@ class Checkout extends Component implements HasForms, HasActions
                                     ->placeholder('year')
                                     ->required(),
                             ]),
-                            Forms\Components\TextInput::make('xCVV')
-                                ->view('forms.components.text-input')
-                                ->extraInputAttributes(['x-bind:placeholder' => 123])
-                                ->hiddenLabel()
-                                ->placeholder('CVC')
-                                ->minLength(3)
-                                ->maxLength(3)
-                                ->required(),
+                        Forms\Components\TextInput::make('xCVV')
+                            ->view('forms.components.text-input')
+                            ->extraInputAttributes(['x-bind:placeholder' => 123])
+                            ->hiddenLabel()
+                            ->placeholder('CVC')
+                            ->minLength(3)
+                            ->maxLength(3)
+                            ->required(),
                     ]),
             ])
             ->action(function ($data) {
-                $data['xAmount'] = 23;
+                $data['xAmount'] = cart()->total();
                 $data['xExp'] = $data['xExp_month'].$data['xExp_year'];
 
                 // TODO: add email to the orders table or pass a user_id when creating the order.
-                $order = Order::create([
-                    'user_id' => auth()->id(),
-                    'order_status' => OrderStatus::Pending,
-                    'payment_status' => PaymentStatus::Pending,
-                    'payment_method' => 'card',
-                    'order_date' => now(),
-                    'order_tax' => cart()->tax(),
-                    'order_subtotal' => cart()->subtotal(),
-                    'order_total' => cart()->total(),
-                ]);
-
-                foreach (cart()->items() as $id => $item) {
-                    $order->orderDetails()->create([
-                        'discount_id' => $id,
-                        'amount' => $item['amount'],
-                        'quantity' => $item['quantity'],
-                    ]);
-                }
+                $order = cart()->createOrder();
 
                 $data['xInvoice'] = $order->order_column;
 
@@ -230,6 +214,11 @@ class Checkout extends Component implements HasForms, HasActions
                 $response = $cardknoxPayment->charge(new CardknoxBody($data));
 
                 if (filled($response->xResult) && $response->xStatus === 'Error') {
+                    $order->update([
+                        'order_status' => OrderStatus::Failed,
+                        'payment_status' => PaymentStatus::Failed,
+                    ]);
+
                     Notification::make()->danger()
                         ->title('Error')
                         ->body($response->xError)
@@ -243,10 +232,12 @@ class Checkout extends Component implements HasForms, HasActions
                     'payment_status' => $response->xStatus,
                 ]);
 
+                auth()->user()->notify(new OrderApprovedNotification($order));
+
                 //TODO: Send Notification
                 Notification::make()
                     ->title('Order placed')
-                    ->danger()
+                    ->success()
                     ->send();
 
                 return redirect()->route('dashboard', ['activeTab' => 4]);

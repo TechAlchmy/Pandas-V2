@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Resources\UserResource\Widgets;
 
+use App\Enums\DiscountCallToActionEnum;
 use App\Enums\PaymentStatus;
 use App\Models\Order;
 use App\Models\OrderRefund;
+use Filament\Actions\Action;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
@@ -12,6 +14,8 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Forms;
+use Illuminate\Support\Facades\Blade;
 use Livewire\Component;
 
 class ListOrders extends Component implements HasTable, HasForms
@@ -38,12 +42,7 @@ class ListOrders extends Component implements HasTable, HasForms
                         'danger' => 'cancelled',
                         'danger' => 'failed',
                     ]),
-                Tables\Columns\TextColumn::make('order_total')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('order_subtotal'),
-                Tables\Columns\TextColumn::make('order_discount'),
-                Tables\Columns\TextColumn::make('order_tax'),
-                Tables\Columns\TextColumn::make('payment_method'),
+                Tables\Columns\TextColumn::make('order_total'),
                 Tables\Columns\TextColumn::make('payment_status')
                     ->badge()
                     ->colors([
@@ -55,10 +54,54 @@ class ListOrders extends Component implements HasTable, HasForms
                     ]),
             ])
             ->actions([
-                Tables\Actions\Action::make('refund')
-                    ->color('secondary')
+                Tables\Actions\Action::make('redeem')
                     ->link()
-                    ->visible(fn ($record) => $record->payment_status == PaymentStatus::Paid
+                    ->visible(fn ($record) => $record->payment_status == PaymentStatus::Approved)
+                    ->modalSubmitAction(false)
+                    ->form(function ($record) {
+                        $record->loadMissing(['orderDetails.discount']);
+                        return [
+                            Forms\Components\Actions::make($record->orderDetails
+                                ->map(function ($orderDetail) {
+                                    $record = $orderDetail->discount;
+                                    return match ($orderDetail->discount->cta) {
+                                        DiscountCallToActionEnum::GoToSite => Forms\Components\Actions\Action::make($orderDetail->discount->name)
+                                            ->url($record->link, shouldOpenInNewTab: true),
+                                        default => Forms\Components\Actions\Action::make($orderDetail->discount->name)
+                                            ->modalHeading(function ($record) {
+                                                return "{$record->percentage}% off!";
+                                            })
+                                            ->modalContent(function ($record) {
+                                                return Blade::render(<<<Blade
+                                                    <div class="p-8 bg-neutral-100 text-center">
+                                                        <p class="text-2xl font-light">
+                                                            {{ $record->code }}
+                                                        </p>
+                                                    </div>
+                                                Blade);
+                                            })
+                                            ->modalSubmitAction(false)
+                                            ->extraModalFooterActions(fn (Action $action): array => [
+                                                $action->makeModalSubmitAction('copyCode', arguments: ['copy' => true]),
+                                            ])
+                                            ->action(function ($arguments, $record): void {
+                                                if ($arguments['copy'] ?? false) {
+                                                    $this->js("navigator.clipboard.writeText({$record->code});");
+
+                                                    Notification::make()
+                                                        ->title('Code copied successfully')
+                                                        ->success()
+                                                        ->send();
+                                                }
+                                            }),
+                                    };
+                                })
+                                ->all()),
+                        ];
+                    }),
+                Tables\Actions\Action::make('refund')
+                    ->link()
+                    ->visible(fn ($record) => $record->payment_status == PaymentStatus::Approved
                         && now()->isBefore($record->created_at->addWeeks(2)))
                     ->requiresConfirmation()
                     ->action(function ($record) {
@@ -71,7 +114,7 @@ class ListOrders extends Component implements HasTable, HasForms
                             return;
                         }
 
-                        if ($record->payment_status == PaymentStatus::Paid) {
+                        if ($record->payment_status == PaymentStatus::Approved) {
                             OrderRefund::query()
                                 ->create([
                                     'order_id' => $record->getKey(),

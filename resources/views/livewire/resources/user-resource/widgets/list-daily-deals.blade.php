@@ -4,8 +4,7 @@ use function Livewire\Volt\{computed};
 
 $categories = computed(function () {
     return \App\Models\Category::query()
-        ->isRoot()
-        ->take(7)
+        ->where('is_active', true)
         ->get();
 });
 
@@ -24,12 +23,12 @@ $categories = computed(function () {
         <ul class="grid grid-cols-2">
             @foreach ($this->categories as $category)
                 <li>
-                    <x-a>{{ $category->name }}</x-a>
+                    <x-a :href="route('deals.index', ['filter' => ['category_id' => $category->getKey()]])">{{ $category->name }}</x-a>
                 </li>
             @endforeach
         </ul>
-        <x-button outlined tag="a" href="/deals" class="inline-block">
+        <x-link outlined :href="route('deals.index')">
             Discover more deals
-        </x-button>
+        </x-link>
     </div>
 </div>
