@@ -17,7 +17,7 @@
                     </x-link>
                 </div>
             </div>
-            <div class="py-24"></div>
+            <div class="py-8 lg:py-24"></div>
             @php
                 $categories = \App\Models\Category::query()
                     ->whereHas('discounts', fn($query) => $query->forOrganization(auth()->user()?->organization_id)->where('is_active', true))
@@ -26,15 +26,15 @@
                     ->take(5)
                     ->get();
             @endphp
-            <div class="flex m-auto">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
                 @foreach ($categories as $category)
                     <div class="flex-1 p-4 flex flex-col justify-between">
                         <x-a :href="route('deals.index', ['filter' => ['category_id' => $category->getKey()]])">
-                            <h3 class="font-editorial text-5xl leading-[60px]">{{ $category->name }}</h3>
+                            <h3 class="font-editorial text-3xl lg:text-5xl leading-[60px]">{{ $category->name }}</h3>
                         </x-a>
                         <div>
-                            <p class="uppercase text-2xl">Up to {{ $category->discounts_max_percentage }}% off</p>
-                            <p class="text-xl leading-7">24-hour access to primary care for less</p>
+                            <p class="uppercase text-xl lg:text-2xl">Up to {{ $category->discounts_max_percentage }}% off</p>
+                            <p class="text-md lg:text-xl leading-7">24-hour access to primary care for less</p>
                         </div>
                     </div>
                 @endforeach
