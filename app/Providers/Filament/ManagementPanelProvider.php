@@ -39,8 +39,10 @@ class ManagementPanelProvider extends PanelProvider
                     ->url('/admin/organizations'),
             ])
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Neutral,
             ])
+            ->font('Aeonik')
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->discoverResources(in: app_path('Filament/Management/Resources'), for: 'App\\Filament\\Management\\Resources')
             ->discoverPages(in: app_path('Filament/Management/Pages'), for: 'App\\Filament\\Management\\Pages')
             ->pages([
@@ -49,7 +51,7 @@ class ManagementPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Management/Widgets'), for: 'App\\Filament\\Management\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                \App\Filament\Widgets\InfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

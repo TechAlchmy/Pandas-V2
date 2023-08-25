@@ -56,9 +56,7 @@ class CategoryResource extends Resource
                     ->columnSpan(1)
                     ->schema([
                         Forms\Components\Toggle::make('is_active')
-                            ->default(false)
-                            ->onColor('success')
-                            ->offColor('danger'),
+                            ->default(false),
                         Forms\Components\Placeholder::make('views')
                             ->content(fn ($record) => $record->views ?? 0),
                         Forms\Components\Placeholder::make('Products'),
