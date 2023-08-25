@@ -53,17 +53,6 @@ class Discount extends Model
             ->withTimestamps();
     }
 
-    public function discountRegions()
-    {
-        return $this->hasMany(DiscountRegion::class);
-    }
-
-    public function regions()
-    {
-        return $this->belongsToMany(Region::class, 'discount_regions')
-            ->withTimestamps();
-    }
-
     public function discountOffers()
     {
         return $this->hasMany(DiscountOffer::class);

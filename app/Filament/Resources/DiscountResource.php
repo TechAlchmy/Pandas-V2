@@ -230,10 +230,6 @@ class DiscountResource extends Resource
                     ->preload()
                     ->searchable()
                     ->relationship('offerTypes', 'type'),
-                Tables\Filters\SelectFilter::make('regions')
-                    ->preload()
-                    ->searchable()
-                    ->relationship('regions', 'name'),
                 Tables\Filters\SelectFilter::make('tags')
                     ->preload()
                     ->searchable()
