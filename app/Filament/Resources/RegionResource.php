@@ -48,12 +48,12 @@ class RegionResource extends Resource
             ])
             ->filters([
                 // Tables\Filters\TrashedFilter::make(),
-                Tables\Filters\SelectFilter::make('country_id')
-                    ->default('us')
-                    ->searchable()
-                    ->options(Country::query()
-                        ->where('country_id', 'us')
-                        ->pluck('name', 'id'))
+                // Tables\Filters\SelectFilter::make('country_id')
+                //     ->default('us')
+                //     ->searchable()
+                //     ->options(Country::query()
+                //         ->where('country_id', 'us')
+                //         ->pluck('name', 'id'))
             ])
             ->actions([
                 // Tables\Actions\EditAction::make(),
