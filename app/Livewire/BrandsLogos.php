@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Category;
 use Livewire\Component;
 
 class BrandsLogos extends Component
@@ -15,6 +16,10 @@ class BrandsLogos extends Component
 
     public function render()
     {
-        return view('livewire.brands-logos');
+        return view('livewire.brands-logos', [
+            'categories' => Category::query()
+                ->with('brands')
+                ->get(),
+        ]);
     }
 }

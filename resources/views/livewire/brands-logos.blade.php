@@ -1,39 +1,13 @@
 <div x-data="{ activeCategory: @entangle('activeCategory') }">
 
-    <div @click="activeCategory = 'Health & Wellness'"
-         class="border-t border-b border-black h-[120px] transition-colors flex items-center justify-center"
-         :class="{ 'bg-black': activeCategory === 'Health & Wellness' }">
-        <h2 class="font-editorial text-5xl leading-[70px] text-center"
-            :class="{ 'text-white': activeCategory === 'Health & Wellness' }">Health & Wellness</h2>
-    </div>
-
-    <div @click="activeCategory = 'Groceries'"
-         class="border-b border-black h-[120px] transition-colors flex items-center justify-center"
-         :class="{ 'bg-black': activeCategory === 'Groceries' }">
-        <h2 class="font-editorial text-5xl leading-[70px] text-center"
-            :class="{ 'text-white': activeCategory === 'Groceries' }">Groceries</h2>
-    </div>
-
-    <div @click="activeCategory = 'Apparel'"
-         class="border-b border-black h-[120px] transition-colors flex items-center justify-center"
-         :class="{ 'bg-black': activeCategory === 'Apparel' }">
-        <h2 class="font-editorial text-5xl leading-[70px] text-center"
-            :class="{ 'text-white': activeCategory === 'Apparel' }">Apparel</h2>
-    </div>
-
-    <div @click="activeCategory = 'Entertainment'"
-         class="border-b border-black h-[120px] transition-colors flex items-center justify-center"
-         :class="{ 'bg-black': activeCategory === 'Entertainment' }">
-        <h2 class="font-editorial text-5xl leading-[70px] text-center"
-            :class="{ 'text-white': activeCategory === 'Entertainment' }">Entertainment</h2>
-    </div>
-
-    <div @click="activeCategory = 'Travel'"
-         class="border-b border-black h-[120px] transition-colors flex items-center justify-center"
-         :class="{ 'bg-black': activeCategory === 'Travel' }">
-        <h2 class="font-editorial text-5xl leading-[70px] text-center"
-            :class="{ 'text-white': activeCategory === 'Travel' }">Travel</h2>
-    </div>
+    @foreach ($categories as $category)
+        <div @click="$wire.set('activeCategory', @js($category->getKey()))"
+            class="border-t border-b border-black h-[120px] transition-colors flex items-center justify-center"
+            :class="{ 'bg-black': $wire.activeCategory === @js($category->getKey()) }">
+            <h2 class="font-editorial text-5xl leading-[70px] text-center"
+                :class="{ 'text-white': $wire.activeCategory === @js($category->getKey()) }">{{ $category->name }}</h2>
+        </div>
+    @endforeach
 
     <div x-show="activeCategory" class="logos-slider bg-black p-4">
     <template x-if="activeCategory === 'Health & Wellness'">
