@@ -42,6 +42,7 @@ class ManagementPanelProvider extends PanelProvider
                 'primary' => Color::Amber,
             ])
             ->font('Aeonik')
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->discoverResources(in: app_path('Filament/Management/Resources'), for: 'App\\Filament\\Management\\Resources')
             ->discoverPages(in: app_path('Filament/Management/Pages'), for: 'App\\Filament\\Management\\Pages')
             ->pages([
