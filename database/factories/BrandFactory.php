@@ -33,7 +33,16 @@ class BrandFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function ($record) {
-            $record->addMedia(public_path('storage/logo/adidas-white.png'))
+            $record->addMedia(public_path(match (strtolower($record->name)) {
+                'adidas' => 'adidas-white',
+                'boss' => 'boss',
+                'new balance' => 'nb',
+                'nike' => 'nike_white',
+                'puma' => 'puma',
+                'reebok' => 'reebok',
+                'sketchers' => 'sketchers',
+                default => 'storage/logo/adidas-white.png',
+            }))
                 ->preservingOriginal()
                 ->toMediaCollection('logo');
         });
