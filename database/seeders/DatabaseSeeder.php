@@ -75,7 +75,6 @@ class DatabaseSeeder extends Seeder
                         });
                 }
             });
-        BrandRegion::factory(10)->create();
         $offerTypes = OfferType::factory(10)->create();
         $voucherTypes = VoucherType::factory(10)->create();
         $discounts = Discount::factory(10)->create()->each(function ($discount) use ($offerTypes, $voucherTypes) {
@@ -87,7 +86,6 @@ class DatabaseSeeder extends Seeder
         });
         Tag::factory(10)->create();
         DiscountCategory::factory(10)->create();
-        DiscountRegion::factory(10)->create();
         DiscountTag::factory(10)->create();
         Order::factory(125)
             ->create()
