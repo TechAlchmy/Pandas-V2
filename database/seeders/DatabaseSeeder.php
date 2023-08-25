@@ -62,6 +62,7 @@ class DatabaseSeeder extends Seeder
                 if ($index == 0) {
                     collect([
                         'Reebok', 'Sketchers', 'Polo', 'Adidas', 'New Balance',
+                        'Boss', 'Nike', 'Puma',
                     ])
                         ->map(function ($brand) use ($category) {
                             $brand = Brand::factory()->state(['name' => $brand])->create();
