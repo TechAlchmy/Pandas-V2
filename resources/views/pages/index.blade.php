@@ -20,6 +20,7 @@
             <div class="py-24"></div>
             @php
                 $categories = \App\Models\Category::query()
+                    ->whereHas('discounts', fn($query) => $query->forOrganization(auth()->user()?->organization_id)->where('is_active', true))
                     ->withMax('discounts', 'percentage')
                     ->inRandomOrder()
                     ->take(5)
