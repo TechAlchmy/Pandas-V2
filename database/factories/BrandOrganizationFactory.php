@@ -17,7 +17,7 @@ class BrandOrganizationFactory extends Factory
     public function definition(): array
     {
         return [
-            'region_id' => $this->faker->numberBetween(1, 10),
+            'organization_id' => fake()->boolean() ? null : $this->faker->numberBetween(1, 10),
             'brand_id' => $this->faker->numberBetween(1, 10),
         ];
     }
