@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('name');
             $table->foreignIdFor(VoucherType::class)->nullable()->constrained()->nullOnDelete();
             $table->string('slug')->unique();
+            $table->text('excerpt')->nullable();
             $table->boolean('is_active')->default(false);
             $table->datetime('starts_at')->nullable();
             $table->datetime('ends_at')->nullable();

@@ -20,6 +20,7 @@ class DiscountFactory extends Factory
             'name' => $this->faker->randomElement(['Discount Up to', 'Off By']),
             'voucher_type_id' => null,
             'slug' => $this->faker->slug,
+            'excerpt' => $this->faker->text(),
             'is_active' => $this->faker->boolean(),
             'starts_at' => $this->faker->dateTimeBetween('-1 years', 'now'),
             'ends_at' => $this->faker->dateTimeBetween('now', '+1 years'),
