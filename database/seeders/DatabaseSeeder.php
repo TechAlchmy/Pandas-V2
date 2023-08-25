@@ -62,7 +62,7 @@ class DatabaseSeeder extends Seeder
             'Reebok', 'Sketchers', 'Polo', 'Ralph Laurens', 'Jerome',
         ])
             ->map(function ($brand) {
-                return Brand::factory()->create(['name' => $brand]);
+                return Brand::factory()->state(['name' => $brand])->create();
             });
         collect([
             'Apparel', 'Electronic', 'Sport', 'Food', 'Entertainment',
