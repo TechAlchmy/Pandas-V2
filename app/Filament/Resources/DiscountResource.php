@@ -141,6 +141,7 @@ class DiscountResource extends Resource
                         Forms\Components\Tabs\Tab::make('Regions')
                             ->schema([
                                 Forms\Components\Select::make('region_ids')
+                                    ->live()
                                     ->default(Region::query()->where('country_id', 'us')->pluck('id')->all())
                                     ->placeholder('Select Regions')
                                     ->multiple()
