@@ -17,7 +17,7 @@ class DiscountCategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'category_id' => $this->faker->numberBetween(1, 10),
+            'category_id' => $this->faker->numberBetween(1, 5),
             'discount_id' => $this->faker->numberBetween(1, 5),
         ];
     }
