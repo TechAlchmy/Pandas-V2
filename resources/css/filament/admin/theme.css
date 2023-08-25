@@ -12,3 +12,32 @@
     src: url("../../../../public/fonts/PPEditorialNew-Light.woff2") format("woff2"),
         url("../../../../public/fonts/PPEditorialNew-Light.woff") format("woff");
 }
+
+.fi-ta-ctn,
+.fi-section,
+.fi-fo-tabs,
+.fi-input-wrp,
+.fi-modal-window,
+.fi-dropdown-panel,
+.fi-fo-rich-editor,
+.fi-wi-stats-overview-stat,
+.fi-input-wrp .choices__list--dropdown,
+.fi-resource-relation-managers .fi-tabs
+{
+    @apply rounded-none border border-black;
+}
+
+.fi-btn,
+.fi-icon-btn,
+.fi-tabs-item,
+.fi-sidebar-item > *,
+.fi-dropdown-list-item
+{
+    @apply rounded-none;
+}
+
+.fi-header-heading,
+.fi-wi-stats-overview-stat .text-3xl
+{
+    font-family: 'Editorial', 'Aeonik', sans-serif;
+}
