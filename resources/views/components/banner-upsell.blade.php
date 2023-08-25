@@ -3,6 +3,7 @@
         ->with('brand.media')
         ->forOrganization(auth()->user()?->organization_id)
         ->whereHas('featuredDeals')
+        ->where('is_active', true)
         ->first();
 @endphp
 @if ($record)
