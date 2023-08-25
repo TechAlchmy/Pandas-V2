@@ -1,0 +1,14 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+@config './tailwind.config.js';
+
+@font-face {
+    font-family: "Aeonik";
+    src: url("../../../../public/fonts/Aeonik-Regular.woff") format("woff2"),
+        url("../../../../public/fonts/Aeonik-Regular.woff") format("woff");
+}
+@font-face {
+    font-family: "Editorial";
+    src: url("../../../../public/fonts/PPEditorialNew-Light.woff2") format("woff2"),
+        url("../../../../public/fonts/PPEditorialNew-Light.woff") format("woff");
+}
