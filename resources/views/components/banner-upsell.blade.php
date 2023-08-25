@@ -14,7 +14,7 @@
                 <p>{{ $record->name }}</p>
             @endif
             <h2 class="text-6xl font-light font-editorial">
-                {{ $record->percentage }}% Off
+                {{ $record->name }}
             </h2>
         </div>
         <div>
