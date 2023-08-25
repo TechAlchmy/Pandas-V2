@@ -82,6 +82,7 @@ class RegionResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
+            ->where('country_id', 'us')
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
