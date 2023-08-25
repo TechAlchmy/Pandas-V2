@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1aca6f8f09c8077f8b68f4b903694713",
+    "content-hash": "77d4c15c236b8b499a7db307b94cc5c9",
     "packages": [
         {
             "name": "blade-ui-kit/blade-heroicons",
@@ -6061,6 +6061,114 @@
                 }
             ],
             "time": "2023-04-28T07:47:42+00:00"
+        },
+        {
+            "name": "squirephp/countries",
+            "version": "v3.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/squirephp/countries.git",
+                "reference": "7dd92f46dc67ef0c03da4171f7d987f1886074a6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/squirephp/countries/zipball/7dd92f46dc67ef0c03da4171f7d987f1886074a6",
+                "reference": "7dd92f46dc67ef0c03da4171f7d987f1886074a6",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^8.0|^9.0|^10.0",
+                "php": "^8.0",
+                "squirephp/model": "self.version",
+                "squirephp/rule": "self.version"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Squire\\CountriesServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Squire\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dan Harrin",
+                    "email": "dan@danharrin.com"
+                }
+            ],
+            "description": "A library containing Squire's Country model.",
+            "homepage": "https://github.com/squirephp",
+            "keywords": [
+                "squire"
+            ],
+            "support": {
+                "issues": "https://github.com/squirephp/squire/issues",
+                "source": "https://github.com/squirephp/squire"
+            },
+            "time": "2023-02-18T12:44:15+00:00"
+        },
+        {
+            "name": "squirephp/countries-en",
+            "version": "v3.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/squirephp/countries-en.git",
+                "reference": "831f343a2ee484aaa8b9b659c0915df46c887d3c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/squirephp/countries-en/zipball/831f343a2ee484aaa8b9b659c0915df46c887d3c",
+                "reference": "831f343a2ee484aaa8b9b659c0915df46c887d3c",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^8.0|^9.0|^10.0",
+                "php": "^8.0",
+                "squirephp/countries": "self.version",
+                "squirephp/repository": "self.version"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Squire\\CountriesEnServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Squire\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dan Harrin",
+                    "email": "dan@danharrin.com"
+                }
+            ],
+            "description": "A library containing the English translation of Squire's Country model.",
+            "homepage": "https://github.com/squirephp",
+            "keywords": [
+                "squire"
+            ],
+            "support": {
+                "issues": "https://github.com/squirephp/squire/issues",
+                "source": "https://github.com/squirephp/squire"
+            },
+            "time": "2023-02-18T12:44:18+00:00"
         },
         {
             "name": "squirephp/model",
