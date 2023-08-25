@@ -11,7 +11,7 @@
             @if ($record->brand?->hasMedia('logo'))
                 {{ $record->brand?->getFirstMedia('logo')->img()->attributes(['class' => 'invert']) }}
             @else
-                <p>{{ $record->name }}</p>
+                <p>{{ $record->brand->name }}</p>
             @endif
             <h2 class="text-6xl font-light font-editorial">
                 {{ $record->name }}
