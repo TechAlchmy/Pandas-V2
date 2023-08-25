@@ -65,8 +65,7 @@ class DatabaseSeeder extends Seeder
                 return Brand::factory()->state(['name' => $brand])->create();
             });
         collect([
-            'Apparel', 'Electronic', 'Sport', 'Food', 'Entertainment',
-            'Beauty', 'Skincare', 'Health & Wellness', 'Property', 'Travel',
+            'Apparel', 'Entertainment','Groceries', 'Health & Wellness', 'Travel',
         ])
             ->map(function ($category) {
                 Category::factory()->create(['name' => $category]);
