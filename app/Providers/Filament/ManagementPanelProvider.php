@@ -39,7 +39,7 @@ class ManagementPanelProvider extends PanelProvider
                     ->url('/admin/organizations'),
             ])
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Neutral,
             ])
             ->font('Aeonik')
             ->viteTheme('resources/css/filament/admin/theme.css')

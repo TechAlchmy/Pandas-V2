@@ -34,7 +34,7 @@ class AdminPanelProvider extends PanelProvider
             ->profile()
             ->darkMode(false)
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Neutral,
             ])
             ->font('Aeonik')
             ->viteTheme('resources/css/filament/admin/theme.css')
