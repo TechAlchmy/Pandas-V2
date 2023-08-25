@@ -5,11 +5,9 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Brand;
 use App\Models\BrandCategory;
-use App\Models\BrandRegion;
 use App\Models\Category;
 use App\Models\Discount;
 use App\Models\DiscountCategory;
-use App\Models\DiscountRegion;
 use App\Models\DiscountTag;
 use App\Models\DiscountType;
 use App\Models\FeaturedDeal;
@@ -32,7 +30,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Region::factory(10)->create();
         Organization::factory(10)->create()->each(function ($organization) {
             $user = User::factory()
                 ->create([
