@@ -57,8 +57,20 @@ class DatabaseSeeder extends Seeder
             $user->userPreference()->save(UserPreference::factory()->make());
         });
 
-        Brand::factory(10)->create();
-        Category::factory(10)->create();
+        collect([
+            'Adidas', 'Nike', 'New Balance', 'LG', 'Panasonic',
+            'Reebok', 'Apple', 'Polo', 'Ralph Laurens', 'Jerome',
+        ])
+            ->map(function ($brand) {
+                return Brand::factory()->create(['name' => $brand]);
+            });
+        collect([
+            'Apparel', 'Electronic', 'Sport', 'Food', 'Hardware',
+            'Beauty', 'Skincare', 'Health', 'Property', 'Electricity',
+        ])
+            ->map(function ($category) {
+                Category::factory()->create(['name' => $category]);
+            });
         BrandCategory::factory(10)->create();
         BrandRegion::factory(10)->create();
         $offerTypes = OfferType::factory(10)->create();
