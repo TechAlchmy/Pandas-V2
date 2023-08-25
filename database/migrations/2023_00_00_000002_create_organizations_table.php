@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Region;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -21,7 +20,7 @@ return new class extends Migration
             $table->string('slug', 255);
             $table->string('phone', 45)->nullable();
             $table->string('email', 45);
-            $table->foreignIdFor(Region::class)->nullable();
+            $table->string('region_id')->nullable();
             $table->foreignIdFor(User::class, 'created_by_id')->nullable();
             $table->foreignIdFor(User::class, 'updated_by_id')->nullable();
             $table->softDeletes();
