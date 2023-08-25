@@ -26,3 +26,35 @@
         @endforeach
     </div>
 </div>
+
+{{-- Use this as a backup --}}
+{{-- <div class="swiper-container">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide bg-black flex items-center justify-center">
+            <img src="{{ asset('storage/logo/adidas-white.png') }}" alt="Adidas Logo" class="max-w-[150px] max-h-[100px]">
+        </div>
+        <div class="swiper-slide bg-black flex items-center justify-center">
+            <img src="{{ asset('storage/logo/boss.png') }}" alt="Hugo Boss Logo" class="max-w-[150px] max-h-[100px]">
+        </div>
+
+        <div class="swiper-slide bg-black flex items-center justify-center">
+            <img src="{{ asset('storage/logo/nb.png') }}" alt="NB Logo" class="max-w-[150px] max-h-[100px]">
+        </div>
+
+        <div class="swiper-slide bg-black flex items-center justify-center">
+            <img src="{{ asset('storage/logo/nike_white.png') }}" alt="Nike Logo" class="max-w-[150px] max-h-[100px]">
+        </div>
+
+        <div class="swiper-slide bg-black flex items-center justify-center">
+            <img src="{{ asset('storage/logo/puma.png') }}" alt="Puma Logo" class="max-w-[150px] max-h-[100px]">
+        </div>
+
+        <div class="swiper-slide bg-black flex items-center justify-center">
+            <img src="{{ asset('storage/logo/reebok.png') }}" alt="Reebok Logo" class="max-w-[150px] max-h-[100px]">
+        </div>
+
+        <div class="swiper-slide bg-black flex items-center justify-center">
+            <img src="{{ asset('storage/logo/skechers.png') }}" alt="Skechers Logo" class="max-w-[150px] max-h-[100px]">
+        </div>
+    </div>
+</div> --}}
