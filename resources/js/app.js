@@ -4,7 +4,7 @@ console.log("App.js is loaded");
 import "./bootstrap";
 import "swiper/swiper-bundle.css";
 import Swiper from "swiper";
-
+window.Swiper = Swiper;
 document.addEventListener("DOMContentLoaded", function () {
     console.log("Document loaded and ready");
 
