@@ -2,7 +2,7 @@
 
     @foreach ($categories as $category)
         <button @click="activeCategory = @js($category->getKey())"
-            class="inline-block w-full border-t border-b border-black h-[120px] transition-colors flex items-center justify-center"
+            class="w-full border-t border-b border-black h-[120px] transition-colors flex items-center justify-center"
             :class="{ 'bg-black': activeCategory == @js($category->getKey()) }">
             <h2 class="font-editorial text-5xl leading-[70px] text-center"
                 :class="{ 'text-white': activeCategory == @js($category->getKey()) }">{{ $category->name }}</h2>
