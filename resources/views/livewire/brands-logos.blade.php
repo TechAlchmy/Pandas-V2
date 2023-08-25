@@ -19,6 +19,21 @@
                 },
             })" class="swiper-container">
                 <div class="swiper-wrapper">
+                    @if (app()->isLocal())
+                        @foreach ([
+                            'adidas-white',
+                            'boss',
+                            'nb',
+                            'nike_white',
+                            'puma',
+                            'reebok',
+                            'sketchers',
+                        ] as $logo)
+                            <div class="swiper-slide bg-black flex justify-center items-center">
+                                <img class="invert" src="{{ asset('storage/logo/' . $logo . '.png') }}" alt="{{ $logo }} Logo">
+                            </div>
+                        @endforeach
+                    @endif
                     @foreach ($category->brands as $brand)
                         <div class="swiper-slide bg-black flex justify-center items-center">
                             <img class="invert" src="{{ $brand->getFirstMediaUrl('logo') }}" alt="{{ $brand->name }} Logo">
