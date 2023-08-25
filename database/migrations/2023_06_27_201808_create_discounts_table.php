@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignIdFor(Brand::class)->nullable()->constrained()->nullOnDelete();
             $table->string('name');
             $table->foreignIdFor(VoucherType::class)->nullable()->constrained()->nullOnDelete();
-            $table->string('slug', 255)->unique();
+            $table->string('slug')->unique();
             $table->boolean('is_active')->default(false);
             $table->datetime('starts_at')->nullable();
             $table->datetime('ends_at')->nullable();
