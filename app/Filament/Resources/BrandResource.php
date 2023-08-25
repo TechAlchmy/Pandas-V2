@@ -66,9 +66,7 @@ class BrandResource extends Resource
                     ->columnSpan(1)
                     ->schema([
                         Toggle::make('is_active')
-                            ->default(false)
-                            ->onColor('success')
-                            ->offColor('danger'),
+                            ->default(false),
                         Placeholder::make('views')
                             ->content(fn ($record) => $record->views ?? 0),
                         Placeholder::make('Products'),
@@ -147,9 +145,7 @@ class BrandResource extends Resource
                 TextColumn::make('slug')
                     ->limit(30),
                 TextColumn::make('views'),
-                ToggleColumn::make('is_active')
-                    ->onColor('success')
-                    ->offColor('danger'),
+                ToggleColumn::make('is_active'),
 
                 BadgeColumn::make('link')
                     ->limit(10)
