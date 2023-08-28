@@ -105,9 +105,9 @@ class ListDeals extends Component implements HasForms
                     ->where('is_active', true);
             })
             ->where('is_active', true)
-            ->joinRelationship('featuredDeals')
-            ->where(fn($query) => $query->where('featured_deals.organization_id', auth()->user()?->organization_id))
-            ->groupBy('discounts.id')
+            ->whereHas('featuredDeals', function ($query) {
+                $query->where('featured_deals.organization_id', auth()->user()?->organization_id);
+            })
             ->take(4)
             ->get()
             ->whenEmpty(function () {
