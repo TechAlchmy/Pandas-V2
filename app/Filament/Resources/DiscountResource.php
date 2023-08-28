@@ -119,23 +119,6 @@ class DiscountResource extends Resource
                     ]),
                 Forms\Components\Tabs::make('Heading')
                     ->tabs([
-                        Forms\Components\Tabs\Tab::make('Catregories')
-                            ->schema([
-                                Forms\Components\Select::make('category_id')
-                                    ->placeholder('Select Categories')
-                                    ->relationship('categories', 'name')
-                                    ->required()
-                                    ->multiple()
-                                    ->helperText(fn ($state) => count($state) < Category::query()->count() ? null : 'All selected')
-                                    ->hintActions([
-                                        Forms\Components\Actions\Action::make('clear')
-                                            ->visible(fn ($state) => ! empty($state))
-                                            ->action(fn ($component) => $component->state([])),
-                                        Forms\Components\Actions\Action::make('all')
-                                            ->hidden(fn ($state) => count($state) == Category::query()->count())
-                                            ->action(fn ($component) => $component->state(Category::query()->pluck('id')->all())),
-                                    ]),
-                            ]),
                         Forms\Components\Tabs\Tab::make('Regions')
                             ->schema([
                                 Forms\Components\Select::make('region_ids')
@@ -233,10 +216,6 @@ class DiscountResource extends Resource
                     ->preload()
                     ->searchable()
                     ->relationship('tags', 'name'),
-                Tables\Filters\SelectFilter::make('categories')
-                    ->preload()
-                    ->searchable()
-                    ->relationship('categories', 'name'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

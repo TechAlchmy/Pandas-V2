@@ -82,7 +82,6 @@ class DatabaseSeeder extends Seeder
             FeaturedDeal::query()->create(['discount_id' => $discount->getKey()]);
         });
         Tag::factory(10)->create();
-        DiscountCategory::factory(10)->create();
         DiscountTag::factory(10)->create();
         Order::factory(125)
             ->create()
