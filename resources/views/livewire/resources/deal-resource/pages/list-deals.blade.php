@@ -39,6 +39,7 @@
                     <x-deal-card :record="$deal" :record-clicks="true" />
                 @endforeach
             </div>
+            <div class="h-16"></div>
             <div>{{ $this->deals->links() }}</div>
         </section>
     @endif
