@@ -89,15 +89,6 @@ class Discount extends Model
         return $this->hasMany(OrderDetail::class);
     }
 
-    public function scopeForOrganization($query, $organization)
-    {
-        return $query->when($organization, function ($query, $organization) {
-            $query->whereHas('brand', function ($query) use ($organization) {
-                $query->forOrganization($organization);
-            });
-        });
-    }
-
     protected function isAmountSingle(): Attribute
     {
         return Attribute::get(fn () => count($this->amount) == 1);

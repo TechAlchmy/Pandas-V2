@@ -172,8 +172,9 @@ class ViewDeal extends Component implements HasActions, HasForms
     {
         return view('livewire.resources.deal-resource.pages.view-deal', [
             'related' => \App\Models\Discount::query()
-                ->with('brand.media')
-                ->forOrganization(auth()->user()?->organization)
+                ->withWhereHas('brand', function ($query) {
+                    $query->with('media')->where('is_active', true)->forOrganization(auth()->user()?->organization);
+                })
                 ->where('is_active', true)
                 ->whereIn(
                     'id',
@@ -185,7 +186,9 @@ class ViewDeal extends Component implements HasActions, HasForms
                 ->get(),
             'popular' => \App\Models\Discount::query()
                 ->with('brand.media')
-                ->forOrganization(auth()->user()?->organization)
+                ->withWhereHas('brand', function ($query) {
+                    $query->with('media')->where('is_active', true)->forOrganization(auth()->user()?->organization);
+                })
                 ->where('is_active', true)
                 ->orderByDesc('views')
                 ->take(4)
@@ -198,14 +201,15 @@ class ViewDeal extends Component implements HasActions, HasForms
     public function record()
     {
         return \App\Models\Discount::query()
-            ->with('brand.media')
+            ->withWhereHas('brand', function ($query) {
+                $query->with('media')->where('is_active', true)->forOrganization(auth()->user()?->organization);
+            })
             ->with('categories')
             ->withExists(['orderDetails AS is_purchased' => function ($query) {
                 $query->whereIn('order_id', Order::query()
                     ->select('id')
                     ->whereBelongsTo(auth()->user()));
             }])
-            ->forOrganization(auth()->user()?->organization)
             ->where('is_active', true)
             ->where('slug', $this->id)
             ->firstOrFail();

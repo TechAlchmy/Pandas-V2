@@ -17,8 +17,12 @@
             ->dump();
         
         $featuredDiscount = \App\Models\Discount::query()
-            ->with('brand.media')
-            ->forOrganization(auth()->user()?->organization)
+            ->withWhereHas('brand', function ($query) {
+                $query
+                    ->with('media')
+                    ->where('is_active', true)
+                    ->forOrganization(auth()->user()?->organization);
+            })
             ->whereHas('featuredDeals')
             ->where('is_active', true)
             ->inRandomOrder()
