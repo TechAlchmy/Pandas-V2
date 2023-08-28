@@ -79,12 +79,12 @@ class ListDeals extends Component implements HasForms
     public function deals()
     {
         return \App\Models\Discount::query()
-            ->forOrganization(auth()->user()?->organization_id)
             ->withWhereHas('brand', function ($query) {
                 $query->with('media')
                     ->where('is_active', true);
             })
             ->where('is_active', true)
+            ->forOrganization(auth()->user()?->organization_id)
             ->when($this->filter['search'], fn($query) => $query->where('name', 'like', "%{$this->filter['search']}%"))
             ->when($this->filter['brand_id'], fn($query) => $query->where('brand_id', $this->filter['brand_id']))
             ->when($this->filter['category_id'], fn($query) => $query->whereRelation('discountCategories', 'category_id', $this->filter['category_id']))
@@ -99,12 +99,12 @@ class ListDeals extends Component implements HasForms
     public function featuredDeals()
     {
         return \App\Models\Discount::query()
-            ->forOrganization(auth()->user()?->organization_id)
             ->withWhereHas('brand', function ($query) {
                 $query->with('media')
                     ->where('is_active', true);
             })
             ->where('is_active', true)
+            ->forOrganization(auth()->user()?->organization_id)
             ->whereHas('featuredDeals', function ($query) {
                 $query->where('featured_deals.organization_id', auth()->user()?->organization_id);
             })
@@ -116,12 +116,12 @@ class ListDeals extends Component implements HasForms
                 }
 
                 return \App\Models\Discount::query()
-                    ->forOrganization(auth()->user()?->organization_id)
                     ->withWhereHas('brand', function ($query) {
                         $query->with('media')
                             ->where('is_active', true);
                     })
                     ->where('is_active', true)
+                    ->forOrganization(auth()->user()?->organization_id)
                     ->inRandomOrder()
                     ->take(4)
                     ->get();
