@@ -90,13 +90,13 @@ class Discount extends Model
         return $this->hasMany(OrderDetail::class);
     }
 
-    public function scopeForOrganization($query, $organizationId)
+    public function scopeForOrganization($query, $organization)
     {
-        return $query->when($organizationId, function ($query, $value) {
+        return $query->when($organization, function ($query, $organization) {
             $query->whereIn('brand_id', BrandOrganization::query()
                 ->select('brand_id')
                 ->where('is_active', true)
-                ->where('organization_id', $value));
+                ->whereBelongsTo($organization));
         });
     }
 

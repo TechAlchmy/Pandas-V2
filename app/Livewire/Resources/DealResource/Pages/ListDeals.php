@@ -44,7 +44,7 @@ class ListDeals extends Component implements HasForms
                     ->getSearchResultsUsing(fn ($search) => Brand::query()
                         ->where('name', 'like', "%{$search}%")
                         ->where('is_active', true)
-                        ->forOrganization(auth()->user()?->organization_id)
+                        ->forOrganization(auth()->user()?->organization)
                         ->take(7)
                         ->get()
                         ->mapWithKeys(fn ($record) => [
@@ -84,7 +84,7 @@ class ListDeals extends Component implements HasForms
                     ->where('is_active', true);
             })
             ->where('is_active', true)
-            ->forOrganization(auth()->user()?->organization_id)
+            ->forOrganization(auth()->user()?->organization)
             ->when($this->filter['search'], fn($query) => $query->where('name', 'like', "%{$this->filter['search']}%"))
             ->when($this->filter['brand_id'], fn($query) => $query->where('brand_id', $this->filter['brand_id']))
             ->when($this->filter['category_id'], fn($query) => $query->whereRelation('discountCategories', 'category_id', $this->filter['category_id']))
@@ -104,9 +104,9 @@ class ListDeals extends Component implements HasForms
                     ->where('is_active', true);
             })
             ->where('is_active', true)
-            ->forOrganization(auth()->user()?->organization_id)
+            ->forOrganization(auth()->user()?->organization)
             ->whereHas('featuredDeals', function ($query) {
-                $query->where('featured_deals.organization_id', auth()->user()?->organization_id);
+                $query->where('featured_deals.organization_id', auth()->user()?->organization);
             })
             ->take(4)
             ->get()
@@ -121,7 +121,7 @@ class ListDeals extends Component implements HasForms
                             ->where('is_active', true);
                     })
                     ->where('is_active', true)
-                    ->forOrganization(auth()->user()?->organization_id)
+                    ->forOrganization(auth()->user()?->organization)
                     ->inRandomOrder()
                     ->take(4)
                     ->get();

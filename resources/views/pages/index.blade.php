@@ -13,11 +13,12 @@
             })
             ->inRandomOrder()
             ->take(5)
-            ->get();
+            ->get()
+            ->dump();
         
         $featuredDiscount = \App\Models\Discount::query()
             ->with('brand.media')
-            ->forOrganization(auth()->user()?->organization_id)
+            ->forOrganization(auth()->user()?->organization)
             ->whereHas('featuredDeals')
             ->where('is_active', true)
             ->inRandomOrder()
@@ -99,7 +100,7 @@
                 </div>
             </div>
         </section>
-        <section  class="px-[min(6.99vw,50px)] py-4 " style="max-width: 1920px; margin:auto">
+        <section class="px-[min(6.99vw,50px)] py-4 " style="max-width: 1920px; margin:auto">
             <div>
                 <h1 class="font-editorial text-6xl leading-[70px] mt-9">Panda Partners with Brands You Know</h1>
             </div>
