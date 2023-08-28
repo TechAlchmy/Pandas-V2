@@ -4,7 +4,7 @@
     @foreach ($categories as $category)
         <div class="relative py-6 group">
             <h2 class="font-editorial text-5xl leading-[70px] text-center">{{ $category->name }}</h2>
-            <div class="hidden group-hover:block transition-all duration-150 absolute inset-y-0 bg-black w-full">
+            <div class="invisible opacity-0 translate-y-5 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 duration-500 transition-transform ease-out absolute inset-y-0 bg-black w-full">
                 <div class="relative flex items-center overflow-x-hidden h-full">
                     <div class="animate-marquee flex whitespace-nowrap items-center gap-4">
                         @if (app()->isLocal())
