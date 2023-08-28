@@ -6,8 +6,7 @@
             ->withBrand(auth()->user()?->organization)
             ->inRandomOrder()
             ->take(5)
-            ->get()
-            ->dump();
+            ->get();
         
         $featuredDiscount = \App\Models\Discount::query()
             ->withBrand(auth()->user()?->organization)
