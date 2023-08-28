@@ -50,7 +50,14 @@ class RecentlyViewedService
     protected function filterViewables(string $model)
     {
         return match ($model) {
-            Discount::class => Discount::query()->onlyTrashed()->orWhere('is_active', false)->pluck('id'),
+            Discount::class => Discount::query()
+                ->onlyTrashed()
+                ->orWhere('is_active', false)
+                ->orWhereHas('brand', function ($query) {
+                    $query->onlyTrashed()
+                        ->orWhere('is_active', false);
+                })
+                ->pluck('id'),
             default => $model::query()->onlyTrashed()->pluck('id'),
         };
     }
