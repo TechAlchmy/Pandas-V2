@@ -95,8 +95,8 @@
             <div>
                 <h1 class="font-editorial text-6xl leading-[70px] mt-9">Panda Partners with Brands You Know</h1>
             </div>
-            <livewire:brands-logos />
-            
+            <x-brand-logos :categories="$categories" />
+
         </section>
         <section class="px-[min(6.99vw,50px)] py-4" style="max-width: 1920px; margin:auto">
             <h1 class="font-editorial text-6xl leading-[70px]">Guides</h1>

@@ -1,9 +1,4 @@
-@php
-    $categories = \App\Models\Category::query()
-        ->where('is_active', true)
-        ->withWhereHas('brands.media')
-        ->get();
-@endphp
+@props(['categories'])
 
 <div x-data="{ activeCategory: null }">
 
