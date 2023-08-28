@@ -79,11 +79,7 @@ class ListDeals extends Component implements HasForms
     public function deals()
     {
         return \App\Models\Discount::query()
-            ->withWhereHas('brand', function ($query) {
-                $query->with('media')
-                    ->where('is_active', true)
-                    ->forOrganization(auth()->user()?->organization);
-            })
+            ->withBrand(auth()->user()?->organization)
             ->where('is_active', true)
             ->when($this->filter['search'], fn($query) => $query->where('name', 'like', "%{$this->filter['search']}%"))
             ->when($this->filter['brand_id'], fn($query) => $query->where('brand_id', $this->filter['brand_id']))
@@ -99,11 +95,7 @@ class ListDeals extends Component implements HasForms
     public function featuredDeals()
     {
         return \App\Models\Discount::query()
-            ->withWhereHas('brand', function ($query) {
-                $query->with('media')
-                    ->where('is_active', true)
-                    ->forOrganization(auth()->user()?->organization);
-            })
+            ->withBrand(auth()->user()?->organization)
             ->where('is_active', true)
             ->whereHas('featuredDeals', function ($query) {
                 $query->where('featured_deals.organization_id', auth()->user()?->organization);
@@ -116,11 +108,7 @@ class ListDeals extends Component implements HasForms
                 }
 
                 return \App\Models\Discount::query()
-                    ->withWhereHas('brand', function ($query) {
-                        $query->with('media')
-                            ->where('is_active', true)
-                            ->forOrganization(auth()->user()?->organization);
-                    })
+                    ->withBrand(auth()->user()?->organization)
                     ->where('is_active', true)
                     ->inRandomOrder()
                     ->take(4)

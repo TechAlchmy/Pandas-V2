@@ -3,24 +3,14 @@
         $categories = \App\Models\Category::query()
             ->where('is_active', true)
             ->withMax('discounts', 'percentage')
-            ->withWhereHas('brands', function ($query) {
-                $query
-                    ->with('media')
-                    ->where('is_active', true)
-                    ->forOrganization(auth()->user()?->organization);
-            })
+            ->withBrand(auth()->user()?->organization)
             ->inRandomOrder()
             ->take(5)
             ->get()
             ->dump();
         
         $featuredDiscount = \App\Models\Discount::query()
-            ->withWhereHas('brand', function ($query) {
-                $query
-                    ->with('media')
-                    ->where('is_active', true)
-                    ->forOrganization(auth()->user()?->organization);
-            })
+            ->withBrand(auth()->user()?->organization)
             ->whereHas('featuredDeals')
             ->where('is_active', true)
             ->inRandomOrder()

@@ -57,6 +57,16 @@ class Category extends Model implements Sortable
             ->withTimestamps();
     }
 
+    public function scopeWithBrand($query, $organization)
+    {
+        return $query->withWhereHas('brand', function ($query) use ($organization) {
+            $query
+                ->with('media')
+                ->where('is_active', true)
+                ->forOrganization($organization);
+        });
+    }
+
     public function buildSortQuery(): Builder
     {
         return static::query()->where('parent_id', $this->parent_id);
