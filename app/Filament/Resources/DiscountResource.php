@@ -33,6 +33,7 @@ class DiscountResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('brand_id')
+                    ->live()
                     ->required()
                     ->relationship('brand', 'name', fn ($query) => $query->where('is_active', true))
                     ->searchable(),
