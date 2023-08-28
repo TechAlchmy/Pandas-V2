@@ -15,7 +15,7 @@
     <p>{{ $record->excerpt }}</p>
     <div class="flex-grow"></div>
     <div>
-        <x-link outlined :href="route('deals.show', ['id' => $record->slug])">
+        <x-link class="hover:bg-panda-green" outlined :href="route('deals.show', ['id' => $record->slug])">
             See Deals
         </x-link>
     </div>

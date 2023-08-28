@@ -5,10 +5,6 @@
             <div class="flex items-center lg:justify-center">
                 @if ($record->brand->hasMedia('logo'))
                     {{ $record->brand->getFirstMedia('logo')->img()->attributes(['class' => 'max-w-[10rem] w-full']) }}
-                @else
-                    <div class="bg-gray w-full h-8">
-                        No Image
-                    </div>
                 @endif
             </div>
             <div class="space-y-6">
@@ -41,7 +37,7 @@
                                 <x-input class="lg:max-w-[50%] !border-solid border-black p-2" type="number" wire:model="quantity" min="1" />
                             </div>
                             <div class="flex gap-6 items-center">
-                                <x-button wire:click="addToCart" outlined>
+                                <x-button class="hover:bg-panda-green" wire:click="addToCart" outlined>
                                     Add to cart
                                 </x-button>
                                 {{ $this->redeemAction }}
@@ -50,13 +46,13 @@
                     @endif
                     @if ($record->is_purchased)
                         @if ($record->cta == \App\Enums\DiscountCallToActionEnum::GoToSite)
-                            <x-link :href="$record->link" outlined size="lg">
+                            <x-link class="hover:bg-panda-green" :href="$record->link" outlined size="lg">
                                 Go to link
                             </x-link>
                         @endif
                         @if ($record->cta == \App\Enums\DiscountCallToActionEnum::GetCode)
                             <div x-data="{ modalOpen: false }">
-                                <x-button x-on:click="modalOpen = true" outlined size="lg">
+                                <x-button class="hover:bg-panda-green" x-on:click="modalOpen = true" outlined size="lg">
                                     Redeem
                                 </x-button>
                                 <template x-teleport="body">
@@ -70,7 +66,7 @@
                                             <div class="flex items-center justify-between pb-2">
                                                 <h3 class="text-4xl font-light">{{ $record->percentage }}% off!</h3>
                                                 <button @click="modalOpen=false"
-                                                    class="absolute top-0 right-0 flex items-center justify-center w-8 h-8 mt-5 mr-5 text-gray-600 rounded-full hover:text-gray-800 hover:bg-gray-50">
+                                                    class="absolute top-0 right-0 flex items-center justify-center w-8 h-8 mt-5 mr-5 text-gray-600 rounded-full hover:text-gray-800 hover:bg-gray-50 hover:bg-panda-green">
                                                     <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                                                     </svg>
@@ -95,7 +91,7 @@
                                                     </p>
                                                 </div>
                                                 <div class="text-center">
-                                                    <x-button x-on:click="copyToClipboard" x-text="copyNotification ? `Copied!` : `Copy Code`" outlined class="mx-auto">
+                                                    <x-button class="hover:bg-panda-green" x-on:click="copyToClipboard" x-text="copyNotification ? `Copied!` : `Copy Code`" outlined class="mx-auto">
                                                     </x-button>
                                                 </div>
                                             </div>
