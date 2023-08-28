@@ -7,9 +7,7 @@
                 $query
                     ->with('media')
                     ->where('is_active', true)
-                    ->whereHas('brandOrganizations', function ($query) {
-                        $query->where('organization_id', auth()->user()?->organization_id);
-                    });
+                    ->whereRelation('brandOrganizations', 'organization_id', auth()->user()?->organization_id);
             })
             ->inRandomOrder()
             ->take(5)
