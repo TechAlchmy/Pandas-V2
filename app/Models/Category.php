@@ -59,7 +59,7 @@ class Category extends Model implements Sortable
 
     public function scopeWithBrand($query, $organization)
     {
-        return $query->withWhereHas('brand', function ($query) use ($organization) {
+        return $query->withWhereHas('brands', function ($query) use ($organization) {
             $query
                 ->with('media')
                 ->where('is_active', true)
