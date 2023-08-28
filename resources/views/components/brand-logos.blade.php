@@ -1,7 +1,6 @@
 @props(['categories'])
 
-<div x-data="{ activeCategory: null }">
-
+<div class="divide-y">
     @foreach ($categories as $category)
         <button @click="activeCategory = @js($category->getKey())" x-show="activeCategory != @js($category->getKey())" class="w-full border-t border-b border-black h-[120px] transition-colors flex items-center justify-center"
             :class="{ 'bg-black': activeCategory == @js($category->getKey()) }">
