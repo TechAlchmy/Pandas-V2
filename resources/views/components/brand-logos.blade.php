@@ -5,25 +5,25 @@
         <div class="relative py-6 group">
             <h2 class="font-editorial text-5xl leading-[70px] text-center">{{ $category->name }}</h2>
             <div class="hidden group-hover:block transition-all duration-150 absolute inset-y-0 bg-black w-full">
-                <div class="relative flex overflow-x-hidden">
+                <div class="relative flex items-center overflow-x-hidden h-full">
                     <div class="animate-marquee flex whitespace-nowrap items-center gap-4">
                         @if (app()->isLocal())
                             @foreach (['adidas-white', 'boss', 'nb', 'nike_white', 'puma', 'reebok', 'sketchers'] as $logo)
-                                <img class="max-w-[150px] max-h-24 py-4 invert" src="{{ asset('storage/logo/' . $logo . '.png') }}" alt="{{ $logo }} Logo">
+                                <img class="max-w-[150px] max-h-24 invert" src="{{ asset('storage/logo/' . $logo . '.png') }}" alt="{{ $logo }} Logo">
                             @endforeach
                         @endif
                         @foreach ($category->brands as $brand)
-                            <img class="max-w-[150px] max-h-24 py-4 invert" src="{{ $brand->getFirstMediaUrl('logo') }}" alt="{{ $brand->name }} Logo">
+                            <img class="max-w-[150px] max-h-24 invert" src="{{ $brand->getFirstMediaUrl('logo') }}" alt="{{ $brand->name }} Logo">
                         @endforeach
                     </div>
-                    <div class="animate-marquee2 absolute top-0 flex whitespace-nowrap items-center gap-4 ml-4">
+                    <div class="h-full animate-marquee2 absolute top-0 flex whitespace-nowrap items-center gap-4 ml-4">
                         @if (app()->isLocal())
                             @foreach (['adidas-white', 'boss', 'nb', 'nike_white', 'puma', 'reebok', 'sketchers'] as $logo)
-                                <img class="max-w-[150px] max-h-24 py-4 invert" src="{{ asset('storage/logo/' . $logo . '.png') }}" alt="{{ $logo }} Logo">
+                                <img class="max-w-[150px] max-h-24 invert" src="{{ asset('storage/logo/' . $logo . '.png') }}" alt="{{ $logo }} Logo">
                             @endforeach
                         @endif
                         @foreach ($category->brands as $brand)
-                            <img class="max-w-[150px] max-h-24 py-4 invert" src="{{ $brand->getFirstMediaUrl('logo') }}" alt="{{ $brand->name }} Logo">
+                            <img class="max-w-[150px] max-h-24 invert" src="{{ $brand->getFirstMediaUrl('logo') }}" alt="{{ $brand->name }} Logo">
                         @endforeach
                     </div>
                 </div>
