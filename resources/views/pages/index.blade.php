@@ -14,9 +14,16 @@
             ->inRandomOrder()
             ->take(5)
             ->get();
+        
+        $featuredDiscount = \App\Models\Discount::query()
+            ->with('brand.media')
+            ->forOrganization(auth()->user()?->organization_id)
+            ->whereHas('featuredDeals')
+            ->where('is_active', true)
+            ->first();
     @endphp
     <x-layouts.app>
-        <x-banner-upsell />
+        <x-banner-upsell :record="$featuredDiscount" />
         <x-banner :background="asset('storage/banners/panda-main.png')" />
         <section class="px-[min(6.99vw,50px)] py-4" style="max-width: 1920px; margin:auto">
             <x-hr />
