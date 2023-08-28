@@ -175,10 +175,10 @@ class ViewDeal extends Component implements HasActions, HasForms
                 ->withBrand(auth()->user()?->organization)
                 ->where('is_active', true)
                 ->whereIn(
-                    'id',
-                    \App\Models\DiscountCategory::query()
-                        ->select('discount_id')
-                        ->whereIn('category_id', $this->record->categories->pluck('id')),
+                    'brand_id',
+                    \App\Models\BrandCategory::query()
+                        ->select('brand_id')
+                        ->whereIn('category_id', $this->record->brand->categories->pluck('id')),
                 )
                 ->take(4)
                 ->get(),
@@ -198,7 +198,6 @@ class ViewDeal extends Component implements HasActions, HasForms
     {
         return \App\Models\Discount::query()
             ->withBrand(auth()->user()?->organization)
-            ->with('categories')
             ->withExists(['orderDetails AS is_purchased' => function ($query) {
                 $query->whereIn('order_id', Order::query()
                     ->select('id')
