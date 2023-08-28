@@ -39,7 +39,6 @@ class Discount extends Model
         'ends_at' => 'immutable_datetime',
         'is_active' => 'boolean',
         'cta' => DiscountCallToActionEnum::class,
-        'region_ids' => 'array',
     ];
 
     public function discountOffers()
@@ -95,12 +94,6 @@ class Discount extends Model
         return $query->when($organization, function ($query, $organization) {
             $query->whereHas('brand', function ($query) use ($organization) {
                 $query->forOrganization($organization);
-            });
-
-            $query->where(function ($query) use ($organization) {
-                $query->whereNull('region_ids')
-                    ->orWhere('region_ids', '[]')
-                    ->orWhere('region_ids', 'like', "%{$organization->region_id}%");
             });
         });
     }

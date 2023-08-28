@@ -120,26 +120,6 @@ class DiscountResource extends Resource
                     ]),
                 Forms\Components\Tabs::make('Heading')
                     ->tabs([
-                        Forms\Components\Tabs\Tab::make('Regions')
-                            ->schema([
-                                Forms\Components\Select::make('region_ids')
-                                    ->live()
-                                    ->default(Region::query()->where('country_id', 'us')->pluck('id')->all())
-                                    ->placeholder('Select Regions')
-                                    ->multiple()
-                                    ->getOptionLabelsUsing(function ($values) {
-                                        return Region::query()->find($values)->pluck('name');
-                                    })
-                                    ->helperText(fn ($state) => count($state) < Region::query()->where('country_id', 'us')->count() ? null : 'All selected')
-                                    ->hintActions([
-                                        Forms\Components\Actions\Action::make('clear')
-                                            ->visible(fn ($state) => ! empty($state))
-                                            ->action(fn ($component) => $component->state([])),
-                                        Forms\Components\Actions\Action::make('all')
-                                            ->hidden(fn ($state) => count($state) == Region::query()->where('country_id', 'us')->count())
-                                            ->action(fn ($component) => $component->state(Region::query()->where('country_id', 'us')->pluck('id')->all())),
-                                    ]),
-                            ]),
                         Forms\Components\Tabs\Tab::make('Tags')
                             ->schema([
                                 Forms\Components\Select::make('tag_id')
