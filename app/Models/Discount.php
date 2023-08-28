@@ -93,10 +93,9 @@ class Discount extends Model
     public function scopeForOrganization($query, $organization)
     {
         return $query->when($organization, function ($query, $organization) {
-            $query->whereIn('brand_id', BrandOrganization::query()
-                ->select('brand_id')
-                ->where('is_active', true)
-                ->whereBelongsTo($organization));
+            $query->whereHas('brand', function ($query) use ($organization) {
+                $query->forOrganization($organization);
+            });
 
             $query->where(function ($query) use ($organization) {
                 $query->whereNull('region_ids')
