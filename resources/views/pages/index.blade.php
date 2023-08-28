@@ -3,7 +3,7 @@
         $categories = \App\Models\Category::query()
             ->where('is_active', true)
             ->withMax('discounts', 'percentage')
-            ->withBrand(auth()->user()?->organization)
+            ->withBrands(auth()->user()?->organization)
             ->inRandomOrder()
             ->take(5)
             ->get();

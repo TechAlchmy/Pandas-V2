@@ -57,7 +57,7 @@ class Category extends Model implements Sortable
             ->withTimestamps();
     }
 
-    public function scopeWithBrand($query, $organization)
+    public function scopeWithBrands($query, $organization)
     {
         return $query->withWhereHas('brands', function ($query) use ($organization) {
             $query
