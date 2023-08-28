@@ -19,18 +19,7 @@
         </section>
     @endif
     @if (!$this->hasActiveFilter)
-        @if ($this->featuredDeals->isNotEmpty())
-            <section class='px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto'>
-                <x-hr />
-                <h3 class="text-4xl">Featured Deals</h3>
-                <div class="h-28"></div>
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
-                    @foreach ($this->featuredDeals as $deal)
-                        <x-deal-card :record="$deal" :record-clicks="true" />
-                    @endforeach
-                </div>
-            </section>
-        @endif
+        <x-deals-section title="Featured Deals" :records="$this->featuredDeals" />
     @endif
     @if ($this->deals->isNotEmpty())
         <section class='px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto'>
@@ -53,7 +42,7 @@
             <div>{{ $this->deals->links() }}</div>
         </section>
     @endif
-    <x-list-recently-viewed :records="$this->recentlyViewed" />
+    <x-deals-section title="Recently Viewed" :records="$this->recentlyViewed" />
 
     <section class="px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto">
         <div class="lg:flex lg:justify-between lg:gap-6">
