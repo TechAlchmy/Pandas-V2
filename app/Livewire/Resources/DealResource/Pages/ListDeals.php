@@ -79,8 +79,11 @@ class ListDeals extends Component implements HasForms
     public function deals()
     {
         return \App\Models\Discount::query()
-            ->with('brand.media')
             ->forOrganization(auth()->user()?->organization_id)
+            ->withWhereHas('brand', function ($query) {
+                $query->with('media')
+                    ->where('is_active', true);
+            })
             ->where('is_active', true)
             ->when($this->filter['search'], fn($query) => $query->where('name', 'like', "%{$this->filter['search']}%"))
             ->when($this->filter['brand_id'], fn($query) => $query->where('brand_id', $this->filter['brand_id']))
@@ -96,8 +99,11 @@ class ListDeals extends Component implements HasForms
     public function featuredDeals()
     {
         return \App\Models\Discount::query()
-            ->with('brand.media')
             ->forOrganization(auth()->user()?->organization_id)
+            ->withWhereHas('brand', function ($query) {
+                $query->with('media')
+                    ->where('is_active', true);
+            })
             ->where('is_active', true)
             ->joinRelationship('featuredDeals')
             ->where(fn($query) => $query->where('featured_deals.organization_id', auth()->user()?->organization_id))
@@ -110,8 +116,11 @@ class ListDeals extends Component implements HasForms
                 }
 
                 return \App\Models\Discount::query()
-                    ->with('brand.media')
                     ->forOrganization(auth()->user()?->organization_id)
+                    ->withWhereHas('brand', function ($query) {
+                        $query->with('media')
+                            ->where('is_active', true);
+                    })
                     ->where('is_active', true)
                     ->inRandomOrder()
                     ->take(4)
@@ -122,7 +131,6 @@ class ListDeals extends Component implements HasForms
     public function recentlyViewed()
     {
         return \App\Models\Discount::query()
-            ->with('brand.media')
             ->find(recentlyViewed()->get(\App\Models\Discount::class));
     }
 
