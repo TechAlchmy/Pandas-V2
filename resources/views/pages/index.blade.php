@@ -1,4 +1,20 @@
 @auth
+    @php
+        $categories = \App\Models\Category::query()
+            ->where('is_active', true)
+            ->withMax('discounts', 'percentage')
+            ->withWhereHas('brands', function ($query) {
+                $query
+                    ->with('media')
+                    ->where('is_active', true)
+                    ->whereHas('brandOrganizations', function ($query) {
+                        $query->where('organization_id', auth()->user()?->organization_id);
+                    });
+            })
+            ->inRandomOrder()
+            ->take(5)
+            ->get();
+    @endphp
     <x-layouts.app>
         <x-banner-upsell />
         <x-banner :background="asset('storage/banners/panda-main.png')" />
@@ -18,15 +34,6 @@
                 </div>
             </div>
             <div class="py-8 lg:py-24"></div>
-            @php
-                $categories = \App\Models\Category::query()
-                    ->where('is_active', true)
-                    ->whereHas('discounts', fn($query) => $query->forOrganization(auth()->user()?->organization_id)->where('is_active', true))
-                    ->withMax('discounts', 'percentage')
-                    ->inRandomOrder()
-                    ->take(5)
-                    ->get();
-            @endphp
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
                 @foreach ($categories as $category)
                     <div class="flex-1 p-4 flex flex-col justify-between">
