@@ -73,6 +73,11 @@ class Discount extends Model
         return $this->belongsTo(Brand::class);
     }
 
+    public function brandCategories()
+    {
+        return $this->hasMany(BrandCategory::class, 'brand_id', 'brand_id');
+    }
+
     public function offerTypes()
     {
         return $this->belongsToMany(OfferType::class, 'discount_types')
