@@ -58,7 +58,7 @@ class DiscountResource extends Resource
                 Forms\Components\Hidden::make('is_slug_changed_manually')
                     ->default(false)
                     ->dehydrated(false),
-                Forms\Components\Card::make()
+                Forms\Components\Section::make()
                     ->columns(4)
                     ->columnSpan(1)
                     ->schema([
