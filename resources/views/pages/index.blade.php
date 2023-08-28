@@ -20,6 +20,7 @@
             ->forOrganization(auth()->user()?->organization_id)
             ->whereHas('featuredDeals')
             ->where('is_active', true)
+            ->inRandomOrder()
             ->first();
     @endphp
     <x-layouts.app>
