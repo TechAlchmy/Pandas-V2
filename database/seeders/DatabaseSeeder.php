@@ -93,12 +93,13 @@ class DatabaseSeeder extends Seeder
         Tag::factory(10)->create();
         DiscountCategory::factory(10)->create();
         DiscountTag::factory(10)->create();
+        $discounts = Discount::query()->pluck('id');
         Order::factory(125)
             ->create()
             ->each(function ($order) use ($users, $discounts) {
                 foreach (range(1, 6) as $count) {
                     OrderDetail::factory()
-                        ->for($discounts->random())
+                        ->state(['discount_id' => $discounts->random()])
                         ->for($order)
                         ->create();
                 }
