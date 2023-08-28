@@ -8,8 +8,8 @@
         </div>
     </section>
     @if ($this->deals->isEmpty())
-        <section class="px-[min(6.99vw,50px)] max-w-[1920px] mx-auto py-8 text-center font-light">
-            <span class="text-6xl break-words">
+        <section x-data="{ shown: false }" x-intersect.once="shown = true" class="px-[min(6.99vw,50px)] max-w-[1920px] mx-auto py-8 text-center font-light">
+            <span x-show="shown" x-transition.opacity.duration.1000ms class="text-6xl break-words">
                 @if ($filter['search'])
                     No results for "{{ $filter['search'] }}"<br />
                 @else
