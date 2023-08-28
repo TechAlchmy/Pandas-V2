@@ -180,6 +180,7 @@ class ViewDeal extends Component implements HasActions, HasForms
                         ->select('brand_id')
                         ->whereIn('category_id', $this->record->brand->categories->pluck('id')),
                 )
+                ->inRandomOrder()
                 ->take(4)
                 ->get(),
             'popular' => \App\Models\Discount::query()
