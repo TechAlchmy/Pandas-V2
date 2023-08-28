@@ -88,7 +88,7 @@ class ListDeals extends Component implements HasForms
                 'created_at', 'percentage', 'views', 'clicks' => $query->orderByDesc($value),
                 default => $query->inRandomOrder(),
             })
-            ->simplePaginate(12);
+            ->paginate(12);
     }
 
     #[Computed()]
