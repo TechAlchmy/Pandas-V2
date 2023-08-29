@@ -44,7 +44,7 @@ class ViewDeal extends Component implements HasActions, HasForms
     public function redeemAction(): Action
     {
         return Action::make('redeem')
-            ->view('components.button', ['slot' => 'Redeem now'])
+            ->view('components.button', ['slot' => 'Redeem now', 'buttonClasses' => 'hover:bg-panda-green'])
             ->fillForm([
                 'xEmail' => auth()->user()?->email,
             ])
