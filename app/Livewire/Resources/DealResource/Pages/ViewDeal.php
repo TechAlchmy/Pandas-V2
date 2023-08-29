@@ -20,6 +20,7 @@ use Filament\Support\RawJs;
 use Illuminate\Support\Facades\Http;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 
@@ -48,6 +49,9 @@ class ViewDeal extends Component implements HasActions, HasForms
             ->view('components.button', ['slot' => 'Redeem now', 'buttonClasses' => 'hover:bg-panda-green'])
             ->form([
                 Forms\Components\Grid::make()
+                    ->afterStateHydrated(function () {
+                        $this->updateClicks();
+                    })
                     ->schema([
                         Forms\Components\TextInput::make('xEmail')
                             ->email()
@@ -157,6 +161,8 @@ class ViewDeal extends Component implements HasActions, HasForms
     public function addToCart() {
         $this->validate();
         cart()->add($this->record?->getKey(), $this->quantity, $this->amount);
+
+        $this->updateClicks();
 
         $this->dispatch('cart-item-added', ...['record' => [
             'name' => $this->record->name,
