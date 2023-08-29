@@ -68,6 +68,6 @@ class Organization extends Model
 
     protected function registrationLink(): Attribute
     {
-        return Attribute::get(fn () => route('register', ['organization_uuid' => $this->uuid]))
+        return Attribute::get(fn () => route('register', ['organization_uuid' => $this->uuid]));
     }
 }
