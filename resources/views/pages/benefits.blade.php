@@ -3,6 +3,11 @@ use function Laravel\Folio\{name};
 
 name('benefits');
 ?>
+@php
+    $categories = \App\Models\Category::query()
+        ->where('is_active', true)
+        ->get();
+@endphp
 <x-layouts.app>
     <section class="px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto">
         <h1 class="text-6xl max-w-xl">Get Ready to go beyond the basic</h1>
@@ -38,6 +43,30 @@ name('benefits');
                         <x-link href="#" class="hover:bg-panda-green mx-auto" outlined>See Additional Benefits</x-link>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+    <section class="px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto bg-panda-green">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 bg-panda-green">
+            <div class="pt-[100%] bg-cover bg-center" style="background-image: url({{ asset('storage/assets/list-daily-deals.png') }})">
+            </div>
+            <div class="p-8 space-y-4 place-self-center">
+                <h2 class="text-3xl">
+                    We’re here to help you afford more of what brings you joy and everyday essentials.
+                </h2>
+                <h5 class="text-xl">
+                    Find everyday deals on:
+                </h5>
+                <ul class="grid grid-cols-2">
+                    @foreach ($categories as $category)
+                        <li>
+                            <x-a :href="route('deals.index', ['filter' => ['category_id' => $category->getKey()]])">{{ $category->name }}</x-a>
+                        </li>
+                    @endforeach
+                </ul>
+                <x-link outlined :href="route('deals.index')">
+                    Discover more deals
+                </x-link>
             </div>
         </div>
     </section>
