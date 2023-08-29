@@ -1,11 +1,4 @@
-@php
-    $record = \App\Models\Discount::query()
-        ->with('brand.media')
-        ->forOrganization(auth()->user()?->organization_id)
-        ->whereHas('featuredDeals')
-        ->where('is_active', true)
-        ->first();
-@endphp
+@props(['record'])
 @if ($record)
     <div class="bg-black text-center text-white px-[min(6.99vw,50px)] py-8 lg:flex lg:justify-between lg:items-center gap-6">
         <div class="flex flex-col md:flex-row items-center gap-6">

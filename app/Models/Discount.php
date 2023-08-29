@@ -39,19 +39,7 @@ class Discount extends Model
         'ends_at' => 'immutable_datetime',
         'is_active' => 'boolean',
         'cta' => DiscountCallToActionEnum::class,
-        'region_ids' => 'array',
     ];
-
-    public function discountCategories()
-    {
-        return $this->hasMany(DiscountCategory::class);
-    }
-
-    public function categories()
-    {
-        return $this->belongsToMany(Category::class, 'discount_categories')
-            ->withTimestamps();
-    }
 
     public function discountOffers()
     {
@@ -85,6 +73,11 @@ class Discount extends Model
         return $this->belongsTo(Brand::class);
     }
 
+    public function brandCategories()
+    {
+        return $this->hasMany(BrandCategory::class, 'brand_id', 'brand_id');
+    }
+
     public function offerTypes()
     {
         return $this->belongsToMany(OfferType::class, 'discount_types')
@@ -101,13 +94,13 @@ class Discount extends Model
         return $this->hasMany(OrderDetail::class);
     }
 
-    public function scopeForOrganization($query, $organizationId)
+    public function scopeWithBrand($query, $organization)
     {
-        return $query->when($organizationId, function ($query, $value) {
-            $query->whereIn('brand_id', BrandOrganization::query()
-                ->select('brand_id')
+        return $query->withWhereHas('brand', function ($query) use ($organization) {
+            $query
+                ->with('media')
                 ->where('is_active', true)
-                ->where('organization_id', $value));
+                ->forOrganization($organization);
         });
     }
 

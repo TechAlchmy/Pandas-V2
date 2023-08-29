@@ -172,20 +172,20 @@ class ViewDeal extends Component implements HasActions, HasForms
     {
         return view('livewire.resources.deal-resource.pages.view-deal', [
             'related' => \App\Models\Discount::query()
-                ->with('brand.media')
-                ->forOrganization(auth()->user()?->organization_id)
+                ->withBrand(auth()->user()?->organization)
                 ->where('is_active', true)
                 ->whereIn(
-                    'id',
-                    \App\Models\DiscountCategory::query()
-                        ->select('discount_id')
-                        ->whereIn('category_id', $this->record->categories->pluck('id')),
+                    'brand_id',
+                    \App\Models\BrandCategory::query()
+                        ->select('brand_id')
+                        ->whereIn('category_id', $this->record->brand->categories->pluck('id')),
                 )
+                ->inRandomOrder()
                 ->take(4)
                 ->get(),
             'popular' => \App\Models\Discount::query()
                 ->with('brand.media')
-                ->forOrganization(auth()->user()?->organization_id)
+                ->withBrand(auth()->user()?->organization)
                 ->where('is_active', true)
                 ->orderByDesc('views')
                 ->take(4)
@@ -198,14 +198,12 @@ class ViewDeal extends Component implements HasActions, HasForms
     public function record()
     {
         return \App\Models\Discount::query()
-            ->with('brand.media')
-            ->with('categories')
+            ->withBrand(auth()->user()?->organization)
             ->withExists(['orderDetails AS is_purchased' => function ($query) {
                 $query->whereIn('order_id', Order::query()
                     ->select('id')
                     ->whereBelongsTo(auth()->user()));
             }])
-            ->forOrganization(auth()->user()?->organization_id)
             ->where('is_active', true)
             ->where('slug', $this->id)
             ->firstOrFail();

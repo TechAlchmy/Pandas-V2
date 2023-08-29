@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Livewire\Pages\Checkout;
 use App\Livewire\Pages\OrderSummary;
+use App\Livewire\Resources\DealResource\Pages\ListDeals;
 use App\Livewire\Resources\DealResource\Pages\ViewDeal;
 use App\Livewire\Resources\OrganizationInvitationResource\Pages\AcceptInvitation;
 
@@ -29,5 +30,7 @@ Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
 Route::get('/checkout', Checkout::class)->name('pages.checkout');
 Route::get('/order/{order:uuid}/summary', OrderSummary::class)->name('pages.order.summary');
 
+Route::get('deals', ListDeals::class)
+    ->name('deals.index');
 Route::get('deals/{id}', ViewDeal::class)
     ->name('deals.show');

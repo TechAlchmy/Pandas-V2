@@ -63,6 +63,10 @@ class CartService
                 ->forget(Discount::query()
                     ->onlyTrashed()
                     ->orWhere('is_active', false)
+                    ->orWhereHas('brand', function ($query) {
+                        $query->onlyTrashed()
+                            ->orWhere('is_active', false);
+                    })
                     ->pluck('id'))
                 ->all()
         );

@@ -56,7 +56,14 @@ class SavedProductService
 
     public function filter()
     {
-        return Discount::query()->onlyTrashed()->orWhere('is_active', false)->pluck('id');
+        return Discount::query()
+            ->onlyTrashed()
+            ->orWhere('is_active', false)
+            ->orWhereHas('brand', function ($query) {
+                $query->onlyTrashed()
+                    ->orWhere('is_active', false);
+            })
+            ->pluck('id');
     }
 
     public function persist()

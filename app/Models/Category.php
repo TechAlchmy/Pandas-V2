@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Kirschbaum\PowerJoins\PowerJoins;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
 
 class Category extends Model implements Sortable
@@ -20,6 +21,7 @@ class Category extends Model implements Sortable
     use InteractsWithAuditable;
     use SoftDeletes;
     use PowerJoins;
+    use HasRelationships;
 
     protected $fillable = [
         'name',
@@ -46,14 +48,23 @@ class Category extends Model implements Sortable
 
     public function discounts()
     {
-        return $this->belongsToMany(Discount::class, 'discount_categories')
-            ->withTimestamps();
+        return $this->hasManyDeep(Discount::class, ['brand_categories', Brand::class]);
     }
 
     public function brands()
     {
         return $this->belongsToMany(Brand::class, 'brand_categories')
             ->withTimestamps();
+    }
+
+    public function scopeWithBrands($query, $organization)
+    {
+        return $query->withWhereHas('brands', function ($query) use ($organization) {
+            $query
+                ->with('media')
+                ->where('is_active', true)
+                ->forOrganization($organization);
+        });
     }
 
     public function buildSortQuery(): Builder

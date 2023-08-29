@@ -149,7 +149,8 @@ class BrandResource extends Resource
                 TextColumn::make('views'),
                 ToggleColumn::make('is_active'),
 
-                BadgeColumn::make('link')
+                TextColumn::make('link')
+                    ->badge()
                     ->limit(10)
                     ->copyable()
                     ->copyMessage('Link copied')

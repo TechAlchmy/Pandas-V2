@@ -91,7 +91,6 @@ class DatabaseSeeder extends Seeder
                     });
             });
         Tag::factory(10)->create();
-        DiscountCategory::factory(10)->create();
         DiscountTag::factory(10)->create();
         $discounts = Discount::query()->pluck('id');
         Order::factory(125)

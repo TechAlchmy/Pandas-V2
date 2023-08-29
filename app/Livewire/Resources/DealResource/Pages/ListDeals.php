@@ -44,7 +44,7 @@ class ListDeals extends Component implements HasForms
                     ->getSearchResultsUsing(fn ($search) => Brand::query()
                         ->where('name', 'like', "%{$search}%")
                         ->where('is_active', true)
-                        ->forOrganization(auth()->user()?->organization_id)
+                        ->forOrganization(auth()->user()?->organization)
                         ->take(7)
                         ->get()
                         ->mapWithKeys(fn ($record) => [
@@ -79,12 +79,11 @@ class ListDeals extends Component implements HasForms
     public function deals()
     {
         return \App\Models\Discount::query()
-            ->with('brand.media')
-            ->forOrganization(auth()->user()?->organization_id)
+            ->withBrand(auth()->user()?->organization)
             ->where('is_active', true)
             ->when($this->filter['search'], fn($query) => $query->where('name', 'like', "%{$this->filter['search']}%"))
-            ->when($this->filter['brand_id'], fn($query) => $query->where('discounts.brand_id', $this->filter['brand_id']))
-            ->when($this->filter['category_id'], fn($query) => $query->joinRelationship('discountCategories')->where('category_id', $this->filter['category_id']))
+            ->when($this->filter['brand_id'], fn($query) => $query->where('brand_id', $this->filter['brand_id']))
+            ->when($this->filter['category_id'], fn($query) => $query->whereRelation('brandCategories', 'category_id', $this->filter['category_id']))
             ->when($this->sort, fn ($query, $value) => match ($value) {
                 'created_at', 'percentage', 'views', 'clicks' => $query->orderByDesc($value),
                 default => $query->inRandomOrder(),
@@ -96,12 +95,11 @@ class ListDeals extends Component implements HasForms
     public function featuredDeals()
     {
         return \App\Models\Discount::query()
-            ->with('brand.media')
-            ->forOrganization(auth()->user()?->organization_id)
+            ->withBrand(auth()->user()?->organization)
             ->where('is_active', true)
-            ->joinRelationship('featuredDeals')
-            ->where(fn($query) => $query->where('featured_deals.organization_id', auth()->user()?->organization_id))
-            ->groupBy('discounts.id')
+            ->whereHas('featuredDeals', function ($query) {
+                $query->where('featured_deals.organization_id', auth()->user()?->organization);
+            })
             ->take(4)
             ->get()
             ->whenEmpty(function () {
@@ -110,8 +108,7 @@ class ListDeals extends Component implements HasForms
                 }
 
                 return \App\Models\Discount::query()
-                    ->with('brand.media')
-                    ->forOrganization(auth()->user()?->organization_id)
+                    ->withBrand(auth()->user()?->organization)
                     ->where('is_active', true)
                     ->inRandomOrder()
                     ->take(4)
@@ -119,10 +116,12 @@ class ListDeals extends Component implements HasForms
             });
     }
 
+    #[Computed]
     public function recentlyViewed()
     {
         return \App\Models\Discount::query()
             ->with('brand.media')
+            ->take(4)
             ->find(recentlyViewed()->get(\App\Models\Discount::class));
     }
 

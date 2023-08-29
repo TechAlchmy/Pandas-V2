@@ -114,7 +114,8 @@ class OrderResource extends Resource
             Tables\Columns\TextColumn::make('order_number')
                     ->searchable(),
 
-            Tables\Columns\BadgeColumn::make('order_status')
+            Tables\Columns\TextColumn::make('order_status')
+                ->badge()
                 ->colors([
                     'secondary' => 'pending',
                     'secondary' => 'processing',
@@ -143,7 +144,8 @@ class OrderResource extends Resource
                 ->toggleable()
                 ->toggledHiddenByDefault(),
 
-            Tables\Columns\BadgeColumn::make('payment_status')
+            Tables\Columns\TextColumn::make('payment_status')
+                ->badge()
                 ->colors([
                     'primary',
                     'secondary' => 'pending',

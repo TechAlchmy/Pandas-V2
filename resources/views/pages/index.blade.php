@@ -1,6 +1,22 @@
 @auth
+    @php
+        $categories = \App\Models\Category::query()
+            ->where('is_active', true)
+            ->withMax('discounts', 'percentage')
+            ->withBrands(auth()->user()?->organization)
+            ->inRandomOrder()
+            ->take(5)
+            ->get();
+        
+        $featuredDiscount = \App\Models\Discount::query()
+            ->withBrand(auth()->user()?->organization)
+            ->whereHas('featuredDeals')
+            ->where('is_active', true)
+            ->inRandomOrder()
+            ->first();
+    @endphp
     <x-layouts.app>
-        <x-banner-upsell />
+        <x-banner-upsell :record="$featuredDiscount" />
         <x-banner :background="asset('storage/banners/panda-main.png')" />
         <section class="px-[min(6.99vw,50px)] py-4" style="max-width: 1920px; margin:auto">
             <x-hr />
@@ -18,15 +34,6 @@
                 </div>
             </div>
             <div class="py-8 lg:py-24"></div>
-            @php
-                $categories = \App\Models\Category::query()
-                    ->where('is_active', true)
-                    ->whereHas('discounts', fn($query) => $query->forOrganization(auth()->user()?->organization_id)->where('is_active', true))
-                    ->withMax('discounts', 'percentage')
-                    ->inRandomOrder()
-                    ->take(5)
-                    ->get();
-            @endphp
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
                 @foreach ($categories as $category)
                     <div class="flex-1 p-4 flex flex-col justify-between">
@@ -84,12 +91,12 @@
                 </div>
             </div>
         </section>
-        <section  class="px-[min(6.99vw,50px)] py-4 " style="max-width: 1920px; margin:auto">
+        <section class="px-[min(6.99vw,50px)] py-4 " style="max-width: 1920px; margin:auto">
             <div>
                 <h1 class="font-editorial text-6xl leading-[70px] mt-9">Panda Partners with Brands You Know</h1>
             </div>
-            <livewire:brands-logos />
-            
+            <x-brand-logos :categories="$categories" />
+
         </section>
         <section class="px-[min(6.99vw,50px)] py-4" style="max-width: 1920px; margin:auto">
             <h1 class="font-editorial text-6xl leading-[70px]">Guides</h1>

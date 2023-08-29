@@ -33,6 +33,7 @@ class DiscountResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('brand_id')
+                    ->live()
                     ->required()
                     ->relationship('brand', 'name', fn ($query) => $query->where('is_active', true))
                     ->searchable(),
@@ -57,7 +58,7 @@ class DiscountResource extends Resource
                 Forms\Components\Hidden::make('is_slug_changed_manually')
                     ->default(false)
                     ->dehydrated(false),
-                Forms\Components\Card::make()
+                Forms\Components\Section::make()
                     ->columns(4)
                     ->columnSpan(1)
                     ->schema([
@@ -68,7 +69,7 @@ class DiscountResource extends Resource
                         Forms\Components\Placeholder::make('clicks')
                             ->content(fn ($record) => $record->clicks ?? 0),
                         Forms\Components\Placeholder::make('Orders')
-                            ->content(fn ($record) => $record->loadCount(['orders'])->orders_count),
+                            ->content(fn ($record) => $record?->loadCount(['orders'])->orders_count),
                     ]),
                 Forms\Components\DateTimePicker::make('starts_at')
                     ->native(false),
@@ -119,43 +120,6 @@ class DiscountResource extends Resource
                     ]),
                 Forms\Components\Tabs::make('Heading')
                     ->tabs([
-                        Forms\Components\Tabs\Tab::make('Catregories')
-                            ->schema([
-                                Forms\Components\Select::make('category_id')
-                                    ->placeholder('Select Categories')
-                                    ->relationship('categories', 'name')
-                                    ->required()
-                                    ->multiple()
-                                    ->helperText(fn ($state) => count($state) < Category::query()->count() ? null : 'All selected')
-                                    ->hintActions([
-                                        Forms\Components\Actions\Action::make('clear')
-                                            ->visible(fn ($state) => ! empty($state))
-                                            ->action(fn ($component) => $component->state([])),
-                                        Forms\Components\Actions\Action::make('all')
-                                            ->hidden(fn ($state) => count($state) == Category::query()->count())
-                                            ->action(fn ($component) => $component->state(Category::query()->pluck('id')->all())),
-                                    ]),
-                            ]),
-                        Forms\Components\Tabs\Tab::make('Regions')
-                            ->schema([
-                                Forms\Components\Select::make('region_ids')
-                                    ->live()
-                                    ->default(Region::query()->where('country_id', 'us')->pluck('id')->all())
-                                    ->placeholder('Select Regions')
-                                    ->multiple()
-                                    ->getOptionLabelsUsing(function ($values) {
-                                        return Region::query()->find($values)->pluck('name');
-                                    })
-                                    ->helperText(fn ($state) => count($state) < Region::query()->where('country_id', 'us')->count() ? null : 'All selected')
-                                    ->hintActions([
-                                        Forms\Components\Actions\Action::make('clear')
-                                            ->visible(fn ($state) => ! empty($state))
-                                            ->action(fn ($component) => $component->state([])),
-                                        Forms\Components\Actions\Action::make('all')
-                                            ->hidden(fn ($state) => count($state) == Region::query()->where('country_id', 'us')->count())
-                                            ->action(fn ($component) => $component->state(Region::query()->where('country_id', 'us')->pluck('id')->all())),
-                                    ]),
-                            ]),
                         Forms\Components\Tabs\Tab::make('Tags')
                             ->schema([
                                 Forms\Components\Select::make('tag_id')
@@ -233,10 +197,6 @@ class DiscountResource extends Resource
                     ->preload()
                     ->searchable()
                     ->relationship('tags', 'name'),
-                Tables\Filters\SelectFilter::make('categories')
-                    ->preload()
-                    ->searchable()
-                    ->relationship('categories', 'name'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

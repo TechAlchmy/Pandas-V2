@@ -1,12 +1,11 @@
+@props(['categories'])
+
 <div x-data="{ activeCategory: null }">
 
     @foreach ($categories as $category)
-        <button @click="activeCategory = @js($category->getKey())"
-            x-show="activeCategory != @js($category->getKey())"
-            class="w-full border-t border-b border-black h-[120px] transition-colors flex items-center justify-center"
+        <button @click="activeCategory = @js($category->getKey())" x-show="activeCategory != @js($category->getKey())" class="w-full border-t border-b border-black h-[120px] transition-colors flex items-center justify-center"
             :class="{ 'bg-black': activeCategory == @js($category->getKey()) }">
-            <h2 class="font-editorial text-5xl leading-[70px] text-center"
-                :class="{ 'text-white': activeCategory == @js($category->getKey()) }">{{ $category->name }}</h2>
+            <h2 class="font-editorial text-5xl leading-[70px] text-center" :class="{ 'text-white': activeCategory == @js($category->getKey()) }">{{ $category->name }}</h2>
         </button>
         <div x-show="activeCategory == @js($category->getKey())">
             <div x-data="{ swiper: null }" x-init="swiper = new Swiper($el, {
@@ -21,15 +20,7 @@
             })" class="swiper-container">
                 <div class="swiper-wrapper">
                     @if (app()->isLocal())
-                        @foreach ([
-                            'adidas-white',
-                            'boss',
-                            'nb',
-                            'nike_white',
-                            'puma',
-                            'reebok',
-                            'sketchers',
-                        ] as $logo)
+                        @foreach (['adidas-white', 'boss', 'nb', 'nike_white', 'puma', 'reebok', 'sketchers'] as $logo)
                             <div class="swiper-slide bg-black flex justify-center items-center">
                                 <img class="max-w-[150px] max-h-[100px] py-4" src="{{ asset('storage/logo/' . $logo . '.png') }}" alt="{{ $logo }} Logo">
                             </div>
