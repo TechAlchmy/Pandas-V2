@@ -63,6 +63,7 @@ class DiscountResource extends Resource
                     ->columnSpan(1)
                     ->schema([
                         Forms\Components\Toggle::make('is_active')
+                            ->live()
                             ->default(false),
                         Forms\Components\Placeholder::make('views')
                             ->content(fn ($record) => $record->views ?? 0),
@@ -72,8 +73,10 @@ class DiscountResource extends Resource
                             ->content(fn ($record) => $record?->loadCount(['orders'])->orders_count),
                     ]),
                 Forms\Components\DateTimePicker::make('starts_at')
+                    ->required(fn ($get) => $get('is_active'))
                     ->native(false),
                 Forms\Components\DateTimePicker::make('ends_at')
+                    ->required(fn ($get) => $get('is_active'))
                     ->native(false),
                 Forms\Components\TextInput::make('api_link')
                     ->maxLength(255),
