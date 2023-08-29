@@ -3,25 +3,25 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div class="flex items-center lg:justify-center">
-                @if ($record->brand->hasMedia('logo'))
-                    {{ $record->brand->getFirstMedia('logo')->img()->attributes(['class' => 'max-w-[10rem] w-full']) }}
+                @if ($this->record->brand->hasMedia('logo'))
+                    {{ $this->record->brand->getFirstMedia('logo')->img()->attributes(['class' => 'max-w-[10rem] w-full']) }}
                 @endif
             </div>
             <div class="space-y-6">
                 <div class="space-y-1">
                     <h1 class="text-4xl">
-                        {{ $record->brand->name }}
+                        {{ $this->record->brand->name }}
                     </h1>
-                    <p>{{ $record->name }}</p>
+                    <p>{{ $this->record->name }}</p>
                 </div>
-                @if ($record->is_amount_single)
+                @if ($this->record->is_amount_single)
                     <div>
                         <span>$</span>
-                        <span class="text-3xl font-light">{{ $record->amount[0] }}</span>
+                        <span class="text-3xl font-light">{{ $this->record->amount[0] }}</span>
                     </div>
                 @endif
-                @if ($record->excerpt)
-                    <div>{{ $record->excerpt }}</div>
+                @if ($this->record->excerpt)
+                    <div>{{ $this->record->excerpt }}</div>
                 @endif
                 <div class="flex gap-6">
                     @if (!$this->record->is_purchased)
