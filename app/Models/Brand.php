@@ -72,7 +72,7 @@ class Brand extends Model implements HasMedia
     public function scopeForOrganization($query, $organization)
     {
         return $query->when($organization, function ($query, $organization) {
-            $query->whereIn('id', BrandOrganization::query()
+            $query->whereIn('brands.id', BrandOrganization::query()
                 ->select('brand_id')
                 ->where('is_active', true)
                 ->whereBelongsTo($organization));
