@@ -46,8 +46,10 @@ class OrderRefundResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('order_id')
                     ->label('Order Number'),
-                Tables\Columns\TextColumn::make('amount'),
-                Tables\Columns\TextColumn::make('actual_amount'),
+                Tables\Columns\TextColumn::make('amount')
+                    ->money('USD'),
+                Tables\Columns\TextColumn::make('actual_amount')
+                    ->money('USD'),
                 Tables\Columns\TextColumn::make('approved_at')
                     ->dateTime(),
             ])
