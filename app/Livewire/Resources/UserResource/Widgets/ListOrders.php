@@ -6,7 +6,6 @@ use App\Enums\DiscountCallToActionEnum;
 use App\Enums\PaymentStatus;
 use App\Models\Order;
 use App\Models\OrderRefund;
-use Filament\Actions\Action;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
@@ -82,7 +81,7 @@ class ListOrders extends Component implements HasTable, HasForms
                                                 ");
                                             })
                                             ->modalSubmitAction(false)
-                                            ->extraModalFooterActions(fn (Action $action): array => [
+                                            ->extraModalFooterActions(fn ($action): array => [
                                                 $action->makeModalSubmitAction('copyCode', arguments: ['copy' => true]),
                                             ])
                                             ->action(function ($arguments, $record) use ($orderDetail): void {
