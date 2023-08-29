@@ -23,7 +23,7 @@ class BrandFactory extends Factory
             'description' => $this->faker->text,
             'logo' => $this->faker->imageUrl(),
             'views' => $this->faker->numberBetween(1, 100),
-            'is_active' => $this->faker->numberBetween(0, 1),
+            'is_active' => true,
             'created_by_id' => $this->faker->numberBetween(1, 20),
             'updated_by_id' => $this->faker->numberBetween(1, 20),
             'deleted_by_id' => null,

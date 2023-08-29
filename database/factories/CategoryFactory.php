@@ -22,7 +22,7 @@ class CategoryFactory extends Factory
             'slug' => $this->faker->slug,
             'description' => $this->faker->text,
             'views' => $this->faker->numberBetween(1, 100),
-            'is_active' => $this->faker->boolean(),
+            'is_active' => true,
             'created_by_id' => $this->faker->numberBetween(1, 20),
             'updated_by_id' => $this->faker->numberBetween(1, 20),
             'deleted_by_id' => null,

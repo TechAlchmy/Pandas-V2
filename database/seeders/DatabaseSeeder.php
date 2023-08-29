@@ -52,44 +52,54 @@ class DatabaseSeeder extends Seeder
         $users = User::factory(50)->create()->each(function ($user) {
             $user->userPreference()->save(UserPreference::factory()->make());
         });
-
-        collect([
-            'Apparel', 'Entertainment','Groceries', 'Health & Wellness', 'Travel',
-        ])
-            ->map(function ($category, $index) {
-                $category = Category::factory()->create(['name' => $category]);
-                if ($index == 0) {
-                    collect([
-                        'Reebok', 'Sketchers', 'Polo', 'Adidas', 'New Balance',
-                        'Boss', 'Nike', 'Puma',
-                    ])
-                        ->map(function ($brand) use ($category) {
-                            $brand = Brand::factory()->state(['name' => $brand])->create();
-                            BrandCategory::factory()
-                                ->for($brand)
-                                ->for($category)
-                                ->create();
-                        });
-                }
-            });
         $offerTypes = OfferType::factory(10)->create();
         $voucherTypes = VoucherType::factory(10)->create();
-        $discounts = Discount::factory(10)->create()->each(function ($discount) use ($offerTypes, $voucherTypes) {
-            $discount->offerTypes()->attach($offerTypes->random());
-            $discount->voucherType()->associate($voucherTypes->random());
-            $discount->save();
+        collect([
+            'Apparel' => [
+                'Reebok', 'Sketchers', 'Polo', 'Adidas', 'New Balance',
+                'Boss', 'Nike', 'Puma',
+            ],
+            'Entertainment' => [
+                'Netflix', 'Disney Hotstar', 'HBO', 'AppleTV+', 'Spotify',
+            ],
+            'Groceries' => [
+                'Walmart', 'Amazon', 'eBay',
+            ],
+            'Health & Wellness' => [
+                'FitnessPlus', 'Apple Health', 'FitPro',
+            ],
+            'Travel' => [
+                'Express Airway', 'TravelPlus',
+            ],
+        ])
+            ->map(function ($brands, $category) use ($offerTypes, $voucherTypes) {
+                $category = Category::factory()->create(['name' => $category]);
+                collect($brands)
+                    ->each(function ($brand) use ($category, $offerTypes, $voucherTypes) {
+                        $brand = Brand::factory()->state(['name' => $brand])->create();
+                        BrandCategory::factory()
+                            ->for($brand)
+                            ->for($category)
+                            ->create();
+                        $discounts = Discount::factory(5)->for($brand)->create()->each(function ($discount) use ($offerTypes, $voucherTypes) {
+                            $discount->offerTypes()->attach($offerTypes->random());
+                            $discount->voucherType()->associate($voucherTypes->random());
+                            $discount->save();
 
-            FeaturedDeal::query()->create(['discount_id' => $discount->getKey()]);
-        });
+                            FeaturedDeal::query()->create(['discount_id' => $discount->getKey()]);
+                        });
+                    });
+            });
         Tag::factory(10)->create();
         DiscountCategory::factory(10)->create();
         DiscountTag::factory(10)->create();
+        $discounts = Discount::query()->pluck('id');
         Order::factory(125)
             ->create()
             ->each(function ($order) use ($users, $discounts) {
                 foreach (range(1, 6) as $count) {
                     OrderDetail::factory()
-                        ->for($discounts->random())
+                        ->state(['discount_id' => $discounts->random()])
                         ->for($order)
                         ->create();
                 }
