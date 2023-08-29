@@ -132,12 +132,7 @@
                 </div>
             </div> --}}
 
-            @guest
-                <x-link href="/">Home</x-link>
-            @endguest
-            @auth
-                <x-link href="/dashboard" :outlined="request()->is('dashboard')">Dashboard</x-link>
-            @endauth
+            <x-link href="/">Home</x-link>
             <x-link href="/benefits" :outlined="request()->is('benefits')">Benefits</x-link>
             <x-link href="/deals" :outlined="request()->is('deals')">Deals</x-link>
             <x-link href="/help" :outlined="request()->is('help')">Help</x-link>
