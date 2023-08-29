@@ -1,4 +1,4 @@
-<div>
+<div x-init="setTimeout(() => $wire.updateViews(), 5000)">
     <section class="px-[min(6.99vw,50px)] max-w-[1920px] mx-auto py-8">
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">

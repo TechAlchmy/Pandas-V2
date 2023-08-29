@@ -4,6 +4,7 @@ namespace App\Livewire\Resources\DealResource\Pages;
 
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
+use App\Models\Discount;
 use App\Models\Order;
 use App\Notifications\OrderApprovedNotification;
 use App\Services\CardknoxPayment\CardknoxBody;
@@ -203,5 +204,19 @@ class ViewDeal extends Component implements HasActions, HasForms
             ->where('is_active', true)
             ->where('slug', $this->id)
             ->firstOrFail();
+    }
+
+    public function updateClicks()
+    {
+        Discount::query()
+            ->where('slug', $this->id)
+            ->increment('clicks');
+    }
+
+    public function updateViews()
+    {
+        Discount::query()
+            ->where('slug', $this->id)
+            ->increment('views');
     }
 }
