@@ -60,6 +60,10 @@
                             <td align="right">{{ Filament\Support\format_money(cart()->subtotal(), 'USD') }}</td>
                         </tr>
                         <tr>
+                            <td>Saving</td>
+                            <td align="right">{{ Filament\Support\format_money(cart()->discount(), 'USD') }}</td>
+                        </tr>
+                        <tr>
                             <td>Est. Tax</td>
                             <td align="right">{{ Filament\Support\format_money(cart()->tax(), 'USD') }}</td>
                         </tr>
