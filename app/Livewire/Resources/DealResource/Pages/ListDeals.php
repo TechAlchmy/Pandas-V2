@@ -108,7 +108,7 @@ class ListDeals extends Component implements HasForms
             ->withBrand(auth()->user()?->organization)
             ->where('is_active', true)
             ->whereHas('featuredDeals', function ($query) {
-                $query->where('featured_deals.organization_id', auth()->user()?->organization);
+                $query->where('featured_deals.organization_id', auth()->user()?->organization?->getKey());
             })
             ->take(4)
             ->get()
