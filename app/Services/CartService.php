@@ -7,6 +7,7 @@ use App\Enums\PaymentStatus;
 use App\Models\Cart;
 use App\Models\Discount;
 use App\Models\Order;
+use Illuminate\Support\Str;
 
 class CartService
 {
@@ -14,21 +15,46 @@ class CartService
 
     public function add($id, $quantity, $amount)
     {
-        $this->update($id, session('cart_items.'.$id.'.quantity', 0) + $quantity, $amount);
+        return collect(session('cart_items'))
+            ->where('id', $id)
+            ->where('amount', $amount)
+            ->whenEmpty(function () use ($id, $amount) {
+                $result = $this->update(
+                    key: $key = (string) Str::orderedUuid(),
+                    id: $id,
+                    quantity: 0,
+                    amount: $amount,
+                );
+
+                return collect([$key => $result]);
+            })
+            ->map(function ($item, $key) use ($id, $quantity, $amount) {
+                return $this->update($key, $id, session('cart_items.'.$key.'.quantity', 0) + $quantity, $amount);
+            })
+            ->firstWhere('id', $id);
     }
 
-    public function update($id, $quantity, $amount)
+    public function update($key, $id, $quantity, $amount)
     {
-        session()->put('cart_items.'.$id, ['quantity' => $quantity, 'amount' => $amount]);
+        session()->put('cart_items.'.$key, [
+            'id' => $id,
+            'quantity' => $quantity,
+            'amount' => $amount,
+        ]);
 
         $this->persist();
+
+        return session('cart_items.'.$key);
     }
 
-    public function remove($id)
+    public function remove($key)
     {
-        session()->forget('cart_items.'.$id);
+        $item = session('cart_items.'.$key);
+        session()->forget('cart_items.'.$key);
 
         $this->persist();
+
+        return $item;
     }
 
     public function clear()
@@ -48,6 +74,15 @@ class CartService
             return $this->cachedItems;
         }
 
+        $inactiveDiscounts = Discount::query()
+            ->onlyTrashed()
+            ->inactive()
+            ->orWhereHas('brand', function ($query) {
+                $query->onlyTrashed()
+                    ->orWhere('is_active', false);
+            })
+            ->pluck('id');
+
         session()->put(
             'cart_items',
             collect(session('cart_items'))
@@ -60,27 +95,33 @@ class CartService
 
                     return collect($cartItems);
                 })
-                ->forget(Discount::query()
-                    ->onlyTrashed()
-                    ->orWhere('is_active', false)
-                    ->orWhereHas('brand', function ($query) {
-                        $query->onlyTrashed()
-                            ->orWhere('is_active', false);
-                    })
-                    ->pluck('id'))
+                ->reject(function ($item) use ($inactiveDiscounts) {
+                    return $inactiveDiscounts->contains(data_get($item, 'id'));
+                })
                 ->all()
         );
 
         $this->persist();
 
-        $records = Discount::query()->find(array_keys(session('cart_items')));
+        $records = Discount::query()->find(
+            collect(session('cart_items'))->pluck('id')
+        );
 
         return collect(session('cart_items'))
-            ->map(fn ($item, $itemId) => [
-                'itemable' => $records->find($itemId),
-                'quantity' => $item['quantity'],
-                'amount' => $item['amount'],
-            ])
+            ->map(function ($item) use ($records) {
+                $record = $records->find($item['id']);
+                $subtotal = $item['quantity'] * $item['amount'];
+                $discount = $subtotal * ($record->public_percentage / 100);
+                $itemTotal = $subtotal - $discount;
+                return [
+                    'itemable' => $record,
+                    'quantity' => $item['quantity'],
+                    'amount' => $item['amount'],
+                    'subtotal' => $subtotal,
+                    'discount' => $discount,
+                    'item_total' => $itemTotal,
+                ];
+            })
             ->when(empty($this->cachedItems), function ($items) {
                 if ($items->isNotEmpty()) {
                     $this->cachedItems = $items;
@@ -93,7 +134,7 @@ class CartService
     {
         return collect($this->items())
             ->reduce(function ($carry, $item) {
-                return $carry + ($item['amount'] * $item['quantity']);
+                return $carry + $item['subtotal'];
             }, 0);
     }
 
@@ -104,13 +145,17 @@ class CartService
 
     public function discount()
     {
-        return 0;
+        return $this->items()
+            ->reduce(function ($carry, $item) {
+                return $carry + $item['discount'];
+            }, 0);
     }
 
     public function total()
     {
-        return $this->tax()
-            + $this->subtotal();
+        return $this->subtotal()
+            - $this->discount()
+            + $this->tax();
     }
 
     public function createOrder()
