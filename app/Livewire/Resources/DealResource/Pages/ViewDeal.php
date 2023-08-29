@@ -187,7 +187,6 @@ class ViewDeal extends Component implements HasActions, HasForms
                 ->orderByDesc('views')
                 ->take(4)
                 ->get(),
-            'record' => $this->record,
         ]);
     }
 
