@@ -170,7 +170,7 @@ class ViewDeal extends Component implements HasActions, HasForms
         return view('livewire.resources.deal-resource.pages.view-deal', [
             'related' => \App\Models\Discount::query()
                 ->withBrand(auth()->user()?->organization)
-                ->where('is_active', true)
+                ->active()
                 ->whereIn(
                     'brand_id',
                     \App\Models\BrandCategory::query()
@@ -183,7 +183,7 @@ class ViewDeal extends Component implements HasActions, HasForms
             'popular' => \App\Models\Discount::query()
                 ->with('brand.media')
                 ->withBrand(auth()->user()?->organization)
-                ->where('is_active', true)
+                ->active()
                 ->orderByDesc('views')
                 ->take(4)
                 ->get(),
