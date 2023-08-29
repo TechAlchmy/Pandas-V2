@@ -80,6 +80,8 @@ class AcceptInvitation extends Component implements HasForms, HasActions
 
         $user = User::query()->create($data);
 
+        $user->userPreference()->create();
+
         if ($this->getRecord()->is_manager) {
             $user->managers()->create([
                 'organization_id' => $this->getRecord()->organization_id,
