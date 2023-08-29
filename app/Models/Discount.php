@@ -104,6 +104,20 @@ class Discount extends Model
         });
     }
 
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true)
+            ->where('starts_at', '<=', now())
+            ->where('ends_at', '>=', now());
+    }
+
+    public function scopeInactive($query)
+    {
+        return $query->where('is_active', false)
+            ->orWhere('starts_at', '>=', now())
+            ->orWhere('ends_at', '<=', now());
+    }
+
     protected function isAmountSingle(): Attribute
     {
         return Attribute::get(fn () => count($this->amount) == 1);
