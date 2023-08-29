@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\CartService;
 use Filament\Support\Colors\Color;
 use Filament\Support\Facades\FilamentColor;
 use Illuminate\Database\Eloquent\Model;
@@ -30,5 +31,6 @@ class AppServiceProvider extends ServiceProvider
         FilamentColor::register([
             'primary' => Color::Neutral,
         ]);
+        $this->app->singleton(CartService::class, CartService::class);
     }
 }
