@@ -32,6 +32,7 @@ class OrderRefundResource extends Resource
                 Forms\Components\TextInput::make('actual_amount')
                     ->numeric(),
                 Forms\Components\Select::make('order_id')
+                    ->label('Order Number')
                     ->required()
                     ->searchable()
                     ->relationship('order', 'id'),
@@ -43,7 +44,8 @@ class OrderRefundResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('order_id'),
+                Tables\Columns\TextColumn::make('order_id')
+                    ->label('Order Number'),
                 Tables\Columns\TextColumn::make('amount'),
                 Tables\Columns\TextColumn::make('actual_amount'),
                 Tables\Columns\TextColumn::make('approved_at')
