@@ -110,5 +110,5 @@
     <div class="checkout-modal">
         <x-filament-actions::modals />
     </div>
-    <livewire:resources.recently-viewed-resource.widgets.create-recently-viewed :viewable="$record" />
+    <livewire:resources.recently-viewed-resource.widgets.create-recently-viewed :viewable="$this->record" />
 </div>
