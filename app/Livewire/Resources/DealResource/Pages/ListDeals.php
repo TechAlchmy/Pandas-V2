@@ -39,6 +39,7 @@ class ListDeals extends Component implements HasForms
                     ->live()
                     ->label('')
                     ->placeholder('Find Brands')
+                    ->options(Brand::query()->forOrganization(auth()->user()->organization)->pluck('name', 'id'))
                     ->extraAttributes(['class' => 'rounded-none ring-transparent list-deals'])
                     ->getOptionLabelUsing(fn ($value) => Brand::find($value)?->name)
                     ->getSearchResultsUsing(fn ($search) => Brand::query()
@@ -55,6 +56,7 @@ class ListDeals extends Component implements HasForms
                     ->live()
                     ->label('')
                     ->placeholder('Find Category...')
+                    ->options(Category::query()->where('is_active', true)->pluck('name', 'id'))
                     ->extraAttributes(['class' => 'rounded-none ring-transparent list-deals'])
                     ->getOptionLabelUsing(fn ($value) => Category::find($value)?->name)
                     ->getSearchResultsUsing(function ($search) {
