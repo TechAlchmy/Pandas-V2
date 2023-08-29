@@ -69,25 +69,25 @@ class ListOrders extends Component implements HasTable, HasForms
                                         DiscountCallToActionEnum::GoToSite => Forms\Components\Actions\Action::make($orderDetail->discount->name)
                                             ->url($record->link, shouldOpenInNewTab: true),
                                         default => Forms\Components\Actions\Action::make($orderDetail->discount->name)
-                                            ->modalHeading(function ($record) {
-                                                return "{$record->percentage}% off!";
+                                            ->modalHeading(function ($record) use ($orderDetail) {
+                                                return "{$orderDetail->discount?->percentage}% off!";
                                             })
-                                            ->modalContent(function ($record) {
-                                                return Blade::render(<<<Blade
-                                                    <div class="p-8 bg-neutral-100 text-center">
-                                                        <p class="text-2xl font-light">
-                                                            {{ $record->code }}
+                                            ->modalContent(function ($record) use ($orderDetail) {
+                                                return Blade::render("
+                                                    <div class='p-8 bg-neutral-100 text-center'>
+                                                        <p class='text-2xl font-light'>
+                                                            " . $orderDetail->discount?->code . "
                                                         </p>
                                                     </div>
-                                                Blade);
+                                                ");
                                             })
                                             ->modalSubmitAction(false)
                                             ->extraModalFooterActions(fn (Action $action): array => [
                                                 $action->makeModalSubmitAction('copyCode', arguments: ['copy' => true]),
                                             ])
-                                            ->action(function ($arguments, $record): void {
+                                            ->action(function ($arguments, $record) use ($orderDetail): void {
                                                 if ($arguments['copy'] ?? false) {
-                                                    $this->js("navigator.clipboard.writeText({$record->code});");
+                                                    $this->js("navigator.clipboard.writeText('{$orderDetail->discount?->code}');");
 
                                                     Notification::make()
                                                         ->title('Code copied successfully')
