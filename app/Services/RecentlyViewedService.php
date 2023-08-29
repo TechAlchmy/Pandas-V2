@@ -52,7 +52,7 @@ class RecentlyViewedService
         return match ($model) {
             Discount::class => Discount::query()
                 ->onlyTrashed()
-                ->inactive()
+                ->orWhere(fn ($query) => $query->inactive())
                 ->orWhereHas('brand', function ($query) {
                     $query->onlyTrashed()
                         ->orWhere('is_active', false);

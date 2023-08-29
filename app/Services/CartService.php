@@ -76,7 +76,7 @@ class CartService
 
         $inactiveDiscounts = Discount::query()
             ->onlyTrashed()
-            ->inactive()
+            ->orWhere(fn ($query) => $query->inactive())
             ->orWhereHas('brand', function ($query) {
                 $query->onlyTrashed()
                     ->orWhere('is_active', false);
