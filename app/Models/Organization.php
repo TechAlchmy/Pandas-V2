@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Concerns\InteractsWithAuditable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -63,5 +64,10 @@ class Organization extends Model
     public function uniqueIds()
     {
         return ['uuid'];
+    }
+
+    protected function registrationLink(): Attribute
+    {
+        return Attribute::get(fn () => route('register', ['organization_uuid' => $this->uuid]))
     }
 }
