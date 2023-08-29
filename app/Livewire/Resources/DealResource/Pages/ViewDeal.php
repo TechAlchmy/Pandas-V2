@@ -45,9 +45,6 @@ class ViewDeal extends Component implements HasActions, HasForms
     {
         return Action::make('redeem')
             ->view('components.button', ['slot' => 'Redeem now', 'buttonClasses' => 'hover:bg-panda-green'])
-            ->fillForm([
-                'xEmail' => auth()->user()?->email,
-            ])
             ->form([
                 Forms\Components\Grid::make()
                     ->schema([
