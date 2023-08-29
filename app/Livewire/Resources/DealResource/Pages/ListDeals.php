@@ -61,6 +61,7 @@ class ListDeals extends Component implements HasForms
                     ->getOptionLabelUsing(fn ($value) => Category::find($value)?->name)
                     ->getSearchResultsUsing(function ($search) {
                         return Category::query()
+                            ->where('is_active', true)
                             ->where('name', 'like', "%{$search}%")
                             ->take(7)
                             ->get()
