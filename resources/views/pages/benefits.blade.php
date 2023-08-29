@@ -21,7 +21,7 @@ name('benefits');
                 </p>
             </div>
             <div class="space-y-6">
-                <h3>Here's more what we offers:</h3>
+                <h3 class="text-xl">Here's more what we offers:</h3>
                 <ul x-data="{ activeAccordion: null }" class="divide-y">
                     @foreach (['Up to 20% off your rent' => '', 'Cellphone programs' => ''] as $item => $content)
                         <li class="py-6">
