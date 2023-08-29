@@ -1,7 +1,7 @@
-<div>
+<div class="max-w-[1920px] mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-2">
         <div>
-            <div class="relative min-h-screen"
+            <div class="relative min-h-screen max-h-[1080px]"
                 style="background-image: url(https://images.unsplash.com/photo-1648832328633-89b993c5d6b7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80)">
                 <div class="absolute inset-0 p-8 text-white flex flex-col justify-between">
                     <h1 class="text-6xl">

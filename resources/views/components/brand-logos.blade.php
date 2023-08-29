@@ -1,38 +1,32 @@
 @props(['categories'])
 
-<div x-data="{ activeCategory: null }">
-
+<div class="divide-y">
     @foreach ($categories as $category)
-        <button @click="activeCategory = @js($category->getKey())" x-show="activeCategory != @js($category->getKey())" class="w-full border-t border-b border-black h-[120px] transition-colors flex items-center justify-center"
-            :class="{ 'bg-black': activeCategory == @js($category->getKey()) }">
-            <h2 class="font-editorial text-5xl leading-[70px] text-center" :class="{ 'text-white': activeCategory == @js($category->getKey()) }">{{ $category->name }}</h2>
-        </button>
-        <div x-show="activeCategory == @js($category->getKey())">
-            <div x-data="{ swiper: null }" x-init="swiper = new Swiper($el, {
-                slidesPerView: 'auto',
-                autoplay: true,
-                spaceBetween: 0,
-                loop: true,
-                pagination: {
-                    el: '.swiper-pagination',
-                    clickable: true,
-                },
-            })" class="swiper-container">
-                <div class="swiper-wrapper">
-                    @if (app()->isLocal())
-                        @foreach (['adidas-white', 'boss', 'nb', 'nike_white', 'puma', 'reebok', 'sketchers'] as $logo)
-                            <div class="swiper-slide bg-black flex justify-center items-center">
-                                <img class="max-w-[150px] max-h-[100px] py-4" src="{{ asset('storage/logo/' . $logo . '.png') }}" alt="{{ $logo }} Logo">
-                            </div>
+        <div class="relative py-6 group">
+            <h2 class="font-editorial text-5xl leading-[70px] text-center">{{ $category->name }}</h2>
+            <div class="invisible opacity-0 translate-y-5 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 duration-500 transition-transform ease-out absolute inset-y-0 bg-black w-full">
+                <div class="relative flex items-center overflow-x-hidden h-full">
+                    <div class="animate-marquee flex whitespace-nowrap items-center gap-4">
+                        @if (app()->isLocal())
+                            @foreach (['adidas-white', 'boss', 'nb', 'nike_white', 'puma', 'reebok', 'sketchers'] as $logo)
+                                <img class="max-w-[150px] max-h-24 invert" src="{{ asset('storage/logo/' . $logo . '.png') }}" alt="{{ $logo }} Logo">
+                            @endforeach
+                        @endif
+                        @foreach ($category->brands as $brand)
+                            <img class="max-w-[150px] max-h-24 invert" src="{{ $brand->getFirstMediaUrl('logo') }}" alt="{{ $brand->name }} Logo">
                         @endforeach
-                    @endif
-                    @foreach ($category->brands as $brand)
-                        <div class="swiper-slide bg-black flex justify-center items-center">
-                            <img class="max-w-[150px] max-h-[100px] py-4" src="{{ $brand->getFirstMediaUrl('logo') }}" alt="{{ $brand->name }} Logo">
-                        </div>
-                    @endforeach
+                    </div>
+                    <div class="h-full animate-marquee2 absolute top-0 flex whitespace-nowrap items-center gap-4 ml-4">
+                        @if (app()->isLocal())
+                            @foreach (['adidas-white', 'boss', 'nb', 'nike_white', 'puma', 'reebok', 'sketchers'] as $logo)
+                                <img class="max-w-[150px] max-h-24 invert" src="{{ asset('storage/logo/' . $logo . '.png') }}" alt="{{ $logo }} Logo">
+                            @endforeach
+                        @endif
+                        @foreach ($category->brands as $brand)
+                            <img class="max-w-[150px] max-h-24 invert" src="{{ $brand->getFirstMediaUrl('logo') }}" alt="{{ $brand->name }} Logo">
+                        @endforeach
+                    </div>
                 </div>
-                <div class="swiper-pagination"></div>
             </div>
         </div>
     @endforeach

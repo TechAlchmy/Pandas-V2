@@ -57,10 +57,20 @@ export default {
                     "0%": { opacity: 1 },
                     "100%": { opacity: 0 },
                 },
+                marquee: {
+                    '0%': { transform: 'translateX(0%)' },
+                    '100%': { transform: 'translateX(-100%)' },
+                },
+                marquee2: {
+                    '0%': { transform: 'translateX(100%)' },
+                    '100%': { transform: 'translateX(0%)' },
+                },
             },
             animation: {
                 fadeIn: "fadeIn 0.5s ease-in-out",
                 fadeOut: "fadeOut 0.5s ease-in-out",
+                marquee: 'marquee 10s linear infinite',
+                marquee2: 'marquee2 10s linear infinite',
             },
             screens: {
                 "max-sm": { max: "640px" },

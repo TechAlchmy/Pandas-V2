@@ -79,13 +79,15 @@
         $savedProducts = savedProduct()->get();
     @endphp
     @if ($savedProducts->isNotEmpty())
-        <div class="">
-            <h3 class="text-4xl">Saved for later</h3>
-            <x-hr />
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                @foreach ($savedProducts as $record)
-                    <x-deal-card :$record />
-                @endforeach
+        <div x-data="{ shown: false }" x-intersect.delay.500ms="shown = true">
+            <div x-show="shown" x-transition.opcaity.duration.1000ms>
+                <h3 class="text-4xl">Saved for later</h3>
+                <x-hr />
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    @foreach ($savedProducts as $record)
+                        <x-deal-card :$record />
+                    @endforeach
+                </div>
             </div>
         </div>
     @endif
