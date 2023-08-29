@@ -12,7 +12,7 @@
             </h2>
         </div>
         <div>
-            <x-link :href="route('deals.show', ['id' => $record->slug])" size="lg" outlined color="white">
+            <x-link class="hover:bg-panda-green" :href="route('deals.show', ['id' => $record->slug])" size="lg" outlined color="white">
                 Learn More
             </x-link>
         </div>
