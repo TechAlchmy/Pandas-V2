@@ -43,16 +43,25 @@ class BrandResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')
-                    ->autofocus()
-                    ->required()
-                    ->reactive()
+                Forms\Components\TextInput::make('name')
+                    ->live()
                     ->placeholder('Enter Brand Name')
-                    ->afterStateUpdated(fn ($state, callable $set) => $set('slug', Str::slug($state))),
-                TextInput::make('slug')
-                    ->dehydrated(false)
+                    ->maxLength(255)
+                    ->afterStateUpdated(function ($get, $set, ?string $state) {
+                        if (! $get('is_slug_changed_manually') && filled($state)) {
+                            $set('slug', str($state)->slug());
+                        }
+                    }),
+                Forms\Components\TextInput::make('slug')
+                    ->afterStateUpdated(function ($set) {
+                        $set('is_slug_changed_manually', true);
+                    })
+                    ->unique(Brand::class, 'slug', ignoreRecord: true)
                     ->required()
-                    ->unique(Brand::class, 'slug', fn ($record) => $record),
+                    ->maxLength(255),
+                Forms\Components\Hidden::make('is_slug_changed_manually')
+                    ->default(false)
+                    ->dehydrated(false),
                 TextInput::make('link')
                     ->required()
                     ->placeholder('Enter Brand Link'),
