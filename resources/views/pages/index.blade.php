@@ -28,7 +28,7 @@
                     <p class="text-[20px]">
                         Your day-to-day just got more affordable.
                     </p>
-                    <x-link outlined href="/deals">
+                    <x-link class="hover:bg-panda-green" outlined href="/deals">
                         Discover more
                     </x-link>
                 </div>
