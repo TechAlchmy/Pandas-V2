@@ -11,7 +11,7 @@
         $featuredDiscount = \App\Models\Discount::query()
             ->withBrand(auth()->user()?->organization)
             ->whereHas('featuredDeals')
-            ->where('is_active', true)
+            ->active()
             ->inRandomOrder()
             ->first();
     @endphp
