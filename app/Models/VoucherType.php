@@ -13,11 +13,6 @@ class VoucherType extends Model
     use InteractsWithAuditable;
     use SoftDeletes;
 
-    protected $fillable = [
-        'type',
-        'description',
-    ];
-
     public function discount()
     {
         return $this->hasMany(Discount::class);

@@ -21,17 +21,6 @@ class Brand extends Model implements HasMedia
     use HasUuids;
     use InteractsWithMedia;
 
-    protected $fillable = [
-        'name',
-        'link',
-        'slug',
-        'uniqid',
-        'description',
-        'logo',
-        'views',
-        'is_active',
-    ];
-
     protected $casts = [
         'is_active' => 'boolean',
         'region_ids' => 'array',

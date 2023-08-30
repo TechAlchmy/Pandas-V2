@@ -12,8 +12,4 @@ class Tag extends Model
     use HasFactory;
     use InteractsWithAuditable;
     use SoftDeletes;
-
-    protected $fillable = [
-        'name',
-    ];
 }

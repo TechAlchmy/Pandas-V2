@@ -9,13 +9,6 @@ class UserPreference extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'email_notification',
-        'sms_notification',
-        'push_notification',
-        'email_marketing',
-    ];
-
     protected $casts = [
         'email_notification' => 'boolean',
         'sms_notification' => 'boolean',

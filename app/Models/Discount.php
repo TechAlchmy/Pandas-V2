@@ -17,22 +17,6 @@ class Discount extends Model
     use SoftDeletes;
     use PowerJoins;
 
-    protected $fillable = [
-        'name',
-        'link',
-        'api_link',
-        'slug',
-        'code',
-        'cta',
-        'uniqid',
-        'description',
-        'logo',
-        'views',
-        'is_active',
-        'starts_at',
-        'ends_at',
-    ];
-
     protected $casts = [
         'amount' => 'array',
         'starts_at' => 'immutable_datetime',

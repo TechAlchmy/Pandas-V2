@@ -12,9 +12,4 @@ class OfferType extends Model
     use HasFactory;
     use InteractsWithAuditable;
     use SoftDeletes;
-
-    protected $fillable = [
-        'type',
-        'description',
-    ];
 }

@@ -23,15 +23,6 @@ class Category extends Model implements Sortable
     use PowerJoins;
     use HasRelationships;
 
-    protected $fillable = [
-        'name',
-        'link',
-        'slug',
-        'description',
-        'views',
-        'is_active',
-    ];
-
     protected $casts = [
         'is_active' => 'boolean',
     ];

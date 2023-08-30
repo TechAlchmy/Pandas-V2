@@ -30,21 +30,6 @@ class User extends Authenticatable implements FilamentUser, HasTenants, HasDefau
     use InteractsWithMedia;
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'phone',
-        'status',
-        'organization_id',
-        'user_preference_id',
-    ];
-
-    /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>

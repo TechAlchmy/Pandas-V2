@@ -17,17 +17,6 @@ class Organization extends Model
     use HasUuids;
     use InteractsWithAuditable;
 
-    protected $fillable = [
-        'name',
-        'website',
-        'slug',
-        'uniqid',
-        'phone',
-        'email',
-        'user_id',
-        'region_id',
-    ];
-
     public function users()
     {
         return $this->hasMany(User::class);

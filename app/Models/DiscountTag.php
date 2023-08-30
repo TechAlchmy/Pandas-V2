@@ -9,11 +9,6 @@ class DiscountTag extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'discount_id',
-        'tag_id',
-    ];
-
     public function discount()
     {
         return $this->belongsTo(Discount::class);
