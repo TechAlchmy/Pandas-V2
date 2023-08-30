@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $regionIds = Region::query()->where('country_id', 'us')->pluck('id');
-        Organization::factory(10)->sequence(
+        $organizations = Organization::factory(10)->sequence(
             $regionIds->random(10)
                 ->mapWithKeys(fn ($regionId) => ['region_id' => $regionId])
                 ->all(),
@@ -112,7 +112,8 @@ class DatabaseSeeder extends Seeder
                         ->create();
                 }
             });
-
+        $brands = Brand::query()->pluck('id');
+        $organizations->each(fn ($organization) => $organization->brands()->attach($brands, ['is_active' => true]));
         DiscountType::factory(10)->create();
     }
 }

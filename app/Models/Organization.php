@@ -30,6 +30,7 @@ class Organization extends Model
     public function brands()
     {
         return $this->belongsToMany(Brand::class, 'brand_organizations')
+            ->withPivot(['is_active'])
             ->withTimestamps();
     }
 
