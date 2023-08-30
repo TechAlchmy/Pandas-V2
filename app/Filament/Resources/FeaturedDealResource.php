@@ -56,7 +56,7 @@ class FeaturedDealResource extends Resource
                                     ->where('organization_id', $value)
                                     ->whereIn('brand_id', Discount::query()
                                         ->select('brand_id')
-                                        ->whereKey($get('brand_id')))
+                                        ->whereKey($get('discount_id')))
                                     ->exists();
 
                                 if (! $checked) {
