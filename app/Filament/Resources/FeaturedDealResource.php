@@ -78,6 +78,8 @@ class FeaturedDealResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('discount.brand.name')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('discount.name')
                     ->numeric()
                     ->sortable(),
