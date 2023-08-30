@@ -13,8 +13,8 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Forms;
-use Illuminate\Support\Facades\Blade;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Livewire\Component;
 
 class ListOrders extends Component implements HasTable, HasForms
@@ -58,46 +58,24 @@ class ListOrders extends Component implements HasTable, HasForms
                     ->link()
                     ->visible(fn ($record) => $record->payment_status == PaymentStatus::Approved)
                     ->modalSubmitAction(false)
-                    ->form(function ($record) {
-                        $record->loadMissing(['orderDetails.discount']);
-                        return [
-                            Forms\Components\Actions::make($record->orderDetails
-                                ->map(function ($orderDetail) {
-                                    $record = $orderDetail->discount;
-                                    return match ($orderDetail->discount->cta) {
-                                        DiscountCallToActionEnum::GoToSite => Forms\Components\Actions\Action::make($orderDetail->discount->name)
-                                            ->url($record->link, shouldOpenInNewTab: true),
-                                        default => Forms\Components\Actions\Action::make($orderDetail->discount->name)
-                                            ->modalHeading(function ($record) use ($orderDetail) {
-                                                return "{$orderDetail->discount?->percentage}% off!";
-                                            })
-                                            ->modalContent(function ($record) use ($orderDetail) {
-                                                return Blade::render("
-                                                    <div class='p-8 bg-neutral-100 text-center'>
-                                                        <p class='text-2xl font-light'>
-                                                            " . $orderDetail->discount?->code . "
-                                                        </p>
-                                                    </div>
-                                                ");
-                                            })
-                                            ->modalSubmitAction(false)
-                                            ->extraModalFooterActions(fn ($action): array => [
-                                                $action->makeModalSubmitAction('copyCode', arguments: ['copy' => true]),
-                                            ])
-                                            ->action(function ($arguments, $record) use ($orderDetail): void {
-                                                if ($arguments['copy'] ?? false) {
-                                                    $this->js("navigator.clipboard.writeText('{$orderDetail->discount?->code}');");
-
-                                                    Notification::make()
-                                                        ->title('Code copied successfully')
-                                                        ->success()
-                                                        ->send();
-                                                }
-                                            }),
-                                    };
-                                })
-                                ->all()),
-                        ];
+                    ->infolist(function (Infolist $infolist, $record) {
+                        return $infolist
+                            ->record($record->loadMissing('orderDetails.discount.brand'))
+                            ->schema([
+                                Infolists\Components\RepeatableEntry::make('orderDetails')
+                                    ->columns(4)
+                                    ->hiddenLabel()
+                                    ->schema([
+                                        Infolists\Components\TextEntry::make('discount.brand.name')
+                                            ->url(fn ($record) => route('deals.index', ['filter' => ['brand_id' => $record->discount?->brand_id]]))
+                                            ->label('Brand'),
+                                        Infolists\Components\TextEntry::make('discount.name')
+                                            ->url(fn ($record) => route('deals.show', ['id' => $record->discount?->slug])),
+                                        Infolists\Components\TextEntry::make('amount')
+                                            ->money('USD'),
+                                        Infolists\Components\TextEntry::make('quantity'),
+                                    ]),
+                            ]);
                     }),
                 Tables\Actions\Action::make('refund')
                     ->link()
