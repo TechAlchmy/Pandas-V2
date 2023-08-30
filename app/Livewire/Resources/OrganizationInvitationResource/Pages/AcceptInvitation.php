@@ -51,19 +51,30 @@ class AcceptInvitation extends Component implements HasForms, HasActions
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->autofocus()
+                    ->view('forms.components.text-input')
+                    ->hiddenLabel()
+                    ->placeholder('Name')
                     ->required(),
                 Forms\Components\TextInput::make('email')
+                    ->email()
+                    ->view('forms.components.text-input')
+                    ->hiddenLabel()
+                    ->placeholder('Email')
                     ->disabled()
                     ->required(),
                 Forms\Components\TextInput::make('password')
-                    ->label(__('filament-panels::pages/auth/register.form.password.label'))
+                    ->view('forms.components.text-input')
+                    ->hiddenLabel()
+                    ->placeholder(__('filament-panels::pages/auth/register.form.password.label'))
                     ->password()
                     ->required()
                     ->rule(Password::default())
                     ->same('passwordConfirmation')
                     ->validationAttribute(__('filament-panels::pages/auth/register.form.password.validation_attribute')),
                 Forms\Components\TextInput::make('passwordConfirmation')
-                    ->label(__('filament-panels::pages/auth/register.form.password_confirmation.label'))
+                    ->view('forms.components.text-input')
+                    ->hiddenLabel()
+                    ->placeholder(__('filament-panels::pages/auth/register.form.password_confirmation.label'))
                     ->password()
                     ->required()
                     ->dehydrated(false),
@@ -79,6 +90,8 @@ class AcceptInvitation extends Component implements HasForms, HasActions
         $data['email_verified_at'] = now();
 
         $user = User::query()->create($data);
+
+        $user->userPreference()->create();
 
         if ($this->getRecord()->is_manager) {
             $user->managers()->create([

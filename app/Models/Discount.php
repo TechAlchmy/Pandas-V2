@@ -17,22 +17,6 @@ class Discount extends Model
     use SoftDeletes;
     use PowerJoins;
 
-    protected $fillable = [
-        'name',
-        'link',
-        'api_link',
-        'slug',
-        'code',
-        'cta',
-        'uniqid',
-        'description',
-        'logo',
-        'views',
-        'is_active',
-        'starts_at',
-        'ends_at',
-    ];
-
     protected $casts = [
         'amount' => 'array',
         'starts_at' => 'immutable_datetime',
@@ -102,6 +86,20 @@ class Discount extends Model
                 ->where('is_active', true)
                 ->forOrganization($organization);
         });
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true)
+            ->where('starts_at', '<=', now())
+            ->where('ends_at', '>=', now());
+    }
+
+    public function scopeInactive($query)
+    {
+        return $query->where('is_active', false)
+            ->orWhere('starts_at', '>=', now())
+            ->orWhere('ends_at', '<=', now());
     }
 
     protected function isAmountSingle(): Attribute

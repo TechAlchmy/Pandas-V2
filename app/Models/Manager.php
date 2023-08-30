@@ -13,11 +13,6 @@ class Manager extends Model
     use InteractsWithAuditable;
     use SoftDeletes;
 
-    protected $fillable = [
-        'user_id',
-        'organization_id',
-    ];
-
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -126,17 +126,21 @@ class OrderResource extends Resource
                     'danger' => 'failed',
                 ]),
 
-            Tables\Columns\TextColumn::make('order_total'),
+            Tables\Columns\TextColumn::make('order_total')
+                ->money('USD'),
 
             Tables\Columns\TextColumn::make('order_subtotal')
+                ->money('USD')
                 ->toggleable()
                 ->toggledHiddenByDefault(),
 
             Tables\Columns\TextColumn::make('order_discount')
+                ->money('USD')
                 ->toggleable()
                 ->toggledHiddenByDefault(),
 
             Tables\Columns\TextColumn::make('order_tax')
+                ->money('USD')
                 ->toggleable()
                 ->toggledHiddenByDefault(),
 

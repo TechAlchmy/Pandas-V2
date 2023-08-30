@@ -4,6 +4,7 @@ namespace App\Livewire\Resources\DealResource\Pages;
 
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
+use App\Models\Discount;
 use App\Models\Order;
 use App\Notifications\OrderApprovedNotification;
 use App\Services\CardknoxPayment\CardknoxBody;
@@ -19,6 +20,7 @@ use Filament\Support\RawJs;
 use Illuminate\Support\Facades\Http;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 
@@ -44,12 +46,12 @@ class ViewDeal extends Component implements HasActions, HasForms
     public function redeemAction(): Action
     {
         return Action::make('redeem')
-            ->view('components.button', ['slot' => 'Redeem now'])
-            ->fillForm([
-                'xEmail' => auth()->user()?->email,
-            ])
+            ->view('components.button', ['slot' => 'Redeem now', 'buttonClasses' => 'hover:bg-panda-green'])
             ->form([
                 Forms\Components\Grid::make()
+                    ->afterStateHydrated(function () {
+                        $this->updateClicks();
+                    })
                     ->schema([
                         Forms\Components\TextInput::make('xEmail')
                             ->email()
@@ -160,6 +162,8 @@ class ViewDeal extends Component implements HasActions, HasForms
         $this->validate();
         cart()->add($this->record?->getKey(), $this->quantity, $this->amount);
 
+        $this->updateClicks();
+
         $this->dispatch('cart-item-added', ...['record' => [
             'name' => $this->record->name,
             'amount' => \Filament\Support\format_money($this->amount, 'USD'),
@@ -173,7 +177,7 @@ class ViewDeal extends Component implements HasActions, HasForms
         return view('livewire.resources.deal-resource.pages.view-deal', [
             'related' => \App\Models\Discount::query()
                 ->withBrand(auth()->user()?->organization)
-                ->where('is_active', true)
+                ->active()
                 ->whereIn(
                     'brand_id',
                     \App\Models\BrandCategory::query()
@@ -186,11 +190,10 @@ class ViewDeal extends Component implements HasActions, HasForms
             'popular' => \App\Models\Discount::query()
                 ->with('brand.media')
                 ->withBrand(auth()->user()?->organization)
-                ->where('is_active', true)
+                ->active()
                 ->orderByDesc('views')
                 ->take(4)
                 ->get(),
-            'record' => $this->record,
         ]);
     }
 
@@ -207,5 +210,19 @@ class ViewDeal extends Component implements HasActions, HasForms
             ->where('is_active', true)
             ->where('slug', $this->id)
             ->firstOrFail();
+    }
+
+    public function updateClicks()
+    {
+        Discount::query()
+            ->where('slug', $this->id)
+            ->increment('clicks');
+    }
+
+    public function updateViews()
+    {
+        Discount::query()
+            ->where('slug', $this->id)
+            ->increment('views');
     }
 }

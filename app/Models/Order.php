@@ -39,6 +39,11 @@ class Order extends Model implements Sortable
         return $this->hasMany(OrderDetail::class);
     }
 
+    public function discounts()
+    {
+        return $this->belongsToMany(Discount::class, 'order_details');
+    }
+
     protected function orderNumber(): Attribute
     {
         return Attribute::get(fn ($value, $attributes) => data_get($attributes, 'order_column'));

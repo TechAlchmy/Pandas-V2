@@ -21,17 +21,6 @@ class Brand extends Model implements HasMedia
     use HasUuids;
     use InteractsWithMedia;
 
-    protected $fillable = [
-        'name',
-        'link',
-        'slug',
-        'uniqid',
-        'description',
-        'logo',
-        'views',
-        'is_active',
-    ];
-
     protected $casts = [
         'is_active' => 'boolean',
         'region_ids' => 'array',
@@ -72,15 +61,13 @@ class Brand extends Model implements HasMedia
     public function scopeForOrganization($query, $organization)
     {
         return $query->when($organization, function ($query, $organization) {
-            $query->whereIn('id', BrandOrganization::query()
+            $query->whereIn('brands.id', BrandOrganization::query()
                 ->select('brand_id')
                 ->where('is_active', true)
                 ->whereBelongsTo($organization));
 
             $query->where(function ($query) use ($organization) {
-                $query->whereNull('region_ids')
-                    ->orWhere('region_ids', '[]')
-                    ->orWhere('region_ids', 'like', "%{$organization->region_id}%");
+                $query->where('region_ids', 'like', "%{$organization->region_id}%");
             });
         });
     }

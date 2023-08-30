@@ -39,6 +39,7 @@ class ListDeals extends Component implements HasForms
                     ->live()
                     ->label('')
                     ->placeholder('Find Brands')
+                    ->options(Brand::query()->forOrganization(auth()->user()->organization)->pluck('name', 'id'))
                     ->extraAttributes(['class' => 'rounded-none ring-transparent list-deals'])
                     ->getOptionLabelUsing(fn ($value) => Brand::find($value)?->name)
                     ->getSearchResultsUsing(fn ($search) => Brand::query()
@@ -55,10 +56,12 @@ class ListDeals extends Component implements HasForms
                     ->live()
                     ->label('')
                     ->placeholder('Find Category...')
+                    ->options(Category::query()->where('is_active', true)->pluck('name', 'id'))
                     ->extraAttributes(['class' => 'rounded-none ring-transparent list-deals'])
                     ->getOptionLabelUsing(fn ($value) => Category::find($value)?->name)
                     ->getSearchResultsUsing(function ($search) {
                         return Category::query()
+                            ->where('is_active', true)
                             ->where('name', 'like', "%{$search}%")
                             ->take(7)
                             ->get()
@@ -80,8 +83,15 @@ class ListDeals extends Component implements HasForms
     {
         return \App\Models\Discount::query()
             ->withBrand(auth()->user()?->organization)
-            ->where('is_active', true)
-            ->when($this->filter['search'], fn($query) => $query->where('name', 'like', "%{$this->filter['search']}%"))
+            ->active()
+            ->when($this->filter['search'], function ($query, $value) {
+                $query->where('name', 'like', "%{$value}%")
+                    ->orWhereRelation('tags', 'name', 'like', "%{$value}%")
+                    ->orWhereHas('brand', function ($query) use ($value) {
+                        $query->where('name', 'like', "%{$value}%")
+                            ->orWhereRelation('categories', 'name', 'like', "%{$value}%");
+                    });
+            })
             ->when($this->filter['brand_id'], fn($query) => $query->where('brand_id', $this->filter['brand_id']))
             ->when($this->filter['category_id'], fn($query) => $query->whereRelation('brandCategories', 'category_id', $this->filter['category_id']))
             ->when($this->sort, fn ($query, $value) => match ($value) {
@@ -96,9 +106,9 @@ class ListDeals extends Component implements HasForms
     {
         return \App\Models\Discount::query()
             ->withBrand(auth()->user()?->organization)
-            ->where('is_active', true)
+            ->active()
             ->whereHas('featuredDeals', function ($query) {
-                $query->where('featured_deals.organization_id', auth()->user()?->organization);
+                $query->where('featured_deals.organization_id', auth()->user()?->organization?->getKey());
             })
             ->take(4)
             ->get()
@@ -120,6 +130,7 @@ class ListDeals extends Component implements HasForms
     public function recentlyViewed()
     {
         return \App\Models\Discount::query()
+            ->active()
             ->with('brand.media')
             ->take(4)
             ->find(recentlyViewed()->get(\App\Models\Discount::class));

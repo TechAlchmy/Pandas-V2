@@ -9,7 +9,6 @@ $categories = computed(function () {
 });
 
 ?>
-
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 bg-panda-green">
     <div class="pt-[100%] bg-cover bg-center" style="background-image: url({{ asset('storage/assets/list-daily-deals.png') }})">
     </div>
@@ -17,9 +16,9 @@ $categories = computed(function () {
         <h2 class="text-3xl">
             We’re here to help you afford more of what brings you joy and everyday essentials.
         </h2>
-        <p>
+        <h5 class="text-xl">
             Find everyday deals on:
-        </p>
+        </h5>
         <ul class="grid grid-cols-2">
             @foreach ($this->categories as $category)
                 <li>

@@ -83,12 +83,14 @@ class OrderResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return Order::query()
-            ->whereIn('brand_id',
-                Brand::query()
+            ->whereHas('discounts', function ($query) {
+                $query->whereIn('brand_id', Brand::query()
                     ->select('brands.id')
-                    ->leftJoinRelationship('brandOrganization', function ($join) {
-                        $join->where('organization_id', filament()->getTenant()->getKey());
+                    ->whereHas('brandOrganizations', function ($query) {
+                        $query->where('is_active', true)
+                            ->where('organization_id', filament()->getTenant()->getKey());
                     })
-            );
+                );
+            });
     }
 }

@@ -30,8 +30,13 @@ class FeaturedDealResource extends Resource
                 Forms\Components\Select::make('discount_id')
                     ->required()
                     ->searchable()
+                    ->live()
+                    ->getOptionLabelFromRecordUsing(fn ($record) => implode(' - ', [
+                        $record->brand?->name,
+                        $record->name,
+                    ]))
                     ->relationship('discount', 'name', function ($query, $get) {
-                        $query->where('is_active', true);
+                        $query->with('brand')->where('is_active', true);
                         if ($get('organization_id')) {
                             return $query->whereIn('id', BrandOrganization::query()
                                 ->select('brand_id')
@@ -56,7 +61,7 @@ class FeaturedDealResource extends Resource
                                     ->where('organization_id', $value)
                                     ->whereIn('brand_id', Discount::query()
                                         ->select('brand_id')
-                                        ->whereKey($get('brand_id')))
+                                        ->whereKey($get('discount_id')))
                                     ->exists();
 
                                 if (! $checked) {
@@ -73,6 +78,8 @@ class FeaturedDealResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('discount.brand.name')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('discount.name')
                     ->numeric()
                     ->sortable(),
