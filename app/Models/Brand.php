@@ -78,9 +78,7 @@ class Brand extends Model implements HasMedia
                 ->whereBelongsTo($organization));
 
             $query->where(function ($query) use ($organization) {
-                $query->whereNull('region_ids')
-                    ->orWhere('region_ids', '[]')
-                    ->orWhere('region_ids', 'like', "%{$organization->region_id}%");
+                $query->where('region_ids', 'like', "%{$organization->region_id}%");
             });
         });
     }
