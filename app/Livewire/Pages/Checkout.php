@@ -149,7 +149,7 @@ class Checkout extends Component implements HasForms, HasActions
     public function checkoutAction()
     {
         return Action::make('checkout')
-            ->view('components.button', ['slot' => 'Proceed to checkout'])
+            ->view('components.button', ['slot' => 'Proceed to checkout', 'buttonClasses' => 'hover:bg-panda-green'])
             ->fillForm([
                 'xEmail' => auth()->user()?->email,
             ])
