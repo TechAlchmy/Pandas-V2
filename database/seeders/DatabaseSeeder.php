@@ -21,6 +21,7 @@ use App\Models\User;
 use App\Models\UserPreference;
 use App\Models\VoucherType;
 use Illuminate\Database\Seeder;
+use Squire\Models\Region;
 
 class DatabaseSeeder extends Seeder
 {
@@ -29,7 +30,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Organization::factory(10)->create()->each(function ($organization) {
+        $regionIds = Region::query()->where('country_id', 'us')->pluck('id');
+        Organization::factory(10)->sequence(
+            $regionIds->random(10)
+                ->mapWithKeys(fn ($regionId) => ['region_id' => $regionId])
+                ->all(),
+        )->create()->each(function ($organization) {
             $user = User::factory()
                 ->create([
                     'organization_id' => $organization->id,
@@ -72,11 +78,14 @@ class DatabaseSeeder extends Seeder
                 'Express Airway', 'TravelPlus',
             ],
         ])
-            ->map(function ($brands, $category) use ($offerTypes, $voucherTypes) {
+            ->map(function ($brands, $category) use ($offerTypes, $voucherTypes, $regionIds) {
                 $category = Category::factory()->create(['name' => $category]);
                 collect($brands)
-                    ->each(function ($brand) use ($category, $offerTypes, $voucherTypes) {
-                        $brand = Brand::factory()->state(['name' => $brand])->create();
+                    ->each(function ($brand) use ($category, $offerTypes, $voucherTypes, $regionIds) {
+                        $brand = Brand::factory()
+                            ->state(['region_ids' => $regionIds->all()])
+                            ->state(['name' => $brand])
+                            ->create();
                         BrandCategory::factory()
                             ->for($brand)
                             ->for($category)
