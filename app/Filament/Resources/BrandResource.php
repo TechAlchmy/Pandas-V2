@@ -118,6 +118,7 @@ class BrandResource extends Resource
                             ->schema([
                                 Forms\Components\Select::make('region_ids')
                                     ->live()
+                                    ->required()
                                     ->default(Region::query()->where('country_id', 'us')->pluck('id')->all())
                                     ->placeholder('Select Regions')
                                     ->multiple()
