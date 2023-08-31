@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Livewire\Pages\Checkout;
 use App\Livewire\Pages\OrderSummary;
 use App\Livewire\Resources\AuthResource\Pages\Register;
+use App\Livewire\Resources\AuthResource\Pages\EmailVerificationPrompt;
 use App\Livewire\Resources\DealResource\Pages\ListDeals;
 use App\Livewire\Resources\DealResource\Pages\ViewDeal;
 use App\Livewire\Resources\OrganizationInvitationResource\Pages\AcceptInvitation;
@@ -23,6 +24,10 @@ use App\Livewire\Resources\OrganizationInvitationResource\Pages\AcceptInvitation
 Route::get('organization-invitations/{record}/accept', AcceptInvitation::class)
     ->middleware(['signed'])
     ->name('organization-invitations.accept');
+
+Route::get('verify-email', EmailVerificationPrompt::class)
+    ->middleware(['auth'])
+    ->name('verification.notice');
 
 Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
     ->middleware(['signed', 'throttle:6,1'])
