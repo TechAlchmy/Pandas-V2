@@ -1,4 +1,4 @@
-@props(['record', 'recordClicks' => false])
+@props(['record'])
 
 <div class="space-y-2 min-h-full flex flex-col">
     <div class="min-h-[5rem]">
