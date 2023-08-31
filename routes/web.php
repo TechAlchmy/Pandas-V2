@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Livewire\Pages\Checkout;
 use App\Livewire\Pages\OrderSummary;
+use App\Livewire\Resources\AuthResource\Pages\Register;
 use App\Livewire\Resources\DealResource\Pages\ListDeals;
 use App\Livewire\Resources\DealResource\Pages\ViewDeal;
 use App\Livewire\Resources\OrganizationInvitationResource\Pages\AcceptInvitation;
@@ -40,3 +41,7 @@ Route::get('deals', ListDeals::class)
 Route::get('deals/{id}', ViewDeal::class)
     ->middleware(['auth', 'verified'])
     ->name('deals.show');
+
+Route::get('register', Register::class)
+    ->middleware(['guest'])
+    ->name('register');
