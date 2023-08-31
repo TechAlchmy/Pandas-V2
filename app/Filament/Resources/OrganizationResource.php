@@ -90,6 +90,9 @@ class OrganizationResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('registration_link')
+                    ->formatStateUsing(fn () => 'Copy Link')
+                    ->copyable(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

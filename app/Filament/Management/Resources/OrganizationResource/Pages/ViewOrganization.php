@@ -4,6 +4,7 @@ namespace App\Filament\Management\Resources\OrganizationResource\Pages;
 
 use App\Filament\Management\Resources\OrganizationResource;
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
 use Illuminate\Database\Eloquent\Model;
 
@@ -35,6 +36,14 @@ class ViewOrganization extends ViewRecord
     {
         return [
             // Actions\EditAction::make(),
+            Actions\Action::make('copy_registration_link')
+                ->action(function ($record) {
+                    $this->js('navigator.clipboard.writeText("'.$record->registration_link.'");');
+                    Notification::make()
+                        ->title('Registration link copied')
+                        ->success()
+                        ->send();
+                }),
         ];
     }
 
