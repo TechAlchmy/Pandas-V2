@@ -55,6 +55,8 @@ class Register extends Component implements HasForms
 
         $data = $this->form->getState();
 
+        $data['organization_id'] = $this->organization->getKey();
+
         $user = User::query()->create($data);
 
         $user->userPreference()->create();
