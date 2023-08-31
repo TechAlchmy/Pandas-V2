@@ -36,7 +36,7 @@
             <div class="h-28"></div>
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
                 @foreach ($this->deals as $deal)
-                    <x-deal-card :record="$deal" :record-clicks="true" />
+                    <x-deal-card :record="$deal" />
                 @endforeach
             </div>
             <div class="h-16"></div>
@@ -82,6 +82,4 @@
         </div>
         <div class="h-28"></div>
     </section>
-
-    <livewire:resources.deal-resource.widgets.deal-listener />
 </div>
