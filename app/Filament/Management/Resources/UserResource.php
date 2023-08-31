@@ -89,6 +89,7 @@ class UserResource extends Resource
                         $record->touch('organization_verified_at');
                     }),
                 Tables\Actions\ForceDeleteAction::make()
+                    ->label('Deny registration')
                     ->hidden(fn ($record) => $record->organization_verified_at),
                 Tables\Actions\DeleteAction::make()
                     ->modalHeading('Suspend User')
