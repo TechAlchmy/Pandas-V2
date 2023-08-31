@@ -79,8 +79,17 @@ class UserResource extends Resource
                     ->placeholder('All')
                     ->trueLabel('Suspended')
                     ->falseLabel('Active'),
+                Tables\Filters\TernaryFilter::make('organization_verified_at')
+                    ->nullable(),
             ])
             ->actions([
+                Tables\Actions\Action::make('verify')
+                    ->hidden(fn ($record) => $record->organization_verified_at)
+                    ->action(function ($record) {
+                        $record->touch('organization_verified_at');
+                    }),
+                Tables\Actions\ForceDeleteAction::make()
+                    ->hidden(fn ($record) => $record->organization_verified_at),
                 Tables\Actions\DeleteAction::make()
                     ->modalHeading('Suspend User')
                     ->successNotificationTitle('User Suspended')

@@ -159,6 +159,8 @@ class UserResource extends Resource
                     ->placeholder('Active')
                     ->trueLabel('All')
                     ->falseLabel('Suspended'),
+                Tables\Filters\TernaryFilter::make('organization_verified_at')
+                    ->nullable(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -167,6 +169,13 @@ class UserResource extends Resource
                     ->successNotificationTitle('User Suspended')
                     ->label('Suspend'),
                 Tables\Actions\RestoreAction::make(),
+                Tables\Actions\Action::make('verify')
+                    ->hidden(fn ($record) => $record->organization_verified_at)
+                    ->action(function ($record) {
+                        $record->touch('organization_verified_at');
+                    }),
+                Tables\Actions\ForceDeleteAction::make()
+                    ->hidden(fn ($record) => $record->organization_verified_at),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
