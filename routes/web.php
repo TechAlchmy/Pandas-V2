@@ -48,5 +48,5 @@ Route::get('deals/{id}', ViewDeal::class)
     ->name('deals.show');
 
 Route::get('register', Register::class)
-    ->middleware(['guest'])
+    ->middleware(['guest', 'signed'])
     ->name('register');
