@@ -35,6 +35,7 @@ class User extends Authenticatable implements FilamentUser, HasTenants, HasDefau
     ];
 
     protected $casts = [
+        'organization_verified_at' => 'datetime',
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
         'auth_level' => AuthLevelEnum::class,
