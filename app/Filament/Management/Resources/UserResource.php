@@ -6,6 +6,8 @@ use App\Enums\AuthLevelEnum;
 use App\Filament\Management\Resources\UserResource\Pages;
 use App\Filament\Management\Resources\UserResource\RelationManagers;
 use App\Models\User;
+use App\Notifications\SendUserConfirmedNotification;
+use App\Notifications\SendUserDeniedNotification;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Infolists;
@@ -87,10 +89,16 @@ class UserResource extends Resource
                     ->hidden(fn ($record) => $record->organization_verified_at)
                     ->action(function ($record) {
                         $record->touch('organization_verified_at');
+                        $record->notify(new SendUserConfirmedNotification);
                     }),
                 Tables\Actions\ForceDeleteAction::make()
                     ->label('Deny registration')
-                    ->hidden(fn ($record) => $record->organization_verified_at),
+                    ->hidden(fn ($record) => $record->organization_verified_at)
+                    ->successNotificationTitle('User denied')
+                    ->successNotification(function ($record, $notification) {
+                        $record->notify(new SendUserDeniedNotification);
+                        return $notification;
+                    }),
                 Tables\Actions\DeleteAction::make()
                     ->modalHeading('Suspend User')
                     ->successNotificationTitle('User Suspended')
