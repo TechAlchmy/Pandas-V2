@@ -35,7 +35,7 @@ class UserFactory extends Factory
             'updated_by_id' => null,
             'deleted_by_id' => null,
             'remember_token' => Str::random(10),
-
+            'organization_verified_at' => now(),
         ];
     }
 
