@@ -4,6 +4,7 @@ namespace App\Livewire\Resources\AuthResource\Pages;
 
 use App\Models\Organization;
 use App\Models\User;
+use App\Notifications\SendUserUnderVerificationNotification;
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 use DanHarrin\LivewireRateLimiting\WithRateLimiting;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -64,6 +65,8 @@ class Register extends Component implements HasForms
         event(new Registered($user));
 
         auth()->login($user);
+
+        $user->notify(new SendUserUnderVerificationNotification);
 
         session()->regenerate();
 
