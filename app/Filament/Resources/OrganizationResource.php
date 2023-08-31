@@ -6,6 +6,7 @@ use App\Filament\Resources\OrganizationResource\Pages;
 use App\Forms\Components\AuditableView;
 use App\Filament\Resources\OrganizationResource\RelationManagers;
 use App\Models\Brand;
+use App\Models\OfferType;
 use App\Models\Organization;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -68,6 +69,7 @@ class OrganizationResource extends Resource
                     ->live()
                     ->multiple()
                     ->helperText(fn ($state) => count($state) < Brand::query()->count() ? null : 'All selected')
+                    ->default(Brand::query()->pluck('id')->all())
                     ->hintActions([
                         Forms\Components\Actions\Action::make('clear')
                             ->visible(fn ($state) => ! empty($state))
@@ -75,6 +77,21 @@ class OrganizationResource extends Resource
                         Forms\Components\Actions\Action::make('all')
                             ->hidden(fn ($state) => count($state) == Brand::query()->count())
                             ->action(fn ($component) => $component->state(Brand::query()->pluck('id')->all())),
+                    ]),
+                Forms\Components\Select::make('offer_types')
+                    ->placeholder('Select Offer Types')
+                    ->relationship('offerTypes', 'type')
+                    ->live()
+                    ->multiple()
+                    ->helperText(fn ($state) => count($state) < OfferType::query()->count() ? null : 'All selected')
+                    ->default(OfferType::query()->pluck('id')->all())
+                    ->hintActions([
+                        Forms\Components\Actions\Action::make('clear')
+                            ->visible(fn ($state) => ! empty($state))
+                            ->action(fn ($component) => $component->state([])),
+                        Forms\Components\Actions\Action::make('all')
+                            ->hidden(fn ($state) => count($state) == OfferType::query()->count())
+                            ->action(fn ($component) => $component->state(OfferType::query()->pluck('id')->all())),
                     ]),
                 AuditableView::make('audit'),
             ]);

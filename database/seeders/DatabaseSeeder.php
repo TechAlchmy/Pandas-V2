@@ -58,7 +58,17 @@ class DatabaseSeeder extends Seeder
         $users = User::factory(50)->create()->each(function ($user) {
             $user->userPreference()->save(UserPreference::factory()->make());
         });
-        $offerTypes = OfferType::factory(10)->create();
+        $offerTypes = OfferType::factory(10)
+            ->create()
+            ->each(function ($offerType) use ($organizations) {
+                $organizations->each(function ($organization) use ($offerType) {
+                    $offerType->organizationOfferTypes()
+                        ->create([
+                            'organization_id' => $organization->getKey(),
+                            'is_active' => true,
+                        ]);
+                });
+            });
         $voucherTypes = VoucherType::factory(10)->create();
         collect([
             'Apparel' => [

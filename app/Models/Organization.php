@@ -51,6 +51,13 @@ class Organization extends Model
             ->withTimestamps();
     }
 
+    public function offerTypes()
+    {
+        return $this->belongsToMany(OfferType::class, 'organization_offer_types')
+            ->withPivot(['is_active'])
+            ->withTimestamps();
+    }
+
     public function uniqueIds()
     {
         return ['uuid'];

@@ -12,4 +12,16 @@ class OfferType extends Model
     use HasFactory;
     use InteractsWithAuditable;
     use SoftDeletes;
+
+    public function organizationOfferTypes()
+    {
+        return $this->hasMany(OrganizationOfferType::class);
+    }
+
+    public function organizations()
+    {
+        return $this->belongsToMany(Organization::class, 'organization_offer_types')
+            ->withPivot(['is_active'])
+            ->withTimestamps();
+    }
 }

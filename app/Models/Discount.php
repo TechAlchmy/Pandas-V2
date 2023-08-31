@@ -78,6 +78,16 @@ class Discount extends Model
         return $this->hasMany(OrderDetail::class);
     }
 
+    public function scopeWithOfferTypes($query, $organization)
+    {
+        return $query->withWhereHas('offerTypes', function ($query) use ($organization) {
+            $query->whereHas('organizationOfferTypes', function ($query) use ($organization) {
+                $query->where('is_active', true)
+                    ->where('organization_id', $organization?->getKey());
+            });
+        });
+    }
+
     public function scopeWithBrand($query, $organization)
     {
         return $query->withWhereHas('brand', function ($query) use ($organization) {
