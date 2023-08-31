@@ -28,15 +28,15 @@ Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
     ->name('verification.verify');
 
 Route::get('/checkout', Checkout::class)
-    ->middleware(['auth'])
+    ->middleware(['auth', 'verified'])
     ->name('pages.checkout');
 Route::get('/order/{order:uuid}/summary', OrderSummary::class)
     ->middleware(['auth'])
     ->name('pages.order.summary');
 
 Route::get('deals', ListDeals::class)
-    ->middleware(['auth'])
+    ->middleware(['auth', 'verified'])
     ->name('deals.index');
 Route::get('deals/{id}', ViewDeal::class)
-    ->middleware(['auth'])
+    ->middleware(['auth', 'verified'])
     ->name('deals.show');
