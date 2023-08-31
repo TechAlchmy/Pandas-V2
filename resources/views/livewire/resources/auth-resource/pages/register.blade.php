@@ -10,6 +10,7 @@
     <div class="px-[min(6.99vw,50px)] max-w-xl mx-auto py-4 order-1 lg:order-2 flex flex-col justify-between">
         <div class="space-y-4">
             <h1 class="font-editorial text-4xl font-thin mb-10">Welcome to Panda</h1>
+            <h3>{{ $this->organization?->name }}</h3>
             <div>
                 <form wire:submit.prevent="register">
                     {{ $this->form }}

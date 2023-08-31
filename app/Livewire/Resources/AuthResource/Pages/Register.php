@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Resources\AuthResource\Pages;
 
+use App\Models\Organization;
 use App\Models\User;
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 use DanHarrin\LivewireRateLimiting\WithRateLimiting;
@@ -12,6 +13,8 @@ use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Validation\Rules\Password;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Locked;
 use Livewire\Component;
 
 class Register extends Component implements HasForms
@@ -21,9 +24,13 @@ class Register extends Component implements HasForms
 
     public $data;
 
+    #[Locked]
+    public $organizationUuid;
+
     public function mount()
     {
         $this->form->fill();
+        $this->organizationUuid = request('organization_uuid');
     }
 
     public function register()
@@ -104,5 +111,12 @@ class Register extends Component implements HasForms
     {
         return view('livewire.resources.auth-resource.pages.register')
             ->layout('components.layouts.guest');
+    }
+
+    #[Computed]
+    public function organization()
+    {
+        return Organization::query()
+            ->firstWhere('uuid', $this->organizationUuid);
     }
 }
