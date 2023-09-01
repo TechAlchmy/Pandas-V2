@@ -71,8 +71,7 @@ class ListDeals extends Component implements HasForms
                     })
                     ->searchable(),
                 Forms\Components\TextInput::make('search')
-                    ->live(debounce: 500)
-                    ->extraAttributes(['class' => 'rounded-none ring-transparent'])
+                    ->extraAttributes(['class' => 'rounded-none ring-transparent', 'x-on:keyup.enter' => '$wire.resetPage()'])
                     ->hiddenLabel()
                     ->placeholder('Search Deals'),
             ]);
