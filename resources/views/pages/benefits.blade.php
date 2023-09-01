@@ -13,7 +13,7 @@ name('benefits');
         <div class="px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <h1 class="text-6xl max-w-xl mix-blend-difference text-panda-green">Get Ready to go beyond the basic</h1>
-                <div class="hidden lg:block space-y-6 ml-80">
+                <div class="space-y-6 lg:ml-56 xl:ml-80">
                     <p class="">
                         Real benefits for real people start with Panda. We’re here to help you thrive in ways that matters to you, so you can give more when it’s go time—in life and work.
 
@@ -23,7 +23,7 @@ name('benefits');
                 </div>
             </div>
         </div>
-        <img class="min-w-[125vw] -ml-20 md:min-w-[100vw] -mt-32 lg:-mt-96" src="{{ asset('storage/assets/benefit-circles.png') }}" alt="Collages images" />
+        <img class="min-w-[125vw] -ml-20 md:min-w-[100vw] -mt-16 lg:-mt-80 xl:-mt-96" src="{{ asset('storage/assets/benefit-circles.png') }}" alt="Collages images" />
     </section>
     <section class="px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto md:-mt-40">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
