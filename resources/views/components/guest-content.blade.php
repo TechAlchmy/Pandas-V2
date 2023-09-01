@@ -1,8 +1,15 @@
-<div class="flex flex-col lg:flex-row mx-auto w-full xl:px-10 max-w-[1920px]">
+<div class="flex flex-col lg:flex-row mx-auto w-full max-w-[1920px]">
     <div class="w-full">
         <div class=" flex justify-start  px-[min(8%,50px)]">
-            <h1 id="dynamicColorText" class="font-editorial text-[min(80px,9.2vw)] lg:text-[100px] xl:text-[120px] mt-12 mr-10 absolute leading-[85px] lg:leading-[130px] p-1">Explore a<br class="max-xl:hidden"> new <br
-                    class="hidden max-xl:block"> world<br class="max-xl:hidden"> of benefits...</h1>
+            <h1 id="dynamicColorText" class="font-editorial mix-blend-overlay text-black text-[min(80px,9.2vw)] lg:text-8xl xl:text-9xl mt-12 mr-10 absolute lg:leading-[130px] p-1">
+                Explore a
+                <br class="max-xl:hidden">
+                new
+                <br class="hidden max-xl:block">
+                world
+                <br class="max-xl:hidden">
+                of benefits...
+            </h1>
         </div>
         <div id="imageContainer" class="flex max-h-[660px] justify-center">
             <img src="{{ asset('storage/banners/banner-guest.png') }}" alt="Collages images" class="max-w-[1500px] h-auto " />
@@ -10,16 +17,15 @@
     </div>
 
 </div>
-<div class=" mx-auto w-full px-[min(5%,30px)] xl:px-0 max-w-[1920px]">
+<div class="mx-auto w-full px-[min(5%,30px)] xl:px-0 max-w-[1920px]">
     <div class="mx-auto max-w-screen-2xl">
         <div class="flex flex-row-reverse content-conteiner">
             <div class="ellipse-container">
-
                 <svg viewbox="0 0 200 200" class="svg-style ">
                     <ellipse cx="95" cy="106" rx="90" ry="35" style="fill:none;stroke:black;stroke-width:0.4"></ellipse>
                 </svg>
-                <div class="">
-                    <h1 class="text-[min(80px,9.2vw)] lg:text-[100px] font-editorial   leading-[85px] lg:leading-[130px] text-pink">that help <br> people grow.</h1>
+                <div class="-mt-16">
+                    <h3 class="text-[min(80px,9.2vw)] lg:text-8xl font-editorial lg:leading-[130px] text-pink">that help <br> people grow.</h3>
                 </div>
             </div>
 
