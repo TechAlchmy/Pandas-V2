@@ -49,56 +49,49 @@
             </div>
             <x-hr />
         </section>
-        <section class="bg-black ">
-            <div>
-                <div class="text-white flex space-x-8 px-[min(6.99vw,50px)] py-9 m-auto" style="max-width: 1920px;">
-                    <div class="w-1/2">
-                        <h3 class="font-editorial text-6xl leading-[70px]">Benefits for <br> Life Essentials</h3>
+        <section class="bg-black text-white px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto">
+            <div class="space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2">
+                        <h2 class="font-editorial text-6xl lg:text-8xl">
+                            Benefits for Life Essentials
+                        </h2>
                     </div>
-                    <div class="w-1/2 max-w-[700px] text-xl px-7">
-                        <p class="font-aeonik">
-                            At Panda People, we believe in real benefits that
-                            make a difference. We know pretend perks only go so
-                            far, so we’ve done something about it. Real people like
-                            you deserve better, so we’re delivering benefits for life
-                            essentials like housing, phone plans, and health + wellness.
+                    <div class="text-white space-y-6 lg:space-y-8 z-[1]">
+                        <p class="lg:text-lg">
+                            At Panda People, we believe in real benefits that make a difference.
+                            We know pretend perks only go so far, so we’ve done something about it.
+                            Real people like you deserve better, so we’re delivering benefits for life essentials like housing, phone plans, and health + wellness.*
                         </p>
                     </div>
                 </div>
-                <div class="text-white flex space-x-8">
-                    <div class="flex-shrink-1 w-3/5 lef-0">
-                        <div class="max-w-[900px]">
-                            <img src="{{ asset('storage/assets/pandas-3-circle.png') }}" alt="3 different color of circles" class="ml-0" />
-                        </div>
-
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                    <div class="lg:col-span-3">
+                        <img class="-ml-52 min-w-[150vw] lg:min-w-[80vw] lg:max-w-[500px]" src="{{ asset('storage/assets/pandas-3-circle.png') }}" alt="3 different color of circles" />
                     </div>
-                    <div class="flex flex-col justify-center h-full m-auto">
-                        <h1 class="font-editorial text-4xl leading-[40px]">Benefits with Panda</h1>
-                        <ul class="font-aeonik list-disc list-inside p-5">
+                    <div class="space-y-6">
+                        <h1 class="font-editorial text-6xl">Benefits with Panda</h1>
+                        <ul class="list-disc list-inside">
                             <li>Discounts on rent</li>
                             <li>Cellphone programs</li>
                             <li>Trusted child daycare services</li>
                             <li>Financial planning</li>
                             <li>Health + mental wellness</li>
                         </ul>
-                        <x-link class="max-w-[200px] m-auto" color="white" outlined href="/deals">Learn More</x-link>
-
-                        <div class="mt-10">
-                            <p class="text-[10px]">*Not all deals/benefits available in all areas</p>
-                        </div>
+                        <x-link class="hover:bg-panda-green" color="white" outlined href="/deals">Learn More</x-link>
+                        <p class="text-xs">*Not all deals/benefits available in all areas</p>
                     </div>
-
                 </div>
             </div>
         </section>
-        <section class="px-[min(6.99vw,50px)] py-4 " style="max-width: 1920px; margin:auto">
+        <section class="px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto">
             <div>
                 <h1 class="font-editorial text-6xl leading-[70px] mt-9">Panda Partners with Brands You Know</h1>
             </div>
             <x-brand-logos :categories="$categories" />
 
         </section>
-        <section class="px-[min(6.99vw,50px)] py-4" style="max-width: 1920px; margin:auto">
+        <section class="px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto">
             <h1 class="font-editorial text-6xl leading-[70px]">Guides</h1>
             <x-hr />
             <div class="flex">
