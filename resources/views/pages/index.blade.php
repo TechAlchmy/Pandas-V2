@@ -21,11 +21,11 @@
         <section class="px-[min(6.99vw,50px)] py-4" style="max-width: 1920px; margin:auto">
             <x-hr />
             <div class="lg:flex justify-between gap-4">
-                <h2 class="text-2xl lg:text-6xl font-editorial">
-                    Deals on Daily<br /> Essentials
+                <h2 class="text-4xl lg:text-6xl font-editorial">
+                    Deals on Daily Essentials
                 </h2>
-                <div>
-                    <p class="text-[20px]">
+                <div class="space-y-6">
+                    <p class="text-2xl">
                         Your day-to-day just got more affordable.
                     </p>
                     <x-link class="hover:bg-panda-green" outlined href="/deals">
@@ -34,16 +34,18 @@
                 </div>
             </div>
             <div class="py-8 lg:py-24"></div>
-            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
                 @foreach ($categories as $category)
                     <div class="flex-1 flex flex-col justify-between">
                         <x-a :href="route('deals.index', ['filter' => ['category_id' => $category->getKey()]])">
-                            <h3 class="font-editorial text-3xl lg:text-5xl leading-[60px]">{{ $category->name }}</h3>
+                            <h3 class="font-editorial text-3xl lg:text-4xl leading-[60px]">{{ $category->name }}</h3>
                         </x-a>
-                        <div>
-                            <p class="uppercase text-xl lg:text-2xl">Up to {{ $category->discounts_max_percentage }}% off</p>
-                            <p class="text-md lg:text-xl leading-7">24-hour access to primary care for less</p>
-                        </div>
+                        <x-a :href="route('deals.index', ['filter' => ['category_id' => $category->getKey()]])">
+                            <div>
+                                <p class="uppercase text-xl lg:text-2xl">Up to {{ $category->discounts_max_percentage }}% off</p>
+                                <p class="text-md lg:text-xl leading-7">24-hour access to primary care for less</p>
+                            </div>
+                        </x-a>
                     </div>
                 @endforeach
             </div>
@@ -84,86 +86,47 @@
                 </div>
             </div>
         </section>
-        <section class="px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto">
-            <div>
-                <h1 class="font-editorial text-6xl leading-[70px] mt-9">Panda Partners with Brands You Know</h1>
-            </div>
+        <section class="px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto bg-neutral-200">
+            <h1 class="font-editorial text-6xl leading-[70px] mt-9">Panda Partners with Brands You Know</h1>
             <x-brand-logos :categories="$categories" />
-
         </section>
         <section class="px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto">
-            <h1 class="font-editorial text-6xl leading-[70px]">Guides</h1>
+            <h1 class="font-editorial text-6xl">Guides</h1>
             <x-hr />
-            <div class="flex">
-                <div class="w-1/3 p-7">
-                    <img src="{{ asset('storage/assets/grey-bg.png') }}" alt="Panda images" class="my-5" />
-                    <h1 class="font-editorial text-4xl leading-[40px] my-5">5 Ways to Save on Everyday Groceries</h1>
-                    <p class="line-clamp-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Vivamus consequat urna vitae ornare ullamcorper. Quisque
-                        nec ipsum a libero feugiat consequat. Fusce efficitur eu dui
-                        a sollicitudin…. Maecenas nulla nisl, mollis et sapien sed,
-                        tincidunt sodales est. Vivamus sed scelerisque mi, auctor accumsa
-                        n massa. Vestibulum vitae enim consectetur, semper massa at, vulputate
-                        justo. Maecenas ligula ligula, dictum ac urna elementum, elementum imperdiet
-                        diam. Pellentesque gravida sollicitudin vestibulum. Vivamus dignissim
-                        laoreet tortor, condimentum elementum ante maximus eu. Sed iaculis mi
-                        quis velit egestas volutpat. Vestibulum ante ipsum primis in faucibus
-                        orci luctus. et ultrices posuere cubilia curae; Aenean ut tortor dignissim,
-                        sollicitudin turpis a, egestas augue. Duis eget hendrerit elit. Duis
-                        lacinia sed lectus a rhoncus. Quisque iaculis mi sapien, eu malesuada
-                        ligula eleifend nec. Sed venenatis fringilla justo id aliquam.
-                        Praesent lectus odio, pretium id ligula quis, blandit sagittis justo.
-                    </p>
-                    <x-link class="my-5" outlined href="/deals">Read Article</x-link>
-
-                </div>
-                <div class="w-1/3 p-7">
-                    <img src="{{ asset('storage/assets/grey-bg.png') }}" alt="Panda images" class="my-5" />
-                    <h1 class="font-editorial text-4xl leading-[40px] my-5">5 Ways to Save on Everyday Groceries</h1>
-                    <p class="line-clamp-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Vivamus consequat urna vitae ornare ullamcorper. Quisque
-                        nec ipsum a libero feugiat consequat. Fusce efficitur eu dui
-                        a sollicitudin…. Maecenas nulla nisl, mollis et sapien sed,
-                        tincidunt sodales est. Vivamus sed scelerisque mi, auctor accumsa
-                        n massa. Vestibulum vitae enim consectetur, semper massa at, vulputate
-                        justo. Maecenas ligula ligula, dictum ac urna elementum, elementum imperdiet
-                        diam. Pellentesque gravida sollicitudin vestibulum. Vivamus dignissim
-                        laoreet tortor, condimentum elementum ante maximus eu. Sed iaculis mi
-                        quis velit egestas volutpat. Vestibulum ante ipsum primis in faucibus
-                        orci luctus. et ultrices posuere cubilia curae; Aenean ut tortor dignissim,
-                        sollicitudin turpis a, egestas augue. Duis eget hendrerit elit. Duis
-                        lacinia sed lectus a rhoncus. Quisque iaculis mi sapien, eu malesuada
-                        ligula eleifend nec. Sed venenatis fringilla justo id aliquam.
-                        Praesent lectus odio, pretium id ligula quis, blandit sagittis justo.
-                    </p>
-                    <x-link class="my-5" outlined href="/deals">Read Article</x-link>
-
-                </div>
-                <div class="w-1/3 p-7">
-                    <img src="{{ asset('storage/assets/grey-bg.png') }}" alt="Panda images" class="my-5" />
-                    <h1 class="font-editorial text-4xl leading-[40px] my-5">5 Ways to Save on Everyday Groceries</h1>
-                    <p class="line-clamp-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Vivamus consequat urna vitae ornare ullamcorper. Quisque
-                        nec ipsum a libero feugiat consequat. Fusce efficitur eu dui
-                        a sollicitudin…. Maecenas nulla nisl, mollis et sapien sed,
-                        tincidunt sodales est. Vivamus sed scelerisque mi, auctor accumsa
-                        n massa. Vestibulum vitae enim consectetur, semper massa at, vulputate
-                        justo. Maecenas ligula ligula, dictum ac urna elementum, elementum imperdiet
-                        diam. Pellentesque gravida sollicitudin vestibulum. Vivamus dignissim
-                        laoreet tortor, condimentum elementum ante maximus eu. Sed iaculis mi
-                        quis velit egestas volutpat. Vestibulum ante ipsum primis in faucibus
-                        orci luctus. et ultrices posuere cubilia curae; Aenean ut tortor dignissim,
-                        sollicitudin turpis a, egestas augue. Duis eget hendrerit elit. Duis
-                        lacinia sed lectus a rhoncus. Quisque iaculis mi sapien, eu malesuada
-                        ligula eleifend nec. Sed venenatis fringilla justo id aliquam.
-                        Praesent lectus odio, pretium id ligula quis, blandit sagittis justo.
-                    </p>
-                    <x-link class="my-5" outlined href="/deals">Read Article</x-link>
-
-                </div>
-
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                @foreach (range(1, 3) as $i)
+                    <div class="space-y-6">
+                        <x-a :href="route('deals.index')">
+                            <div class="relative">
+                                <div class="pt-[65%]"></div>
+                                <img class="absolute inset-0 object-cover w-full h-full"
+                                    src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2952&q=80s" />
+                            </div>
+                        </x-a>
+                        <x-a :href="route('deals.index')">
+                            <h1 class="font-editorial text-4xl leading-[40px] my-5">5 Ways to Save on Everyday Groceries</h1>
+                        </x-a>
+                        <p class="line-clamp-3">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            Vivamus consequat urna vitae ornare ullamcorper. Quisque
+                            nec ipsum a libero feugiat consequat. Fusce efficitur eu dui
+                            a sollicitudin…. Maecenas nulla nisl, mollis et sapien sed,
+                            tincidunt sodales est. Vivamus sed scelerisque mi, auctor accumsa
+                            n massa. Vestibulum vitae enim consectetur, semper massa at, vulputate
+                            justo. Maecenas ligula ligula, dictum ac urna elementum, elementum imperdiet
+                            diam. Pellentesque gravida sollicitudin vestibulum. Vivamus dignissim
+                            laoreet tortor, condimentum elementum ante maximus eu. Sed iaculis mi
+                            quis velit egestas volutpat. Vestibulum ante ipsum primis in faucibus
+                            orci luctus. et ultrices posuere cubilia curae; Aenean ut tortor dignissim,
+                            sollicitudin turpis a, egestas augue. Duis eget hendrerit elit. Duis
+                            lacinia sed lectus a rhoncus. Quisque iaculis mi sapien, eu malesuada
+                            ligula eleifend nec. Sed venenatis fringilla justo id aliquam.
+                            Praesent lectus odio, pretium id ligula quis, blandit sagittis justo.
+                        </p>
+                        <x-link class="hover:bg-panda-green" outlined href="/deals">Read Article</x-link>
+                    </div>
+                @endforeach
             </div>
-
         </section>
 
         <livewire:resources.contact-inquiry-resource.forms.contact-us-form />
