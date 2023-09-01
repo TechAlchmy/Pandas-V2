@@ -1,7 +1,7 @@
 <div class="flex flex-col lg:flex-row mx-auto w-full max-w-[1920px]">
     <div class="w-full">
         <div class=" flex justify-start  px-[min(8%,50px)]">
-            <h1 id="dynamicColorText" class="font-editorial mix-blend-overlay text-black text-[min(80px,9.2vw)] lg:text-8xl xl:text-9xl mt-12 mr-10 absolute lg:leading-[130px] p-1">
+            <h1 id="dynamicColorText" class="font-editorial mix-blend-difference text-panda-green text-[min(80px,9.2vw)] lg:text-8xl xl:text-9xl mt-12 mr-10 absolute lg:leading-[130px] p-1">
                 Explore a
                 <br class="max-xl:hidden">
                 new
@@ -24,7 +24,7 @@
                 <svg viewbox="0 0 200 200" class="svg-style ">
                     <ellipse cx="95" cy="106" rx="90" ry="35" style="fill:none;stroke:black;stroke-width:0.4"></ellipse>
                 </svg>
-                <div class="-mt-16">
+                <div class="-mt-16 lg:-mt-32">
                     <h3 class="text-[min(80px,9.2vw)] lg:text-8xl font-editorial lg:leading-[130px] text-pink">that help <br> people grow.</h3>
                 </div>
             </div>
