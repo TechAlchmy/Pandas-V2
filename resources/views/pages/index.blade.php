@@ -136,7 +136,7 @@
     <x-layouts.base>
         <x-topbar.simple class="bg-white">
             <div class="flex gap-6 text-2xl">
-                <x-a href="/login">
+                <x-a :href="route('login')">
                     <p class="text-base lg:text-2xl">Member Sign In</p>
                 </x-a>
                 <x-a href="#">
