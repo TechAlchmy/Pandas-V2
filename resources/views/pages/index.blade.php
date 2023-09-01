@@ -34,9 +34,9 @@
                 </div>
             </div>
             <div class="py-8 lg:py-24"></div>
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
                 @foreach ($categories as $category)
-                    <div class="flex-1 p-4 flex flex-col justify-between">
+                    <div class="flex-1 flex flex-col justify-between">
                         <x-a :href="route('deals.index', ['filter' => ['category_id' => $category->getKey()]])">
                             <h3 class="font-editorial text-3xl lg:text-5xl leading-[60px]">{{ $category->name }}</h3>
                         </x-a>

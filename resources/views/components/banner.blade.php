@@ -2,27 +2,26 @@
     'background' => null,
 ])
 <div class="bg-cover bg-bottom h-[700px]" style="background-image: url('{{ $background }}');">
-    <div class="container flex items-center space-x-4 mx-auto">
-        <div class="p-10 w-full relative flex">
-            <div class="w-3/4">
-                <img src="{{ asset('storage/assets/circler-white.png') }}" alt="2 Circles " class="h-[600px]" />
-                <div class="bottom-out-blade">
-                    <h1 class="font-editorial text-[60px] font-thin text-white">Live. Grow. Play. <br> Panda.</h1>
+    <div class="relative h-full">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div></div>
+            <div class="p-8 text-white space-y-6 lg:space-y-8 z-[1]">
+                <h1 class="text-3xl lg:text-5xl">
+                    Explore a new world of benefits that help <u>you</u> grow
+                </h1>
+                <div class="lg:ml-64 space-y-6 lg:space-y-8">
+                    <p class="lg:text-lg">
+                        Welcome to your Panda People portal.
+                        Here, you’ll find a new world of benefits curated to help you do what you love on your terms.
+                        We’re here to help you live inquisitively, play, and explore more of life with less stress.
+                    </p>
+                    <x-link :href="route('dashboard')" outlined color="white" class="hover:bg-panda-green">Learn More</x-link>
                 </div>
             </div>
-            <div class="w-1/4 text-white relative">
-                <p class="text-[50px] w-[700px] ml-[-60%] leading-[60px] py-10 ">
-                    Explore a new world of benefits that help you grow
-                </p>
-                <p class="text-[20px]">
-                    Welcome to your Panda People portal. Here, you’ll find a new world of benefits
-                    curated to help you do what you love on your terms. We’re here to help you live
-                    inquisitively, play, and explore more of life with less stress.
-                </p>
-                <x-button size="lg" color="white" outlined class="absolute bottom-0">
-                    Learn More
-                </x-button>
-            </div>
+        </div>
+        <div class="absolute bottom-0 min-w-full">
+            <img class="min-w-[40rem] -mb-16 lg:w-full max-w-2xl lg:max-w-[75vw]" src="{{ asset('storage/assets/circler-white.png') }}" alt="2 Circles " />
+            <h4 class="text-white p-8 text-3xl lg:text-6xl font-light">Live. Grow. Play. Panda.</h4>
         </div>
     </div>
 </div>
