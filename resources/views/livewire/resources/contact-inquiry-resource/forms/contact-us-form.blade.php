@@ -1,10 +1,10 @@
 <div class="max-w-[1920px] mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-2">
         <div>
-            <div class="relative min-h-screen max-h-[1080px]"
+            <div class="relative h-80 lg:h-full w-full"
                 style="background-image: url(https://images.unsplash.com/photo-1648832328633-89b993c5d6b7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80)">
                 <div class="absolute inset-0 p-8 text-white flex flex-col justify-between">
-                    <h1 class="text-6xl">
+                    <h1 class="text-4xl lg:text-6xl">
                         Both of our ears are open.
                     </h1>
                     <p>
@@ -17,7 +17,7 @@
                 </div>
             </div>
         </div>
-        <div class="p-8 space-y-4">
+        <div class="p-8 space-y-4 bg-panda-green">
             <h2 class="text-6xl font-light">Contact Us</h2>
             <form wire:submit.prevent="create">
                 {{ $this->form }}
