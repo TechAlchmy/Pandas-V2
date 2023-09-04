@@ -106,6 +106,7 @@ class ListDeals extends Component implements HasForms
     {
         return \App\Models\Discount::query()
             ->withBrand(auth()->user()?->organization)
+            ->withOfferTypes(auth()->user()?->organization)
             ->active()
             ->whereHas('featuredDeals', function ($query) {
                 $query->where('featured_deals.organization_id', auth()->user()?->organization?->getKey());
