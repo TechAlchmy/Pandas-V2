@@ -5,8 +5,8 @@
     <div class="relative h-full">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div></div>
-            <div class="p-8 text-white space-y-6 lg:space-y-8 z-[1]">
-                <h1 class="text-3xl lg:text-5xl">
+            <div class="p-8 text-white space-y-6 lg:space-y-8 z-[1]" x-data="{ shown: false }" x-intersect.once="shown = true">
+                <h1 x-show="shown" x-transition.duration.2000 class="text-3xl lg:text-5xl">
                     Explore a new world of benefits that help <u>you</u> grow
                 </h1>
                 <div class="lg:ml-64 space-y-6 lg:space-y-8">
