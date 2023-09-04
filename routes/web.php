@@ -27,10 +27,16 @@ Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
     ->middleware(['signed', 'throttle:6,1'])
     ->name('verification.verify');
 
-Route::get('/checkout', Checkout::class)->name('pages.checkout');
-Route::get('/order/{order:uuid}/summary', OrderSummary::class)->name('pages.order.summary');
+Route::get('/checkout', Checkout::class)
+    ->middleware(['auth', 'verified'])
+    ->name('pages.checkout');
+Route::get('/order/{order:uuid}/summary', OrderSummary::class)
+    ->middleware(['auth'])
+    ->name('pages.order.summary');
 
 Route::get('deals', ListDeals::class)
+    ->middleware(['auth', 'verified'])
     ->name('deals.index');
 Route::get('deals/{id}', ViewDeal::class)
+    ->middleware(['auth', 'verified'])
     ->name('deals.show');
