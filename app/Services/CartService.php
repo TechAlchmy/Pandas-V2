@@ -181,6 +181,8 @@ class CartService
             ]);
         }
 
+        cart()->clear();
+
         if (auth()->check()) {
             Cart::query()
                 ->whereBelongsTo(auth()->user())
