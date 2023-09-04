@@ -69,7 +69,7 @@
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
                     <div class="lg:col-span-3">
-                        <img class="-ml-52 min-w-[150vw] lg:min-w-[80vw] lg:max-w-[500px]" src="{{ asset('storage/assets/pandas-3-circle.png') }}" alt="3 different color of circles" />
+                        <img class="-ml-52 min-w-[150vw] md:overflow-x-hidden lg:min-w-[80vw] lg:max-w-md 2xl:-ml-96" src="{{ asset('storage/assets/pandas-3-circle.png') }}" alt="3 different color of circles" />
                     </div>
                     <div class="space-y-6" x-data="{ shown: false }" x-intersect.once="shown = true">
                         <h1 x-show="shown" x-transition.duration.2000 class="font-editorial text-6xl">Benefits with Panda</h1>
