@@ -103,7 +103,7 @@ class CartService
 
         $this->persist();
 
-        $records = Discount::query()->find(
+        $records = Discount::query()->with('brand')->find(
             collect(session('cart_items'))->pluck('id')
         );
 
