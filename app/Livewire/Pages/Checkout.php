@@ -164,7 +164,7 @@ class Checkout extends Component implements HasForms, HasActions
                            ->default(auth()->user()?->email)
                            ->required(),
                         Forms\Components\TextInput::make('xCardNum')
-                            ->mask(RawJs::make('$input.startsWith(\'34\') || $input.startsWith(\'37\')? \'9999 999999 99999\' : \'9999 9999 9999 9999\''))
+                            // ->mask(RawJs::make('$input.startsWith(\'34\') || $input.startsWith(\'37\')? \'9999 999999 99999\' : \'9999 9999 9999 9999\''))
                             ->view('forms.components.text-input')
                             ->hiddenLabel()
                             ->placeholder('Card number')
