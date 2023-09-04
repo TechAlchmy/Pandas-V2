@@ -1,6 +1,6 @@
-@props(['record', 'recordClicks' => false])
+@props(['record'])
 
-<div class="space-y-2 min-h-full flex flex-col" x-data="{ recordClicks: @js($recordClicks) }" x-on:click="if (recordClicks) $dispatch('deal-clicked', {id: {{ $record->getKey() }}})">
+<div class="space-y-2 min-h-full flex flex-col">
     <div class="min-h-[5rem]">
         @if ($record->brand->hasMedia('logo'))
             <x-a class="inline-block object-contain max-h-20" :href="route('deals.show', ['id' => $record->slug])">

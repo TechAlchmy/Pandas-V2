@@ -38,7 +38,7 @@
                             </div>
                             <div class="flex gap-6 items-center">
                                 @if ($this->record->cta == \App\Enums\DiscountCallToActionEnum::AddToCart)
-                                    <x-button class="hover:bg-panda-green" x-on:click="$wire.addToCart()" outlined>
+                                    <x-button class="hover:bg-panda-green" x-on:click="$wire.addToCart();$wire.updateClicks()" outlined>
                                         Add to cart
                                     </x-button>
                                 @endif
