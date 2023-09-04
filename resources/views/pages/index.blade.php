@@ -54,8 +54,8 @@
         <section class="bg-black text-white px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto">
             <div class="space-y-6">
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div class="lg:col-span-2">
-                        <h2 class="font-editorial text-6xl lg:text-8xl">
+                    <div class="lg:col-span-2" x-data="{ shown: false }" x-intersect.once="shown = true">
+                        <h2 x-show="shown" x-transition.duration.2000 class="font-editorial text-6xl lg:text-8xl">
                             Benefits for Life Essentials
                         </h2>
                     </div>
@@ -71,8 +71,8 @@
                     <div class="lg:col-span-3">
                         <img class="-ml-52 min-w-[150vw] lg:min-w-[80vw] lg:max-w-[500px]" src="{{ asset('storage/assets/pandas-3-circle.png') }}" alt="3 different color of circles" />
                     </div>
-                    <div class="space-y-6">
-                        <h1 class="font-editorial text-6xl">Benefits with Panda</h1>
+                    <div class="space-y-6" x-data="{ shown: false }" x-intersect.once="shown = true">
+                        <h1 x-show="shown" x-transition.duration.2000 class="font-editorial text-6xl">Benefits with Panda</h1>
                         <ul class="list-disc list-inside">
                             <li>Discounts on rent</li>
                             <li>Cellphone programs</li>
