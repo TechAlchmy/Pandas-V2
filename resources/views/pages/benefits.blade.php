@@ -11,8 +11,8 @@ name('benefits');
 <x-layouts.app>
     <section class="">
         <div class="px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <h1 class="text-6xl max-w-xl mix-blend-difference text-panda-green">Get Ready to go beyond the basic</h1>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" x-data="{ shown: false }" x-intersect.once="shown = true">
+                <h1 x-show="shown" x-transition.duration.1500 class="text-6xl max-w-xl mix-blend-difference text-panda-green">Get Ready to go beyond the basic</h1>
                 <div class="space-y-6 lg:ml-56 xl:ml-80">
                     <p class="">
                         Real benefits for real people start with Panda. We’re here to help you thrive in ways that matters to you, so you can give more when it’s go time—in life and work.
@@ -27,10 +27,10 @@ name('benefits');
     </section>
     <section class="px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto md:-mt-40">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div>
-                <h1 class="text-6xl max-w-xl">
+            <div x-data="{ shown: false }" x-intersect.once="shown = true">
+                <h2 x-show="shown" x-transition.duration.2000 class="text-6xl max-w-xl">
                     Benefits for Life Essentials
-                </h1>
+                </h2>
                 <p>
                     At Panda People, we believe in providing you with the types of benefits that enhance life and make work more rewarding.
 
@@ -61,16 +61,16 @@ name('benefits');
     </section>
     <section class="bg-panda-green">
         <div class="px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto">
-            <div class="grid grid-cols-1 md:grid-cols-3">
-                <h2 class="text-7xl lg:text-8xl md:col-span-2">
+            <div class="grid grid-cols-1 md:grid-cols-3" x-data="{ shown: false }" x-intersect.once="shown = true">
+                <h2 x-show="shown" x-transition.duration.2000 class="text-7xl lg:text-8xl md:col-span-2">
                     …and Purchases Essential to Life
                 </h2>
             </div>
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <img class="-mt-40 md:-mt-60 lg:-mt-80 w-[100vw]" src="{{ asset('storage/assets/benefit-circles-2.png') }}" />
-            <div class="p-8 space-y-4 place-self-center -mt-20 lg:-mt-40">
-                <h2 class="text-4xl">
+            <div x-data="{ shown: false }" x-intersect.once="shown = true" class="p-8 space-y-4 place-self-center -mt-20 lg:-mt-40">
+                <h2 x-show="shown" x-transition.duration.2000 class="text-4xl">
                     We’re here to help you afford more of what brings you joy and everyday essentials.
                 </h2>
                 <h5 class="text-xl">
