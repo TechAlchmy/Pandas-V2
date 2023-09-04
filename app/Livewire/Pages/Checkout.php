@@ -134,9 +134,10 @@ class Checkout extends Component implements HasForms, HasActions
 
     public function updateItem($id, $quantity, $amount)
     {
-        $record = Discount::find($id);
-        if ($record->limit_qty >= $quantity) {
-            cart()->update($id, $quantity, $amount);
+        $item = cart()->items()->get($key);
+
+        if ($item['itemable']->limit_qty >= $quantity) {
+            cart()->update($key, $item['itemable']->getKey(), $quantity, $amount);
             return;
         }
 
