@@ -22,10 +22,10 @@
     <div class="mx-auto max-w-screen-2xl">
         <div class="flex flex-row-reverse content-conteiner">
             <div class="ellipse-container">
-                <svg viewbox="0 0 200 200" class="svg-style ">
+                <svg viewbox="0 0 200 200" class="svg-style -mt-16">
                     <ellipse cx="95" cy="106" rx="90" ry="35" style="fill:none;stroke:black;stroke-width:0.4"></ellipse>
                 </svg>
-                <div x-data="{ shown: false }" x-intersect.once="shown = true" class="-mt-16 lg:-mt-32">
+                <div x-data="{ shown: false }" x-intersect.once="shown = true" class="-mt-16">
                     <h3 x-show="shown" x-transition.opacity.duration.2000 class="text-[min(80px,9.2vw)] lg:text-8xl font-editorial lg:leading-[130px] text-pink">
                         that help <br> people grow.
                     </h3>
