@@ -181,7 +181,7 @@ class CartService
             ]);
         }
 
-        cart()->clear();
+        $this->clear();
 
         if (auth()->check()) {
             Cart::query()
