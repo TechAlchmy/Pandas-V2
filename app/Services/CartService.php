@@ -175,7 +175,7 @@ class CartService
 
         foreach (cart()->items() as $key => $item) {
             $order->orderDetails()->create([
-                'discount_id' => $item['id'],
+                'discount_id' => $item['itemable']->getKey(),
                 'amount' => $item['amount'],
                 'quantity' => $item['quantity'],
             ]);
