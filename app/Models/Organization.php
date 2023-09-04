@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\URL;
 use Squire\Models\Region;
 
 class Organization extends Model
@@ -58,6 +59,6 @@ class Organization extends Model
 
     protected function registrationLink(): Attribute
     {
-        return Attribute::get(fn () => route('register', ['organization_uuid' => $this->uuid]));
+        return Attribute::get(fn () => URL::signedRoute('register', ['organization_uuid' => $this->uuid]));
     }
 }

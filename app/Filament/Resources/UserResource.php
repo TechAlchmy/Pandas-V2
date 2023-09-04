@@ -7,6 +7,8 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers\OrdersRelationManager;
 use App\Forms\Components\AuditableView;
 use App\Models\User;
+use App\Notifications\SendUserConfirmedNotification;
+use App\Notifications\SendUserDeniedNotification;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Components\Section;
@@ -159,6 +161,8 @@ class UserResource extends Resource
                     ->placeholder('Active')
                     ->trueLabel('All')
                     ->falseLabel('Suspended'),
+                Tables\Filters\TernaryFilter::make('organization_verified_at')
+                    ->nullable(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -167,6 +171,20 @@ class UserResource extends Resource
                     ->successNotificationTitle('User Suspended')
                     ->label('Suspend'),
                 Tables\Actions\RestoreAction::make(),
+                Tables\Actions\Action::make('verify')
+                    ->hidden(fn ($record) => $record->organization_verified_at)
+                    ->action(function ($record) {
+                        $record->touch('organization_verified_at');
+                        $record->notify(new SendUserConfirmedNotification);
+                    }),
+                Tables\Actions\ForceDeleteAction::make()
+                    ->label('Deny registration')
+                    ->hidden(fn ($record) => $record->organization_verified_at)
+                    ->successNotificationTitle('User denied')
+                    ->successNotification(function ($record, $notification) {
+                        $record->notify(new SendUserDeniedNotification);
+                        return $notification;
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

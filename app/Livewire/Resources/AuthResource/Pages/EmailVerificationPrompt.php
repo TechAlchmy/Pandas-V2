@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Resources\AuthResource\Widgets;
+namespace App\Livewire\Resources\AuthResource\Pages;
 
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 use DanHarrin\LivewireRateLimiting\WithRateLimiting;
@@ -12,6 +12,13 @@ use Livewire\Component;
 class EmailVerificationPrompt extends Component
 {
     use WithRateLimiting;
+
+    public function mount()
+    {
+        if (auth()->user()->hasVerifiedEmail() && auth()->user()->organization_verified_at) {
+            abort(redirect()->route('dashboard'));
+        }
+    }
 
     public function resend()
     {
