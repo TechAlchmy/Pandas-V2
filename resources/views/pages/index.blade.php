@@ -51,8 +51,8 @@
             </div>
             <x-hr />
         </section>
-        <section class="bg-black text-white px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto">
-            <div class="space-y-6">
+        <section class="bg-black text-white px-[min(6.99vw,50px)] py-8">
+            <div class="space-y-6 max-w-[1920px] mx-auto">
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <div class="lg:col-span-2" x-data="{ shown: false }" x-intersect.once="shown = true">
                         <h2 x-show="shown" x-transition.duration.2000 class="font-editorial text-6xl lg:text-8xl">
