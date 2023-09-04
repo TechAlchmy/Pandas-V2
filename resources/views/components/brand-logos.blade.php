@@ -8,21 +8,11 @@
                 <div class="invisible opacity-0 translate-y-5 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 duration-500 transition-transform ease-out absolute inset-y-0 z-[1] bg-black w-full">
                     <div class="relative flex items-center overflow-x-hidden h-full">
                         <div class="animate-marquee flex whitespace-nowrap items-center gap-4">
-                            @if (app()->isLocal())
-                                @foreach (['adidas-white', 'boss', 'nb', 'nike_white', 'puma', 'reebok', 'sketchers'] as $logo)
-                                    <img class="max-w-[150px] max-h-24 invert" src="{{ asset('storage/logo/' . $logo . '.png') }}" alt="{{ $logo }} Logo">
-                                @endforeach
-                            @endif
                             @foreach ($category->brands as $brand)
                                 <img class="max-w-[150px] max-h-24 invert" src="{{ $brand->getFirstMediaUrl('logo') }}" alt="{{ $brand->name }} Logo">
                             @endforeach
                         </div>
                         <div class="h-full animate-marquee2 absolute top-0 flex whitespace-nowrap items-center gap-4 ml-4">
-                            @if (app()->isLocal())
-                                @foreach (['adidas-white', 'boss', 'nb', 'nike_white', 'puma', 'reebok', 'sketchers'] as $logo)
-                                    <img class="max-w-[150px] max-h-24 invert" src="{{ asset('storage/logo/' . $logo . '.png') }}" alt="{{ $logo }} Logo">
-                                @endforeach
-                            @endif
                             @foreach ($category->brands as $brand)
                                 <img class="max-w-[150px] max-h-24 invert" src="{{ $brand->getFirstMediaUrl('logo') }}" alt="{{ $brand->name }} Logo">
                             @endforeach
