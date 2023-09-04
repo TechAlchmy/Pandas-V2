@@ -1,4 +1,4 @@
-<div class="hidden md:flex justify-end items-center gap-3 p-6 lg:px-8 border-b bg-white">
+<div class="hidden md:flex justify-end items-center gap-3 p-6 lg:px-8 border-b bg-white relative z-20">
     <x-button tag="a" href="/contact-us">Contact Us</x-button>
     @auth
         <div x-data="{
