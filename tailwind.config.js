@@ -69,8 +69,8 @@ export default {
             animation: {
                 fadeIn: "fadeIn 0.5s ease-in-out",
                 fadeOut: "fadeOut 0.5s ease-in-out",
-                marquee: 'marquee 10s linear infinite',
-                marquee2: 'marquee2 10s linear infinite',
+                marquee: 'marquee 25s linear infinite',
+                marquee2: 'marquee2 25s linear infinite',
             },
             screens: {
                 "max-sm": { max: "640px" },
@@ -93,8 +93,6 @@ export default {
                 "gray-dark": "#273444",
                 gray: "#8492a6",
                 "gray-light": "#d3dce6",
-                white: "#ffffff",
-                black: "#000000",
                 "panda-green": "#91b88f",
             },
         },

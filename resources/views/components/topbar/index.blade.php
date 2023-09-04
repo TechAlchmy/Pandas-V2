@@ -1,4 +1,4 @@
-<header class="bg-white border-b" x-data="{ mobileMenuOpened: false }">
+<header class="bg-white border-b relative z-10" x-data="{ mobileMenuOpened: false }">
     <nav class="mx-auto flex items-center justify-between p-6 lg:px-8" aria-label="Global">
         <div class="flex lg:flex-1">
             <a href="/" class="-m-1.5 p-1.5">
