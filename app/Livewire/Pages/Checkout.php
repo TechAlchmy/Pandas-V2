@@ -224,6 +224,9 @@ class Checkout extends Component implements HasForms, HasActions
                         ->body($response->xError)
                         ->send();
 
+                    foreach ($order->loadMissing('orderDetails')->orderDetails as $detail) {
+                        cart()->add($detail->discount_id, $detail->quantity, $detail->amount);
+                    }
                     return;
                 }
 
