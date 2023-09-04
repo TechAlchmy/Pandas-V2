@@ -1,7 +1,8 @@
 <div class="flex flex-col lg:flex-row mx-auto w-full max-w-[1920px]">
     <div class="w-full">
-        <div class=" flex justify-start  px-[min(8%,50px)]">
-            <h1 id="dynamicColorText" class="font-editorial mix-blend-difference text-panda-green text-[min(80px,9.2vw)] lg:text-8xl xl:text-9xl mt-12 mr-10 absolute lg:leading-[130px] p-1">
+        <div class=" flex justify-start  px-[min(8%,50px)]" x-data="{ shown: false }" x-intersect.once="shown = true">
+            <h1 id="dynamicColorText" x-show="shown" x-transition.duration.2000
+                class="font-editorial mix-blend-difference text-panda-green text-[min(80px,9.2vw)] lg:text-8xl xl:text-9xl mt-12 mr-10 absolute lg:leading-[130px] p-1">
                 Explore a
                 <br class="max-xl:hidden">
                 new
@@ -21,18 +22,20 @@
     <div class="mx-auto max-w-screen-2xl">
         <div class="flex flex-row-reverse content-conteiner">
             <div class="ellipse-container">
-                <svg viewbox="0 0 200 200" class="svg-style ">
+                <svg viewbox="0 0 200 200" class="svg-style -mt-16">
                     <ellipse cx="95" cy="106" rx="90" ry="35" style="fill:none;stroke:black;stroke-width:0.4"></ellipse>
                 </svg>
-                <div class="-mt-16 lg:-mt-32">
-                    <h3 class="text-[min(80px,9.2vw)] lg:text-8xl font-editorial lg:leading-[130px] text-pink">that help <br> people grow.</h3>
+                <div x-data="{ shown: false }" x-intersect.once="shown = true" class="-mt-16">
+                    <h3 x-show="shown" x-transition.opacity.duration.2000 class="text-[min(80px,9.2vw)] lg:text-8xl font-editorial lg:leading-[130px] text-pink">
+                        that help <br> people grow.
+                    </h3>
                 </div>
             </div>
 
             <div class="w-4/5 lg:w-3/5 flex flex-col md:flex-row  p-[50px] mt-[50px] text-container">
-                <div class=" flex flex-col md:px-10 ">
-                    <p class="mb-5 font-aeonik text=[20px] uppercase">What is Panda People?</p>
-                    <p class="font-aeonik">Real benefits for real people start with Panda.
+                <div class=" flex flex-col md:px-10" x-data="{ shown: false }" x-intersect.once="shown = true">
+                    <p class="mb-5 font-aeonik text=[20px] uppercase" x-show="shown" x-transition.duration.1000>What is Panda People?</p>
+                    <p class="font-aeonik" x-show="shown" x-transition.opacity.duration.2000>Real benefits for real people start with Panda.
                         We’re here to help you thrive in ways that matter
                         to you, so you can give more when it’s go time. Get
                         started on your journey to more life, more growth,

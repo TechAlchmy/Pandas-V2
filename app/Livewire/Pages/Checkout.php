@@ -134,9 +134,10 @@ class Checkout extends Component implements HasForms, HasActions
 
     public function updateItem($id, $quantity, $amount)
     {
-        $record = Discount::find($id);
-        if ($record->limit_qty >= $quantity) {
-            cart()->update($id, $quantity, $amount);
+        $item = cart()->items()->get($id);
+
+        if ($item['itemable']->limit_qty >= $quantity) {
+            cart()->update($id, $item['itemable']->getKey(), $quantity, $amount);
             return;
         }
 
@@ -164,7 +165,7 @@ class Checkout extends Component implements HasForms, HasActions
                            ->default(auth()->user()?->email)
                            ->required(),
                         Forms\Components\TextInput::make('xCardNum')
-                            ->mask(RawJs::make('$input.startsWith(\'34\') || $input.startsWith(\'37\')? \'9999 999999 99999\' : \'9999 9999 9999 9999\''))
+                            // ->mask(RawJs::make('$input.startsWith(\'34\') || $input.startsWith(\'37\')? \'9999 999999 99999\' : \'9999 9999 9999 9999\''))
                             ->view('forms.components.text-input')
                             ->hiddenLabel()
                             ->placeholder('Card number')
@@ -224,6 +225,9 @@ class Checkout extends Component implements HasForms, HasActions
                         ->body($response->xError)
                         ->send();
 
+                    foreach ($order->loadMissing('orderDetails')->orderDetails as $detail) {
+                        cart()->add($detail->discount_id, $detail->quantity, $detail->amount);
+                    }
                     return;
                 }
 

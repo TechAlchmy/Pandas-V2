@@ -1,4 +1,4 @@
-<div class="hidden md:flex justify-end items-center gap-3 p-6 lg:px-8 border-b bg-white">
+<div class="hidden md:flex justify-end items-center gap-3 p-6 lg:px-8 border-b bg-white relative z-[2]">
     <x-button tag="a" href="/contact-us">Contact Us</x-button>
     @auth
         <div x-data="{
@@ -42,8 +42,8 @@
                         {{-- <span class="ml-auto text-xs tracking-widest opacity-60">⇧⌘P</span> --}}
                     </x-link>
                     @if (auth()->user()?->is_manager)
-                        <x-link :href="route('filament.management.pages.dashboard')"
-                            class="relative flex cursor-default select-none hover:bg-neutral-100 items-center rounded px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                        <x-link :href="route('filament.management.pages.dashboard', ['tenant' => auth()->user()->organization])"
+                            class="relative flex cursor-pointer select-none hover:bg-neutral-100 items-center rounded px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                 class="w-4 h-4 mr-2">
                                 <rect width="20" height="14" x="2" y="5" rx="2"></rect>

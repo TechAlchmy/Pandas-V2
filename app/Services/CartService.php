@@ -103,7 +103,7 @@ class CartService
 
         $this->persist();
 
-        $records = Discount::query()->find(
+        $records = Discount::query()->with('brand')->find(
             collect(session('cart_items'))->pluck('id')
         );
 
@@ -173,13 +173,15 @@ class CartService
                 'order_total' => $this->total(),
             ]);
 
-        foreach (cart()->items() as $id => $item) {
+        foreach (cart()->items() as $key => $item) {
             $order->orderDetails()->create([
-                'discount_id' => $id,
+                'discount_id' => $item['itemable']->getKey(),
                 'amount' => $item['amount'],
                 'quantity' => $item['quantity'],
             ]);
         }
+
+        $this->clear();
 
         if (auth()->check()) {
             Cart::query()
