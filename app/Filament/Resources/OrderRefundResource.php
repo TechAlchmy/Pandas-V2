@@ -30,6 +30,7 @@ class OrderRefundResource extends Resource
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('actual_amount')
+                    ->required()
                     ->numeric(),
                 Forms\Components\Select::make('order_id')
                     ->label('Order Number')
