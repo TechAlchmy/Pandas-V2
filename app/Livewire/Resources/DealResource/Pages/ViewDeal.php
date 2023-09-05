@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Http;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Renderless;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 
@@ -138,6 +139,9 @@ class ViewDeal extends Component implements HasActions, HasForms
                         ->body($response->xError)
                         ->send();
 
+                    foreach ($order->loadMissing('orderDetails')->orderDetails as $detail) {
+                        cart()->add($detail->discount_id, $detail->quantity, $detail->amount);
+                    }
                     return;
                 }
 
@@ -154,7 +158,7 @@ class ViewDeal extends Component implements HasActions, HasForms
                     ->success()
                     ->send();
 
-                return redirect()->route('dashboard', ['activeTab' => 4]);
+                return redirect()->route('orders.show', ['id' => $order->uuid]);
             });
     }
 
@@ -212,6 +216,7 @@ class ViewDeal extends Component implements HasActions, HasForms
             ->firstOrFail();
     }
 
+    #[Renderless]
     public function updateClicks()
     {
         Discount::query()
@@ -219,6 +224,7 @@ class ViewDeal extends Component implements HasActions, HasForms
             ->increment('clicks');
     }
 
+    #[Renderless]
     public function updateViews()
     {
         Discount::query()

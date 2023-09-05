@@ -1,102 +1,100 @@
-<div class="max-w-[1920px] mx-auto px-[min(6.99vw,50px)] py-8">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="col-span-2">
-            <h2 class="font-light text-3xl">Shopping bag</h2>
-            <x-hr />
-            @if (cart()->items()->isNotEmpty())
-                <div class="divide-y">
-                    <div class="p-4 hidden lg:block">
-                        <div class="flex gap-6">
-                            <div class="w-20"></div>
-                            <div class="w-full grid grid-cols-1 lg:grid-cols-4 gap-6">
-                                <div>Item</div>
-                                <div>Item Price</div>
-                                <div>Qty</div>
-                                <div>Total Price</div>
+<div class="px-[min(6.99vw,50px)] py-8">
+    <div class="max-w-[1920px] mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="col-span-2">
+                <h2 class="font-light text-3xl">Shopping bag</h2>
+                <x-hr />
+                @if (cart()->items()->isNotEmpty())
+                    <div class="divide-y">
+                        <div class="p-4 hidden lg:block">
+                            <div class="flex gap-6">
+                                <div class="w-full grid grid-cols-1 lg:grid-cols-4 gap-6">
+                                    <div>Item</div>
+                                    <div>Item Price</div>
+                                    <div>Qty</div>
+                                    <div>Total Price</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    @foreach (cart()->items() as $id => $item)
-                        <div class="p-4">
-                            <div class="flex items-center gap-6">
-                                <div class="w-20 min-h-[5rem] flex items-center">
-                                    {{ $item['itemable']->brand->getFirstMedia('logo')?->img()->attributes(['class' => 'w-20']) }}
-                                </div>
-                                <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                                    <div>
+                        @foreach (cart()->items() as $id => $item)
+                            <div class="p-4">
+                                <div class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                                    <div class="flex gap-2 items-center">
+                                        {{ $item['itemable']->brand->getFirstMedia('logo')?->img()->attributes(['class' => 'w-20']) }}
                                         <h5>{{ $item['itemable']->name }}</h5>
                                     </div>
-                                    <div>
+                                    <div class="">
                                         {{ Filament\Support\format_money($item['amount'], 'USD') }}
                                     </div>
-                                    <div>
+                                    <div class="">
                                         <x-input x-on:input.debounce="$wire.updateItem('{{ $id }}', $event.target.value, '{{ $item['amount'] }}')" value="{{ $item['quantity'] }}" type="number"
                                             class="px-2 max-w-full border !border-solid border-black" min="1" />
                                     </div>
-                                    <div>
+                                    <div class="">
                                         {{ Filament\Support\format_money($item['amount'] * $item['quantity'], 'USD') }}
                                     </div>
                                 </div>
+
+                                <div class="flex justify-end gap-6">
+                                    {{ ($this->removeItem)(['id' => $id]) }}
+                                    {{ ($this->saveItem)(['id' => $id]) }}
+                                </div>
                             </div>
-                            <div class="flex justify-end gap-6">
-                                {{ ($this->removeItem)(['id' => $id]) }}
-                                {{ ($this->saveItem)(['id' => $id]) }}
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            @else
-                <div>No Item</div>
-            @endif
-        </div>
-        <div>
-            <div class="sticky top-[5rem]">
-                <h2 class="font-light text-3xl">Order Summary</h2>
-                <x-hr />
-                <table class="table w-full">
-                    <tbody>
-                        <tr>
-                            <td>Subtotal</td>
-                            <td align="right">{{ Filament\Support\format_money(cart()->subtotal(), 'USD') }}</td>
-                        </tr>
-                        <tr>
-                            <td>Saving</td>
-                            <td align="right">{{ Filament\Support\format_money(cart()->discount(), 'USD') }}</td>
-                        </tr>
-                        <tr>
-                            <td>Est. Tax</td>
-                            <td align="right">{{ Filament\Support\format_money(cart()->tax(), 'USD') }}</td>
-                        </tr>
-                        <tr>
-                            <td>Total</td>
-                            <td align="right">{{ Filament\Support\format_money(cart()->total(), 'USD') }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <x-hr />
-                {{ $this->checkoutAction }}
+                        @endforeach
+                    </div>
+                @else
+                    <div>No Item</div>
+                @endif
             </div>
-        </div>
-    </div>
-    <div class="my-20"></div>
-    @php
-        $savedProducts = savedProduct()->get();
-    @endphp
-    @if ($savedProducts->isNotEmpty())
-        <div x-data="{ shown: false }" x-intersect.delay.500ms="shown = true">
-            <div x-show="shown" x-transition.opcaity.duration.1000ms>
-                <h3 class="text-4xl">Saved for later</h3>
-                <x-hr />
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    @foreach ($savedProducts as $record)
-                        <x-deal-card :$record />
-                    @endforeach
+            <div>
+                <div class="sticky top-[5rem]">
+                    <h2 class="font-light text-3xl">Order Summary</h2>
+                    <x-hr />
+                    <table class="table w-full">
+                        <tbody>
+                            <tr>
+                                <td>Subtotal</td>
+                                <td align="right">{{ Filament\Support\format_money(cart()->subtotal(), 'USD') }}</td>
+                            </tr>
+                            <tr>
+                                <td>Saving</td>
+                                <td align="right">{{ Filament\Support\format_money(cart()->discount(), 'USD') }}</td>
+                            </tr>
+                            <tr>
+                                <td>Est. Tax</td>
+                                <td align="right">{{ Filament\Support\format_money(cart()->tax(), 'USD') }}</td>
+                            </tr>
+                            <tr>
+                                <td>Total</td>
+                                <td align="right">{{ Filament\Support\format_money(cart()->total(), 'USD') }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <x-hr />
+                    {{ $this->checkoutAction }}
                 </div>
             </div>
         </div>
-    @endif
-    <div class="checkout-modal">
-        <x-filament-actions::modals />
+        <div class="my-20"></div>
+        @php
+            $savedProducts = savedProduct()->get();
+        @endphp
+        @if ($savedProducts->isNotEmpty())
+            <div x-data="{ shown: false }" x-intersect.delay.500ms="shown = true">
+                <div x-show="shown" x-transition.opcaity.duration.1000ms>
+                    <h3 class="text-4xl">Saved for later</h3>
+                    <x-hr />
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        @foreach ($savedProducts as $record)
+                            <x-deal-card :$record />
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        @endif
+        <div class="checkout-modal">
+            <x-filament-actions::modals />
+        </div>
     </div>
 </div>
 {{-- <div class="bg-gray-50">

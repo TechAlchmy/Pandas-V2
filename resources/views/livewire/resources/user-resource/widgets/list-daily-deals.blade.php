@@ -13,7 +13,7 @@ $categories = computed(function () {
     <div class="pt-[100%] bg-cover bg-center" style="background-image: url({{ asset('storage/assets/list-daily-deals.png') }})">
     </div>
     <div class="p-8 space-y-4">
-        <h2 class="text-3xl">
+        <h2 class="text-3xl xl:text-5xl 2xl:text-7xl">
             We’re here to help you afford more of what brings you joy and everyday essentials.
         </h2>
         <h5 class="text-xl">

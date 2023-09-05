@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Pages;
+namespace App\Livewire\Resources\OrderResource\Pages;
 
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
@@ -22,7 +22,7 @@ use Filament\Notifications\Notification;
 use Filament\Support\RawJs;
 use Illuminate\Support\Carbon;
 
-class Checkout extends Component implements HasForms, HasActions
+class CreateOrder extends Component implements HasForms, HasActions
 {
     use InteractsWithForms;
     use InteractsWithActions;
@@ -244,7 +244,7 @@ class Checkout extends Component implements HasForms, HasActions
                     ->success()
                     ->send();
 
-                return redirect()->route('dashboard', ['activeTab' => 4]);
+                return redirect()->route('orders.show', ['id' => $order->uuid]);
             });
     }
 
@@ -281,6 +281,6 @@ class Checkout extends Component implements HasForms, HasActions
 
     public function render()
     {
-        return view('livewire.pages.checkout');
+        return view('livewire.resources.order-resource.pages.create-order');
     }
 }

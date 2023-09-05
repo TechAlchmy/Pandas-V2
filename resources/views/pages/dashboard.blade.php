@@ -15,9 +15,13 @@ name('dashboard');
 <x-layouts.app class="bg-neutral-100">
     <x-banner-upsell :record="$featuredDiscount" />
 
-    <div class="flex px-[min(6.99vw,50px)] max-w-[1920px] mx-auto py-8 justify-between">
-        <h1 class="text-4xl lg:text-7xl">My Panda</h1>
-        <p class="hidden lg:block">{{ auth()->user()->organization?->name }}</p>
+    <div class="px-[min(6.99vw,50px)] py-8">
+        <div class="max-w-[1920px] mx-auto">
+            <div class="flex justify-between">
+                <h1 class="text-4xl lg:text-7xl">My Panda</h1>
+                <p class="hidden lg:block">{{ auth()->user()->organization?->name }}</p>
+            </div>
+        </div>
     </div>
     <x-profile-tabs />
 </x-layouts.app>

@@ -2,12 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\VerifyEmailController;
-use App\Livewire\Pages\Checkout;
-use App\Livewire\Pages\OrderSummary;
 use App\Livewire\Resources\AuthResource\Pages\Register;
 use App\Livewire\Resources\AuthResource\Pages\EmailVerificationPrompt;
 use App\Livewire\Resources\DealResource\Pages\ListDeals;
 use App\Livewire\Resources\DealResource\Pages\ViewDeal;
+use App\Livewire\Resources\OrderResource\Pages\CreateOrder;
+use App\Livewire\Resources\OrderResource\Pages\ViewOrder;
 use App\Livewire\Resources\OrganizationInvitationResource\Pages\AcceptInvitation;
 
 /*
@@ -33,12 +33,12 @@ Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
     ->middleware(['signed', 'throttle:6,1'])
     ->name('verification.verify');
 
-Route::get('/checkout', Checkout::class)
+Route::get('/orders/create', CreateOrder::class)
     ->middleware(['auth', 'verified'])
-    ->name('pages.checkout');
-Route::get('/order/{order:uuid}/summary', OrderSummary::class)
-    ->middleware(['auth'])
-    ->name('pages.order.summary');
+    ->name('orders.create');
+Route::get('/order/{id}', ViewOrder::class)
+    ->middleware(['auth', 'verified'])
+    ->name('orders.show');
 
 Route::get('deals', ListDeals::class)
     ->middleware(['auth', 'verified'])

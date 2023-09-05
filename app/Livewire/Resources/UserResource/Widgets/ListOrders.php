@@ -27,6 +27,7 @@ class ListOrders extends Component implements HasTable, HasForms
         return $table
             ->query(Order::query()
                 ->whereBelongsTo(auth()->user()))
+            ->recordUrl(fn ($record) => route('orders.show', ['id' => $record->uuid]))
             ->columns([
                 Tables\Columns\TextColumn::make('order_number')
                     ->searchable(),
