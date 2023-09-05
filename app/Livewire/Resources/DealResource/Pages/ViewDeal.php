@@ -155,7 +155,7 @@ class ViewDeal extends Component implements HasActions, HasForms
                     ->success()
                     ->send();
 
-                return redirect()->route('dashboard', ['activeTab' => 4]);
+                return redirect()->route('orders.show', ['id' => $order->uuid]);
             });
     }
 

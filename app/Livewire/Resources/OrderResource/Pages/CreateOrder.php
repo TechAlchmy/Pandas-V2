@@ -244,7 +244,7 @@ class CreateOrder extends Component implements HasForms, HasActions
                     ->success()
                     ->send();
 
-                return redirect()->route('dashboard', ['activeTab' => 4]);
+                return redirect()->route('orders.show', ['id' => $order->uuid]);
             });
     }
 
