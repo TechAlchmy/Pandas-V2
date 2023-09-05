@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\OrderRefundResource\Pages;
 
 use App\Filament\Resources\OrderRefundResource;
+use App\Http\Integrations\Cardknox\Requests\CreateCcRefund;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
@@ -21,7 +22,10 @@ class EditOrderRefund extends EditRecord
                         'approved_at' => now(),
                         'approved_by_id' => filament()->auth()->id(),
                     ]);
-                    // TODO: do something with API
+
+                    (new CreateCcRefund($record->order->order_column, $record->actual_amount))
+                        ->send();
+
                     $action->success();
                 })
                 ->successNotificationTitle('Refund Request approved'),
