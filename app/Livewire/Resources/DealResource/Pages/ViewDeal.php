@@ -139,6 +139,9 @@ class ViewDeal extends Component implements HasActions, HasForms
                         ->body($response->xError)
                         ->send();
 
+                    foreach ($order->loadMissing('orderDetails')->orderDetails as $detail) {
+                        cart()->add($detail->discount_id, $detail->quantity, $detail->amount);
+                    }
                     return;
                 }
 
