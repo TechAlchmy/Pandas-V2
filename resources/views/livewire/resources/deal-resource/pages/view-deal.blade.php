@@ -55,7 +55,7 @@
                     @endif
                     @if ($this->record->cta == \App\Enums\DiscountCallToActionEnum::GetCode)
                         <div x-data="{ modalOpen: false }">
-                            <x-button class="hover:bg-panda-green" x-on:click="modalOpen = true; $wire.updateClicks()" outlined size="lg">
+                            <x-button class="hover:bg-panda-green" x-on:click="modalOpen = true" outlined size="lg">
                                 Redeem
                             </x-button>
                             <template x-teleport="body">
@@ -84,6 +84,7 @@
                                                 setTimeout(function() {
                                                     that.copyNotification = false;
                                                 }, 3000);
+                                                $wire.updateClicks()
                                             }
                                         }" class="relative w-auto space-y-6">
                                             <p>This is placeholder text. Replace it with your own content.</p>
