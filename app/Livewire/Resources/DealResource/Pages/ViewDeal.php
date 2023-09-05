@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Http;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Renderless;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 
@@ -212,6 +213,7 @@ class ViewDeal extends Component implements HasActions, HasForms
             ->firstOrFail();
     }
 
+    #[Renderless]
     public function updateClicks()
     {
         Discount::query()
@@ -219,6 +221,7 @@ class ViewDeal extends Component implements HasActions, HasForms
             ->increment('clicks');
     }
 
+    #[Renderless]
     public function updateViews()
     {
         Discount::query()
