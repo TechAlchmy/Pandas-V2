@@ -1,22 +1,23 @@
 <header class="bg-white border-b relative z-10" x-data="{ mobileMenuOpened: false }">
-    <nav class="mx-auto flex items-center justify-between p-6 lg:px-8" aria-label="Global">
-        <div class="flex lg:flex-1">
-            <a href="/" class="-m-1.5 p-1.5">
-                <span class="sr-only">Panda People</span>
-                <x-logo with-text />
-                {{-- <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt=""> --}}
-            </a>
-        </div>
-        <div class="flex items-center gap-x-4 lg:hidden">
-            <x-global-search />
-            <x-cart-button />
-            <button x-on:click="mobileMenuOpened = true" type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
-                <span class="sr-only">Open main menu</span>
-                @svg('hamburger-menu', null, ['class' => 'w-6 h-6'])
-            </button>
-        </div>
-        <div class="hidden lg:flex lg:gap-x-2">
-            {{-- <div class="relative" x-data="{ open: false }">
+    <div class="max-w-[1920px] mx-auto">
+        <nav class="mx-auto flex items-center justify-between px-[min(6.99vw,50px)] py-8" aria-label="Global">
+            <div class="flex lg:flex-1">
+                <a href="/" class="-m-1.5 p-1.5">
+                    <span class="sr-only">Panda People</span>
+                    <x-logo with-text />
+                    {{-- <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt=""> --}}
+                </a>
+            </div>
+            <div class="flex items-center gap-x-4 lg:hidden">
+                <x-global-search />
+                <x-cart-button />
+                <button x-on:click="mobileMenuOpened = true" type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
+                    <span class="sr-only">Open main menu</span>
+                    @svg('hamburger-menu', null, ['class' => 'w-6 h-6'])
+                </button>
+            </div>
+            <div class="hidden lg:flex lg:gap-x-2">
+                {{-- <div class="relative" x-data="{ open: false }">
                 <button x-on:click="open = !open" type="button" class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900" aria-expanded="false">
                     Product
                     <svg class="h-5 w-5 flex-none text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -132,17 +133,18 @@
                 </div>
             </div> --}}
 
-            <x-link href="/">Home</x-link>
-            <x-link href="/benefits" :outlined="request()->is('benefits')">Benefits</x-link>
-            <x-link href="/deals" :outlined="request()->is('deals')">Deals</x-link>
-            <x-link href="/help" :outlined="request()->is('help')">Help</x-link>
-        </div>
-        <div class="hidden lg:flex lg:flex-1 lg:justify-end gap-3">
-            {{-- <x-link href="#" class="text-sm font-semibold leading-6 text-gray-900">Log in <span aria-hidden="true">&rarr;</span></x-link> --}}
-            <x-global-search />
-            <x-cart-button />
-        </div>
-    </nav>
+                <x-link href="/">Home</x-link>
+                <x-link href="/benefits" :outlined="request()->is('benefits')">Benefits</x-link>
+                <x-link href="/deals" :outlined="request()->is('deals')">Deals</x-link>
+                <x-link href="/help" :outlined="request()->is('help')">Help</x-link>
+            </div>
+            <div class="hidden lg:flex lg:flex-1 lg:justify-end gap-3">
+                {{-- <x-link href="#" class="text-sm font-semibold leading-6 text-gray-900">Log in <span aria-hidden="true">&rarr;</span></x-link> --}}
+                <x-global-search />
+                <x-cart-button />
+            </div>
+        </nav>
+    </div>
     <!-- Mobile menu, show/hide based on menu open state. -->
     <div x-show="mobileMenuOpened" x-transition x-cloak class="lg:hidden" role="dialog" aria-modal="true">
         <!-- Background backdrop, show/hide based on slide-over state. -->
