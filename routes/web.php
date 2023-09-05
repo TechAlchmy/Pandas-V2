@@ -36,7 +36,7 @@ Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
 Route::get('/orders/create', CreateOrder::class)
     ->middleware(['auth', 'verified'])
     ->name('orders.create');
-Route::get('/order/{order:uuid}', ViewOrder::class)
+Route::get('/order/{id}', ViewOrder::class)
     ->middleware(['auth', 'verified'])
     ->name('orders.show');
 
