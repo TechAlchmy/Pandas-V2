@@ -96,7 +96,7 @@ class UserResource extends Resource
                     }),
                 Tables\Actions\ForceDeleteAction::make()
                     ->label('Deny registration')
-                    ->hidden(fn ($record) => $record->organization_verified_at)
+                    ->visible(fn ($record) => $record->trashed() || empty($record->organization_verified_at))
                     ->requiresConfirmation()
                     ->successNotificationTitle('User denied')
                     ->successNotification(function ($record, $notification) {
