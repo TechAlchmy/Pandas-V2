@@ -85,7 +85,7 @@ class Register extends Component implements HasForms
             ->schema([
                 Forms\Components\TextInput::make('company_registration_code')
                     ->hiddenLabel()
-                    ->placeholder('Registration Code')
+                    ->placeholder('Company Registration Code')
                     ->maxLength(255)
                     ->autofocus()
                     ->visible(fn ($livewire) => empty($livewire->organizationUuid))
