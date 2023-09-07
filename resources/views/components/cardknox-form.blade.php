@@ -94,3 +94,7 @@
             {{-- <input name="xKey" type="hidden" value="{{ config('services.cardknox.ifields.key') }}" /> --}}
     </x-filament::modal>
 </form>
+
+@pushOnce('scripts')
+    <script src='https://cdn.cardknox.com/ifields/{{ config('services.cardknox.ifields.version') }}/ifields.min.js'></script>
+@endPushOnce
