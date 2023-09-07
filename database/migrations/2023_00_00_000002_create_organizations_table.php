@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('slug');
             $table->string('phone', 45)->nullable();
             $table->string('email', 45);
-            $table->string('user_registration_code')->unique();
+            $table->string('company_registration_code')->unique();
             $table->string('region_id', 5)->nullable();
             $table->foreignIdFor(User::class, 'created_by_id')->nullable();
             $table->foreignIdFor(User::class, 'updated_by_id')->nullable();

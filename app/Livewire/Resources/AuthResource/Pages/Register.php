@@ -58,10 +58,10 @@ class Register extends Component implements HasForms
 
         $data['organization_id'] = $this->organization?->getKey()
             ?? Organization::query()
-                ->where('user_registration_code', \data_get($data, 'user_registration_code'))
+                ->where('company_registration_code', \data_get($data, 'company_registration_code'))
                 ->value('id');
 
-        \data_forget($data, 'user_registration_code');
+        \data_forget($data, 'company_registration_code');
 
         $user = User::query()->create($data);
 
@@ -83,7 +83,7 @@ class Register extends Component implements HasForms
         return $form
             ->statePath('data')
             ->schema([
-                Forms\Components\TextInput::make('user_registration_code')
+                Forms\Components\TextInput::make('company_registration_code')
                     ->hiddenLabel()
                     ->placeholder('Registration Code')
                     ->maxLength(255)

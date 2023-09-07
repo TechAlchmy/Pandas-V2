@@ -107,7 +107,7 @@ class OrganizationResource extends Resource
                 Infolists\Components\TextEntry::make('website'),
                 Infolists\Components\TextEntry::make('email'),
                 Infolists\Components\TextEntry::make('phone'),
-                Infolists\Components\TextEntry::make('user_registration_code')
+                Infolists\Components\TextEntry::make('company_registration_code')
                     ->copyable(),
                 Infolists\Components\TextEntry::make('phone')
                     ->label('Region')

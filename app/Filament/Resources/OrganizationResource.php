@@ -32,7 +32,7 @@ class OrganizationResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('user_registration_code')
+                Forms\Components\TextInput::make('company_registration_code')
                     ->unique(ignoreRecord: true)
                     ->default(str(Str::random(6))->upper())
                     ->dehydrateStateUsing(fn ($state) => \strtoupper($state)),
@@ -115,7 +115,7 @@ class OrganizationResource extends Resource
                 Tables\Columns\TextColumn::make('registration_link')
                     ->formatStateUsing(fn () => 'Copy Link')
                     ->copyable(),
-                Tables\Columns\TextColumn::make('user_registration_code')
+                Tables\Columns\TextColumn::make('company_registration_code')
                     ->copyable()
                     ->searchable(),
             ])
