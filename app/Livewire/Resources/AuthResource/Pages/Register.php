@@ -78,6 +78,21 @@ class Register extends Component implements HasForms
         return $form
             ->statePath('data')
             ->schema([
+                Forms\Components\TextInput::make('user_registration_code')
+                    ->hiddenLabel()
+                    ->placeholder('Registration Code')
+                    ->maxLength(255)
+                    ->autofocus()
+                    ->required()
+                    ->view('forms.components.text-input')
+                    ->live(debounce: 2000)
+                    ->exists(Organization::class)
+                    ->validationAttribute('Registration Code')
+                    ->afterStateUpdated(function ($state) {
+                        $this->organizationUuid = Organization::query()
+                            ->where('user_registration_code', $state)
+                            ->value('uuid');
+                    }),
                 Forms\Components\TextInput::make('name')
                     ->hiddenLabel()
                     ->placeholder('Name')
