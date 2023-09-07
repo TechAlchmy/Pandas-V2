@@ -116,6 +116,7 @@ class OrganizationResource extends Resource
                     ->formatStateUsing(fn () => 'Copy Link')
                     ->copyable(),
                 Tables\Columns\TextColumn::make('user_registration_code')
+                    ->copyable()
                     ->searchable(),
             ])
             ->filters([
