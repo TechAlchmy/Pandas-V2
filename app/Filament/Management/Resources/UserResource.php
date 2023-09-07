@@ -104,6 +104,7 @@ class UserResource extends Resource
                         return $notification;
                     }),
                 Tables\Actions\DeleteAction::make()
+                    ->hidden(fn ($record) => $record->trashed() || empty($record->organization_verified_at))
                     ->modalHeading('Suspend User')
                     ->successNotificationTitle('User Suspended')
                     ->label('Suspend'),
