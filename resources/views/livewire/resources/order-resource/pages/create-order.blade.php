@@ -27,7 +27,7 @@
                                         {{ Filament\Support\format_money($item['amount'], 'USD') }}
                                     </div>
                                     <div class="">
-                                        <x-input x-on:input.debounce="$wire.updateItem('{{ $id }}', $event.target.value, '{{ $item['amount'] }}')" value="{{ $item['quantity'] }}" type="number"
+                                        <x-input x-on:input="$wire.updateItem('{{ $id }}', $event.target.value, '{{ $item['amount'] }}')" value="{{ $item['quantity'] }}" type="number"
                                             class="px-2 max-w-full border !border-solid border-black" min="1" />
                                     </div>
                                     <div class="">
@@ -71,7 +71,9 @@
                         </tbody>
                     </table>
                     <x-hr />
-                    {{ $this->checkoutAction }}
+                    <x-button class="hover:bg-panda-green" outlined x-data x-on:click="$dispatch('open-modal', {id: 'cardknox'})">
+                        Checkout
+                    </x-button>
                 </div>
             </div>
         </div>
@@ -96,6 +98,7 @@
             <x-filament-actions::modals />
         </div>
     </div>
+    <x-cardknox-form />
 </div>
 {{-- <div class="bg-gray-50">
     <div class="container mx-auto px-4 pb-24 pt-16 sm:px-6 lg:px-8">
