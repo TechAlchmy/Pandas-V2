@@ -88,12 +88,14 @@ class UserResource extends Resource
                 Tables\Actions\Action::make('verify')
                     ->hidden(fn ($record) => $record->organization_verified_at)
                     ->action(function ($record) {
+                    ->requiresConfirmation()
                         $record->touch('organization_verified_at');
                         $record->notify(new SendUserConfirmedNotification);
                     }),
                 Tables\Actions\ForceDeleteAction::make()
                     ->label('Deny registration')
                     ->hidden(fn ($record) => $record->organization_verified_at)
+                    ->requiresConfirmation()
                     ->successNotificationTitle('User denied')
                     ->successNotification(function ($record, $notification) {
                         $record->notify(new SendUserDeniedNotification);
