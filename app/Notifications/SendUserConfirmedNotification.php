@@ -19,7 +19,8 @@ class SendUserConfirmedNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->line('Welcome to Panda!')
+            ->subject('Welcome to Panda!')
+            ->line('Your account has been verified')
             ->action('Start now!', route('dashboard'))
             ->line('Thank you for using our application!');
     }
