@@ -56,7 +56,12 @@ class Register extends Component implements HasForms
 
         $data = $this->form->getState();
 
-        $data['organization_id'] = $this->organization->getKey();
+        $data['organization_id'] = $this->organization?->getKey()
+            ?? Organization::query()
+                ->where('user_registration_code', \data_get($data, 'user_registration_code'))
+                ->value('id');
+
+        \data_forget($data, 'user_registration_code');
 
         $user = User::query()->create($data);
 
@@ -83,16 +88,13 @@ class Register extends Component implements HasForms
                     ->placeholder('Registration Code')
                     ->maxLength(255)
                     ->autofocus()
-                    ->required()
+                    ->visible(fn ($livewire) => empty($livewire->organizationUuid))
+                    ->required(fn ($livewire) => empty($livewire->organizationUuid))
+                    ->dehydrateStateUsing(fn ($state) => \strtoupper($state))
+                    ->extraAlpineAttributes(['x-on:keyup' => '$el.value = $el.value.toUpperCase();'])
                     ->view('forms.components.text-input')
-                    ->live(debounce: 2000)
                     ->exists(Organization::class)
-                    ->validationAttribute('Registration Code')
-                    ->afterStateUpdated(function ($state) {
-                        $this->organizationUuid = Organization::query()
-                            ->where('user_registration_code', $state)
-                            ->value('uuid');
-                    }),
+                    ->validationAttribute('Registration Code'),
                 Forms\Components\TextInput::make('name')
                     ->hiddenLabel()
                     ->placeholder('Name')
