@@ -89,6 +89,7 @@ class UserResource extends Resource
                     ->hidden(fn ($record) => $record->organization_verified_at)
                     ->action(function ($record) {
                     ->requiresConfirmation()
+                    ->successNotificationTitle('User Verified')
                         $record->touch('organization_verified_at');
                         $record->notify(new SendUserConfirmedNotification);
                     }),
