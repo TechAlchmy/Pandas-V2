@@ -27,8 +27,8 @@
                                         {{ Filament\Support\format_money($item['amount'] / 100, 'USD') }}
                                     </div>
                                     <div class="">
-                                        <x-input x-on:input="$wire.updateItem(@js($id), $event.target.value, @js($item['amount']))" value="{{ $item['quantity'] }}" type="number"
-                                            class="px-2 max-w-full border !border-solid border-black" min="1" />
+                                        <x-input x-on:change="$wire.updateItem('{{ $id }}', $event.target.value, '{{ $item['amount'] }}').then(() => $wire.$refresh())" value="{{ $item['quantity'] }}"
+                                            type="number" class="px-2 max-w-full border !border-solid border-black" min="1" />
                                     </div>
                                     <div class="">
                                         <span class="line-through">{{ Filament\Support\format_money($item['subtotal'] / 100, 'USD') }}</span>
