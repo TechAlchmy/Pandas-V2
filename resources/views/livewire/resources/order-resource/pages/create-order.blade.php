@@ -31,7 +31,8 @@
                                             class="px-2 max-w-full border !border-solid border-black" min="1" />
                                     </div>
                                     <div class="">
-                                        {{ Filament\Support\format_money(($item['amount'] / 100) * $item['quantity'], 'USD') }}
+                                        <span class="line-through">{{ Filament\Support\format_money($item['subtotal'] / 100, 'USD') }}</span>
+                                        {{ Filament\Support\format_money($item['item_total'] / 100, 'USD') }}
                                     </div>
                                 </div>
 
