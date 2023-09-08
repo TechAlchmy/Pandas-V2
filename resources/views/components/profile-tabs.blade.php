@@ -8,13 +8,13 @@
     ];
 @endphp
 
-<section x-data="{ selected: @js(request('activeTab', 0)) }" class="py-8 px-[min(6.99vw,50px)]">
+<section x-data="{ selected: @js(request('activeTab', 0)) }" class="py-8 lg:px-[min(6.99vw,50px)]">
     <div class="max-w-[1920px] mx-auto">
         <div class="grid grid-cols-1 lg:grid-cols-4 ">
             <ul class="divide-y text-xl">
                 @foreach ($tabs as $key => $menu)
-                    <li class="p-4 space-y-6">
-                        <div>
+                    <li class="space-y-6">
+                        <div class="p-4">
                             <button x-bind:class="{ 'font-bold': selected == {{ $loop->index }} }" x-on:click="selected = {{ $loop->index }}">
                                 {{ $key }}
                             </button>
