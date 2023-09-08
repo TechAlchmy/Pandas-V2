@@ -36,7 +36,8 @@ class OrderResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->searchable(),
-                Tables\Columns\BadgeColumn::make('order_status')
+                Tables\Columns\TextColumn::make('order_status')
+                    ->badge()
                     ->colors([
                         'secondary' => 'pending',
                         'secondary' => 'processing',
