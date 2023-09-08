@@ -24,4 +24,14 @@ class OfferType extends Model
             ->withPivot(['is_active'])
             ->withTimestamps();
     }
+
+    public function scopeForOrganization($query, $organization)
+    {
+        return $query->when($organization, function ($query, $organization) {
+            $query->whereIn('offer_types.id', OrganizationOfferType::query()
+                ->select('offer_type_id')
+                ->where('is_active', true)
+                ->whereBelongsTo($organization));
+        });
+    }
 }

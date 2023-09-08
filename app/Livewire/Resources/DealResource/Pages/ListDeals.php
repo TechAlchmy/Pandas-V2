@@ -7,6 +7,7 @@ use App\Models\BrandOrganization;
 use App\Models\Category;
 use App\Models\Discount;
 use App\Models\DiscountInsight;
+use App\Models\OfferType;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms;
@@ -34,7 +35,7 @@ class ListDeals extends Component implements HasForms
     public function form(Form $form): Form
     {
         return $form
-            ->columns(3)
+            ->columns(4)
             ->statePath('filter')
             ->schema([
                 Forms\Components\Select::make('brand_id')
@@ -44,15 +45,14 @@ class ListDeals extends Component implements HasForms
                     ->options(Brand::query()->forOrganization(auth()->user()->organization)->pluck('name', 'id'))
                     ->extraAttributes(['class' => 'rounded-none ring-transparent list-deals'])
                     ->getOptionLabelUsing(fn ($value) => Brand::find($value)?->name)
-                    ->getSearchResultsUsing(fn ($search) => Brand::query()
-                        ->where('name', 'like', "%{$search}%")
-                        ->where('is_active', true)
-                        ->forOrganization(auth()->user()?->organization)
-                        ->take(7)
-                        ->get()
-                        ->mapWithKeys(fn ($record) => [
-                            $record->getKey() => $record->name,
-                        ]))
+                    ->searchable(),
+                Forms\Components\Select::make('offer_type_id')
+                    ->live()
+                    ->hiddenLabel()
+                    ->placeholder('Find Offer Type')
+                    ->options(OfferType::query()->forOrganization(auth()->user()->organization)->pluck('type', 'id'))
+                    ->extraAttributes(['class' => 'rounded-none ring-transparent list-deals'])
+                    ->getOptionLabelUsing(fn ($value) => OfferType::find($value)?->type)
                     ->searchable(),
                 Forms\Components\Select::make('category_id')
                     ->live()
@@ -61,16 +61,6 @@ class ListDeals extends Component implements HasForms
                     ->options(Category::query()->where('is_active', true)->pluck('name', 'id'))
                     ->extraAttributes(['class' => 'rounded-none ring-transparent list-deals'])
                     ->getOptionLabelUsing(fn ($value) => Category::find($value)?->name)
-                    ->getSearchResultsUsing(function ($search) {
-                        return Category::query()
-                            ->where('is_active', true)
-                            ->where('name', 'like', "%{$search}%")
-                            ->take(7)
-                            ->get()
-                            ->mapWithKeys(fn ($record) => [
-                                $record->getKey() => $record->name,
-                            ]);
-                    })
                     ->searchable(),
                 Forms\Components\TextInput::make('search')
                     ->extraAttributes(['class' => 'rounded-none ring-transparent', 'x-on:keyup.enter' => '$wire.resetPage()'])
@@ -95,6 +85,7 @@ class ListDeals extends Component implements HasForms
             })
             ->when($this->filter['brand_id'], fn($query) => $query->where('brand_id', $this->filter['brand_id']))
             ->when($this->filter['category_id'], fn($query) => $query->whereRelation('brandCategories', 'category_id', $this->filter['category_id']))
+            ->when($this->filter['offer_type_id'], fn($query) => $query->whereRelation('offerTypes', 'offer_types.id', $this->filter['offer_type_id']))
             ->when($this->sort, fn ($query, $value) => match ($value) {
                 'created_at', 'percentage', 'views', 'clicks' => $query->orderByDesc($value),
                 default => $query->inRandomOrder(),
