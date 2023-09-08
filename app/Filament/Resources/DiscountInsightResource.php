@@ -61,6 +61,8 @@ class DiscountInsightResource extends Resource
                     ->sortable(),
             ])
             ->filters([
+                Tables\Filters\Filter::make('terms_with_no_result')
+                    ->query(fn ($query) => $query->doesntHave('discountInsightModels')),
                 Tables\Filters\SelectFilter::make('category_id')
                     ->preload()
                     ->searchable()
