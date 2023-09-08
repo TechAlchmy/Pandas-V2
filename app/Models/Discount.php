@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Concerns\InteractsWithAuditable;
 use App\Enums\DiscountCallToActionEnum;
+use Brick\Money\Money;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -122,5 +123,21 @@ class Discount extends Model
     protected function isAmountSingle(): Attribute
     {
         return Attribute::get(fn () => count($this->amount) == 1);
+    }
+
+    protected function amount(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => collect($value)->map(fn ($amount) => Money::ofMinor($amount, 'USD'))->all(),
+            set: fn ($value) => collect($value)->map(fn ($amount) => $amount->getMinorAmount()->toInt())->all(),
+        );
+    }
+
+    protected function limitAmount(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => Money::ofMinor($value, 'USD'),
+            set: fn ($value) => $value->getMinorAmount()->toInt(),
+        );
     }
 }

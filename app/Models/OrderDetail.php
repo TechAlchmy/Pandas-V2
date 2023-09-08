@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Brick\Money\Money;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,8 +21,16 @@ class OrderDetail extends Model
         return $this->belongsTo(Discount::class);
     }
 
-    public function total(): Attribute
+    protected function total(): Attribute
     {
         return Attribute::get(fn () => $this->quantity * $this->amount);
+    }
+
+    protected function amount(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => Money::ofMinor($value, 'USD'),
+            set: fn ($value) => $value->getMinorAmount()->toInt(),
+        );
     }
 }
