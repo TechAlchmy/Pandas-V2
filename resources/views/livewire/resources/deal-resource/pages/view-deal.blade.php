@@ -17,7 +17,7 @@
                 @if ($this->record->is_amount_single)
                     <div>
                         <span>$</span>
-                        <span class="text-3xl font-light">{{ $this->record->amount[0] }}</span>
+                        <span class="text-3xl font-light">{{ $this->record->money_amount[0]->getAmount() }}</span>
                     </div>
                 @endif
                 @if ($this->record->excerpt)
@@ -28,9 +28,9 @@
                         <div x-data class="space-y-6">
                             <div class="flex gap-6 items-center">
                                 @if (!$this->record->is_amount_single)
-                                    <select wire:model.live="amount" class="border border-black">
-                                        @foreach ($this->record->amount as $amount)
-                                            <option value="{{ $amount }}">{{ Filament\Support\format_money($amount, 'USD') }}</option>
+                                    <select wire:model.live.number="amount" class="border border-black">
+                                        @foreach ($this->record->money_amount as $amount)
+                                            <option value="{{ $amount->getMinorAmount() }}">{{ $amount->getAmount() }}</option>
                                         @endforeach
                                     </select>
                                 @endif
