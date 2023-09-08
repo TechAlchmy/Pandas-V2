@@ -19,6 +19,7 @@ class SendUserDeniedNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
+            ->subject('Your account doesn\'t pass the verification process')
             ->line('Sorry, your registration is not verified.')
             ->line('If you think there\'s a mistake, contact your manager')
             ->line('Thank you for using our application!');

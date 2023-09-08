@@ -15,11 +15,12 @@ return new class extends Migration
         Schema::create('organizations', function (Blueprint $table) {
             $table->id();
             $table->uuid();
-            $table->string('name', 255);
-            $table->string('website', 255);
-            $table->string('slug', 255);
+            $table->string('name');
+            $table->string('website');
+            $table->string('slug');
             $table->string('phone', 45)->nullable();
             $table->string('email', 45);
+            $table->string('company_registration_code')->unique();
             $table->string('region_id', 5)->nullable();
             $table->foreignIdFor(User::class, 'created_by_id')->nullable();
             $table->foreignIdFor(User::class, 'updated_by_id')->nullable();

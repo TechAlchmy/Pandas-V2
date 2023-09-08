@@ -87,19 +87,24 @@ class UserResource extends Resource
             ->actions([
                 Tables\Actions\Action::make('verify')
                     ->hidden(fn ($record) => $record->organization_verified_at)
-                    ->action(function ($record) {
+                    ->requiresConfirmation()
+                    ->successNotificationTitle('User Verified')
+                    ->action(function ($record, $action) {
                         $record->touch('organization_verified_at');
                         $record->notify(new SendUserConfirmedNotification);
+                        $action->success();
                     }),
                 Tables\Actions\ForceDeleteAction::make()
                     ->label('Deny registration')
-                    ->hidden(fn ($record) => $record->organization_verified_at)
+                    ->visible(fn ($record) => $record->trashed() || empty($record->organization_verified_at))
+                    ->requiresConfirmation()
                     ->successNotificationTitle('User denied')
                     ->successNotification(function ($record, $notification) {
                         $record->notify(new SendUserDeniedNotification);
                         return $notification;
                     }),
                 Tables\Actions\DeleteAction::make()
+                    ->hidden(fn ($record) => $record->trashed() || empty($record->organization_verified_at))
                     ->modalHeading('Suspend User')
                     ->successNotificationTitle('User Suspended')
                     ->label('Suspend'),

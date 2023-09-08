@@ -13,6 +13,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Tables;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Squire\Models\Region;
@@ -31,6 +32,10 @@ class OrganizationResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\TextInput::make('company_registration_code')
+                    ->unique(ignoreRecord: true)
+                    ->default(str(Str::random(6))->upper())
+                    ->dehydrateStateUsing(fn ($state) => \strtoupper($state)),
                 Forms\Components\TextInput::make('name')
                     ->afterStateUpdated(function ($get, $set, ?string $state) {
                         if (! $get('is_slug_changed_manually') && filled($state)) {
@@ -107,9 +112,12 @@ class OrganizationResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('registration_link')
-                    ->formatStateUsing(fn () => 'Copy Link')
-                    ->copyable(),
+                // Tables\Columns\TextColumn::make('registration_link')
+                //     ->formatStateUsing(fn () => 'Copy Link')
+                //     ->copyable(),
+                Tables\Columns\TextColumn::make('company_registration_code')
+                    ->copyable()
+                    ->searchable(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

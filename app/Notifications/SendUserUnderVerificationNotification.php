@@ -35,6 +35,7 @@ class SendUserUnderVerificationNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
+            ->subject('Your account is under verification')
             ->line('You are under verification. Please wait')
             ->action('While you wait, please have a look at our blog', url('/'))
             ->line('Thank you for using our application!');

@@ -36,14 +36,14 @@ class ViewOrganization extends ViewRecord
     {
         return [
             // Actions\EditAction::make(),
-            Actions\Action::make('copy_registration_link')
-                ->action(function ($record) {
-                    $this->js('navigator.clipboard.writeText("'.$record->registration_link.'");');
-                    Notification::make()
-                        ->title('Registration link copied')
-                        ->success()
-                        ->send();
-                }),
+            // Actions\Action::make('copy_registration_link')
+            //     ->action(function ($record) {
+            //         $this->js('navigator.clipboard.writeText("'.$record->registration_link.'");');
+            //         Notification::make()
+            //             ->title('Registration link copied')
+            //             ->success()
+            //             ->send();
+            //     }),
         ];
     }
 

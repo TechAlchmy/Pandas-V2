@@ -15,9 +15,16 @@ name('login');
             </div>
         </div>
         <div class="px-[min(6.99vw,50px)] max-w-xl mx-auto py-4 order-1 lg:order-2 flex flex-col justify-between">
-            <div class="space-y-4">
+            <div class="space-y-6">
                 <h1 class="font-editorial text-4xl font-thin mb-10">Already a member?<br> Access your Panda Portal here.</h1>
                 <livewire:resources.auth-resource.forms.login-form />
+                <div class="h-12"></div>
+                <div class="lg:flex items-center gap-2">
+                    <p class="my-10">Not registered yet?<br> No problem, it’s quick and easy to set up a Panda account.</p>
+                    <div>
+                        <x-link href="/register" outlined size="lg">Register</x-link>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
