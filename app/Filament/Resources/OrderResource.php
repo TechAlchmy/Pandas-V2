@@ -127,20 +127,20 @@ class OrderResource extends Resource
                 ]),
 
             Tables\Columns\TextColumn::make('order_total')
-                ->money('USD'),
+                ->formatStateUsing(fn ($record) => $record->money_order_total),
 
             Tables\Columns\TextColumn::make('order_subtotal')
-                ->money('USD')
+                ->formatStateUsing(fn ($record) => $record->money_order_subtotal)
                 ->toggleable()
                 ->toggledHiddenByDefault(),
 
             Tables\Columns\TextColumn::make('order_discount')
-                ->money('USD')
+                ->formatStateUsing(fn ($record) => $record->money_order_discount)
                 ->toggleable()
                 ->toggledHiddenByDefault(),
 
             Tables\Columns\TextColumn::make('order_tax')
-                ->money('USD')
+                ->formatStateUsing(fn ($record) => $record->money_order_tax)
                 ->toggleable()
                 ->toggledHiddenByDefault(),
 
