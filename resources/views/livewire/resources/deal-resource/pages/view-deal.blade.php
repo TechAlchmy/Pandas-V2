@@ -43,7 +43,9 @@
                                     </x-button>
                                 @endif
                                 @if ($this->record->cta == \App\Enums\DiscountCallToActionEnum::RedeemNow)
-                                    {{ $this->redeem }}
+                                    <x-button class="hover:bg-panda-green" x-data x-on:click="$dispatch('open-modal', {id: 'cardknox'})" outlined size="lg">
+                                        Redeem Now
+                                    </x-button>
                                 @endif
                             </div>
                         </div>
@@ -109,8 +111,6 @@
     </section>
     <x-deals-section title="Related Deals" :records="$related" />
     <x-deals-section title="Popular Deals" :records="$popular" />
-    <div class="checkout-modal">
-        <x-filament-actions::modals />
-    </div>
     <livewire:resources.recently-viewed-resource.widgets.create-recently-viewed :viewable="$this->record" />
+    <x-cardknox-form />
 </div>

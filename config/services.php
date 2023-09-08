@@ -32,6 +32,10 @@ return [
     ],
 
     'cardknox' => [
-        'transaction_key' => env('TRANSACTION_KEY'),
+        'ifields' => [
+            'key' => env('CARDKNOX_IFIELDS_KEY'),
+            'version' => '2.15.2302.0801',
+        ],
+        'transaction_key' => env('CARDKNOX_TRANSACTION_KEY'),
     ],
 ];
