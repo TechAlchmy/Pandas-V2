@@ -44,15 +44,6 @@ class ListDeals extends Component implements HasForms
                     ->options(Brand::query()->forOrganization(auth()->user()->organization)->pluck('name', 'id'))
                     ->extraAttributes(['class' => 'rounded-none ring-transparent list-deals'])
                     ->getOptionLabelUsing(fn ($value) => Brand::find($value)?->name)
-                    ->getSearchResultsUsing(fn ($search) => Brand::query()
-                        ->where('name', 'like', "%{$search}%")
-                        ->where('is_active', true)
-                        ->forOrganization(auth()->user()?->organization)
-                        ->take(7)
-                        ->get()
-                        ->mapWithKeys(fn ($record) => [
-                            $record->getKey() => $record->name,
-                        ]))
                     ->searchable(),
                 Forms\Components\Select::make('category_id')
                     ->live()
@@ -61,16 +52,6 @@ class ListDeals extends Component implements HasForms
                     ->options(Category::query()->where('is_active', true)->pluck('name', 'id'))
                     ->extraAttributes(['class' => 'rounded-none ring-transparent list-deals'])
                     ->getOptionLabelUsing(fn ($value) => Category::find($value)?->name)
-                    ->getSearchResultsUsing(function ($search) {
-                        return Category::query()
-                            ->where('is_active', true)
-                            ->where('name', 'like', "%{$search}%")
-                            ->take(7)
-                            ->get()
-                            ->mapWithKeys(fn ($record) => [
-                                $record->getKey() => $record->name,
-                            ]);
-                    })
                     ->searchable(),
                 Forms\Components\TextInput::make('search')
                     ->extraAttributes(['class' => 'rounded-none ring-transparent', 'x-on:keyup.enter' => '$wire.resetPage()'])
