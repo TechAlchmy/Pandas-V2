@@ -9,10 +9,12 @@ use App\Models\DiscountInsight;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Infolists;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class DiscountInsightResource extends Resource
 {
@@ -61,6 +63,8 @@ class DiscountInsightResource extends Resource
                     ->sortable(),
             ])
             ->filters([
+                Tables\Filters\Filter::make('terms_with_no_result')
+                    ->query(fn ($query) => $query->doesntHave('discountInsightModels')),
                 Tables\Filters\SelectFilter::make('category_id')
                     ->preload()
                     ->searchable()
@@ -71,9 +75,25 @@ class DiscountInsightResource extends Resource
                     ->relationship('brand', 'name'),
             ])
             ->actions([
-                // Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('results')
+                    ->infolist([
+                        Infolists\Components\RepeatableEntry::make('discountInsightModels')
+                            ->columns()
+                            ->grid(3)
+                            ->schema([
+                                Infolists\Components\TextEntry::make('discount.brand.name')
+                                    ->url(fn ($record) => BrandResource::getUrl('edit', ['record' => $record->discount->brand]))
+                                    ->openUrlInNewTab(),
+                                Infolists\Components\TextEntry::make('discount.name')
+                                    ->url(fn ($record) => DiscountResource::getUrl('edit', ['record' => $record->discount]))
+                                    ->openUrlInNewTab(),
+                                Infolists\Components\TextEntry::make('order_column')
+                                    ->label('Seq'),
+                            ]),
+                    ]),
             ])
             ->bulkActions([
+                ExportBulkAction::make(),
                 // Tables\Actions\BulkActionGroup::make([
                 //     Tables\Actions\DeleteBulkAction::make(),
                 // ]),
@@ -104,5 +124,11 @@ class DiscountInsightResource extends Resource
         return [
             Widgets\DiscountInsightWidget::class,
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->with('discountInsightModels.discount.brand.media');
     }
 }
