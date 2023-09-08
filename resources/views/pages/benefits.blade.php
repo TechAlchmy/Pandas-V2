@@ -12,7 +12,7 @@ name('benefits');
     <section class="overflow-x-hidden">
         <div class="px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" x-data="{ shown: false }" x-intersect.once="shown = true">
-                <h1 x-show="shown" x-transition.duration.1500 class="text-6xl max-w-xl mix-blend-difference text-panda-green">Get Ready to go beyond the basic</h1>
+                <h1 x-show="shown" x-transition.duration.1500 class="text-6xl max-w-xl mix-blend-difference text-panda-green font-editorial">Get Ready to go beyond the basic</h1>
                 <div class="space-y-6 lg:ml-56 xl:ml-80">
                     <p class="">
                         Real benefits for real people start with Panda. We’re here to help you thrive in ways that matters to you, so you can give more when it’s go time—in life and work.
@@ -29,7 +29,7 @@ name('benefits');
         <div class="max-w-[1920px] mx-auto">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div x-data="{ shown: false }" x-intersect.once="shown = true">
-                    <h2 x-show="shown" x-transition.duration.2000 class="text-6xl max-w-xl">
+                    <h2 x-show="shown" x-transition.duration.2000 class="text-6xl max-w-xl font-editorial">
                         Benefits for Life Essentials
                     </h2>
                     <p>
@@ -65,17 +65,17 @@ name('benefits');
     <section class="bg-panda-green">
         <div class="px-[min(6.99vw,50px)] py-8">
             <div class="max-w-[1920px] mx-auto">
-                <div class="grid grid-cols-1 md:grid-cols-3" x-data="{ shown: false }" x-intersect.once="shown = true">
-                    <h2 x-show="shown" x-transition.duration.2000 class="text-7xl lg:text-8xl md:col-span-2">
-                        …and Purchases Essential to Life
-                    </h2>
-                </div>
+                <h2 x-show="shown" x-transition.duration.2000 class="text-2xl md:text-5xl lg:text-7xl xl:text-8xl 2xl:text-9xl md:col-span-2 font-editorial">
+                    …and Purchases Essential to Life
+                </h2>
             </div>
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <img class="-mt-40 md:-mt-96 w-[100vw]" src="{{ asset('storage/assets/benefit-circles-2.png') }}" />
+            <div class="lg:max-h-[50rem]">
+                <img class="-mt-40 md:-mt-96 object-cover" src="{{ asset('storage/assets/benefit-circles-2.png') }}" />
+            </div>
             <div x-data="{ shown: false }" x-intersect.once="shown = true" class="p-8 space-y-4 place-self-center -mt-20 lg:-mt-40">
-                <h2 x-show="shown" x-transition.duration.2000 class="text-4xl">
+                <h2 x-show="shown" x-transition.duration.2000 class="text-4xl font-editorial">
                     We’re here to help you afford more of what brings you joy and everyday essentials.
                 </h2>
                 <h5 class="text-xl">
