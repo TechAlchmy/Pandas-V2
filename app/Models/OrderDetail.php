@@ -26,11 +26,13 @@ class OrderDetail extends Model
         return Attribute::get(fn () => $this->quantity * $this->amount);
     }
 
-    protected function amount(): Attribute
+    protected function moneyTotal(): Attribute
     {
-        return Attribute::make(
-            get: fn ($value) => Money::ofMinor($value, 'USD'),
-            set: fn ($value) => $value->getMinorAmount()->toInt(),
-        );
+        return Attribute::get(fn () => $this->money_amount->multipliedBy($this->quantity));
+    }
+
+    protected function moneyAmount(): Attribute
+    {
+        return Attribute::get(fn () => Money::ofMinor($this->amount, 'USD'));
     }
 }
