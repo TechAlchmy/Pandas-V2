@@ -113,10 +113,13 @@ class CartService
                 $subtotal = $item['quantity'] * $item['amount'];
                 $discount = $subtotal * ($record->public_percentage / 100);
                 $itemTotal = $subtotal - $discount;
+                $amount = \array_search($record->amount, $item['amount']) === false
+                    ? $record->amount[0]
+                    : $item['amount'];
                 return [
                     'itemable' => $record,
                     'quantity' => $item['quantity'],
-                    'amount' => $item['amount'],
+                    'amount' => $amount,
                     'subtotal' => $subtotal,
                     'discount' => $discount,
                     'item_total' => $itemTotal,
