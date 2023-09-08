@@ -125,6 +125,14 @@ class Discount extends Model
         return Attribute::get(fn () => count($this->amount) == 1);
     }
 
+    protected function amount(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => collect($value)->map(fn ($amount) => Money::ofMinor($amount, 'USD'))->all(),
+            set: fn ($value) => collect($value)->map(fn ($amount) => $amount->getMinorAmount()->toInt())->all(),
+        );
+    }
+
     protected function limitAmount(): Attribute
     {
         return Attribute::make(
