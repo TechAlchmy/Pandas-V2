@@ -55,9 +55,10 @@ class Category extends Model implements Sortable
                 ->with('media')
                 ->where('is_active', true)
                 ->when($sort, fn ($query, $sort) => match ($sort) {
-                    'views' => $query->orderByDesc('views'),
-                    'clicks' => $query->orderByDesc('clicks'),
-                    default => $query->orderByDesc('clicks'),
+                    default => $query->orderBy(Brand::select('views')
+                        ->whereColumn('brand_categories.brand_id', 'brands.id')
+                        ->latest()
+                        ->take(1), 'desc'),
                 })
                 ->forOrganization($organization);
         });
