@@ -85,6 +85,7 @@ class ListDeals extends Component implements HasForms
             })
             ->when($this->filter['brand_id'], fn($query) => $query->where('brand_id', $this->filter['brand_id']))
             ->when($this->filter['category_id'], fn($query) => $query->whereRelation('brandCategories', 'category_id', $this->filter['category_id']))
+            ->when($this->filter['offer_type_id'], fn($query) => $query->whereRelation('offerTypes', 'offer_types.id', $this->filter['offer_type_id']))
             ->when($this->sort, fn ($query, $value) => match ($value) {
                 'created_at', 'percentage', 'views', 'clicks' => $query->orderByDesc($value),
                 default => $query->inRandomOrder(),
