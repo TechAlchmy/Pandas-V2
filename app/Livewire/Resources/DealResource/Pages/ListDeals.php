@@ -7,6 +7,7 @@ use App\Models\BrandOrganization;
 use App\Models\Category;
 use App\Models\Discount;
 use App\Models\DiscountInsight;
+use App\Models\OfferType;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms;
@@ -44,6 +45,14 @@ class ListDeals extends Component implements HasForms
                     ->options(Brand::query()->forOrganization(auth()->user()->organization)->pluck('name', 'id'))
                     ->extraAttributes(['class' => 'rounded-none ring-transparent list-deals'])
                     ->getOptionLabelUsing(fn ($value) => Brand::find($value)?->name)
+                    ->searchable(),
+                Forms\Components\Select::make('offer_type_id')
+                    ->live()
+                    ->hiddenLabel()
+                    ->placeholder('Find Offer Type')
+                    ->options(OfferType::query()->forOrganization(auth()->user()->organization)->pluck('type', 'id'))
+                    ->extraAttributes(['class' => 'rounded-none ring-transparent list-deals'])
+                    ->getOptionLabelUsing(fn ($value) => OfferType::find($value)?->type)
                     ->searchable(),
                 Forms\Components\Select::make('category_id')
                     ->live()
