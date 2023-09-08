@@ -8,6 +8,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class ContactUsForm extends Component implements HasForms
@@ -60,5 +61,16 @@ class ContactUsForm extends Component implements HasForms
                     ->rows(6)
                     ->maxLength(255),
             ]);
+    }
+
+    #[Computed]
+    public function testimonials()
+    {
+        return [
+            ['Test 1', 'This is good!'],
+            ['Test 2', 'Panda has helped me!'],
+            ['Test 3', 'This is the benefits that I have wanted'],
+            ['Test 1', 'This is is awesome for you employees'],
+        ];
     }
 }

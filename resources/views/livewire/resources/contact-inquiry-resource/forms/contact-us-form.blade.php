@@ -1,18 +1,17 @@
 <div class="max-w-[1920px] mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-2">
         <div>
-            <div class="relative h-80 lg:h-full w-full"
+            <div class="relative min-h-[10rem] md:h-full w-full"
                 style="background-image: url(https://images.unsplash.com/photo-1648832328633-89b993c5d6b7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80)">
-                <div class="absolute inset-0 p-8 text-white flex flex-col justify-between">
-                    <h1 class="text-4xl lg:text-6xl">
-                        Both of our ears are open.
-                    </h1>
-                    <p>
-                        Questions? Suggestions? They’re all welcome.
-
-                        We’re here to make your Panda Portal as helpful as possible and are always looking for ways to make daily living easier. Like a panda leisurely seeking out its roots, shoots, and leaves for lunch.
-
-                        That said, we love prompt responses and won’t be leisurely about getting back to you.
+                <div x-data="@js(['index' => 0, 'testimonials' => $this->testimonials])" x-init="setInterval(() => {
+                    if (index + 1 >= testimonials.length) {
+                        index = 0;
+                    } else {
+                        index++;
+                    }
+                }, 5000)" class="absolute inset-0 p-6 text-white space-y-4">
+                    <h3 class="text-4xl lg:text-6xl font-editorial" x-transition x-text="testimonials[index][1]"></h3>
+                    <p x-text="testimonials[index][0]" x-transition>
                     </p>
                 </div>
             </div>
