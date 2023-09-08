@@ -28,8 +28,10 @@
 
             <div class="col-span-3 hidden lg:block">
                 @foreach ($tabs as $key => $menu)
-                    <div class="hidden" x-bind:class="{ 'lg:block': selected == {{ $loop->index }} }">
-                        <livewire:is :component="$menu" wire:key="{{ $menu }}" />
+                    <div class="hidden h-full" x-bind:class="{ 'lg:grid lg:grid-cols-1': selected == {{ $loop->index }} }">
+                        <div class="place-self-center w-full">
+                            <livewire:is :component="$menu" wire:key="{{ $menu }}" />
+                        </div>
                     </div>
                 @endforeach
             </div>
