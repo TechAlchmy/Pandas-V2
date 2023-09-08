@@ -15,7 +15,7 @@ return new class extends Migration
             $table->foreignIdFor(Order::class)->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(Discount::class)->nullable()->constrained()->nullOnDelete();
             $table->unsignedInteger('quantity')->default(1);
-            $table->decimal('amount', 8, 2)->nullable();
+            $table->decimal(column:'amount', places: 2, unsigned: true)->nullable();
             $table->timestamps();
         });
     }
