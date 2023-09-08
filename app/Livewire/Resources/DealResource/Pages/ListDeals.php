@@ -34,7 +34,7 @@ class ListDeals extends Component implements HasForms
     public function form(Form $form): Form
     {
         return $form
-            ->columns(3)
+            ->columns(4)
             ->statePath('filter')
             ->schema([
                 Forms\Components\Select::make('brand_id')
