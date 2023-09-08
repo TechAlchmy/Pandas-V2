@@ -10,6 +10,7 @@ return new class extends Migration
     {
         Schema::create('discount_insight_models', function (Blueprint $table) {
             $table->id();
+            $table->unsignedInteger('order_column')->nullable()->index();
             $table->foreignIdFor(\App\Models\DiscountInsight::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(\App\Models\Discount::class)->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
