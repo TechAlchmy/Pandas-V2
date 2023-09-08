@@ -142,7 +142,7 @@ class CreateOrder extends Component implements HasForms, HasActions
         }
 
         Notification::make()
-            ->title('Quantity limit reached ' . $record->name)
+            ->title('Quantity limit reached ' . $item['itemable']->name)
             ->danger()
             ->send();
     }
