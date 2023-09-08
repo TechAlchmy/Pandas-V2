@@ -38,6 +38,12 @@ class EditProfileForm extends Component implements HasForms
             ->columns()
             ->statePath('data')
             ->schema([
+                Forms\Components\TextInput::make('organization.name')
+                    ->hiddenLabel()
+                    ->placeholder('Employer')
+                    ->view('forms.components.text-input')
+                    ->disabled()
+                    ->dehydrated(false),
                 Forms\Components\TextInput::make('name')
                     ->hiddenLabel()
                     ->placeholder('Name')
