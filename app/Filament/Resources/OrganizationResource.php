@@ -8,6 +8,7 @@ use App\Filament\Resources\OrganizationResource\RelationManagers;
 use App\Models\Brand;
 use App\Models\OfferType;
 use App\Models\Organization;
+use App\Models\VoucherType;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -97,6 +98,21 @@ class OrganizationResource extends Resource
                         Forms\Components\Actions\Action::make('all')
                             ->hidden(fn ($state) => count($state) == OfferType::query()->count())
                             ->action(fn ($component) => $component->state(OfferType::query()->pluck('id')->all())),
+                    ]),
+                Forms\Components\Select::make('voucher_types')
+                    ->placeholder('Select Voucher Types')
+                    ->relationship('voucherTypes', 'type')
+                    ->live()
+                    ->multiple()
+                    ->helperText(fn ($state) => count($state) < VoucherType::query()->count() ? null : 'All selected')
+                    ->default(VoucherType::query()->pluck('id')->all())
+                    ->hintActions([
+                        Forms\Components\Actions\Action::make('clear')
+                            ->visible(fn ($state) => ! empty($state))
+                            ->action(fn ($component) => $component->state([])),
+                        Forms\Components\Actions\Action::make('all')
+                            ->hidden(fn ($state) => count($state) == VoucherType::query()->count())
+                            ->action(fn ($component) => $component->state(VoucherType::query()->pluck('id')->all())),
                     ]),
                 AuditableView::make('audit'),
             ]);

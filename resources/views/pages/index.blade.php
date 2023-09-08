@@ -10,6 +10,7 @@
         
         $featuredDiscount = \App\Models\Discount::query()
             ->withBrand(auth()->user()?->organization)
+            ->withVoucherType(auth()->user()?->organization)
             ->whereHas('featuredDeals')
             ->active()
             ->inRandomOrder()

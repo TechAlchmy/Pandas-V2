@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('voucher_types', function (Blueprint $table) {
             $table->id();
             $table->string('type', 255)->unique();
-            $table->string('description');
+            $table->longText('description')->nullable();
             $table->foreignIdFor(User::class, 'created_by_id')->nullable();
             $table->foreignIdFor(User::class, 'updated_by_id')->nullable();
             $table->softDeletes();

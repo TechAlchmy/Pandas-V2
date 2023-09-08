@@ -74,6 +74,7 @@ class ListDeals extends Component implements HasForms
     {
         return \App\Models\Discount::query()
             ->withBrand(auth()->user()?->organization)
+            ->withVoucherType(auth()->user()?->organization)
             ->active()
             ->when($this->filter['search'], function ($query, $value) {
                 $query->where('name', 'like', "%{$value}%")
@@ -99,6 +100,7 @@ class ListDeals extends Component implements HasForms
         return \App\Models\Discount::query()
             ->withBrand(auth()->user()?->organization)
             ->withOfferTypes(auth()->user()?->organization)
+            ->withVoucherType(auth()->user()?->organization)
             ->active()
             ->whereHas('featuredDeals', function ($query) {
                 $query->where('featured_deals.organization_id', auth()->user()?->organization?->getKey());

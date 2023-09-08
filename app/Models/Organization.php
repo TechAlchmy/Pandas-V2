@@ -59,6 +59,13 @@ class Organization extends Model
             ->withTimestamps();
     }
 
+    public function voucherTypes()
+    {
+        return $this->belongsToMany(VoucherType::class, 'organization_voucher_types')
+            ->withPivot(['is_active'])
+            ->withTimestamps();
+    }
+
     public function uniqueIds()
     {
         return ['uuid'];

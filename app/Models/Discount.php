@@ -98,6 +98,13 @@ class Discount extends Model
         });
     }
 
+    public function scopeWithVoucherType($query, $organization)
+    {
+        return $query->withWhereHas('voucherType', function ($query) use ($organization) {
+            $query->forOrganization($organization);
+        });
+    }
+
     public function scopeActive($query)
     {
         return $query->where('is_active', true)
