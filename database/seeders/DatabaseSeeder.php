@@ -69,7 +69,17 @@ class DatabaseSeeder extends Seeder
                         ]);
                 });
             });
-        $voucherTypes = VoucherType::factory(10)->create();
+        $voucherTypes = VoucherType::factory(10)
+            ->create()
+            ->each(function ($record) use ($organizations) {
+                $organizations->each(function ($organization) use ($record) {
+                    $record->organizationVoucherTypes()
+                        ->create([
+                            'organization_id' => $organization->getKey(),
+                            'is_active' => true,
+                        ]);
+                });
+            });
         collect([
             'Apparel' => [
                 'Reebok', 'Sketchers', 'Polo', 'Adidas', 'New Balance',
