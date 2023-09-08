@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Concerns\InteractsWithAuditable;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
+use Brick\Money\Money;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Support\Str;
@@ -47,6 +48,38 @@ class Order extends Model implements Sortable
     protected function orderNumber(): Attribute
     {
         return Attribute::get(fn ($value, $attributes) => data_get($attributes, 'order_column'));
+    }
+
+    protected function orderTotal(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => Money::ofMinor($value, 'USD'),
+            set: fn ($value) => $value->getMinorAmount()->toInt(),
+        );
+    }
+
+    protected function orderSubtotal(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => Money::ofMinor($value, 'USD'),
+            set: fn ($value) => $value->getMinorAmount()->toInt(),
+        );
+    }
+
+    protected function orderTax(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => Money::ofMinor($value, 'USD'),
+            set: fn ($value) => $value->getMinorAmount()->toInt(),
+        );
+    }
+
+    protected function orderDiscount(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => Money::ofMinor($value, 'USD'),
+            set: fn ($value) => $value->getMinorAmount()->toInt(),
+        );
     }
 
     public function uniqueIds()
