@@ -47,9 +47,12 @@ class OrderDetailsRelationManager extends RelationManager
 
                 Tables\Columns\TextColumn::make('quantity')->label('Quantity'),
 
-                Tables\Columns\TextColumn::make('amount')->label('Item Price')->money('USD'),
+                Tables\Columns\TextColumn::make('amount')
+                    ->label('Item Price')
+                    ->formatStateUsing(fn ($record) => $record->money_amount),
 
-                Tables\Columns\TextColumn::make('total')->money('USD'),
+                Tables\Columns\TextColumn::make('total')
+                    ->formatStateUsing(fn ($record) => $record->money_total),
             ])
             ->filters([
                 //

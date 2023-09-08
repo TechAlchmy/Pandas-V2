@@ -20,7 +20,7 @@ class OrderDetailFactory extends Factory
             'order_id' => null,
             'discount_id' => null,
             'quantity' => random_int(1, 10),
-            'amount' => intval($this->faker->randomFloat(2, 100, 1000) * 100),
+            'amount' => intval($this->faker->randomFloat(2, 1, 100) * 100),
         ];
     }
 }

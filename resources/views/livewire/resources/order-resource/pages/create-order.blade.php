@@ -24,14 +24,15 @@
                                         <h5>{{ $item['itemable']->name }}</h5>
                                     </div>
                                     <div class="">
-                                        {{ Filament\Support\format_money($item['amount'], 'USD') }}
+                                        {{ Filament\Support\format_money($item['amount'] / 100, 'USD') }}
                                     </div>
                                     <div class="">
-                                        <x-input x-on:input="$wire.updateItem('{{ $id }}', $event.target.value, '{{ $item['amount'] }}')" value="{{ $item['quantity'] }}" type="number"
-                                            class="px-2 max-w-full border !border-solid border-black" min="1" />
+                                        <x-input x-on:change="$wire.updateItem('{{ $id }}', $event.target.value, '{{ $item['amount'] }}').then(() => $wire.$refresh())" value="{{ $item['quantity'] }}"
+                                            type="number" class="px-2 max-w-full border !border-solid border-black" min="1" />
                                     </div>
                                     <div class="">
-                                        {{ Filament\Support\format_money($item['amount'] * $item['quantity'], 'USD') }}
+                                        <span class="line-through">{{ Filament\Support\format_money($item['subtotal'] / 100, 'USD') }}</span>
+                                        {{ Filament\Support\format_money($item['item_total'] / 100, 'USD') }}
                                     </div>
                                 </div>
 
@@ -54,19 +55,19 @@
                         <tbody>
                             <tr>
                                 <td>Subtotal</td>
-                                <td align="right">{{ Filament\Support\format_money(cart()->subtotal(), 'USD') }}</td>
+                                <td align="right">{{ Filament\Support\format_money(cart()->subtotal() / 100, 'USD') }}</td>
                             </tr>
                             <tr>
                                 <td>Saving</td>
-                                <td align="right">{{ Filament\Support\format_money(cart()->discount(), 'USD') }}</td>
+                                <td align="right">{{ Filament\Support\format_money(cart()->discount() / 100, 'USD') }}</td>
                             </tr>
                             <tr>
                                 <td>Est. Tax</td>
-                                <td align="right">{{ Filament\Support\format_money(cart()->tax(), 'USD') }}</td>
+                                <td align="right">{{ Filament\Support\format_money(cart()->tax() / 100, 'USD') }}</td>
                             </tr>
                             <tr>
                                 <td>Total</td>
-                                <td align="right">{{ Filament\Support\format_money(cart()->total(), 'USD') }}</td>
+                                <td align="right">{{ Filament\Support\format_money(cart()->total() / 100, 'USD') }}</td>
                             </tr>
                         </tbody>
                     </table>

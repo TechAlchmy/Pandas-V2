@@ -110,13 +110,16 @@ class CartService
         return collect(session('cart_items'))
             ->map(function ($item) use ($records) {
                 $record = $records->find($item['id']);
-                $subtotal = $item['quantity'] * $item['amount'];
+                $amount = \array_search($item['amount'], $record->amount) === false
+                    ? $record->amount[0]
+                    : $item['amount'];
+                $subtotal = $item['quantity'] * $amount;
                 $discount = $subtotal * ($record->public_percentage / 100);
                 $itemTotal = $subtotal - $discount;
                 return [
                     'itemable' => $record,
                     'quantity' => $item['quantity'],
-                    'amount' => $item['amount'],
+                    'amount' => $amount,
                     'subtotal' => $subtotal,
                     'discount' => $discount,
                     'item_total' => $itemTotal,

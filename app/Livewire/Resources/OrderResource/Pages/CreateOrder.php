@@ -142,14 +142,14 @@ class CreateOrder extends Component implements HasForms, HasActions
         }
 
         Notification::make()
-            ->title('Quantity limit reached ' . $record->name)
+            ->title('Quantity limit reached ' . $item['itemable']->name)
             ->danger()
             ->send();
     }
 
     public function createOrder($data)
     {
-        $data['xAmount'] = cart()->total();
+        $data['xAmount'] = cart()->total() / 100;
         $data['xExp'] = $data['xExp_month'].$data['xExp_year'];
 
         // TODO: add email to the orders table or pass a user_id when creating the order.
