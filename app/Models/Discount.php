@@ -134,6 +134,8 @@ class Discount extends Model
 
     protected function moneyLimitAmount(): Attribute
     {
-        return Attribute::get(fn ($value) => is_null($value) ? null : Money::ofMinor($value, 'USD')->getAmount()->toInt());
+        return Attribute::get(fn () => is_null($this->limit_amount)
+            ? null
+            : Money::ofMinor($this->limit_amount, 'USD'));
     }
 }
