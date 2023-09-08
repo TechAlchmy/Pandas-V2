@@ -48,12 +48,17 @@ class Category extends Model implements Sortable
             ->withTimestamps();
     }
 
-    public function scopeWithBrands($query, $organization)
+    public function scopeWithBrands($query, $organization, $sort = null)
     {
-        return $query->withWhereHas('brands', function ($query) use ($organization) {
+        return $query->withWhereHas('brands', function ($query) use ($organization, $sort) {
             $query
                 ->with('media')
                 ->where('is_active', true)
+                ->when($sort, fn ($query, $sort) => match ($sort) {
+                    'views' => $query->orderByDesc('views'),
+                    'clicks' => $query->orderByDesc('clicks'),
+                    default => $query->orderByDesc('clicks'),
+                })
                 ->forOrganization($organization);
         });
     }
