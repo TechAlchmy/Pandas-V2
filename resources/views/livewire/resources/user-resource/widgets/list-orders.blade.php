@@ -1,3 +1,3 @@
-<div class="lg:px-[min(6.99vw,50px)]">
+<div class="p-4">
     {{ $this->table }}
 </div>

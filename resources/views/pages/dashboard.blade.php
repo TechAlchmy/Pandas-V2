@@ -18,7 +18,7 @@ name('dashboard');
     <div class="px-[min(6.99vw,50px)] py-8">
         <div class="max-w-[1920px] mx-auto">
             <div class="flex justify-between">
-                <h1 class="text-4xl lg:text-7xl">My Panda</h1>
+                <h1 class="text-4xl lg:text-7xl font-editorial">My Panda</h1>
                 <p class="hidden lg:block">{{ auth()->user()->organization?->name }}</p>
             </div>
         </div>

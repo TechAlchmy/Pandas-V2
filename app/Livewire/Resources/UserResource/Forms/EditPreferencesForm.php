@@ -35,16 +35,24 @@ class EditPreferencesForm extends Component implements HasForms
     public function form(Form $form): Form
     {
         return $form
-            ->columns()
+            ->columns(['default' => 2, 'md' => 4])
             ->statePath('data')
             ->schema([
                 Forms\Components\Toggle::make('email_notification')
+                    ->offColor('danger')
+                    ->onColor('success')
                     ->default(false),
                 Forms\Components\Toggle::make('sms_notification')
+                    ->offColor('danger')
+                    ->onColor('success')
                     ->default(false),
                 Forms\Components\Toggle::make('push_notification')
+                    ->offColor('danger')
+                    ->onColor('success')
                     ->default(false),
                 Forms\Components\Toggle::make('email_marketing')
+                    ->offColor('danger')
+                    ->onColor('success')
                     ->default(false),
             ]);
     }
