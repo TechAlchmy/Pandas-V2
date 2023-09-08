@@ -41,12 +41,12 @@ class ViewDeal extends Component implements HasActions, HasForms
 
     public function mount()
     {
-        $this->amount = data_get($this->record->amount, '0');
+        $this->amount = data_get($this->record->money_amount, '0')->getMinorAmount()->toInt();
     }
 
     public function createOrder($data)
     {
-        $data['xAmount'] = $this->amount;
+        $data['xAmount'] = $this->amount / 100;
         $data['xExp'] = $data['xExp_month'].$data['xExp_year'];
 
         // TODO: add email to the orders table or pass a user_id when creating the order.
@@ -112,7 +112,7 @@ class ViewDeal extends Component implements HasActions, HasForms
 
         $this->dispatch('cart-item-added', ...['record' => [
             'name' => $this->record->name,
-            'amount' => \Filament\Support\format_money($this->amount, 'USD'),
+            'amount' => \Filament\Support\format_money($this->amount / 100, 'USD'),
             'quantity' => $this->quantity,
             'image_url' => $this->record->brand->getFirstMediaUrl('logo'),
         ]]);
