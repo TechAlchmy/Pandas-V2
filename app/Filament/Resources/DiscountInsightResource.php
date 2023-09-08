@@ -9,6 +9,7 @@ use App\Models\DiscountInsight;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Infolists;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -74,7 +75,22 @@ class DiscountInsightResource extends Resource
                     ->relationship('brand', 'name'),
             ])
             ->actions([
-                // Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('results')
+                    ->infolist([
+                        Infolists\Components\RepeatableEntry::make('discountInsightModels')
+                            ->columns()
+                            ->grid(3)
+                            ->schema([
+                                Infolists\Components\TextEntry::make('discount.brand.name')
+                                    ->url(fn ($record) => BrandResource::getUrl('edit', ['record' => $record->discount->brand]))
+                                    ->openUrlInNewTab(),
+                                Infolists\Components\TextEntry::make('discount.name')
+                                    ->url(fn ($record) => DiscountResource::getUrl('edit', ['record' => $record->discount]))
+                                    ->openUrlInNewTab(),
+                                Infolists\Components\TextEntry::make('order_column')
+                                    ->label('Seq'),
+                            ]),
+                    ]),
             ])
             ->bulkActions([
                 ExportBulkAction::make(),
@@ -108,5 +124,11 @@ class DiscountInsightResource extends Resource
         return [
             Widgets\DiscountInsightWidget::class,
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->with('discountInsightModels.discount.brand.media');
     }
 }
