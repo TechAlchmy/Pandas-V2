@@ -20,11 +20,11 @@ return new class extends Migration
             $table->string('order_status')->comment('pending, processing, on hold, completed, cancelled, refunded, failed')->nullable();
             $table->unsignedBigInteger('order_column')->nullable()->index();
 
-            $table->decimal(column:'order_discount', places:2, unsigned: true)->nullable();
-            $table->decimal(column:'order_tax', places:2, unsigned: true)->nullable();
+            $table->unsignedInteger(column:'order_discount',)->nullable();
+            $table->unsignedInteger(column:'order_tax',)->nullable();
 
-            $table->decimal(column:'order_subtotal',places:2, unsigned: true)->nullable();
-            $table->decimal(column:'order_total',places:2, unsigned: true)->nullable();
+            $table->unsignedInteger(column:'order_subtotal')->nullable();
+            $table->unsignedInteger(column:'order_total')->nullable();
 
             $table->string('payment_method', 255)->nullable();
             $table->string('payment_status', 255)->comment('pending, paid, failed, refunded')->nullable();
