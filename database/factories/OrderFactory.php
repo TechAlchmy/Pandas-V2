@@ -19,10 +19,10 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         //TODO: These should never be saved into databse.
-        $orderSubtotal = $this->faker->randomFloat(2, 100, 1000);
-        $orderDiscount = $orderSubtotal * $this->faker->randomFloat(2, 0, 0.3);
-        $orderTax = $orderSubtotal * 0.25;
-        $orderTotal = $orderSubtotal - $orderDiscount + $orderTax;
+        $orderSubtotal = round($this->faker->randomFloat(2, 100, 1000),2);
+        $orderDiscount = round($orderSubtotal * $this->faker->randomFloat(2, 0, 0.3),2);
+        $orderTax = round($orderSubtotal * 0.25,2);
+        $orderTotal = round($orderSubtotal - $orderDiscount + $orderTax,2);
 
         return [
             'user_id' => $this->faker->numberBetween(1, 50),
