@@ -59,8 +59,8 @@ class ViewDeal extends Component implements HasActions, HasForms
                 'order_date' => now(),
                 'order_tax' => 0,
                 'order_subtotal' => $this->amount,
-                'order_discount' => 0,
-                'order_total' => $this->amount,
+                'order_discount' => $this->amount * $this->record->public_percentage,
+                'order_total' => $this->amount - ($this->amount * $this->record->public_percentage),
             ]);
 
         $order->orderDetails()->create([
