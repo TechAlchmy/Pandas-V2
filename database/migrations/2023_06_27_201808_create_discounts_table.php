@@ -33,7 +33,7 @@ return new class extends Migration
             $table->string('code')->nullable();
             $table->jsonb('amount')->nullable();
             $table->integer('limit_qty')->nullable();
-            $table->decimal('limit_amount', 10, 2)->nullable();
+            $table->unsignedInteger('limit_amount')->nullable();
             $table->decimal('public_percentage', 10, 2)->nullable();
             $table->decimal('percentage', 10, 2)->nullable();
             $table->foreignIdFor(User::class, 'created_by_id')->nullable();
