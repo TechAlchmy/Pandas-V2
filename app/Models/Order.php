@@ -50,36 +50,24 @@ class Order extends Model implements Sortable
         return Attribute::get(fn ($value, $attributes) => data_get($attributes, 'order_column'));
     }
 
-    protected function orderTotal(): Attribute
+    protected function moneyOrderTotal(): Attribute
     {
-        return Attribute::make(
-            get: fn ($value) => Money::ofMinor($value, 'USD'),
-            set: fn ($value) => $value->getMinorAmount()->toInt(),
-        );
+        return Attribute::get(fn () => Money::ofMinor($this->order_total, 'USD'));
     }
 
-    protected function orderSubtotal(): Attribute
+    protected function moneyOrderSubtotal(): Attribute
     {
-        return Attribute::make(
-            get: fn ($value) => Money::ofMinor($value, 'USD'),
-            set: fn ($value) => $value->getMinorAmount()->toInt(),
-        );
+        return Attribute::get(fn () => Money::ofMinor($this->order_subtotal, 'USD'));
     }
 
-    protected function orderTax(): Attribute
+    protected function moneyOrderTax(): Attribute
     {
-        return Attribute::make(
-            get: fn ($value) => Money::ofMinor($value, 'USD'),
-            set: fn ($value) => $value->getMinorAmount()->toInt(),
-        );
+        return Attribute::get(fn () => Money::ofMinor($this->order_tax, 'USD'));
     }
 
-    protected function orderDiscount(): Attribute
+    protected function moneyOrderDiscount(): Attribute
     {
-        return Attribute::make(
-            get: fn ($value) => Money::ofMinor($value, 'USD'),
-            set: fn ($value) => $value->getMinorAmount()->toInt(),
-        );
+        return Attribute::get(fn () => Money::ofMinor($this->order_discount, 'USD'));
     }
 
     public function uniqueIds()
