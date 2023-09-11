@@ -12,6 +12,7 @@ use Filament\Models\Contracts\HasTenants;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -28,6 +29,7 @@ class User extends Authenticatable implements FilamentUser, HasTenants, HasDefau
     use InteractsWithAuditable;
     use SoftDeletes;
     use InteractsWithMedia;
+    use HasUuids;
 
     protected $hidden = [
         'password',
@@ -161,5 +163,10 @@ class User extends Authenticatable implements FilamentUser, HasTenants, HasDefau
     {
         $this->addMediaCollection('avatar')
             ->singleFile();
+    }
+
+    public function uniqueIds()
+    {
+        return ['uuid'];
     }
 }
