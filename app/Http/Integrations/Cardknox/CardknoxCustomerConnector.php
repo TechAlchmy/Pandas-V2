@@ -30,8 +30,8 @@ class CardknoxCustomerConnector extends Connector implements HasBody
     protected function defaultBody(): array
     {
         return [
-            'xSoftwareName' => config('app.name'),
-            'xSoftwareVersion' => '0.0.1',
+            'SoftwareName' => config('app.name'),
+            'SoftwareVersion' => '0.0.1',
         ];
     }
 }
