@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Http\Integrations\Cardknox;
+
+use Saloon\Contracts\Body\HasBody;
+use Saloon\Http\Connector;
+use Saloon\Traits\Body\HasJsonBody;
+use Saloon\Traits\Plugins\AcceptsJson;
+
+class CardknoxCustomerConnector extends Connector implements HasBody
+{
+    use AcceptsJson;
+    use HasJsonBody;
+
+    public function __construct()
+    {
+        $this->withTokenAuth(config('services.cardknox.transaction_key'));
+    }
+
+    public function resolveBaseUrl(): string
+    {
+        return 'https://api.cardknox.com/v2';
+    }
+
+    protected function defaultBody(): array
+    {
+        return [
+            'xSoftwareName' => config('app.name'),
+            'xSoftwareVersion' => '0.0.1',
+        ];
+    }
+}
