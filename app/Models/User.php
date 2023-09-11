@@ -159,6 +159,16 @@ class User extends Authenticatable implements FilamentUser, HasTenants, HasDefau
         } );
     }
 
+    protected function firstName(): Attribute
+    {
+        return Attribute::get(fn () => str($this->name)->explode(' ')->first());
+    }
+
+    protected function lastName(): Attribute
+    {
+        return Attribute::get(fn () => str($this->name)->explode(' ')->slice(1)->join(' '));
+    }
+
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('avatar')
