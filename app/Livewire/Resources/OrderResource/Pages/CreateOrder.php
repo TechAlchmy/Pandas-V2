@@ -171,11 +171,6 @@ class CreateOrder extends Component implements HasForms, HasActions
                 cart()->add($detail->discount_id, $detail->quantity, $detail->amount);
             }
 
-            Cart::query()
-                ->whereBelongsTo($order)
-                ->delete();
-            $order->forceDelete();
-
             Notification::make()
                 ->danger()
                 ->title('Error')
