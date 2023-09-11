@@ -27,7 +27,7 @@ class CreateCustomer extends Request implements HasBody
 
     public function resolveEndpoint(): string
     {
-        return '/CreatePaymentMethod';
+        return '/CreateCustomer';
     }
 
     protected function defaultBody(): array
