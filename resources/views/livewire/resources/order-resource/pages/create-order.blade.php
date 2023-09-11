@@ -21,16 +21,25 @@
                                 <div class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                                     <div class="flex gap-2 items-center">
                                         {{ $item['itemable']->brand->getFirstMedia('logo')?->img()->attributes(['class' => 'w-20']) }}
-                                        <h5>{{ $item['itemable']->name }}</h5>
+                                        <div>
+                                            <h5>{{ $item['itemable']->name }}</h5>
+                                            <span class="lg:hidden">
+                                                {{ Filament\Support\format_money($item['amount'] / 100, 'USD') }}/item
+                                            </span>
+                                            <div class="lg:hidden">
+                                                <span class="line-through">{{ Filament\Support\format_money($item['subtotal'] / 100, 'USD') }}</span>
+                                                {{ Filament\Support\format_money($item['item_total'] / 100, 'USD') }}
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="">
+                                    <div class="hidden lg:block">
                                         {{ Filament\Support\format_money($item['amount'] / 100, 'USD') }}
                                     </div>
                                     <div class="">
                                         <x-input x-on:change="$wire.updateItem('{{ $id }}', $event.target.value, '{{ $item['amount'] }}').then(() => $wire.$refresh())" value="{{ $item['quantity'] }}"
-                                            type="number" class="px-2 max-w-full border !border-solid border-black" min="1" />
+                                            type="number" class="px-2 w-full max-w-full border !border-solid border-black" min="1" />
                                     </div>
-                                    <div class="">
+                                    <div class="hidden lg:block">
                                         <span class="line-through">{{ Filament\Support\format_money($item['subtotal'] / 100, 'USD') }}</span>
                                         {{ Filament\Support\format_money($item['item_total'] / 100, 'USD') }}
                                     </div>
