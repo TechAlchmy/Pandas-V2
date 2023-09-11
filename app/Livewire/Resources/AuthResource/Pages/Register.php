@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Resources\AuthResource\Pages;
 
+use App\Http\Integrations\Cardknox\Requests\CreateCustomer;
 use App\Models\Organization;
 use App\Models\User;
 use App\Notifications\SendUserUnderVerificationNotification;
@@ -64,6 +65,15 @@ class Register extends Component implements HasForms
         \data_forget($data, 'company_registration_code');
 
         $user = User::query()->create($data);
+
+        $response = (new CreateCustomer(
+            firstName: $user->first_name,
+            lastName: $user->last_name,
+            companyName: $user->organization->name,
+            customerNumber: $user->uuid,
+        ))->send();
+
+        $user->update(['cardknox_customer_id' => $response->json('CustomerId')]);
 
         $user->userPreference()->create();
 
