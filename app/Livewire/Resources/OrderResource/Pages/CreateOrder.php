@@ -4,6 +4,7 @@ namespace App\Livewire\Resources\OrderResource\Pages;
 
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
+use App\Models\Cart;
 use App\Models\Discount;
 use App\Models\Order;
 use App\Notifications\OrderApprovedNotification;
@@ -166,14 +167,15 @@ class CreateOrder extends Component implements HasForms, HasActions
                 'payment_status' => PaymentStatus::Failed,
             ]);
 
-            Notification::make()->danger()
-                ->title('Error')
-                ->body($response->xError)
-                ->send();
-
             foreach ($order->loadMissing('orderDetails')->orderDetails as $detail) {
                 cart()->add($detail->discount_id, $detail->quantity, $detail->amount);
             }
+
+            Notification::make()
+                ->danger()
+                ->title('Error')
+                ->body($response->xError)
+                ->send();
             return;
         }
 

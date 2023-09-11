@@ -1,5 +1,6 @@
-<form
+<form x-data="{ isLoading: false }"
     x-on:submit.prevent="
+    isLoading = true;
     getTokens(
         () => {
             $wire.createOrder(
@@ -13,7 +14,7 @@
             );
         },
         () => { //onError
-
+            isLoading = false;
         },
         30000, //30 second timeout
     );
@@ -87,11 +88,12 @@
                 <label data-ifields-id="card-data-error" style="color: red;"></label>
             </div>
             <div>
-                <x-button outlined type="submit">Submit</x-button>
+                <x-button x-bind:disabled="isLoading" outlined type="submit">Submit</x-button>
             </div>
             <input name="xCVV" type="hidden" data-ifields-id="cvv-token" />
             <input name="xCardNum" type="hidden" data-ifields-id="card-number-token" />
             {{-- <input name="xKey" type="hidden" value="{{ config('services.cardknox.ifields.key') }}" /> --}}
+        </div>
     </x-filament::modal>
 </form>
 

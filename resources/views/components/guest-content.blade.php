@@ -1,8 +1,7 @@
 <div class="flex flex-col lg:flex-row mx-auto w-full max-w-[1920px]">
     <div class="w-full">
         <div class=" flex justify-start  px-[min(8%,50px)]" x-data="{ shown: false }" x-intersect.once="shown = true">
-            <h1 id="dynamicColorText" x-show="shown" x-transition.duration.2000
-                class="font-editorial mix-blend-difference text-panda-green text-[min(80px,9.2vw)] lg:text-8xl xl:text-9xl mt-12 mr-10 absolute lg:leading-[130px] p-1">
+            <h1 id="dynamicColorText" x-show="shown" x-transition.duration.2000 class="font-editorial text-[min(80px,9.2vw)] lg:text-8xl xl:text-9xl mt-12 mr-10 absolute lg:leading-[130px] p-1">
                 Explore a
                 <br class="max-xl:hidden">
                 new
