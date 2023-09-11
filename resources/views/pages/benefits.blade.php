@@ -12,7 +12,7 @@ name('benefits');
     <section class="overflow-x-hidden">
         <div class="px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" x-data="{ shown: false }" x-intersect.once="shown = true">
-                <h1 x-show="shown" x-transition.duration.1500 class="text-6xl max-w-xl mix-blend-difference text-panda-green font-editorial">Get Ready to go beyond the basic</h1>
+                <h1 x-show="shown" x-transition.duration.1500 class="text-6xl max-w-xl font-editorial">Get Ready to go beyond the basic</h1>
                 <div class="space-y-6 lg:ml-56 xl:ml-80">
                     <p class="">
                         Real benefits for real people start with Panda. We’re here to help you thrive in ways that matters to you, so you can give more when it’s go time—in life and work.
