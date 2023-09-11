@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Resources\OrganizationInvitationResource\Pages;
 
+use App\Http\Integrations\Cardknox\Requests\CreateCustomer;
 use App\Models\OrganizationInvitation;
 use App\Models\User;
 use DanHarrin\LivewireRateLimiting\WithRateLimiting;
@@ -98,6 +99,15 @@ class AcceptInvitation extends Component implements HasForms, HasActions
                 'organization_id' => $this->getRecord()->organization_id,
             ]);
         }
+
+        $response = (new CreateCustomer(
+            firstName: $user->first_name,
+            lastName: $user->last_name,
+            companyName: $user->organization->name,
+            customerNumber: $user->uuid,
+        ))->send();
+
+        $user->update(['cardknox_customer_id' => $response->json('CustomerId')]);
 
         auth()->login($user);
 

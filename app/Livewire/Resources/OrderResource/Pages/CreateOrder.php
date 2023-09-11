@@ -5,6 +5,7 @@ namespace App\Livewire\Resources\OrderResource\Pages;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Models\Cart;
+use App\Http\Integrations\Cardknox\Requests\CreatePaymentMethod;
 use App\Models\Discount;
 use App\Models\Order;
 use App\Notifications\OrderApprovedNotification;
@@ -177,6 +178,21 @@ class CreateOrder extends Component implements HasForms, HasActions
                 ->body($response->xError)
                 ->send();
             return;
+        }
+
+        $paymentIds = auth()->user()->cardknox_payment_method_ids ?? [];
+        if (! \in_array('cc', \array_keys($paymentIds))) {
+            $response = (new CreatePaymentMethod(
+                customerId: auth()->user()->cardknox_customer_id,
+                token: $response->xToken,
+                tokenType: 'cc',
+                exp: $response->xExp,
+            ))->send();
+
+            auth()->user()->update(['cardknox_payment_method_ids' => [
+                ...$paymentIds,
+                'cc' => $response->json('PaymentMethodId'),
+            ]]);
         }
 
         $order->update([

@@ -6,12 +6,14 @@ namespace App\Models;
 
 use App\Concerns\InteractsWithAuditable;
 use App\Enums\AuthLevelEnum;
+use App\Http\Integrations\Cardknox\Requests\GetPaymentMethod;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasDefaultTenant;
 use Filament\Models\Contracts\HasTenants;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -28,6 +30,7 @@ class User extends Authenticatable implements FilamentUser, HasTenants, HasDefau
     use InteractsWithAuditable;
     use SoftDeletes;
     use InteractsWithMedia;
+    use HasUuids;
 
     protected $hidden = [
         'password',
@@ -39,6 +42,7 @@ class User extends Authenticatable implements FilamentUser, HasTenants, HasDefau
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
         'auth_level' => AuthLevelEnum::class,
+        'cardknox_payment_method_ids' => 'array',
     ];
 
     public function organizations()
@@ -157,9 +161,32 @@ class User extends Authenticatable implements FilamentUser, HasTenants, HasDefau
         } );
     }
 
+    protected function firstName(): Attribute
+    {
+        return Attribute::get(fn () => str($this->name)->explode(' ')->first());
+    }
+
+    protected function lastName(): Attribute
+    {
+        return Attribute::get(fn () => str($this->name)->explode(' ')->slice(1)->join(' '));
+    }
+
+    protected function cardknoxPaymentMethodCc(): Attribute
+    {
+        return Attribute::get(function () {
+            $cc = \data_get($this->cardknox_payment_method_ids, 'cc');
+            return $cc ? (new GetPaymentMethod($cc))->send()->json() : null;
+        });
+    }
+
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('avatar')
             ->singleFile();
+    }
+
+    public function uniqueIds()
+    {
+        return ['uuid'];
     }
 }

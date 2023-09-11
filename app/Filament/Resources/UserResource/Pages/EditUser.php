@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\UserResource\Pages;
 
 use App\Filament\Resources\UserResource;
+use App\Http\Integrations\Cardknox\Requests\CreateCustomer;
 use Filament\Actions;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
@@ -48,6 +49,23 @@ class EditUser extends EditRecord
                 ->successRedirectUrl(false)
                 ->label('Suspend'),
             Actions\RestoreAction::make(),
+            Actions\Action::make('createCardknoxCustomer')
+                ->requiresConfirmation()
+                ->hidden(app()->isProduction())
+                ->visible(fn ($record) => empty($record->cardknox_customer_id))
+                ->action(function ($record) {
+                    $user = $record;
+                    $response = (new CreateCustomer(
+                        firstName: $user->first_name,
+                        lastName: $user->last_name,
+                        companyName: $user->organization?->name ?? config('app.name'),
+                        customerNumber: $user->uuid,
+                    ))->send();
+
+                    $response->collect()->dd();
+
+                    $user->update(['cardknox_customer_id' => $response->json('CustomerId')]);
+                }),
         ];
     }
 }

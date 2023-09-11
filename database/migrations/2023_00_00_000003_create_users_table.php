@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->uuid();
             $table->string('name')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
@@ -22,6 +23,8 @@ return new class extends Migration
             $table->string('password');
             $table->integer('auth_level')->default(0)->comment('0: user, 1: panda admin, 2: super admin');
             $table->string('social_security_number')->nullable();
+            $table->integer('cardknox_customer_id')->nullable();
+            $table->jsonb('cardknox_payment_method_ids')->nullable();
             $table->foreignIdFor(Organization::class)->nullable()->constrained()->nullOnDelete();
             $table->string('phone_number')->nullable();
             $table->string('address')->nullable();

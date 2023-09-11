@@ -1,6 +1,18 @@
-<form x-data="{ isLoading: false }"
+<form x-data="@js(['isLoading' => false, 'use_new' => false, 'cardknox_payment_method' => ['cc' => auth()->user()->cardknox_payment_method_cc]])"
     x-on:submit.prevent="
     isLoading = true;
+    if (cardknox_payment_method.cc != null) {
+        $wire.createOrder(
+            JSON.parse(
+                JSON.stringify(
+                    Object.fromEntries(
+                        (new FormData($el)).entries()
+                    )
+                )
+            )
+        );
+        return;
+    }
     getTokens(
         () => {
             $wire.createOrder(
@@ -40,7 +52,7 @@
                     </div>
                     <x-input type="text" name="xEmail" value="{{ auth()->user()?->email }}" />
                 </div>
-                <div class="border-b-[1.5px] py-2 border-black flex gap-x-1 items-center font-medium">
+                <div x-show="cardknox_payment_method.cc == null" class="border-b-[1.5px] py-2 border-black flex gap-x-1 items-center font-medium">
                     <div class="flex">
                         <label class="uppercase select-none caret-transparent">
                             Card Number
@@ -52,7 +64,13 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div x-show="cardknox_payment_method.cc != null" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <span x-text="cardknox_payment_method.cc.MaskedCardNumber"></span>
+                <span x-text="cardknox_payment_method.cc.Exp"></span>
+                <input type="hidden" name="xToken" x-bind:value="cardknox_payment_method.cc.Token" />
+            </div>
+
+            <div x-show="cardknox_payment_method.cc == null" class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="border-b-[1.5px] py-2 border-black flex gap-x-1 items-center font-medium">
                     <div class="flex">
                         <label class="uppercase select-none caret-transparent">
