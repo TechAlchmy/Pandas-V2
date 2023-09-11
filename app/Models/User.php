@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Concerns\InteractsWithAuditable;
 use App\Enums\AuthLevelEnum;
+use App\Http\Integrations\Cardknox\Requests\GetPaymentMethod;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasDefaultTenant;
 use Filament\Models\Contracts\HasTenants;
@@ -41,6 +42,7 @@ class User extends Authenticatable implements FilamentUser, HasTenants, HasDefau
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
         'auth_level' => AuthLevelEnum::class,
+        'cardknox_payment_method_ids' => 'array',
     ];
 
     public function organizations()
@@ -167,6 +169,14 @@ class User extends Authenticatable implements FilamentUser, HasTenants, HasDefau
     protected function lastName(): Attribute
     {
         return Attribute::get(fn () => str($this->name)->explode(' ')->slice(1)->join(' '));
+    }
+
+    protected function cardknoxPaymentMethodCc(): Attribute
+    {
+        return Attribute::get(function () {
+            $cc = \data_get($this->cardknox_payment_method_ids, 'cc');
+            return $cc ? (new GetPaymentMethod($cc))->send()->json() : null;
+        });
     }
 
     public function registerMediaCollections(): void
