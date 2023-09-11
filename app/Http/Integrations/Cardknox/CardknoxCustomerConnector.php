@@ -22,6 +22,11 @@ class CardknoxCustomerConnector extends Connector implements HasBody
         return 'https://api.cardknox.com/v2';
     }
 
+    protected function defaultHeaders(): array
+    {
+        return ['X-Recurring-Api-Version' => '2.1'];
+    }
+
     protected function defaultBody(): array
     {
         return [
