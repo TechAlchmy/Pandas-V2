@@ -93,6 +93,7 @@
             <input name="xCVV" type="hidden" data-ifields-id="cvv-token" />
             <input name="xCardNum" type="hidden" data-ifields-id="card-number-token" />
             {{-- <input name="xKey" type="hidden" value="{{ config('services.cardknox.ifields.key') }}" /> --}}
+        </div>
     </x-filament::modal>
 </form>
 
