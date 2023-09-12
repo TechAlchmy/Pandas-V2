@@ -19,7 +19,7 @@ name('benefits');
 
                         Explore the benefits your employer is providing through Panda People.
                     </p>
-                    <x-button class="hover:bg-panda-green" outlined :href="route('dashboard', ['activeTab' => 1])">View My Benefits</x-button>
+                    <x-link class="hover:bg-panda-green" outlined :href="route('dashboard', ['activeTab' => 1])">View My Benefits</x-link>
                 </div>
             </div>
         </div>
