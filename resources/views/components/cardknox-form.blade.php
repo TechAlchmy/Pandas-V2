@@ -1,4 +1,4 @@
-<form x-data="@js(['isLoading' => false, 'use_new' => false, 'cardknox_payment_method' => ['cc' => auth()->user()->cardknox_payment_method_cc]])"
+<form x-data="@js(['isLoading' => false, 'useNew' => false, 'cardknox_payment_method' => ['cc' => auth()->user()->cardknox_payment_method_cc]])"
     x-on:submit.prevent="
     isLoading = true;
     if (cardknox_payment_method.cc != null) {
@@ -52,7 +52,7 @@
                     </div>
                     <x-input type="text" name="xEmail" value="{{ auth()->user()?->email }}" />
                 </div>
-                <div x-show="cardknox_payment_method.cc == null" class="border-b-[1.5px] py-2 border-black flex gap-x-1 items-center font-medium">
+                <div x-show="useNew || cardknox_payment_method.cc == null" class="border-b-[1.5px] py-2 border-black flex gap-x-1 items-center font-medium">
                     <div class="flex">
                         <label class="uppercase select-none caret-transparent">
                             Card Number
@@ -62,15 +62,30 @@
                     <iframe class="max-w-[18rem] max-h-[1.5rem]" data-ifields-id="card-number" data-ifields-placeholder="Card Number"
                         src="https://cdn.cardknox.com/ifields/{{ config('services.cardknox.ifields.version') }}/ifield.htm"></iframe>
                 </div>
+                <div x-show="!useNew && cardknox_payment_method.cc != null" class="place-self-center grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <h5>Card Number</h5>
+                        <span x-text="cardknox_payment_method.cc.MaskedCardNumber"></span>
+                    </div>
+                    <div>
+                        <h5>Expired</h5>
+                        <span x-text="cardknox_payment_method.cc.Exp.substring(0, 2)"></span>
+                        <span>/</span>
+                        <span x-text="cardknox_payment_method.cc.Exp.substring(2)"></span>
+                    </div>
+                    <input type="hidden" name="xToken" x-bind:value="cardknox_payment_method.cc.Token" />
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2">
+                <div></div>
+                <div>
+                    <button type="button" x-show="!useNew" x-on:click="useNew = !useNew">Use Other Card</button>
+                    <button type="button" x-show="useNew" x-on:click="useNew = !useNew">Use Existing Card</button>
+                    <input name="use_new" type="hidden" x-bind:value="useNew" />
+                </div>
             </div>
 
-            <div x-show="cardknox_payment_method.cc != null" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <span x-text="cardknox_payment_method.cc.MaskedCardNumber"></span>
-                <span x-text="cardknox_payment_method.cc.Exp"></span>
-                <input type="hidden" name="xToken" x-bind:value="cardknox_payment_method.cc.Token" />
-            </div>
-
-            <div x-show="cardknox_payment_method.cc == null" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div x-show="useNew || cardknox_payment_method.cc == null" class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="border-b-[1.5px] py-2 border-black flex gap-x-1 items-center font-medium">
                     <div class="flex">
                         <label class="uppercase select-none caret-transparent">
