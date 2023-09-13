@@ -37,37 +37,6 @@ class CreateOrder extends Component implements HasForms, HasActions
         $this->form->fill();
     }
 
-    public function confirmOrder()
-    {
-        $data = $this->form->getState();
-        $data['xAmount'] = 23;
-        $data['xExp'] = Carbon::make($data['xExp'])->format('my');
-
-        // TODO: add email to the orders table or pass a user_id when creating the order.
-        $order = Order::create([
-            'order_total' => $data['xAmount'],
-            'order_number' => random_int(1, 9999),
-        ]);
-
-        $data['xInvoice'] = 'Order-' . $order->id;
-
-        $cardknoxPayment = new CardknoxPayment;
-        $response = $cardknoxPayment->charge(new CardknoxBody($data));
-
-        if (filled($response->xResult) && $response->xStatus === 'Error') {
-            Notification::make()->danger()
-                ->title('Error')
-                ->body($response->xError)
-                ->send();
-
-            return;
-        }
-
-        $order->update(['payment_status' => $response->xStatus]);
-
-        $this->redirect(route('pages.order.summary', $order));
-    }
-
     public function form(Form $form): Form
     {
         return $form
