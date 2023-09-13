@@ -1,7 +1,7 @@
 <form x-data="@js(['isLoading' => false, 'useNew' => false, 'cardknox_payment_method' => ['cc' => auth()->user()->cardknox_payment_method_cc]])"
     x-on:submit.prevent="
     isLoading = true;
-    if (cardknox_payment_method.cc != null) {
+    if (useNew || cardknox_payment_method.cc != null) {
         $wire.createOrder(
             JSON.parse(
                 JSON.stringify(
