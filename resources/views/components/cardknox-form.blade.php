@@ -121,7 +121,10 @@
                 <label data-ifields-id="card-data-error" style="color: red;"></label>
             </div>
             <div>
-                <x-button x-bind:disabled="isLoading" outlined type="submit">Submit</x-button>
+                <x-button class="inline-flex" x-bind:disabled="isLoading" outlined type="submit">
+                    <x-filament::loading-indicator x-show="isLoading" class="w-5 h-5" />
+                    <span>Submit</span>
+                </x-button>
             </div>
             <input name="xCVV" type="hidden" data-ifields-id="cvv-token" />
             <input name="xCardNum" type="hidden" data-ifields-id="card-number-token" />
