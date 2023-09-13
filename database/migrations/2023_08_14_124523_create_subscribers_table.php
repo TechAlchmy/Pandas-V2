@@ -10,6 +10,7 @@ return new class extends Migration
     {
         Schema::create('subscribers', function (Blueprint $table) {
             $table->id();
+            $table->uuid();
             $table->string('email');
             $table->softDeletes();
             $table->timestamps();
