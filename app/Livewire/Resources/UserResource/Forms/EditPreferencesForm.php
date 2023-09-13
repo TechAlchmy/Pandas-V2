@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Resources\UserResource\Forms;
 
+use App\Http\Integrations\Cardknox\Requests\DeletePaymentMethod;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms;
@@ -54,6 +55,22 @@ class EditPreferencesForm extends Component implements HasForms
                     ->offColor('danger')
                     ->onColor('success')
                     ->default(false),
+                Forms\Components\Actions::make([
+                    Forms\Components\Actions\Action::make('forget_my_cc_info')
+                        ->visible(fn () => filled(\data_get(auth()->user()->cardknox_payment_method_ids, 'cc')))
+                        ->requiresConfirmation()
+                        ->successNotificationTitle('CC Info has been removed')
+                        ->outlined()
+                        ->action(function ($action) {
+                            (new DeletePaymentMethod(
+                                \data_get(auth()->user()->cardknox_payment_method_ids, 'cc'),
+                            ))->send();
+
+                            auth()->user()->update(['cardknox_payment_method_ids' => []]);
+
+                            $action->success();
+                        }),
+                ]),
             ]);
     }
 }
