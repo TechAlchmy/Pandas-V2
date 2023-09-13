@@ -10,8 +10,6 @@ class CardknoxPayment
     {
         $url = 'https://x1.cardknox.com/gatewayjson';
 
-        $response = Http::post($url, $cardknoxBody);
-
-        return $response->object();
+        return Http::post($url, $cardknoxBody);
     }
 }
