@@ -11,6 +11,7 @@
                 )
             )
         );
+        isLoading = false;
         return;
     }
     getTokens(
