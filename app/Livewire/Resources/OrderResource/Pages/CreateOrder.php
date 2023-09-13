@@ -129,13 +129,12 @@ class CreateOrder extends Component implements HasForms, HasActions
         $data['xInvoice'] = $order->order_column;
 
         if ($data['use_new']) {
+            \data_forget($data, 'xToken');
+        } else {
             \data_forget($data, 'xExp');
             \data_forget($data, 'xCardNum');
             \data_forget($data, 'xCVV');
-        } else {
-            \data_forget($data, 'xToken');
         }
-        \data_forget($data, 'use_new');
 
         $cardknoxPayment = new CardknoxPayment;
         $response = $cardknoxPayment->charge(new CardknoxBody($data));

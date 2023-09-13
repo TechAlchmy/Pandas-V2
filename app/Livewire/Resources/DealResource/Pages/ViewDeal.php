@@ -51,11 +51,11 @@ class ViewDeal extends Component implements HasActions, HasForms
         $data['xExp'] = $data['xExp_month'].$data['xExp_year'];
 
         if ($data['use_new']) {
+            \data_forget($data, 'xToken');
+        } else {
             \data_forget($data, 'xExp');
             \data_forget($data, 'xCardNum');
             \data_forget($data, 'xCVV');
-        } else {
-            \data_forget($data, 'xToken');
         }
         \data_forget($data, 'use_new');
 
