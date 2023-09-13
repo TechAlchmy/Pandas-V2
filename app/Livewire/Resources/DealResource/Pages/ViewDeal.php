@@ -50,6 +50,15 @@ class ViewDeal extends Component implements HasActions, HasForms
         $data['xAmount'] = $this->amount / 100;
         $data['xExp'] = $data['xExp_month'].$data['xExp_year'];
 
+        if ($data['use_new']) {
+            unset($data['xExp']);
+            unset($data['xCardNum']);
+            unset($data['xCVV']);
+        } else {
+            unset($data['xToken']);
+        }
+        unset($data['use_new']);
+
         // TODO: add email to the orders table or pass a user_id when creating the order.
         $order = Order::query()
             ->create([
