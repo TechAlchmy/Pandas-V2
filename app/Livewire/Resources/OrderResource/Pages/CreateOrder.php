@@ -37,37 +37,6 @@ class CreateOrder extends Component implements HasForms, HasActions
         $this->form->fill();
     }
 
-    public function confirmOrder()
-    {
-        $data = $this->form->getState();
-        $data['xAmount'] = 23;
-        $data['xExp'] = Carbon::make($data['xExp'])->format('my');
-
-        // TODO: add email to the orders table or pass a user_id when creating the order.
-        $order = Order::create([
-            'order_total' => $data['xAmount'],
-            'order_number' => random_int(1, 9999),
-        ]);
-
-        $data['xInvoice'] = 'Order-' . $order->id;
-
-        $cardknoxPayment = new CardknoxPayment;
-        $response = $cardknoxPayment->charge(new CardknoxBody($data));
-
-        if (filled($response->xResult) && $response->xStatus === 'Error') {
-            Notification::make()->danger()
-                ->title('Error')
-                ->body($response->xError)
-                ->send();
-
-            return;
-        }
-
-        $order->update(['payment_status' => $response->xStatus]);
-
-        $this->redirect(route('pages.order.summary', $order));
-    }
-
     public function form(Form $form): Form
     {
         return $form
@@ -159,10 +128,19 @@ class CreateOrder extends Component implements HasForms, HasActions
 
         $data['xInvoice'] = $order->order_column;
 
+        if ($data['use_new']) {
+            \data_forget($data, 'xToken');
+        } else {
+            \data_forget($data, 'xExp');
+            \data_forget($data, 'xCardNum');
+            \data_forget($data, 'xCVV');
+        }
+        \data_forget($data, 'use_new');
+
         $cardknoxPayment = new CardknoxPayment;
         $response = $cardknoxPayment->charge(new CardknoxBody($data));
 
-        if (filled($response->xResult) && $response->xStatus === 'Error') {
+        if (filled($response->json('xResult')) && $response->json('xStatus') === 'Error') {
             $order->update([
                 'order_status' => OrderStatus::Failed,
                 'payment_status' => PaymentStatus::Failed,
@@ -175,7 +153,7 @@ class CreateOrder extends Component implements HasForms, HasActions
             Notification::make()
                 ->danger()
                 ->title('Error')
-                ->body($response->xError)
+                ->body($response->json('xError'))
                 ->send();
             return;
         }
@@ -184,9 +162,9 @@ class CreateOrder extends Component implements HasForms, HasActions
         if (! \in_array('cc', \array_keys($paymentIds))) {
             $response = (new CreatePaymentMethod(
                 customerId: auth()->user()->cardknox_customer_id,
-                token: $response->xToken,
+                token: $response->json('xToken'),
                 tokenType: 'cc',
-                exp: $response->xExp,
+                exp: $response->json('xExp'),
             ))->send();
 
             auth()->user()->update(['cardknox_payment_method_ids' => [
@@ -197,7 +175,7 @@ class CreateOrder extends Component implements HasForms, HasActions
 
         $order->update([
             'order_status' => OrderStatus::Processing,
-            'payment_status' => $response->xStatus,
+            'payment_status' => $response->json('xStatus'),
         ]);
 
         auth()->user()->notify(new OrderApprovedNotification($order));

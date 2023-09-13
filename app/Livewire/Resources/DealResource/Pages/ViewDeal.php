@@ -50,6 +50,15 @@ class ViewDeal extends Component implements HasActions, HasForms
         $data['xAmount'] = $this->amount / 100;
         $data['xExp'] = $data['xExp_month'].$data['xExp_year'];
 
+        if ($data['use_new']) {
+            \data_forget($data, 'xToken');
+        } else {
+            \data_forget($data, 'xExp');
+            \data_forget($data, 'xCardNum');
+            \data_forget($data, 'xCVV');
+        }
+        \data_forget($data, 'use_new');
+
         // TODO: add email to the orders table or pass a user_id when creating the order.
         $order = Order::query()
             ->create([
@@ -72,10 +81,9 @@ class ViewDeal extends Component implements HasActions, HasForms
 
         $data['xInvoice'] = $order->order_column;
 
-        $response = Http::post('https://x1.cardknox.com/gatewayjson', new CardknoxBody($data))
-            ->object();
+        $response = Http::post('https://x1.cardknox.com/gatewayjson', new CardknoxBody($data));
 
-        if (filled($response->xResult) && $response->xStatus === 'Error') {
+        if (filled($response->json('xResult')) && $response->json('xStatus') === 'Error') {
             $order->update([
                 'order_status' => OrderStatus::Failed,
                 'payment_status' => PaymentStatus::Failed,
@@ -83,7 +91,7 @@ class ViewDeal extends Component implements HasActions, HasForms
 
             Notification::make()->danger()
                 ->title('Error')
-                ->body($response->xError)
+                ->body($response->json('xError'))
                 ->send();
 
             return;
@@ -93,9 +101,9 @@ class ViewDeal extends Component implements HasActions, HasForms
         if (! \in_array('cc', \array_keys($paymentIds))) {
             $response = (new CreatePaymentMethod(
                 customerId: auth()->user()->cardknox_customer_id,
-                token: $response->xToken,
+                token: $response->json('xToken'),
                 tokenType: 'cc',
-                exp: $response->xExp,
+                exp: $response->json('xExp'),
             ))->send();
 
             auth()->user()->update(['cardknox_payment_method_ids' => [
@@ -106,7 +114,7 @@ class ViewDeal extends Component implements HasActions, HasForms
 
         $order->update([
             'order_status' => OrderStatus::Processing,
-            'payment_status' => $response->xStatus,
+            'payment_status' => $response->json('xStatus'),
         ]);
 
         auth()->user()->notify(new OrderApprovedNotification($order));

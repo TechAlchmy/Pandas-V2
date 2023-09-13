@@ -19,9 +19,11 @@ class CardknoxBody
     public readonly ?string $xCurrency;
     public readonly string $xInvoice;
 
-    public readonly string $xCardNum;
-    public readonly string $xExp;
-    public readonly string $xCVV;
+    public readonly ?string $xCardNum;
+    public readonly ?string $xExp;
+    public readonly ?string $xCVV;
+
+    public readonly ?string $xToken;
 
     public readonly ?string $xBillFirstname;
     public readonly ?string $xBillLastname;

@@ -14,7 +14,7 @@ class CardknoxCustomerConnector extends Connector implements HasBody
 
     public function __construct()
     {
-        $this->withTokenAuth(config('services.cardknox.transaction_key'));
+        $this->withTokenAuth(config('services.cardknox.transaction_key'), '');
     }
 
     public function resolveBaseUrl(): string

@@ -62,8 +62,6 @@ class EditUser extends EditRecord
                         customerNumber: $user->uuid,
                     ))->send();
 
-                    $response->collect()->dd();
-
                     $user->update(['cardknox_customer_id' => $response->json('CustomerId')]);
                 }),
         ];

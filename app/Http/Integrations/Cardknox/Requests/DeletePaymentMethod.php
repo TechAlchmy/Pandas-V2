@@ -9,28 +9,28 @@ use Saloon\Http\Request;
 use Saloon\Traits\Body\HasJsonBody;
 use Saloon\Traits\Request\HasConnector;
 
-class GetPaymentMethod extends Request implements HasBody
+class DeletePaymentMethod extends Request implements HasBody
 {
-    use HasJsonBody;
     use HasConnector;
+    use HasJsonBody;
 
     protected Method $method = Method::POST;
 
     protected string $connector = CardknoxCustomerConnector::class;
 
     public function __construct(
-        protected string $paymentMethodId,
+        protected string $id,
     ) {}
 
     public function resolveEndpoint(): string
     {
-        return '/GetPaymentMethod';
+        return '/DeletePaymentMethod';
     }
 
     protected function defaultBody(): array
     {
         return [
-            'PaymentMethodId' => $this->paymentMethodId,
+            'PaymentMethodId' => $this->id,
         ];
     }
 }
