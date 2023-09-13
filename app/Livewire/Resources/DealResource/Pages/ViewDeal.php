@@ -51,13 +51,13 @@ class ViewDeal extends Component implements HasActions, HasForms
         $data['xExp'] = $data['xExp_month'].$data['xExp_year'];
 
         if ($data['use_new']) {
-            unset($data['xExp']);
-            unset($data['xCardNum']);
-            unset($data['xCVV']);
+            \data_forget($data, 'xExp');
+            \data_forget($data, 'xCardNum');
+            \data_forget($data, 'xCVV');
         } else {
-            unset($data['xToken']);
+            \data_forget($data, 'xToken');
         }
-        unset($data['use_new']);
+        \data_forget($data, 'use_new');
 
         // TODO: add email to the orders table or pass a user_id when creating the order.
         $order = Order::query()
