@@ -79,7 +79,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2">
                 <div></div>
                 <div>
-                    <button type="button" x-show="!useNew" x-on:click="useNew = !useNew">Use Other Card</button>
+                    <button type="button" x-show="!useNew && cardknox_payment_method.cc != null" x-on:click="useNew = !useNew">Use Other Card</button>
                     <button type="button" x-show="useNew" x-on:click="useNew = !useNew">Use Existing Card</button>
                     <input name="use_new" type="hidden" x-bind:value="useNew ? 1 : 0" />
                 </div>
