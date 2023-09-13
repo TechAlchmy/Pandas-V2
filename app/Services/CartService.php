@@ -161,6 +161,11 @@ class CartService
             + $this->tax();
     }
 
+    public function count()
+    {
+        return count(session('cart_items'));
+    }
+
     public function createOrder()
     {
         $order = Order::query()
