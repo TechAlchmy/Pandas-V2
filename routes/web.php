@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\UnsubscribeController;
 use App\Livewire\Resources\AuthResource\Pages\Register;
 use App\Livewire\Resources\AuthResource\Pages\EmailVerificationPrompt;
 use App\Livewire\Resources\DealResource\Pages\ListDeals;
@@ -50,3 +51,5 @@ Route::get('deals/{id}', ViewDeal::class)
 Route::get('register', Register::class)
     ->middleware(['guest'])
     ->name('register');
+
+Route::get('subscribers/{subscriber:uuid}/unsubscribe', UnsubscribeController::class);
