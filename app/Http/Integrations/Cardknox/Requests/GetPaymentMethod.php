@@ -2,6 +2,7 @@
 
 namespace App\Http\Integrations\Cardknox\Requests;
 
+use App\Http\Integrations\Cardknox\CardknoxCustomerConnector;
 use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
@@ -14,6 +15,8 @@ class GetPaymentMethod extends Request implements HasBody
     use HasConnector;
 
     protected Method $method = Method::POST;
+
+    protected string $connector = CardknoxCustomerConnector::class;
 
     public function __construct(
         protected string $paymentMethodId,
