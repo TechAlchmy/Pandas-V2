@@ -140,7 +140,7 @@ class CreateOrder extends Component implements HasForms, HasActions
         $cardknoxPayment = new CardknoxPayment;
         $response = $cardknoxPayment->charge(new CardknoxBody($data));
 
-        if (filled($response->xResult) && $response->xStatus === 'Error') {
+        if (filled($response->json('xResult')) && $response->json('xStatus') === 'Error') {
             $order->update([
                 'order_status' => OrderStatus::Failed,
                 'payment_status' => PaymentStatus::Failed,
@@ -153,7 +153,7 @@ class CreateOrder extends Component implements HasForms, HasActions
             Notification::make()
                 ->danger()
                 ->title('Error')
-                ->body($response->xError)
+                ->body($response->json('xError'))
                 ->send();
             return;
         }
@@ -162,9 +162,9 @@ class CreateOrder extends Component implements HasForms, HasActions
         if (! \in_array('cc', \array_keys($paymentIds))) {
             $response = (new CreatePaymentMethod(
                 customerId: auth()->user()->cardknox_customer_id,
-                token: $response->xToken,
+                token: $response->json('xToken'),
                 tokenType: 'cc',
-                exp: $response->xExp,
+                exp: $response->json('xExp'),
             ))->send();
 
             auth()->user()->update(['cardknox_payment_method_ids' => [
@@ -175,7 +175,7 @@ class CreateOrder extends Component implements HasForms, HasActions
 
         $order->update([
             'order_status' => OrderStatus::Processing,
-            'payment_status' => $response->xStatus,
+            'payment_status' => $response->json('xStatus'),
         ]);
 
         auth()->user()->notify(new OrderApprovedNotification($order));
