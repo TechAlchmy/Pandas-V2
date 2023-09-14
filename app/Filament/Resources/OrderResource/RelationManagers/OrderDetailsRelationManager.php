@@ -52,11 +52,14 @@ class OrderDetailsRelationManager extends RelationManager
                     ->getStateUsing(fn ($record) => $record->amount / 100)
                     ->money('USD'),
 
+                Tables\Columns\TextColumn::make('subtotal')
+                    ->getStateUsing(fn ($record) => $record->subtotal / 100)
+                    ->money('USD'),
+                Tables\Columns\TextColumn::make('discount')
+                    ->getStateUsing(fn ($record) => $record->discount_public / 100)
+                    ->money('USD'),
                 Tables\Columns\TextColumn::make('total')
                     ->getStateUsing(fn ($record) => $record->total / 100)
-                    ->money('USD'),
-                Tables\Columns\TextColumn::make('total_public')
-                    ->getStateUsing(fn ($record) => $record->total_public / 100)
                     ->money('USD'),
             ])
             ->filters([
