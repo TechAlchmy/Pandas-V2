@@ -77,6 +77,8 @@ class ViewDeal extends Component implements HasActions, HasForms
             'discount_id' => $this->record->getKey(),
             'quantity' => $this->quantity,
             'amount' => $this->amount,
+            'public_percentage' => $this->record->public_percentage,
+            'percentage' => $this->record->percentage,
         ]);
 
         $data['xInvoice'] = $order->order_column;

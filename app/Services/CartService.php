@@ -186,6 +186,8 @@ class CartService
                 'discount_id' => $item['itemable']->getKey(),
                 'amount' => $item['amount'],
                 'quantity' => $item['quantity'],
+                'percentage' => $item['itemable']->percentage,
+                'public_percentage' => $item['itemable']->public_percentage,
             ]);
         }
 
