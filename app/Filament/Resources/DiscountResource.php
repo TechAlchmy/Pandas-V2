@@ -120,9 +120,13 @@ class DiscountResource extends Resource
                             ->schema([
                                 Forms\Components\TextInput::make('public_percentage')
                                     ->suffix('%')
+                                    ->minValue(0)
+                                    ->maxValue(100)
                                     ->numeric(),
                                 Forms\Components\TextInput::make('percentage')
                                     ->suffix('%')
+                                    ->minValue(0)
+                                    ->maxValue(100)
                                     ->numeric(),
                             ]),
                     ]),
