@@ -42,7 +42,7 @@ class ViewDeal extends Component implements HasActions, HasForms
 
     public function mount()
     {
-        $this->amount = data_get($this->record->money_amount, '0')->getMinorAmount()->toInt();
+        $this->amount = \head($this->record->amount);
     }
 
     public function createOrder($data)
