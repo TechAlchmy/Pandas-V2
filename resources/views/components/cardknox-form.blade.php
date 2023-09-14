@@ -10,8 +10,9 @@
                     )
                 )
             )
-        );
-        isLoading = false;
+        ).then(() => {
+            isLoading = false;
+        });
         return;
     }
     getTokens(
@@ -24,8 +25,9 @@
                         )
                     )
                 )
-            );
-            isLoading = false;
+            ).then(() => {
+                isLoading = false;
+            });
         },
         () => { //onError
             isLoading = false;
