@@ -30,24 +30,29 @@ class OrderDetail extends Model implements Sortable
         return static::query()->where('order_id', $this->order_id);
     }
 
-    protected function amountSubPublicPercentage(): Attribute
+    protected function subtotal(): Attribute
     {
-        return Attribute::get(fn () => $this->amount - ($this->amount * $this->public_percentage));
+        return Attribute::get(fn () => $this->quantity * $this->amount);
     }
 
-    protected function amountSubPercentage(): Attribute
+    protected function discountPublic(): Attribute
     {
-        return Attribute::get(fn () => $this->amount - ($this->amount * $this->percentage));
+        return Attribute::get(fn () => (int) \round($this->subtotal * ($this->public_percentage / 100 / 100)));
     }
 
-    protected function totalPublic(): Attribute
+    protected function discountInternal(): Attribute
     {
-        return Attribute::get(fn () => $this->quantity * $this->amount_sub_public_percentage);
+        return Attribute::get(fn () => (int) \round($this->subtotal * ($this->percentage / 100 / 100)));
+    }
+
+    protected function totalInternal(): Attribute
+    {
+        return Attribute::get(fn () => $this->subtotal - $this->discount_internal);
     }
 
     protected function total(): Attribute
     {
-        return Attribute::get(fn () => $this->quantity * $this->amount_sub_percentage);
+        return Attribute::get(fn () => $this->subtotal - $this->discount_public);
     }
 
     protected function moneyTotal(): Attribute
