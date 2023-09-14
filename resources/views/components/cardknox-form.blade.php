@@ -25,6 +25,7 @@
                     )
                 )
             );
+            isLoading = false;
         },
         () => { //onError
             isLoading = false;
