@@ -43,6 +43,7 @@ class ListOrders extends Component implements HasTable, HasForms
                         'danger' => 'failed',
                     ]),
                 Tables\Columns\TextColumn::make('order_total')
+                    ->getStateUsing(fn ($record) => $record->order_total / 100)
                     ->money('USD'),
                 Tables\Columns\TextColumn::make('payment_status')
                     ->badge()
@@ -73,6 +74,7 @@ class ListOrders extends Component implements HasTable, HasForms
                                         Infolists\Components\TextEntry::make('discount.name')
                                             ->url(fn ($record) => route('deals.show', ['id' => $record->discount?->slug])),
                                         Infolists\Components\TextEntry::make('amount')
+                                            ->getStateUsing(fn ($record) => $record->order_total / 100)
                                             ->money('USD'),
                                         Infolists\Components\TextEntry::make('quantity'),
                                     ]),

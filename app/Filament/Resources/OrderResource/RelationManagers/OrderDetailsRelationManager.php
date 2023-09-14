@@ -49,10 +49,12 @@ class OrderDetailsRelationManager extends RelationManager
 
                 Tables\Columns\TextColumn::make('amount')
                     ->label('Item Price')
-                    ->formatStateUsing(fn ($record) => $record->money_amount),
+                    ->getStateUsing(fn ($record) => $record->amount / 100)
+                    ->money('USD'),
 
                 Tables\Columns\TextColumn::make('total')
-                    ->formatStateUsing(fn ($record) => $record->money_total),
+                    ->getStateUsing(fn ($record) => $record->total / 100)
+                    ->money('USD'),
             ])
             ->filters([
                 //

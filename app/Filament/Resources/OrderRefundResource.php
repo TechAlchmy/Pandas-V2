@@ -52,9 +52,11 @@ class OrderRefundResource extends Resource
                 Tables\Columns\TextColumn::make('order_id')
                     ->label('Order Number'),
                 Tables\Columns\TextColumn::make('amount')
-                    ->formatStateUsing(fn ($record) => $record?->money_amount),
+                    ->getStateUsing(fn ($record) => $record->amount / 100)
+                    ->money('USD'),
                 Tables\Columns\TextColumn::make('actual_amount')
-                    ->formatStateUsing(fn ($record) => $record?->money_actual_amount),
+                    ->getStateUsing(fn ($record) => $record->actual_amount / 100)
+                    ->money('USD'),
                 Tables\Columns\TextColumn::make('approved_at')
                     ->dateTime(),
             ])

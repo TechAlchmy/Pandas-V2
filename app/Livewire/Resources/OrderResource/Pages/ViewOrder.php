@@ -27,7 +27,7 @@ class ViewOrder extends Component implements HasForms, HasInfolists
             ->schema([
                 Infolists\Components\TextEntry::make('order_total')
                     ->size(Infolists\Components\TextEntry\TextEntrySize::Large)
-                    ->getStateUsing(fn ($state) => $state / 100)
+                    ->getStateUsing(fn ($record) => $record->order_total / 100)
                     ->money('USD'),
                 Infolists\Components\RepeatableEntry::make('orderDetails')
                     ->columnSpanFull()
@@ -40,7 +40,7 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                             ->url(fn ($record) => route('deals.show', ['id' => $record->discount->slug]))
                             ->label('Name'),
                         Infolists\Components\TextEntry::make('amount')
-                            ->getStateUsing(fn ($state) => $state / 100)
+                            ->getStateUsing(fn ($record) => $record->amount / 100)
                             ->money('USD'),
                         Infolists\Components\TextEntry::make('quantity'),
                     ]),
