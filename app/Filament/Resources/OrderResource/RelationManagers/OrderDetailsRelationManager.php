@@ -55,6 +55,9 @@ class OrderDetailsRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('total')
                     ->getStateUsing(fn ($record) => $record->total / 100)
                     ->money('USD'),
+                Tables\Columns\TextColumn::make('total_public')
+                    ->getStateUsing(fn ($record) => $record->total_public / 100)
+                    ->money('USD'),
             ])
             ->filters([
                 //
