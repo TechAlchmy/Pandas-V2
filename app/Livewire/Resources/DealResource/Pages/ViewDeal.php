@@ -47,7 +47,11 @@ class ViewDeal extends Component implements HasActions, HasForms
 
     public function createOrder($data)
     {
-        $data['xAmount'] = $this->amount / 100;
+        $subtotal = $this->quantity * $this->amount;
+        $discount = (int) \round($subtotal * ($this->record->public_percentage / 100 / 100));
+        $tax = 0;
+        $total = $subtotal - $discount;
+        $data['xAmount'] = $total / 100;
         $data['xExp'] = $data['xExp_month'].$data['xExp_year'];
 
         if (boolval($data['use_new']) || empty(\data_get($data, 'xToken'))) {
@@ -68,9 +72,9 @@ class ViewDeal extends Component implements HasActions, HasForms
                 'payment_method' => 'card',
                 'order_date' => now(),
                 'order_tax' => 0,
-                'order_subtotal' => $this->amount,
-                'order_discount' => $this->amount * ($this->record->public_percentage / 100),
-                'order_total' => $this->amount - ($this->amount * ($this->record->public_percentage / 100)),
+                'order_subtotal' => $subtotal,
+                'order_discount' => $discount,
+                'order_total' => $total,
             ]);
 
         $order->orderDetails()->create([
