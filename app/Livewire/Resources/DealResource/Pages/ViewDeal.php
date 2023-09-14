@@ -50,7 +50,7 @@ class ViewDeal extends Component implements HasActions, HasForms
         $data['xAmount'] = $this->amount / 100;
         $data['xExp'] = $data['xExp_month'].$data['xExp_year'];
 
-        if ($data['use_new']) {
+        if (boolval($data['use_new']) || empty(\data_get($data, 'xToken'))) {
             \data_forget($data, 'xToken');
         } else {
             \data_forget($data, 'xExp');

@@ -128,7 +128,7 @@ class CreateOrder extends Component implements HasForms, HasActions
 
         $data['xInvoice'] = $order->order_column;
 
-        if ($data['use_new']) {
+        if (boolval($data['use_new']) || empty(\data_get($data, 'xToken'))) {
             \data_forget($data, 'xToken');
         } else {
             \data_forget($data, 'xExp');
