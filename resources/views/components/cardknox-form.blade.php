@@ -1,4 +1,4 @@
-<form x-data="@js(['isLoading' => false, 'useNew' => false, 'cardknox_payment_method' => ['cc' => auth()->user()->cardknox_payment_method_cc]])"
+<form x-data="@js(['isLoading' => false, 'useNew' => false, 'shouldSavePaymentDetail' => false, 'cardknox_payment_method' => ['cc' => auth()->user()->cardknox_payment_method_cc]])"
     x-on:submit.prevent="
     isLoading = true;
     if (!useNew && cardknox_payment_method.cc != null) {
@@ -82,11 +82,22 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2">
                 <div></div>
-                <div>
-                    <button type="button" x-show="!useNew && cardknox_payment_method.cc != null" x-on:click="useNew = !useNew">Use Other Card</button>
-                    <button type="button" x-show="useNew" x-on:click="useNew = !useNew">Use Existing Card</button>
-                    <input name="use_new" type="hidden" x-bind:value="useNew ? 1 : 0" />
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <button type="button" x-show="!useNew && cardknox_payment_method.cc != null" x-on:click="useNew = !useNew">Use Other Card</button>
+                        <button type="button" x-show="useNew" x-on:click="useNew = !useNew">Use Existing Card</button>
+                        <input name="use_new" type="hidden" x-bind:value="useNew ? 1 : 0" />
+                    </div>
+                    <div x-show="useNew">
+                        <div class="flex gap-2 items-center">
+                            <label for="should_save_payment_detail">
+                                Save Card Detail?
+                            </label>
+                            <input class="ring-none" id="should_save_payment_detail" name="should_save_payment_detail" type="checkbox" x-model="shouldSavePaymentDetail" />
+                        </div>
+                    </div>
                 </div>
+
             </div>
 
             <div x-show="useNew || cardknox_payment_method.cc == null" class="grid grid-cols-1 md:grid-cols-3 gap-6">
