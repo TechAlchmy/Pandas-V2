@@ -160,7 +160,7 @@ class CreateOrder extends Component implements HasForms, HasActions
 
         $paymentIds = auth()->user()->cardknox_payment_method_ids ?? [];
         if (\array_key_exists('should_save_payment_detail', $data)) {
-            $response = (new CreatePaymentMethod(
+            $paymentMethodResponse = (new CreatePaymentMethod(
                 customerId: auth()->user()->cardknox_customer_id,
                 token: $response->json('xToken'),
                 tokenType: 'cc',
@@ -169,7 +169,7 @@ class CreateOrder extends Component implements HasForms, HasActions
 
             auth()->user()->update(['cardknox_payment_method_ids' => [
                 ...$paymentIds,
-                'cc' => $response->json('PaymentMethodId'),
+                'cc' => $paymentMethodResponse->json('PaymentMethodId'),
             ]]);
         }
 
