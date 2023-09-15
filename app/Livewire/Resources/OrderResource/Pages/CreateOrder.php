@@ -177,7 +177,7 @@ class CreateOrder extends Component implements HasForms, HasActions
 
         $order->update([
             'order_status' => OrderStatus::Processing,
-            'payment_status' => $response->json('xStatus'),
+            'payment_status' => PaymentStatus::tryFrom((string) $response->json('xStatus')),
         ]);
 
         auth()->user()->notify(new OrderApprovedNotification($order));

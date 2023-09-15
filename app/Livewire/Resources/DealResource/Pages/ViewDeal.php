@@ -122,7 +122,7 @@ class ViewDeal extends Component implements HasActions, HasForms
 
         $order->update([
             'order_status' => OrderStatus::Processing,
-            'payment_status' => $response->json('xStatus'),
+            'payment_status' => PaymentStatus::tryFrom((string) $response->json('xStatus')),
         ]);
 
         auth()->user()->notify(new OrderApprovedNotification($order));
