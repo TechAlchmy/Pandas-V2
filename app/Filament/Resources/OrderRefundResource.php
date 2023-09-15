@@ -27,20 +27,22 @@ class OrderRefundResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('amount')
-                    ->afterStateHydrated(fn ($state) => $state / 100)
-                    ->dehydrateStateUsing(fn ($state) => $state * 100)
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('actual_amount')
+                    ->disabled()
                     ->afterStateHydrated(fn ($state) => $state / 100)
                     ->dehydrateStateUsing(fn ($state) => $state * 100)
                     ->required()
                     ->numeric(),
                 Forms\Components\Select::make('order_id')
+                    ->disabled()
                     ->label('Order Number')
                     ->required()
                     ->searchable()
                     ->relationship('order', 'id'),
+                Forms\Components\TextInput::make('actual_amount')
+                    ->afterStateHydrated(fn ($state) => $state / 100)
+                    ->dehydrateStateUsing(fn ($state) => $state * 100)
+                    ->required()
+                    ->numeric(),
                 AuditableView::make(),
             ]);
     }
