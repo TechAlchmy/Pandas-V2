@@ -58,30 +58,6 @@ class ListOrders extends Component implements HasTable, HasForms
                     ]),
             ])
             ->actions([
-                Tables\Actions\Action::make('redeem')
-                    ->link()
-                    ->visible(fn ($record) => $record->payment_status == PaymentStatus::Approved)
-                    ->modalSubmitAction(false)
-                    ->infolist(function (Infolist $infolist, $record) {
-                        return $infolist
-                            ->record($record->loadMissing('orderDetails.discount.brand'))
-                            ->schema([
-                                Infolists\Components\RepeatableEntry::make('orderDetails')
-                                    ->columns(4)
-                                    ->hiddenLabel()
-                                    ->schema([
-                                        Infolists\Components\TextEntry::make('discount.brand.name')
-                                            ->url(fn ($record) => route('deals.index', ['filter' => ['brand_id' => $record->discount?->brand_id]]))
-                                            ->label('Brand'),
-                                        Infolists\Components\TextEntry::make('discount.name')
-                                            ->url(fn ($record) => route('deals.show', ['id' => $record->discount?->slug])),
-                                        Infolists\Components\TextEntry::make('amount')
-                                            ->getStateUsing(fn ($record) => $record->order_total / 100)
-                                            ->money('USD'),
-                                        Infolists\Components\TextEntry::make('quantity'),
-                                    ]),
-                            ]);
-                    }),
                 Tables\Actions\Action::make('refund')
                     ->link()
                     ->visible(fn ($record) => $record->payment_status == PaymentStatus::Approved
