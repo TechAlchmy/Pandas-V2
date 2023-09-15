@@ -36,7 +36,49 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                 Infolists\Components\TextEntry::make('order_total')
                     ->size(Infolists\Components\TextEntry\TextEntrySize::Large)
                     ->getStateUsing(fn ($record) => $record->order_total / 100)
-                    ->money('USD'),
+                    ->money('USD')
+                    ->hintActions([
+                        Infolists\Components\Actions\Action::make('refund')
+                            ->link()
+                            ->hidden(fn ($record) => $record->order_refund_exists)
+                            ->visible(fn ($record) => $record->payment_status == PaymentStatus::Approved
+                                && now()->isBefore($record->created_at->addWeeks(2)))
+                            ->requiresConfirmation()
+                            ->action(function ($record) {
+                                if (now()->isAfter($record->created_at->addWeeks(2))) {
+                                    Notification::make()
+                                        ->title('Cannot Refund')
+                                        ->success()
+                                        ->send();
+
+                                    return;
+                                }
+
+                                if ($record->order_refund_exists) {
+                                    Notification::make()
+                                        ->title('You have requested your refund')
+                                        ->info()
+                                        ->send();
+
+                                    return;
+                                }
+
+                                if ($record->payment_status == PaymentStatus::Approved) {
+                                    OrderRefund::query()
+                                        ->create([
+                                            'order_id' => $record->getKey(),
+                                            'amount' => $record->order_total,
+                                        ]);
+
+                                    auth()->user()->notify(new SendUserOrderRefundInReview($record->order_column));
+
+                                    Notification::make()
+                                        ->title('Your request to refund this order has been received')
+                                        ->success()
+                                        ->send();
+                                }
+                            }),
+                    ]),
                 Infolists\Components\RepeatableEntry::make('orderDetails')
                     ->columnSpanFull()
                     ->columns(['default' => 2, 'md' => 4])
