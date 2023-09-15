@@ -37,6 +37,7 @@
     ">
     <x-filament::modal id="cardknox" width="4xl">
         <div class="space-y-6" x-init="setAccount(@js(config('services.cardknox.ifields.key')), @js(config('app.name')), '0.1.1');
+        enableAutoFormatting('-');
         let style = {
             display: 'flex',
             border: 'none',
