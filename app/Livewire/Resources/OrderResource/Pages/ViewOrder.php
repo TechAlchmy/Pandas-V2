@@ -33,10 +33,11 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                     ->columnSpanFull()
                     ->columns(['default' => 2, 'md' => 4])
                     ->schema([
-                        Infolists\Components\TextEntry::make('discount.brand.name')
-                            ->url(fn ($record) => route('deals.index', ['filter' => ['brand_id' => $record->discount->brand_id]]))
-                            ->label('Brand'),
                         Infolists\Components\TextEntry::make('discount.name')
+                            ->getStateUsing(fn ($record) => implode(' - ', [
+                                $record->discount->brand->name,
+                                $record->discount->name,
+                            ]))
                             ->url(fn ($record) => route('deals.show', ['id' => $record->discount->slug]))
                             ->label('Name'),
                         Infolists\Components\TextEntry::make('amount')
