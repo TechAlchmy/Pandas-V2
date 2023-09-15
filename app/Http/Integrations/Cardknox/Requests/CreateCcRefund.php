@@ -2,6 +2,7 @@
 
 namespace App\Http\Integrations\Cardknox\Requests;
 
+use App\Http\Integrations\Cardknox\CardknoxConnector;
 use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
@@ -14,6 +15,8 @@ class CreateCcRefund extends Request implements HasBody
     use HasJsonBody;
 
     protected Method $method = Method::POST;
+
+    protected string $connector = CardknoxConnector::class;
 
     public function __construct(
         protected string $ref,
