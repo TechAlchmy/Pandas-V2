@@ -44,6 +44,9 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                             ->getStateUsing(fn ($record) => $record->amount / 100)
                             ->money('USD'),
                         Infolists\Components\TextEntry::make('quantity'),
+                        Infolists\Components\TextEntry::make('total')
+                            ->getStateUsing(fn ($record) => $record->total / 100)
+                            ->money('USD'),
                     ]),
             ]);
     }
