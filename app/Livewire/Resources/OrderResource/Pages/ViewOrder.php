@@ -106,6 +106,7 @@ class ViewOrder extends Component implements HasForms, HasInfolists
     {
         return Order::query()
             ->with('orderDetails.discount.brand.media')
+            ->withExists(['orderRefund' => fn ($query) => $query->withTrashed()])
             ->firstWhere('uuid', $this->id);
     }
 }
