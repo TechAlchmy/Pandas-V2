@@ -17,6 +17,9 @@ class EditOrderRefund extends EditRecord
             Actions\DeleteAction::make(),
             Actions\Action::make('approve')
                 ->requiresConfirmation()
+                ->mountUsing(function ($livewire) {
+                    $livewire->form->getState();
+                })
                 ->visible(fn ($record) => empty($record->approved_at))
                 ->action(function ($record, $action) {
                     $record->update([
