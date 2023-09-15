@@ -18,6 +18,7 @@ class EditOrderRefund extends EditRecord
         return [
             Actions\DeleteAction::make()
                 ->label('Reject')
+                ->visible(fn ($record) => empty($record->approved_at))
                 ->using(function ($record) {
                     $order = $record->load('order.user')->order;
                     $deleted = $record->delete();
