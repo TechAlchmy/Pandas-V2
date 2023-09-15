@@ -141,6 +141,7 @@
                     <x-filament::loading-indicator x-show="isLoading" class="w-5 h-5" />
                     <span>Submit</span>
                 </x-button>
+                <x-button x-on:click.prevent="$dispatch('close-modal', {id: 'cardknox'})">Cancel</x-button>
             </div>
             <input name="xCVV" type="hidden" data-ifields-id="cvv-token" />
             <input name="xCardNum" type="hidden" data-ifields-id="card-number-token" />
