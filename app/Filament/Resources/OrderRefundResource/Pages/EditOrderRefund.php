@@ -5,6 +5,7 @@ namespace App\Filament\Resources\OrderRefundResource\Pages;
 use App\Filament\Resources\OrderRefundResource;
 use App\Http\Integrations\Cardknox\Requests\CreateCcRefund;
 use App\Notifications\SendUserOrderRefundApproved;
+use App\Notifications\SendUserOrderRefundRejected;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
@@ -15,7 +16,16 @@ class EditOrderRefund extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()
+                ->label('Reject')
+                ->using(function ($record) {
+                    $order = $record->load('order.user')->order;
+                    $deleted = $record->delete();
+                    if ($deleted) {
+                        $order->user->notify(new SendUserOrderRefundRejected($order->order_column));
+                    }
+                    return $deleted;
+                }),
             Actions\Action::make('approve')
                 ->requiresConfirmation()
                 ->mountUsing(function ($livewire) {
