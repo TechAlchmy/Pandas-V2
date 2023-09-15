@@ -42,7 +42,7 @@ class OrderRefundResource extends Resource
                     ->formatStateUsing(fn ($state) => $state / 100)
                     ->dehydrateStateUsing(fn ($state) => $state * 100)
                     ->maxValue(fn ($get) => $get('amount'))
-                    ->minValue(0)
+                    ->minValue(1)
                     ->required()
                     ->numeric(),
                 AuditableView::make(),
