@@ -122,12 +122,12 @@
                         <x-filament::loading-indicator x-show="isLoading" class="w-5 h-5" />
                         <span>Submit</span>
                     </x-button>
-                    <x-button x-on:click.prevent="$dispatch('close-modal', {id: 'cardknox'})">Cancel</x-button>
+                    <x-button type="button" x-on:click="$dispatch('close-modal', {id: 'cardknox'})">Cancel</x-button>
                 </div>
-                <div class="grid grid-cols-2 gap-4">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-center gap-4">
                     <div>
-                        <button type="button" x-show="!useNew && cardknox_payment_method.cc != null" x-on:click="useNew = !useNew">Use Other Card</button>
-                        <button type="button" x-show="useNew" x-on:click="useNew = !useNew">Use Existing Card</button>
+                        <x-button type="button" x-show="!useNew && cardknox_payment_method.cc != null" x-on:click="useNew = !useNew">Use Other Card</x-button>
+                        <x-button type="button" x-show="useNew" x-on:click="useNew = !useNew">Use Existing Card</x-button>
                         <input name="use_new" type="hidden" x-bind:value="useNew ? 1 : 0" />
                     </div>
                     <div x-show="useNew || cardknox_payment_method.cc == null">
