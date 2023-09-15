@@ -52,7 +52,9 @@ class OrderRefundResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('order_id')
-                    ->label('Order Number'),
+                    ->label('Order Number')
+                    ->url(fn ($record) => OrderResource::getUrl('edit', ['record' => $record]))
+                    ->openUrlInNewTab(),
                 Tables\Columns\TextColumn::make('amount')
                     ->getStateUsing(fn ($record) => $record->amount / 100)
                     ->money('USD'),
