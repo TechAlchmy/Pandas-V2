@@ -104,7 +104,7 @@ class ViewDeal extends Component implements HasActions, HasForms
         }
 
         $paymentIds = auth()->user()->cardknox_payment_method_ids ?? [];
-        if (! \in_array('cc', \array_keys($paymentIds))) {
+        if (\array_key_exists('should_save_payment_detail', $data)) {
             $response = (new CreatePaymentMethod(
                 customerId: auth()->user()->cardknox_customer_id,
                 token: $response->json('xToken'),
@@ -117,6 +117,8 @@ class ViewDeal extends Component implements HasActions, HasForms
                 'cc' => $response->json('PaymentMethodId'),
             ]]);
         }
+
+        \data_forget($data, 'should_save_payment_detail');
 
         $order->update([
             'order_status' => OrderStatus::Processing,
