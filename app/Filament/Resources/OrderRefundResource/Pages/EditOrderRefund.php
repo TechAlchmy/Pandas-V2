@@ -4,6 +4,7 @@ namespace App\Filament\Resources\OrderRefundResource\Pages;
 
 use App\Filament\Resources\OrderRefundResource;
 use App\Http\Integrations\Cardknox\Requests\CreateCcRefund;
+use App\Notifications\SendUserOrderRefundApproved;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
@@ -31,6 +32,11 @@ class EditOrderRefund extends EditRecord
                         ->send();
 
                     $action->success();
+                })
+                ->successNotification(function ($notification, $record) {
+                    $record->load('order.user');
+                    $record->order->user->notify(new SendUserOrderRefundApproved($record->order->order_column));
+                    return $notification;
                 })
                 ->successNotificationTitle('Refund Request approved'),
         ];
