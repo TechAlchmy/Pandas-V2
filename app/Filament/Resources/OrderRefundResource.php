@@ -41,6 +41,8 @@ class OrderRefundResource extends Resource
                 Forms\Components\TextInput::make('actual_amount')
                     ->formatStateUsing(fn ($state) => $state / 100)
                     ->dehydrateStateUsing(fn ($state) => $state * 100)
+                    ->maxValue(fn ($get) => $get('amount'))
+                    ->minValue(0)
                     ->required()
                     ->numeric(),
                 AuditableView::make(),
