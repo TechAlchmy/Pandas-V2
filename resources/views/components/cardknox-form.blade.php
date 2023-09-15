@@ -88,7 +88,7 @@
                         <button type="button" x-show="useNew" x-on:click="useNew = !useNew">Use Existing Card</button>
                         <input name="use_new" type="hidden" x-bind:value="useNew ? 1 : 0" />
                     </div>
-                    <div x-show="useNew">
+                    <div x-show="useNew || cardknox_payment_method.cc == null">
                         <div class="flex gap-2 items-center">
                             <label for="should_save_payment_detail">
                                 Save Card Detail?
