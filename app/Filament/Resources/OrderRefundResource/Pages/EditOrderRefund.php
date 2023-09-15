@@ -32,14 +32,16 @@ class EditOrderRefund extends EditRecord
                     $livewire->form->getState();
                 })
                 ->visible(fn ($record) => empty($record->approved_at))
-                ->action(function ($record, $action) {
+                ->action(function ($record, $action, $livewire) {
+                    $livewire->save();
+
+                    (new CreateCcRefund($record->order->order_column, str($record->actual_amount / 100)))
+                        ->send();
+
                     $record->update([
                         'approved_at' => now(),
                         'approved_by_id' => filament()->auth()->id(),
                     ]);
-
-                    (new CreateCcRefund($record->order->order_column, $record->actual_amount))
-                        ->send();
 
                     $action->success();
                 })
