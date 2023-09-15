@@ -52,6 +52,7 @@ class OrderRefundResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('order_id')
+                    ->sortable()
                     ->label('Order Number')
                     ->url(fn ($record) => OrderResource::getUrl('edit', ['record' => $record]))
                     ->openUrlInNewTab(),
