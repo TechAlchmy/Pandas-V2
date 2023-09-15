@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 use Znck\Eloquent\Traits\BelongsToThrough;
@@ -19,6 +20,7 @@ class OrderRefund extends Model implements Sortable
     use InteractsWithAuditable;
     use BelongsToThrough;
     use SortableTrait;
+    use SoftDeletes;
 
     protected $casts = [
         'approved_at' => 'immutable_datetime',
