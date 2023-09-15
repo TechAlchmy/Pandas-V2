@@ -23,7 +23,7 @@ class ViewOrder extends Component implements HasForms, HasInfolists
     {
         return $infolist
             ->record($this->record)
-            ->columns()
+            ->columns(['default' => 2])
             ->schema([
                 Infolists\Components\TextEntry::make('order_total')
                     ->size(Infolists\Components\TextEntry\TextEntrySize::Large)
