@@ -65,7 +65,7 @@ class OrderRefundResource extends Resource
                     ->dateTime(),
             ])
             ->filters([
-                //
+                Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -94,5 +94,13 @@ class OrderRefundResource extends Resource
             // 'create' => Pages\CreateOrderRefund::route('/create'),
             'edit' => Pages\EditOrderRefund::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
     }
 }
