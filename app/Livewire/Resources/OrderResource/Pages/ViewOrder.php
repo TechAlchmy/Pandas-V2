@@ -25,6 +25,14 @@ class ViewOrder extends Component implements HasForms, HasInfolists
             ->record($this->record)
             ->columns(['default' => 2])
             ->schema([
+                Infolists\Components\TextEntry::make('order_status')
+                    ->badge(),
+                Infolists\Components\TextEntry::make('order_date')
+                    ->date(),
+                Infolists\Components\TextEntry::make('order_discount')
+                    ->size(Infolists\Components\TextEntry\TextEntrySize::Large)
+                    ->getStateUsing(fn ($record) => $record->order_discount / 100)
+                    ->money('USD'),
                 Infolists\Components\TextEntry::make('order_total')
                     ->size(Infolists\Components\TextEntry\TextEntrySize::Large)
                     ->getStateUsing(fn ($record) => $record->order_total / 100)
