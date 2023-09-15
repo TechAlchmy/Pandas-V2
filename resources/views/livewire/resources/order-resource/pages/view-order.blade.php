@@ -8,6 +8,7 @@
             {{ $this->viewInfolist }}
         </div>
     </div>
+    <x-filament-actions::modals />
 </div>
 {{-- <div class="bg-gray-50">
     <div class="container mx-auto pt-16 sm:px-6 sm:py-24 lg:px-8">
