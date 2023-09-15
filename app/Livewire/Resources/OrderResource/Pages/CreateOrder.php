@@ -173,8 +173,6 @@ class CreateOrder extends Component implements HasForms, HasActions
             ]]);
         }
 
-        \data_forget($data, 'should_save_payment_detail');
-
         $order->update([
             'order_status' => OrderStatus::Processing,
             'payment_status' => PaymentStatus::tryFrom((string) $response->json('xStatus')),
