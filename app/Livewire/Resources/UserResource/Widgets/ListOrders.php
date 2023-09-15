@@ -3,9 +3,11 @@
 namespace App\Livewire\Resources\UserResource\Widgets;
 
 use App\Enums\DiscountCallToActionEnum;
+use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Models\Order;
 use App\Models\OrderRefund;
+use App\Notifications\SendUserOrderRefundInReview;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
@@ -101,6 +103,8 @@ class ListOrders extends Component implements HasTable, HasForms
                                     'order_id' => $record->getKey(),
                                     'amount' => $record->order_total,
                                 ]);
+
+                            auth()->user()->notify(new SendUserOrderRefundInReview($record->order_column));
 
                             Notification::make()
                                 ->title('Your request to refund this order has been received')
