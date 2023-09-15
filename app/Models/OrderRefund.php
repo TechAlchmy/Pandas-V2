@@ -10,12 +10,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
+use Znck\Eloquent\Traits\BelongsToThrough;
 
 class OrderRefund extends Model implements Sortable
 {
     use HasFactory;
     use HasUuids;
     use InteractsWithAuditable;
+    use BelongsToThrough;
     use SortableTrait;
 
     protected $casts = [
@@ -23,6 +25,11 @@ class OrderRefund extends Model implements Sortable
         'amount' => 'integer',
         'actual_amount' => 'integer',
     ];
+
+    public function user()
+    {
+        return $this->belongsToThrough(User::class, Order::class);
+    }
 
     public function order()
     {
