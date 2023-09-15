@@ -16,6 +16,7 @@ class EditOrderRefund extends EditRecord
         return [
             Actions\DeleteAction::make(),
             Actions\Action::make('approve')
+                ->requiresConfirmation()
                 ->visible(fn ($record) => empty($record->approved_at))
                 ->action(function ($record, $action) {
                     $record->update([
