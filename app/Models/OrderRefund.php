@@ -5,13 +5,18 @@ namespace App\Models;
 use App\Concerns\InteractsWithAuditable;
 use Brick\Money\Money;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\EloquentSortable\Sortable;
+use Spatie\EloquentSortable\SortableTrait;
 
-class OrderRefund extends Model
+class OrderRefund extends Model implements Sortable
 {
     use HasFactory;
+    use HasUuids;
     use InteractsWithAuditable;
+    use SortableTrait;
 
     protected $casts = [
         'approved_at' => 'immutable_datetime',
@@ -27,6 +32,11 @@ class OrderRefund extends Model
     public function approvedBy()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function uniqueIds()
+    {
+        return ['uuid'];
     }
 
     protected function moneyAmount(): Attribute

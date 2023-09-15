@@ -10,6 +10,8 @@ return new class extends Migration
     {
         Schema::create('order_refunds', function (Blueprint $table) {
             $table->id();
+            $table->uuid();
+            $table->integer('order_column')->nullable()->index();
             $table->integer('amount')->nullable();
             $table->integer('actual_amount')->nullable();
             $table->foreignIdFor(\App\Models\Order::class)->nullable()->constrained()->nullOnDelete();
