@@ -21,7 +21,7 @@ class CardknoxConnector extends Connector implements HasBody
     {
         return [
             'xKey' => config('services.cardknox.transaction_key'),
-            'xVersion' => '0.0.1',
+            'xVersion' => '5.0.0',
             'xSoftwareName' => config('app.name'),
             'xSoftwareVersion' => '0.0.1',
         ];
