@@ -39,7 +39,7 @@ class OrderRefundResource extends Resource
                     ->searchable()
                     ->relationship('order', 'id'),
                 Forms\Components\TextInput::make('actual_amount')
-                    ->formatStateUsing(fn ($state) => empty($state) ? null : $state / 100)
+                    ->formatStateUsing(fn ($state, $get) => empty($state) ? $get('amount') : $state / 100)
                     ->dehydrateStateUsing(fn ($state) => $state * 100)
                     ->maxValue(fn ($get) => $get('amount'))
                     ->minValue(0)
@@ -62,7 +62,7 @@ class OrderRefundResource extends Resource
                     ->getStateUsing(fn ($record) => $record->amount / 100)
                     ->money('USD'),
                 Tables\Columns\TextColumn::make('actual_amount')
-                    ->getStateUsing(fn ($record) => $record->actual_amount / 100)
+                    ->getStateUsing(fn ($record) => $record->actual_amount ? $record->actual_amount / 100 : null)
                     ->money('USD'),
                 Tables\Columns\TextColumn::make('approved_at')
                     ->dateTime(),
