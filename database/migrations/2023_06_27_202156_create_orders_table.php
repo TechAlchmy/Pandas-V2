@@ -28,6 +28,7 @@ return new class extends Migration
 
             $table->string('payment_method', 255)->nullable();
             $table->string('payment_status', 255)->comment('pending, paid, failed, refunded')->nullable();
+            $table->string('cardknox_refnum')->nullable();
 
             $table->foreignIdFor(User::class, 'created_by_id')->nullable();
             $table->foreignIdFor(User::class, 'updated_by_id')->nullable();

@@ -36,7 +36,7 @@ class EditOrderRefund extends EditRecord
                 ->action(function ($record, $action, $livewire) {
                     $livewire->save();
 
-                    (new CreateCcRefund($record->order->order_column, str($record->actual_amount / 100)))
+                    (new CreateCcRefund($record->order->cardknox_refnum, str($record->actual_amount / 100)))
                         ->send();
 
                     $record->update([

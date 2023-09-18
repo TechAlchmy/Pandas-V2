@@ -119,6 +119,7 @@ class ViewDeal extends Component implements HasActions, HasForms
         }
 
         $order->update([
+            'cardknox_refnum' => $response->json('xRefNum'),
             'order_status' => OrderStatus::Processing,
             'payment_status' => PaymentStatus::tryFrom((string) $response->json('xStatus')),
         ]);

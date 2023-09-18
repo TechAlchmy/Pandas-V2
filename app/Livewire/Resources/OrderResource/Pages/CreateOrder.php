@@ -174,6 +174,7 @@ class CreateOrder extends Component implements HasForms, HasActions
         }
 
         $order->update([
+            'cardknox_refnum' => $response->json('xRefNum'),
             'order_status' => OrderStatus::Processing,
             'payment_status' => PaymentStatus::tryFrom((string) $response->json('xStatus')),
         ]);
