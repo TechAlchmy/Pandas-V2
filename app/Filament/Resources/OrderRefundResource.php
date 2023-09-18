@@ -27,6 +27,7 @@ class OrderRefundResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('amount')
+                    ->prefix('$')
                     ->disabled()
                     ->formatStateUsing(fn ($state) => empty($state) ? null : $state / 100)
                     ->dehydrateStateUsing(fn ($state) => $state * 100)
@@ -39,6 +40,7 @@ class OrderRefundResource extends Resource
                     ->searchable()
                     ->relationship('order', 'id'),
                 Forms\Components\TextInput::make('actual_amount')
+                    ->prefix('$')
                     ->formatStateUsing(fn ($state, $get) => empty($state) ? $get('amount') : $state / 100)
                     ->dehydrateStateUsing(fn ($state) => $state * 100)
                     ->maxValue(fn ($get) => $get('amount'))
