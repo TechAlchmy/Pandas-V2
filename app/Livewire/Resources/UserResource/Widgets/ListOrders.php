@@ -28,7 +28,6 @@ class ListOrders extends Component implements HasTable, HasForms
     {
         return $table
             ->query(Order::query()
-                ->withExists(['orderRefund' => fn ($query) => $query->withTrashed()])
                 ->whereBelongsTo(auth()->user()))
             ->recordUrl(fn ($record) => route('orders.show', ['id' => $record->uuid]))
             ->columns([
@@ -57,48 +56,6 @@ class ListOrders extends Component implements HasTable, HasForms
                         'success' => 'paid',
                         'danger' => 'failed',
                     ]),
-            ])
-            ->actions([
-                Tables\Actions\Action::make('refund')
-                    ->link()
-                    ->hidden(fn ($record) => (bool) $record->order_refund_exists)
-                    ->visible(fn ($record) => $record->payment_status == PaymentStatus::Approved
-                        && now()->isBefore($record->created_at->addWeeks(2)))
-                    ->requiresConfirmation()
-                    ->action(function ($record) {
-                        if (now()->isAfter($record->created_at->addWeeks(2))) {
-                            Notification::make()
-                                ->title('Cannot Refund')
-                                ->success()
-                                ->send();
-
-                            return;
-                        }
-
-                        if ($record->order_refund_exists) {
-                            Notification::make()
-                                ->title('You have requested your refund')
-                                ->info()
-                                ->send();
-
-                            return;
-                        }
-
-                        if ($record->payment_status == PaymentStatus::Approved) {
-                            OrderRefund::query()
-                                ->create([
-                                    'order_id' => $record->getKey(),
-                                    'amount' => $record->order_total,
-                                ]);
-
-                            auth()->user()->notify(new SendUserOrderRefundInReview($record->order_column));
-
-                            Notification::make()
-                                ->title('Your request to refund this order has been received')
-                                ->success()
-                                ->send();
-                        }
-                    }),
             ]);
     }
 }
