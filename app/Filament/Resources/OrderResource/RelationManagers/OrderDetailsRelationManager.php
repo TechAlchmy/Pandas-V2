@@ -87,6 +87,12 @@ class OrderDetailsRelationManager extends RelationManager
                         Infolists\Components\TextEntry::make('quantity')
                             ->label('Quantity to Refund'),
                         Infolists\Components\TextEntry::make('note'),
+                        Infolists\Components\TextEntry::make('estimated_amount_refunded')
+                            ->getStateUsing(function ($record) {
+                                $record->quantity = $record->orderDetailRefund->quantity;
+                                return $record->total / 100;
+                            })
+                            ->money('USD'),
                     ])
                     ->modalSubmitActionLabel('Approve')
                     ->registerModalActions([
