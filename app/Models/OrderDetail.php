@@ -20,6 +20,11 @@ class OrderDetail extends Model implements Sortable
         return $this->belongsTo(Order::class);
     }
 
+    public function orderDetailRefund()
+    {
+        return $this->hasOne(OrderDetailRefund::class);
+    }
+
     public function discount()
     {
         return $this->belongsTo(Discount::class);
