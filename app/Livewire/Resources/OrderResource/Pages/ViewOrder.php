@@ -65,6 +65,7 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                             ->money('USD'),
                         Infolists\Components\Actions::make([
                             Infolists\Components\Actions\Action::make('request_refund')
+                                ->link()
                                 ->hidden(fn ($record) => $record->orderDetailRefund)
                                 ->modalHeading(fn ($record) => \implode(' - ', [
                                     'Request refund for ' . $record->discount->brand->name,
