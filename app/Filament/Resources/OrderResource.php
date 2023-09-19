@@ -80,6 +80,7 @@ class OrderResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('order_column', 'desc')
             ->columns([
                 ...[
                     Tables\Columns\TextColumn::make('user.name')
