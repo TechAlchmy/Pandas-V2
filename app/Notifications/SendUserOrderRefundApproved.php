@@ -13,6 +13,7 @@ class SendUserOrderRefundApproved extends Notification
 
     public function __construct(
         protected $orderNumber,
+        protected $item,
     ) {}
 
     public function via(object $notifiable): array
@@ -23,7 +24,7 @@ class SendUserOrderRefundApproved extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Your order #'.$this->orderNumber . ' has been refunded!')
+            ->subject('Your order #'.$this->orderNumber . ' item ' . $this->item . ' has been refunded!')
             ->line('Thank you for using our application!');
     }
 
