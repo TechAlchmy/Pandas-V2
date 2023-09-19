@@ -82,13 +82,20 @@ class OrderDetailsRelationManager extends RelationManager
             ])
             ->actions([
                 Tables\Actions\Action::make('resolve_refund')
+                    ->modalHeading(fn ($record) => \implode(' ', [
+                        'Resolve Refund for',
+                        $record->discount->brand->name,
+                        $record->discount->name,
+                    ]))
                     ->visible(fn ($record) => $record->order_detail_refund_exists && ! $record->is_refund_request_approved)
                     ->infolist([
                         Infolists\Components\Grid::make(3)
                             ->schema([
                                 Infolists\Components\TextEntry::make('quantity')
+                                    ->getStateUsing(fn ($record) => $record->orderDetailRefund->quantity)
                                     ->label('Quantity to Refund'),
-                                Infolists\Components\TextEntry::make('note'),
+                                Infolists\Components\TextEntry::make('note')
+                                    ->getStateUsing(fn ($record) => $record->orderDetailRefund->note),
                                 Infolists\Components\TextEntry::make('estimated_amount_refunded')
                                     ->getStateUsing(function ($record) {
                                         $record->quantity = $record->orderDetailRefund->quantity;
@@ -98,7 +105,7 @@ class OrderDetailsRelationManager extends RelationManager
                             ]),
                     ])
                     ->modalSubmitActionLabel('Approve')
-                    ->registerModalActions([
+                    ->extraModalFooterActions([
                         Actions\Action::make('reject')
                             ->color('danger')
                             ->requiresConfirmation()
