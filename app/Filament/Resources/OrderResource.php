@@ -51,19 +51,27 @@ class OrderResource extends Resource
                             ->required(),
 
                         Forms\Components\TextInput::make('order_total')
+                            ->formatStateUsing(fn ($state) => $state / 100)
                             ->dehydrated(fn (string $context): bool => $context !== 'create')
+                            ->prefix('$')
                             ->numeric(),
 
                         Forms\Components\TextInput::make('order_subtotal')
+                            ->formatStateUsing(fn ($state) => $state / 100)
                             ->dehydrated(fn (string $context): bool => $context !== 'create')
+                            ->prefix('$')
                             ->numeric(),
 
                         Forms\Components\TextInput::make('order_discount')
+                            ->formatStateUsing(fn ($state) => $state / 100)
                             ->dehydrated(fn (string $context): bool => $context !== 'create')
+                            ->prefix('$')
                             ->numeric(),
 
                         Forms\Components\TextInput::make('order_tax')
+                            ->formatStateUsing(fn ($state) => $state / 100)
                             ->dehydrated(fn (string $context): bool => $context !== 'create')
+                            ->prefix('$')
                             ->numeric(),
 
                         Forms\Components\TextInput::make('payment_method')->dehydrated(false),
