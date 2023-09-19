@@ -77,10 +77,16 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                                     Forms\Components\Grid::make()
                                         ->schema([
                                             Forms\Components\TextInput::make('quantity')
+                                                ->live()
                                                 ->numeric()
                                                 ->required()
+                                                ->helperText('Max: ' . $record->quantity)
                                                 ->maxValue($record->quantity)
-                                                ->minValue(1),
+                                                ->minValue(1)
+                                                ->suffix(function ($state) use ($record) {
+                                                    $record->quantity = $state;
+                                                    return format_money($record->total / 100, 'USD');
+                                                }),
                                             Forms\Components\TextInput::make('note')
                                                 ->label('Reason to refund')
                                                 ->maxLength(255),
