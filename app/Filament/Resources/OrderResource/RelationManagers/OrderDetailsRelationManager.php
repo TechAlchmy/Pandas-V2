@@ -84,15 +84,18 @@ class OrderDetailsRelationManager extends RelationManager
                 Tables\Actions\Action::make('resolve_refund')
                     ->visible(fn ($record) => $record->order_detail_refund_exists && ! $record->is_refund_request_approved)
                     ->infolist([
-                        Infolists\Components\TextEntry::make('quantity')
-                            ->label('Quantity to Refund'),
-                        Infolists\Components\TextEntry::make('note'),
-                        Infolists\Components\TextEntry::make('estimated_amount_refunded')
-                            ->getStateUsing(function ($record) {
-                                $record->quantity = $record->orderDetailRefund->quantity;
-                                return $record->total / 100;
-                            })
-                            ->money('USD'),
+                        Infolists\Components\Grid::make(3)
+                            ->schema([
+                                Infolists\Components\TextEntry::make('quantity')
+                                    ->label('Quantity to Refund'),
+                                Infolists\Components\TextEntry::make('note'),
+                                Infolists\Components\TextEntry::make('estimated_amount_refunded')
+                                    ->getStateUsing(function ($record) {
+                                        $record->quantity = $record->orderDetailRefund->quantity;
+                                        return $record->total / 100;
+                                    })
+                                    ->money('USD'),
+                            ]),
                     ])
                     ->modalSubmitActionLabel('Approve')
                     ->registerModalActions([
