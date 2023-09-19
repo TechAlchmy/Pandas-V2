@@ -111,8 +111,10 @@ class OrderResource extends Resource
     public static function getTableColumns(): array
     {
         return [
-            Tables\Columns\TextColumn::make('order_number')
-                    ->searchable(),
+            Tables\Columns\TextColumn::make('order_column')
+                ->label('Order Number')
+                ->sortable()
+                ->searchable(),
 
             Tables\Columns\TextColumn::make('order_status')
                 ->badge()
