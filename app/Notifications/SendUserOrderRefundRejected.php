@@ -12,7 +12,8 @@ class SendUserOrderRefundRejected extends Notification
     use Queueable;
 
     public function __construct(
-        protected $orderNumber
+        protected $orderNumber,
+        protected $item,
     ) {}
 
     public function via(object $notifiable): array
@@ -23,8 +24,7 @@ class SendUserOrderRefundRejected extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Your refund request for order #'.$this->orderNumber . ' has been rejected')
-            ->action('Notification Action', url('/'))
+            ->subject('Your refund request for order #'.$this->orderNumber . ' item ' . $this->item . ' has been rejected')
             ->line('Thank you for using our application!');
     }
 
