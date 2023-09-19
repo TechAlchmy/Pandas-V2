@@ -100,7 +100,7 @@ class OrderDetailsRelationManager extends RelationManager
                             ->color('danger')
                             ->requiresConfirmation()
                             ->action(function ($action, $record) {
-                                $record->orderDetailRefund()->delete();
+                                $record->orderDetailRefund->delete();
                                 $action->success();
                             })
                             ->successNotificationTitle('Refund Request rejected')
