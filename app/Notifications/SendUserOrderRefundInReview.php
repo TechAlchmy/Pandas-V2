@@ -14,6 +14,7 @@ class SendUserOrderRefundInReview extends Notification
 
     public function __construct(
         protected $orderNumber,
+        protected $item,
     ) {}
 
     public function via(object $notifiable): array
@@ -24,7 +25,7 @@ class SendUserOrderRefundInReview extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject("Your refund for #{$this->orderNumber} is under review")
+            ->subject("Your refund for #{$this->orderNumber} item {$this->item} is under review")
             ->line('Your refund request will be reviewed shortly.')
             // ->action('Notification Action', url('/'))
             ->line('Thank you for using our application!');
