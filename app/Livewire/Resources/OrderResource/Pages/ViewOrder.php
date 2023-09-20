@@ -66,6 +66,7 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                                 ]))
                                 ->schema([
                                     Forms\Components\TextInput::make('order_detail_refund.quantity')
+                                        ->live()
                                         ->formatStateUsing(fn ($state, $get) => $state ?? $get('quantity'))
                                         ->numeric()
                                         ->required()
