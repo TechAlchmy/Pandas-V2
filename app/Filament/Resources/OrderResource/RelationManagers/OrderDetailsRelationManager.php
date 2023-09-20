@@ -77,7 +77,7 @@ class OrderDetailsRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('orderDetailRefund.status_message'),
             ])
             ->filters([
-                Tables\Filters\Filter::make('has_unreso_refund_request')
+                //
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make(),
