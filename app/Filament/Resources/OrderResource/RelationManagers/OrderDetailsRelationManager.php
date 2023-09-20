@@ -47,7 +47,7 @@ class OrderDetailsRelationManager extends RelationManager
                 ->withExists(['orderDetailRefund AS is_refund_request_approved' => function ($query) {
                     $query->whereNotNull('approved_at');
                 }])
-                ->with('orderDetailRefund'))
+                ->with('orderDetailRefund', fn ($query) => $query->withTrashed()))
             ->columns([
                 Tables\Columns\TextColumn::make('discount.brand.name')
                     ->url(fn (OrderDetail $record) => BrandResource::getUrl('edit', ['record' => $record->discount->brand]))
@@ -74,6 +74,7 @@ class OrderDetailsRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('total')
                     ->getStateUsing(fn ($record) => $record->total / 100)
                     ->money('USD'),
+                Tables\Columns\TextColumn::make('orderDetailRefund.status_message'),
             ])
             ->filters([
                 Tables\Filters\Filter::make('has_unreso_refund_request')
