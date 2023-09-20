@@ -23,7 +23,7 @@ class MonthlyOrdersChart extends ChartWidget
             'datasets' => [
                 [
                     'label' => 'Orders',
-                    'data' => $data->map(fn ($value) => $value->aggregate),
+                    'data' => $data->map(fn ($value) => $value->aggregate / 100),
                 ],
             ],
             'labels' => $data->map(fn ($value) => $value->date),

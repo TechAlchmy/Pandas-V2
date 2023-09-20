@@ -29,8 +29,8 @@
                             <div class="flex gap-6 items-center">
                                 @if (!$this->record->is_amount_single)
                                     <select wire:model.live.number="amount" class="border border-black">
-                                        @foreach ($this->record->money_amount as $amount)
-                                            <option value="{{ $amount->getMinorAmount() }}">{{ $amount->getAmount() }}</option>
+                                        @foreach ($this->record->amount as $amount)
+                                            <option value="{{ $amount }}">{{ Filament\Support\format_money($amount / 100, 'USD') }}</option>
                                         @endforeach
                                     </select>
                                 @endif

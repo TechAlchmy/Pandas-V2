@@ -1,13 +1,16 @@
 <div class="px-[min(6.99vw,50px)] py-8">
     <div class="max-w-[1920px] mx-auto">
-        <div class="space-y-6">
-            <div class="flex justify-between">
-                <h1 class="text-4xl lg:text-7xl">My Order #{{ $this->record->order_column }}</h1>
-                <p class="hidden lg:block">{{ auth()->user()->organization?->name }}</p>
+        <div class="max-w-3xl mx-auto">
+            <div class="space-y-6">
+                <div class="flex justify-between">
+                    <h1 class="text-4xl lg:text-7xl">My Order #{{ $this->record->order_column }}</h1>
+                    <p class="hidden lg:block">{{ auth()->user()->organization?->name }}</p>
+                </div>
+                {{ $this->viewInfolist }}
             </div>
-            {{ $this->viewInfolist }}
         </div>
     </div>
+    <x-filament-actions::modals />
 </div>
 {{-- <div class="bg-gray-50">
     <div class="container mx-auto pt-16 sm:px-6 sm:py-24 lg:px-8">

@@ -3,9 +3,11 @@
 namespace App\Livewire\Resources\UserResource\Widgets;
 
 use App\Enums\DiscountCallToActionEnum;
+use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Models\Order;
 use App\Models\OrderRefund;
+use App\Notifications\SendUserOrderRefundInReview;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
@@ -43,6 +45,7 @@ class ListOrders extends Component implements HasTable, HasForms
                         'danger' => 'failed',
                     ]),
                 Tables\Columns\TextColumn::make('order_total')
+                    ->getStateUsing(fn ($record) => $record->order_total / 100)
                     ->money('USD'),
                 Tables\Columns\TextColumn::make('payment_status')
                     ->badge()
@@ -53,59 +56,6 @@ class ListOrders extends Component implements HasTable, HasForms
                         'success' => 'paid',
                         'danger' => 'failed',
                     ]),
-            ])
-            ->actions([
-                Tables\Actions\Action::make('redeem')
-                    ->link()
-                    ->visible(fn ($record) => $record->payment_status == PaymentStatus::Approved)
-                    ->modalSubmitAction(false)
-                    ->infolist(function (Infolist $infolist, $record) {
-                        return $infolist
-                            ->record($record->loadMissing('orderDetails.discount.brand'))
-                            ->schema([
-                                Infolists\Components\RepeatableEntry::make('orderDetails')
-                                    ->columns(4)
-                                    ->hiddenLabel()
-                                    ->schema([
-                                        Infolists\Components\TextEntry::make('discount.brand.name')
-                                            ->url(fn ($record) => route('deals.index', ['filter' => ['brand_id' => $record->discount?->brand_id]]))
-                                            ->label('Brand'),
-                                        Infolists\Components\TextEntry::make('discount.name')
-                                            ->url(fn ($record) => route('deals.show', ['id' => $record->discount?->slug])),
-                                        Infolists\Components\TextEntry::make('amount')
-                                            ->money('USD'),
-                                        Infolists\Components\TextEntry::make('quantity'),
-                                    ]),
-                            ]);
-                    }),
-                Tables\Actions\Action::make('refund')
-                    ->link()
-                    ->visible(fn ($record) => $record->payment_status == PaymentStatus::Approved
-                        && now()->isBefore($record->created_at->addWeeks(2)))
-                    ->requiresConfirmation()
-                    ->action(function ($record) {
-                        if (now()->isAfter($record->created_at->addWeeks(2))) {
-                            Notification::make()
-                                ->title('Cannot Refund')
-                                ->success()
-                                ->send();
-
-                            return;
-                        }
-
-                        if ($record->payment_status == PaymentStatus::Approved) {
-                            OrderRefund::query()
-                                ->create([
-                                    'order_id' => $record->getKey(),
-                                    'amount' => $record->order_total,
-                                ]);
-
-                            Notification::make()
-                                ->title('Your request to refund this order has been received')
-                                ->success()
-                                ->send();
-                        }
-                    }),
             ]);
     }
 }

@@ -114,7 +114,8 @@ class CartService
                     ? $record->amount[0]
                     : $item['amount'];
                 $subtotal = $item['quantity'] * $amount;
-                $discount = $subtotal * ($record->public_percentage / 100);
+                $discount = $subtotal * ($record->public_percentage / 100 / 100);
+                $discount = (int) \round($discount);
                 $itemTotal = $subtotal - $discount;
                 return [
                     'itemable' => $record,
@@ -186,6 +187,8 @@ class CartService
                 'discount_id' => $item['itemable']->getKey(),
                 'amount' => $item['amount'],
                 'quantity' => $item['quantity'],
+                'percentage' => $item['itemable']->percentage,
+                'public_percentage' => $item['itemable']->public_percentage,
             ]);
         }
 

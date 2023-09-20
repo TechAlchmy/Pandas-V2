@@ -128,7 +128,7 @@ class CreateOrder extends Component implements HasForms, HasActions
 
         $data['xInvoice'] = $order->order_column;
 
-        if ($data['use_new']) {
+        if (boolval($data['use_new']) || empty(\data_get($data, 'xToken'))) {
             \data_forget($data, 'xToken');
         } else {
             \data_forget($data, 'xExp');
@@ -159,8 +159,8 @@ class CreateOrder extends Component implements HasForms, HasActions
         }
 
         $paymentIds = auth()->user()->cardknox_payment_method_ids ?? [];
-        if (! \in_array('cc', \array_keys($paymentIds))) {
-            $response = (new CreatePaymentMethod(
+        if (\array_key_exists('should_save_payment_detail', $data)) {
+            $paymentMethodResponse = (new CreatePaymentMethod(
                 customerId: auth()->user()->cardknox_customer_id,
                 token: $response->json('xToken'),
                 tokenType: 'cc',
@@ -169,13 +169,14 @@ class CreateOrder extends Component implements HasForms, HasActions
 
             auth()->user()->update(['cardknox_payment_method_ids' => [
                 ...$paymentIds,
-                'cc' => $response->json('PaymentMethodId'),
+                'cc' => $paymentMethodResponse->json('PaymentMethodId'),
             ]]);
         }
 
         $order->update([
+            'cardknox_refnum' => $response->json('xRefNum'),
             'order_status' => OrderStatus::Processing,
-            'payment_status' => $response->json('xStatus'),
+            'payment_status' => PaymentStatus::tryFrom((string) $response->json('xStatus')),
         ]);
 
         auth()->user()->notify(new OrderApprovedNotification($order));

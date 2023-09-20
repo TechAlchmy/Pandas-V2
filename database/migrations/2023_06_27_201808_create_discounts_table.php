@@ -34,8 +34,8 @@ return new class extends Migration
             $table->jsonb('amount')->nullable();
             $table->integer('limit_qty')->nullable();
             $table->unsignedInteger('limit_amount')->nullable();
-            $table->decimal('public_percentage', 10, 2)->nullable();
-            $table->decimal('percentage', 10, 2)->nullable();
+            $table->unsignedInteger('public_percentage')->nullable();
+            $table->unsignedInteger('percentage')->nullable();
             $table->foreignIdFor(User::class, 'created_by_id')->nullable();
             $table->foreignIdFor(User::class, 'updated_by_id')->nullable();
             $table->softDeletes();

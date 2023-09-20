@@ -17,7 +17,7 @@
     </div>
 
 </div>
-<div class="mx-auto w-full px-[min(5%,30px)] xl:px-0 max-w-[1920px]">
+<div class="mx-auto w-full px-[min(5%,30px)] xl:-mt-60 2xl:-mt-0 xl:px-0 max-w-[1920px]">
     <div class="mx-auto max-w-screen-2xl">
         <div class="flex flex-row-reverse content-conteiner">
             <div class="ellipse-container">

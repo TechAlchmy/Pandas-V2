@@ -120,9 +120,17 @@ class DiscountResource extends Resource
                             ->schema([
                                 Forms\Components\TextInput::make('public_percentage')
                                     ->suffix('%')
+                                    ->minValue(0)
+                                    ->maxValue(100)
+                                    ->formatStateUsing(fn ($state) => $state / 100)
+                                    ->dehydrateStateUsing(fn ($state) => $state * 100)
                                     ->numeric(),
                                 Forms\Components\TextInput::make('percentage')
                                     ->suffix('%')
+                                    ->minValue(0)
+                                    ->maxValue(100)
+                                    ->formatStateUsing(fn ($state) => $state / 100)
+                                    ->dehydrateStateUsing(fn ($state) => $state * 100)
                                     ->numeric(),
                             ]),
                     ]),

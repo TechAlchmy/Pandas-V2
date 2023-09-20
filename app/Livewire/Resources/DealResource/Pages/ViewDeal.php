@@ -42,15 +42,19 @@ class ViewDeal extends Component implements HasActions, HasForms
 
     public function mount()
     {
-        $this->amount = data_get($this->record->money_amount, '0')->getMinorAmount()->toInt();
+        $this->amount = \head($this->record->amount);
     }
 
     public function createOrder($data)
     {
-        $data['xAmount'] = $this->amount / 100;
+        $subtotal = $this->quantity * $this->amount;
+        $discount = (int) \round($subtotal * ($this->record->public_percentage / 100 / 100));
+        $tax = 0;
+        $total = $subtotal - $discount;
+        $data['xAmount'] = $total / 100;
         $data['xExp'] = $data['xExp_month'].$data['xExp_year'];
 
-        if ($data['use_new']) {
+        if (boolval($data['use_new']) || empty(\data_get($data, 'xToken'))) {
             \data_forget($data, 'xToken');
         } else {
             \data_forget($data, 'xExp');
@@ -68,15 +72,17 @@ class ViewDeal extends Component implements HasActions, HasForms
                 'payment_method' => 'card',
                 'order_date' => now(),
                 'order_tax' => 0,
-                'order_subtotal' => $this->amount,
-                'order_discount' => $this->amount * ($this->record->public_percentage / 100),
-                'order_total' => $this->amount - ($this->amount * ($this->record->public_percentage / 100)),
+                'order_subtotal' => $subtotal,
+                'order_discount' => $discount,
+                'order_total' => $total,
             ]);
 
         $order->orderDetails()->create([
             'discount_id' => $this->record->getKey(),
             'quantity' => $this->quantity,
             'amount' => $this->amount,
+            'public_percentage' => $this->record->public_percentage,
+            'percentage' => $this->record->percentage,
         ]);
 
         $data['xInvoice'] = $order->order_column;
@@ -98,8 +104,8 @@ class ViewDeal extends Component implements HasActions, HasForms
         }
 
         $paymentIds = auth()->user()->cardknox_payment_method_ids ?? [];
-        if (! \in_array('cc', \array_keys($paymentIds))) {
-            $response = (new CreatePaymentMethod(
+        if (\array_key_exists('should_save_payment_detail', $data)) {
+            $paymentMethodResponse = (new CreatePaymentMethod(
                 customerId: auth()->user()->cardknox_customer_id,
                 token: $response->json('xToken'),
                 tokenType: 'cc',
@@ -108,13 +114,14 @@ class ViewDeal extends Component implements HasActions, HasForms
 
             auth()->user()->update(['cardknox_payment_method_ids' => [
                 ...$paymentIds,
-                'cc' => $response->json('PaymentMethodId'),
+                'cc' => $paymentMethodResponse->json('PaymentMethodId'),
             ]]);
         }
 
         $order->update([
+            'cardknox_refnum' => $response->json('xRefNum'),
             'order_status' => OrderStatus::Processing,
-            'payment_status' => $response->json('xStatus'),
+            'payment_status' => PaymentStatus::tryFrom((string) $response->json('xStatus')),
         ]);
 
         auth()->user()->notify(new OrderApprovedNotification($order));

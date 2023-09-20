@@ -7,13 +7,14 @@ use App\Models\User;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
+use function Filament\Support\format_money;
+
 class StatsOverview extends BaseWidget
 {
     protected function getStats(): array
     {
-        $numberFormatter = new \NumberFormatter('en_US',  \NumberFormatter::CURRENCY);
         $revenue = (int) Order::query()->sum('order_total');
-        $revenue = $numberFormatter->formatCurrency($revenue, 'USD');
+        $revenue = format_money($revenue / 100, 'USD');
         $usersCount = User::query()->count();
         $ordersCount = Order::query()->count();
         return [

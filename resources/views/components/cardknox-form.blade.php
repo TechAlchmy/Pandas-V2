@@ -1,4 +1,4 @@
-<form x-data="@js(['isLoading' => false, 'useNew' => false, 'cardknox_payment_method' => ['cc' => auth()->user()->cardknox_payment_method_cc]])"
+<form x-data="@js(['isLoading' => false, 'useNew' => false, 'shouldSavePaymentDetail' => false, 'cardknox_payment_method' => ['cc' => auth()->user()->cardknox_payment_method_cc]])"
     x-on:submit.prevent="
     isLoading = true;
     if (!useNew && cardknox_payment_method.cc != null) {
@@ -10,8 +10,9 @@
                     )
                 )
             )
-        );
-        isLoading = false;
+        ).then(() => {
+            isLoading = false;
+        });
         return;
     }
     getTokens(
@@ -24,7 +25,9 @@
                         )
                     )
                 )
-            );
+            ).then(() => {
+                isLoading = false;
+            });
         },
         () => { //onError
             isLoading = false;
@@ -34,6 +37,7 @@
     ">
     <x-filament::modal id="cardknox" width="4xl">
         <div class="space-y-6" x-init="setAccount(@js(config('services.cardknox.ifields.key')), @js(config('app.name')), '0.1.1');
+        enableAutoFormatting('-');
         let style = {
             display: 'flex',
             border: 'none',
@@ -77,15 +81,6 @@
                     <input type="hidden" name="xToken" x-bind:value="cardknox_payment_method.cc.Token" />
                 </div>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2">
-                <div></div>
-                <div>
-                    <button type="button" x-show="!useNew && cardknox_payment_method.cc != null" x-on:click="useNew = !useNew">Use Other Card</button>
-                    <button type="button" x-show="useNew" x-on:click="useNew = !useNew">Use Existing Card</button>
-                    <input name="use_new" type="hidden" x-bind:value="useNew ? 1 : 0" />
-                </div>
-            </div>
-
             <div x-show="useNew || cardknox_payment_method.cc == null" class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="border-b-[1.5px] py-2 border-black flex gap-x-1 items-center font-medium">
                     <div class="flex">
@@ -121,11 +116,29 @@
                 <label id="transaction-status"></label>
                 <label data-ifields-id="card-data-error" style="color: red;"></label>
             </div>
-            <div>
-                <x-button class="inline-flex" x-bind:disabled="isLoading" outlined type="submit">
-                    <x-filament::loading-indicator x-show="isLoading" class="w-5 h-5" />
-                    <span>Submit</span>
-                </x-button>
+            <div class="flex flex-col gap-4 lg:flex-row lg:justify-between items-center">
+                <div>
+                    <x-button class="inline-flex" x-bind:disabled="isLoading" outlined type="submit">
+                        <x-filament::loading-indicator x-show="isLoading" class="w-5 h-5" />
+                        <span>Submit</span>
+                    </x-button>
+                    <x-button type="button" x-on:click="$dispatch('close-modal', {id: 'cardknox'})">Cancel</x-button>
+                </div>
+                <div class="flex flex-col lg:flex-row lg:items-center justify-center gap-4">
+                    <div>
+                        <x-button type="button" x-show="!useNew && cardknox_payment_method.cc != null" x-on:click="useNew = !useNew">Use Other Card</x-button>
+                        <x-button type="button" x-show="useNew" x-on:click="useNew = !useNew">Use Existing Card</x-button>
+                        <input name="use_new" type="hidden" x-bind:value="useNew ? 1 : 0" />
+                    </div>
+                    <div x-show="useNew || cardknox_payment_method.cc == null">
+                        <div class="flex gap-2 items-center">
+                            <label for="should_save_payment_detail">
+                                Save Card Detail?
+                            </label>
+                            <input class="ring-none" id="should_save_payment_detail" name="should_save_payment_detail" type="checkbox" x-model="shouldSavePaymentDetail" />
+                        </div>
+                    </div>
+                </div>
             </div>
             <input name="xCVV" type="hidden" data-ifields-id="cvv-token" />
             <input name="xCardNum" type="hidden" data-ifields-id="card-number-token" />

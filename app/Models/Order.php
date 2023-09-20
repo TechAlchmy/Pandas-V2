@@ -40,6 +40,11 @@ class Order extends Model implements Sortable
         return $this->hasMany(OrderDetail::class);
     }
 
+    public function orderDetailRefunds()
+    {
+        return $this->hasManyThrough(OrderDetailRefund::class, OrderDetail::class);
+    }
+
     public function discounts()
     {
         return $this->belongsToMany(Discount::class, 'order_details');

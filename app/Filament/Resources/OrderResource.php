@@ -51,19 +51,27 @@ class OrderResource extends Resource
                             ->required(),
 
                         Forms\Components\TextInput::make('order_total')
+                            ->formatStateUsing(fn ($state) => $state / 100)
                             ->dehydrated(fn (string $context): bool => $context !== 'create')
+                            ->prefix('$')
                             ->numeric(),
 
                         Forms\Components\TextInput::make('order_subtotal')
+                            ->formatStateUsing(fn ($state) => $state / 100)
                             ->dehydrated(fn (string $context): bool => $context !== 'create')
+                            ->prefix('$')
                             ->numeric(),
 
                         Forms\Components\TextInput::make('order_discount')
+                            ->formatStateUsing(fn ($state) => $state / 100)
                             ->dehydrated(fn (string $context): bool => $context !== 'create')
+                            ->prefix('$')
                             ->numeric(),
 
                         Forms\Components\TextInput::make('order_tax')
+                            ->formatStateUsing(fn ($state) => $state / 100)
                             ->dehydrated(fn (string $context): bool => $context !== 'create')
+                            ->prefix('$')
                             ->numeric(),
 
                         Forms\Components\TextInput::make('payment_method')->dehydrated(false),
@@ -80,6 +88,7 @@ class OrderResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('order_column', 'desc')
             ->columns([
                 ...[
                     Tables\Columns\TextColumn::make('user.name')
@@ -111,8 +120,10 @@ class OrderResource extends Resource
     public static function getTableColumns(): array
     {
         return [
-            Tables\Columns\TextColumn::make('order_number')
-                    ->searchable(),
+            Tables\Columns\TextColumn::make('order_column')
+                ->label('Order Number')
+                ->sortable()
+                ->searchable(),
 
             Tables\Columns\TextColumn::make('order_status')
                 ->badge()
@@ -127,20 +138,24 @@ class OrderResource extends Resource
                 ]),
 
             Tables\Columns\TextColumn::make('order_total')
-                ->formatStateUsing(fn ($record) => $record->money_order_total),
+                ->getStateUsing(fn ($record) => $record->order_total / 100)
+                ->money('USD'),
 
             Tables\Columns\TextColumn::make('order_subtotal')
-                ->formatStateUsing(fn ($record) => $record->money_order_subtotal)
+                ->getStateUsing(fn ($record) => $record->order_subtotal / 100)
+                ->money('USD')
                 ->toggleable()
                 ->toggledHiddenByDefault(),
 
             Tables\Columns\TextColumn::make('order_discount')
-                ->formatStateUsing(fn ($record) => $record->money_order_discount)
+                ->getStateUsing(fn ($record) => $record->order_subtotal / 100)
+                ->money('USD')
                 ->toggleable()
                 ->toggledHiddenByDefault(),
 
             Tables\Columns\TextColumn::make('order_tax')
-                ->formatStateUsing(fn ($record) => $record->money_order_tax)
+                ->getStateUsing(fn ($record) => $record->order_tax / 100)
+                ->money('USD')
                 ->toggleable()
                 ->toggledHiddenByDefault(),
 
