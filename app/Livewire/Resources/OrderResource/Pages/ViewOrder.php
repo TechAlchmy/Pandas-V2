@@ -75,6 +75,7 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                                         ->helperText(fn ($record, $get) => 'Max: '.$record->orderDetails->firstWhere('id', $get('id'))?->quantity)
                                         ->suffix(function ($record, $get, $state) {
                                             $orderDetail = $record->orderDetails->firstWhere('id', $get('id'));
+                                            $orderDetail = $orderDetail->replicate(['quantity']);
                                             $orderDetail->quantity = $state;
                                             return format_money($orderDetail->total / 100, 'USD');
                                         })
