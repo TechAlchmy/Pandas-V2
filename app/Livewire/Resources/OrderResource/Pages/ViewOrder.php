@@ -58,8 +58,9 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                             Forms\Components\Repeater::make('order_details')
                                 ->columns(3)
                                 ->reorderable(false)
+                                ->addable(false)
                                 ->maxItems($record->orderDetails->count())
-                                ->minItems($record->orderDetails->count())
+                                ->minItems(1)
                                 ->itemLabel(fn ($state) => \implode(' - ', [
                                     \data_get($state, 'discount.brand.name'),
                                     \data_get($state, 'discount.name'),
@@ -90,6 +91,7 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                                 ]),
                         ])
                         ->action(function ($action, $data, $record) {
+                            $refunds = [];
                             foreach ($data['order_details'] as $detail) {
                                 $orderDetail = $record->orderDetails->firstWhere('id', $detail['id']);
 
@@ -101,7 +103,7 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                                     continue;
                                 }
 
-                                OrderDetailRefund::query()
+                                $refunds[] = OrderDetailRefund::query()
                                     ->updateOrCreate([
                                         'order_detail_id' => $detail['id'],
                                     ], [
@@ -110,8 +112,20 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                                     ]);
                             }
 
+                            auth()->user()->notify(
+                                new SendUserOrderRefundInReview($this->record->order_column, \array_map(function ($refund) {
+                                    return \implode(' - ', [
+                                        $refund->orderDetail->discount->brand->name,
+                                        $refund->orderDetail->discount->name,
+                                        'x'.$refund->quantity,
+                                        'Reason:'.$refund->note,
+                                    ]);
+                                }, $refunds)),
+                            );
+
                             $action->success();
-                        }))
+                        })
+                        ->successNotificationTitle('Successfully requested to refund item'))
                     ->schema([
                         Infolists\Components\TextEntry::make('discount.name')
                             ->getStateUsing(fn ($record) => implode(' - ', [
