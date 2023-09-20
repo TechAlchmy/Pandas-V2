@@ -134,7 +134,7 @@ class OrderDetailsRelationManager extends RelationManager
 
                         $record->quantity = $record->orderDetailRefund->quantity;
 
-                        (new CreateCcRefund($record->cardknox_refnum, $record->total / 100))->send();
+                        (new CreateCcRefund($record->order->cardknox_refnum, $record->total / 100))->send();
 
                         $record->orderDetailRefund->update([
                             'approved_at' => \now(),
