@@ -25,8 +25,9 @@ class SendUserOrderRefundInReview extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject("Your refund for #{$this->orderNumber} item {$this->item} is under review")
+            ->subject("Your refund for some items in #{$this->orderNumber} is under review")
             ->line('Your refund request will be reviewed shortly.')
+            ->lines($this->item)
             // ->action('Notification Action', url('/'))
             ->line('Thank you for using our application!');
     }
