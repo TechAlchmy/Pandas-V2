@@ -88,16 +88,9 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                                     Forms\Components\Placeholder::make('order_detail_refund.approved_at')
                                         ->label('Status')
                                         ->visible(fn ($get) => ! empty($get('order_detail_refund.id')))
-                                        ->content(function ($state, $get) {
-                                            if (! empty($state)) {
-                                                return 'Approved at ' . Carbon::parse($state)?->format('d M Y');
-                                            }
-
-                                            if ($get('order_detail_refund.deleted_at')) {
-                                                return 'Rejected at ' . Carbon::parse($get('order_detail_refund.deleted_at'))?->format('d M Y');
-                                            }
-
-                                            return 'In Review';
+                                        ->content(function ($get) use ($record) {
+                                            $orderDetail = $record->orderDetails->firstWhere('id', $get('id'));
+                                            return $orderDetail->orderDetailRefund->status_message;
                                         }),
                                 ]),
                         ])
