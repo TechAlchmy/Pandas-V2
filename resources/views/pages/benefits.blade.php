@@ -82,7 +82,7 @@ name('benefits');
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div class="lg:max-h-[50rem]">
-                <img class="-mt-40 md:-mt-96 object-cover" src="{{ asset('storage/assets/benefit-circles-2.png') }}" />
+                <img class="-mt-40 md:-mt-96 object-cover" src="{{ getMediaPath('assets/benefit-circles-2.png') }}" />
             </div>
             <div x-data="{ shown: false }" x-intersect.once="shown = true" class="p-8 space-y-4 place-self-center -mt-20 lg:-mt-40">
                 <h2 x-show="shown" x-transition.duration.2000 class="text-4xl font-editorial">

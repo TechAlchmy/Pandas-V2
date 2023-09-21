@@ -12,7 +12,7 @@
             </h1>
         </div>
         <div id="imageContainer" class="flex max-h-[660px] justify-center">
-            <img src="{{ asset('storage/banners/banner-guest.png') }}" alt="Collages images" class="max-w-[1500px] h-auto " />
+            <img src="{{ getMediaPath('banners/banner-guest.png') }}" alt="Collages images" class="max-w-[1500px] h-auto " />
         </div>
     </div>
 
