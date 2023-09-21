@@ -48,6 +48,6 @@ if (! function_exists('getMediaPath')) {
 if (! function_exists('mainMediaUrl')) {
     function mainMediaUrl()
     {
-        return config('panda.cdn'); // 'https://send-gifts-to-nepal.ugcakes.com';
+        return config('panda.cdn');
     }
 }
