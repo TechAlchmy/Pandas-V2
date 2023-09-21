@@ -13,7 +13,7 @@ name('benefits');
         <div class="px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto">
             <div class="relative hidden lg:flex h-screen">
                 <div class="absolute top-[-5rem] h-screen -z-10">
-                    <img class="" src="{{ asset('storage/assets/benefits-hero-image.png') }}" />
+                    <img class="" src="{{ getMediaPath('storage/assets/benefits-hero-image.png') }}" />
                 </div>
                 <div class="grid grid-cols-4">
                     <div></div>
@@ -41,7 +41,7 @@ name('benefits');
                 </div>
             </div>
         </div>
-        <img class="lg:hidden min-w-[125vw] -ml-20 lg:-ml-72 2xl:-ml-[42rem] -mt-8 md:-mt-16 lg:-mt-96" src="{{ asset('storage/assets/benefit-circles.png') }}" alt="Collages images" />
+        <img class="lg:hidden min-w-[125vw] -ml-20 lg:-ml-72 2xl:-ml-[42rem] -mt-8 md:-mt-16 lg:-mt-96" src="{{ getMediaPath('storage/assets/benefit-circles.png') }}" alt="Collages images" />
     </section>
     <section class="px-[min(6.99vw,50px)] py-8 md:-mt-40">
         <div class="max-w-[1920px] mx-auto">
@@ -100,8 +100,8 @@ name('benefits');
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div>
-                <img class="lg:hidden -mt-16 sm:max-h-[30vh] mx-auto" src="{{ asset('storage/assets/benefit-circles-mobile.png') }}" />
-                <img class="hidden lg:block -mt-40 md:-mt-96 2xl:max-h-[70vh] 2xl:mx-auto object-cover" src="{{ asset('storage/assets/benefit-circles-2.png') }}" />
+                <img class="lg:hidden -mt-16 sm:max-h-[30vh] mx-auto" src="{{ getMediaPath('storage/assets/benefit-circles-mobile.png') }}" />
+                <img class="hidden lg:block -mt-40 md:-mt-96 2xl:max-h-[70vh] 2xl:mx-auto object-cover" src="{{ getMediaPath('storage/assets/benefit-circles-2.png') }}" />
             </div>
             <div x-data="{ shown: false }" x-intersect.once="shown = true" class="p-8 space-y-4 place-self-center -mt-20 lg:-mt-40 xl:-mt-20">
                 <h2 x-show="shown" x-transition.duration.2000 class="text-4xl xl:text-6xl 2xl:text-7xl font-editorial">
