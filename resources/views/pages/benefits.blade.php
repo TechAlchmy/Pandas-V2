@@ -11,8 +11,26 @@ name('benefits');
 <x-layouts.app>
     <section class="overflow-x-hidden">
         <div class="px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" x-data="{ shown: false }" x-intersect.once="shown = true">
-                <h1 x-show="shown" x-transition.duration.1500 class="text-6xl max-w-xl font-editorial">Get Ready to go beyond the basic</h1>
+            <div class="relative hidden lg:flex h-screen">
+                <div class="absolute top-[-5rem] h-screen -z-10">
+                    <img class="" src="{{ asset('storage/assets/benefits-hero-image.png') }}" />
+                </div>
+                <div class="grid grid-cols-4">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div class="space-y-6">
+                        <p class="">
+                            Real benefits for real people start with Panda. We’re here to help you thrive in ways that matters to you, so you can give more when it’s go time—in life and work.
+
+                            Explore the benefits your employer is providing through Panda People.
+                        </p>
+                        <x-link class="hover:bg-panda-green" outlined :href="route('dashboard', ['activeTab' => 1])">View My Benefits</x-link>
+                    </div>
+                </div>
+            </div>
+            <div class="lg:hidden grid grid-cols-1 lg:grid-cols-2 gap-6" x-data="{ shown: false }" x-intersect.once="shown = true">
+                <h1 x-show="shown" x-transition.duration.1500 class="text-3xl sm:text-6xl max-w-xl font-editorial">Get Ready to go beyond the basic</h1>
                 <div class="space-y-6 lg:ml-56 xl:ml-80">
                     <p class="">
                         Real benefits for real people start with Panda. We’re here to help you thrive in ways that matters to you, so you can give more when it’s go time—in life and work.
@@ -23,7 +41,7 @@ name('benefits');
                 </div>
             </div>
         </div>
-        <img class="min-w-[125vw] -ml-20 lg:-ml-72 2xl:-ml-[42rem] -mt-8 md:-mt-16 lg:-mt-96" src="{{ asset('storage/assets/benefit-circles.png') }}" alt="Collages images" />
+        <img class="lg:hidden min-w-[125vw] -ml-20 lg:-ml-72 2xl:-ml-[42rem] -mt-8 md:-mt-16 lg:-mt-96" src="{{ asset('storage/assets/benefit-circles.png') }}" alt="Collages images" />
     </section>
     <section class="px-[min(6.99vw,50px)] py-8 md:-mt-40">
         <div class="max-w-[1920px] mx-auto">
@@ -81,11 +99,12 @@ name('benefits');
             </div>
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div class="lg:max-h-[50rem]">
-                <img class="-mt-40 md:-mt-96 object-cover" src="{{ asset('storage/assets/benefit-circles-2.png') }}" />
+            <div>
+                <img class="lg:hidden -mt-16 sm:max-h-[30vh] mx-auto" src="{{ asset('storage/assets/benefit-circles-mobile.png') }}" />
+                <img class="hidden lg:block -mt-40 md:-mt-96 2xl:max-h-[70vh] 2xl:mx-auto object-cover" src="{{ asset('storage/assets/benefit-circles-2.png') }}" />
             </div>
-            <div x-data="{ shown: false }" x-intersect.once="shown = true" class="p-8 space-y-4 place-self-center -mt-20 lg:-mt-40">
-                <h2 x-show="shown" x-transition.duration.2000 class="text-4xl font-editorial">
+            <div x-data="{ shown: false }" x-intersect.once="shown = true" class="p-8 space-y-4 place-self-center -mt-20 lg:-mt-40 xl:-mt-20">
+                <h2 x-show="shown" x-transition.duration.2000 class="text-4xl xl:text-6xl 2xl:text-7xl font-editorial">
                     We’re here to help you afford more of what brings you joy and everyday essentials.
                 </h2>
                 <h5 class="text-xl">
