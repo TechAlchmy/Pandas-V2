@@ -18,7 +18,7 @@
     @endphp
     <x-layouts.app>
         <x-banner-upsell :record="$featuredDiscount" />
-        <x-banner :background="asset('storage/banners/panda-main.png')" />
+        <x-banner :background="getMediaPath('banners/panda-main.png')" />
         <section class="px-[min(6.99vw,50px)] py-4" style="max-width: 1920px; margin:auto">
             <x-hr />
             <div class="lg:flex justify-between gap-4">
@@ -70,7 +70,7 @@
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
                     <div class="lg:col-span-3">
-                        <img class="-ml-52 min-w-[150vw] lg:min-w-[80vw] lg:max-w-md 2xl:-ml-96" src="{{ asset('storage/assets/pandas-3-circle.png') }}" alt="3 different color of circles" />
+                        <img class="-ml-52 min-w-[150vw] lg:min-w-[80vw] lg:max-w-md 2xl:-ml-96" src="{{ getMediaPath('assets/pandas-3-circle.png') }}" alt="3 different color of circles" />
                     </div>
                     <div class="space-y-6" x-data="{ shown: false }" x-intersect.once="shown = true">
                         <h1 x-show="shown" x-transition.duration.2000 class="font-editorial text-6xl">Benefits with Panda</h1>
