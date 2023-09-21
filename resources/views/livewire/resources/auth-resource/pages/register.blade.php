@@ -1,7 +1,7 @@
 <section class="pb-[min(184px,25.5vw)] max-w-[1920px] mx-auto grid grid-cols-1 lg:grid-cols-2">
     <div class="space-y-4 px-[min(6.99vw,50px)] py-4 order-2 lg:order-1">
         <div>
-            <img class="object-cover" src="{{ getMediaPath('storage/assets/pandas-black-grey.png') }}" alt="Panda images" class="" />
+            <img class="object-cover" src="{{ getMediaPath('assets/pandas-black-grey.png') }}" alt="Panda images" class="" />
         </div>
         <div class="flex justify-center">
             <h1 class="font-editorial text-6xl font-thin">Live. Grow. <br> Play. <br> Panda.</h1>
