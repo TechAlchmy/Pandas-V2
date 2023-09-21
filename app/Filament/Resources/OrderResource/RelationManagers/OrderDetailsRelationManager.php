@@ -15,6 +15,7 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Actions;
+use Filament\Notifications\Notification;
 
 class OrderDetailsRelationManager extends RelationManager
 {
@@ -46,7 +47,7 @@ class OrderDetailsRelationManager extends RelationManager
                 ->withExists(['orderDetailRefund AS is_refund_request_approved' => function ($query) {
                     $query->whereNotNull('approved_at');
                 }])
-                ->with('orderDetailRefund'))
+                ->with('orderDetailRefund', fn ($query) => $query->withTrashed()))
             ->columns([
                 Tables\Columns\TextColumn::make('discount.brand.name')
                     ->url(fn (OrderDetail $record) => BrandResource::getUrl('edit', ['record' => $record->discount->brand]))
@@ -73,9 +74,10 @@ class OrderDetailsRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('total')
                     ->getStateUsing(fn ($record) => $record->total / 100)
                     ->money('USD'),
+                Tables\Columns\TextColumn::make('orderDetailRefund.status_message'),
             ])
             ->filters([
-                Tables\Filters\Filter::make('has_unreso_refund_request')
+                //
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make(),
@@ -105,32 +107,35 @@ class OrderDetailsRelationManager extends RelationManager
                             ]),
                     ])
                     ->modalSubmitActionLabel('Approve')
-                    ->extraModalFooterActions([
-                        Actions\Action::make('reject')
-                            ->color('danger')
-                            ->requiresConfirmation()
-                            ->action(function ($action, $record) {
-                                $record->orderDetailRefund->delete();
-                                $action->success();
-                            })
-                            ->successNotificationTitle('Refund Request rejected')
-                            ->successNotification(function ($notification, $record) {
-                                $this->getOwnerRecord()
-                                    ->user
-                                    ->notify(new SendUserOrderRefundRejected(
-                                        $this->getOwnerRecord()->order_column,
-                                        \implode(' - ', [
-                                            $record->discount->brand->name,
-                                            $record->discount->name,
-                                        ]
-                                    )));
-                                return $notification;
-                            }),
+                    ->extraModalFooterActions(fn ($action) => [
+                        $action->makeModalSubmitAction('reject', arguments: ['reject' => true])
+                            ->color('danger'),
                     ])
-                    ->action(function ($action, $record) {
+                    ->action(function ($action, $record, $arguments) {
+                        if ($arguments['reject'] ?? false) {
+                            $record->orderDetailRefund->delete();
+
+                            $this->getOwnerRecord()
+                                ->user
+                                ->notify(new SendUserOrderRefundRejected(
+                                    $this->getOwnerRecord()->order_column,
+                                    \implode(' - ', [
+                                        $record->discount->brand->name,
+                                        $record->discount->name,
+                                    ]
+                                )));
+
+                            Notification::make()
+                                ->success()
+                                ->title('Refund request rejected')
+                                ->send();
+
+                            return;
+                        }
+
                         $record->quantity = $record->orderDetailRefund->quantity;
 
-                        (new CreateCcRefund($record->cardknox_refnum, $record->total / 100))->send();
+                        (new CreateCcRefund($record->order->cardknox_refnum, $record->total / 100))->send();
 
                         $record->orderDetailRefund->update([
                             'approved_at' => \now(),
