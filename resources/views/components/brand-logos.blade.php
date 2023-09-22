@@ -26,12 +26,12 @@
                             640: {
                                 slidesPerView: 6,
                                 spaceBetween: 40
-                            }
+                            },
                             // when window width is >= 640px
                             768: {
                                 slidesPerView: 8,
                                 spaceBetween: 40
-                            }
+                            },
                         }
                     });">
                         <div class="swiper-wrapper">
