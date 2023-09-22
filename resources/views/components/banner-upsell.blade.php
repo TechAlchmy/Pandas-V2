@@ -5,7 +5,7 @@
             <div class="flex flex-col lg:flex-row justify-between items-center gap-6">
                 <div class="flex flex-col md:flex-row items-center gap-6 mx-auto lg:mx-0">
                     @if ($record->brand?->hasMedia('logo'))
-                        {{ $record->brand?->getFirstMedia('logo')->img()->attributes(['class' => 'invert']) }}
+                        {{ $record->brand?->getFirstMedia('logo')->img()->attributes(['class' => 'invert max-h-20']) }}
                     @else
                         <p>{{ $record->brand->name }}</p>
                     @endif
