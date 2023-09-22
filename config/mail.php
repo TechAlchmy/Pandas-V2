@@ -12,7 +12,6 @@ return [
     | and used as needed; however, this mailer will be used by default.
     |
     */
-
     'default' => 'log',
 
     /*
