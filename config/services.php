@@ -33,9 +33,9 @@ return [
 
     'cardknox' => [
         'ifields' => [
-            'key' => env('CARDKNOX_IFIELDS_KEY', 'ifields_pandaecsdev9fdbde1771044d2f82d8557776'), // testing key
+            'key' => env('CARDKNOX_IFIELDS_KEY'),
             'version' => '2.15.2302.0801',
         ],
-        'transaction_key' => env('CARDKNOX_TRANSACTION_KEY', 'pandaecsdevbf0804afc84343d398a8da335b4747c2'), // testing key
+        'transaction_key' => env('CARDKNOX_TRANSACTION_KEY'),
     ],
 ];
