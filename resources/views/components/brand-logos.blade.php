@@ -35,8 +35,8 @@
                     });">
                         <div class="swiper-wrapper">
                             @foreach ($category->brands as $brand)
-                                <div class="swiper-slide py-4 grid">
-                                    <img class="place-self-center max-w-[150px] max-h-24 invert" src="{{ $brand->getFirstMediaUrl('logo') }}" alt="{{ $brand->name }} Logo" />
+                                <div class="swiper-slide py-4 m-auto">
+                                    <img class="max-w-[150px] max-h-24 invert" src="{{ $brand->getFirstMediaUrl('logo') }}" alt="{{ $brand->name }} Logo" />
                                 </div>
                             @endforeach
                         </div>
