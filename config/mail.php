@@ -12,7 +12,8 @@ return [
     | and used as needed; however, this mailer will be used by default.
     |
     */
-    'default' => 'log',
+
+    'default' => env('MAIL_MAILER', 'smtp'),
 
     /*
     |--------------------------------------------------------------------------
@@ -70,7 +71,7 @@ return [
 
         'log' => [
             'transport' => 'log',
-            'channel' => env('MAIL_LOG_CHANNEL', 'stack'),
+            'channel' => env('MAIL_LOG_CHANNEL'),
         ],
 
         'array' => [
