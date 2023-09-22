@@ -27,8 +27,7 @@
                                 slidesPerView: 6,
                                 spaceBetween: 40
                             },
-                            // when window width is >= 640px
-                            768: {
+                            1024: {
                                 slidesPerView: 8,
                                 spaceBetween: 40
                             },
@@ -36,10 +35,8 @@
                     });">
                         <div class="swiper-wrapper">
                             @foreach ($category->brands as $brand)
-                                <div class="swiper-slide py-4">
-                                    <div class="grid">
-                                        <img class="place-self-center max-w-[150px] max-h-24 invert" src="{{ $brand->getFirstMediaUrl('logo') }}" alt="{{ $brand->name }} Logo" />
-                                    </div>
+                                <div class="swiper-slide py-4 grid">
+                                    <img class="place-self-center max-w-[150px] max-h-24 invert" src="{{ $brand->getFirstMediaUrl('logo') }}" alt="{{ $brand->name }} Logo" />
                                 </div>
                             @endforeach
                         </div>
