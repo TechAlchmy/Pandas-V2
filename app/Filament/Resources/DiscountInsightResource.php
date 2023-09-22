@@ -20,7 +20,7 @@ class DiscountInsightResource extends Resource
 {
     protected static ?string $model = DiscountInsight::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-chart-bar-square';
 
     protected static ?string $navigationGroup = 'Products';
 
