@@ -12,6 +12,10 @@
                         slidesPerView: 5,
                         spaceBetween: 10,
                         rewind: true,
+                        autoplay: {
+                            delay: 1000,
+                            disableOnInteraction: false,
+                        },
                         breakpoints: {
                             // when window width is >= 320px
                             320: {
