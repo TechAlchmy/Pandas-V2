@@ -49,7 +49,10 @@ class DiscountResource extends Resource
                 Forms\Components\Select::make('voucher_type')
                     ->live()
                     ->enum(DiscountVoucherTypeEnum::class)
-                    ->options(DiscountVoucherTypeEnum::class)
+                    ->options(DiscountVoucherTypeEnum::collect()
+                        ->mapWithKeys(fn ($type) => [
+                            $type->value => $type->getLabel(),
+                        ]))
                     ->default(DiscountVoucherTypeEnum::AddToCart)
                     ->searchable(),
                 Forms\Components\TextInput::make('slug')
@@ -93,6 +96,10 @@ class DiscountResource extends Resource
                     ->maxLength(255),
                 Forms\Components\Tabs::make('Heading')
                     ->columnSpanFull()
+                    ->visible(fn ($get) => \in_array($get('voucher_type'), [
+                        DiscountVoucherTypeEnum::RedeemNow,
+                        DiscountVoucherTypeEnum::AddToCart,
+                    ]))
                     ->tabs([
                         Forms\Components\Tabs\Tab::make('Amounts')
                             ->schema([
