@@ -49,11 +49,6 @@ class Discount extends Model
             ->withTimestamps();
     }
 
-    public function voucherType()
-    {
-        return $this->belongsTo(VoucherType::class);
-    }
-
     public function brand()
     {
         return $this->belongsTo(Brand::class);
