@@ -102,8 +102,8 @@ class Discount extends Model
 
     public function scopeWithVoucherType($query, $organization)
     {
-        return $query->withWhereHas('voucherType', function ($query) use ($organization) {
-            $query->forOrganization($organization);
+        return $query->when($organization, function ($query, $organization) {
+            $query->whereIn('voucher_type', $organization->voucher_types);
         });
     }
 
