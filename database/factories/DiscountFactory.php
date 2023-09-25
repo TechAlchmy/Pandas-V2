@@ -25,7 +25,7 @@ class DiscountFactory extends Factory
             'ends_at' => $this->faker->dateTimeBetween('now', '+1 years'),
             'api_link' => $this->faker->url,
             'link' => $this->faker->url,
-            'cta_text' => $this->faker->numberBetween(0, 3),
+            'voucher_type' => $this->faker->numberBetween(0, 3),
             'views' => $this->faker->numberBetween(1, 100),
             'clicks' => $this->faker->numberBetween(1, 100),
             'code' => $this->faker->word,
