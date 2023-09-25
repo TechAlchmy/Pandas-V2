@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Enums\DiscountCallToActionEnum;
+use App\Enums\DiscountVoucherTypeEnum;
 use App\Filament\Resources\DiscountResource\Pages;
 use App\Forms\Components\AuditableView;
 use App\Models\Category;
@@ -46,8 +47,11 @@ class DiscountResource extends Resource
                     ->reactive()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Select::make('voucher_type_id')
-                    ->relationship('voucherType', 'type')
+                Forms\Components\Select::make('voucher_type')
+                    ->live()
+                    ->enum(DiscountVoucherTypeEnum::class)
+                    ->options(DiscountVoucherTypeEnum::class)
+                    ->default(DiscountVoucherTypeEnum::AddToCart)
                     ->searchable(),
                 Forms\Components\TextInput::make('slug')
                     ->afterStateUpdated(function ($set) {
@@ -81,12 +85,10 @@ class DiscountResource extends Resource
                 Forms\Components\TextInput::make('api_link')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('link')
+                    ->visible(fn ($get) => $get('voucher_type') == DiscountVoucherTypeEnum::GoToSite)
                     ->maxLength(255),
-                Forms\Components\Select::make('cta')
-                    ->enum(DiscountCallToActionEnum::class)
-                    ->options(DiscountCallToActionEnum::class)
-                    ->searchable(),
                 Forms\Components\TextInput::make('code')
+                    ->visible(fn ($get) => $get('voucher_type') == DiscountVoucherTypeEnum::GetCode)
                     ->maxLength(255),
                 Forms\Components\Tabs::make('Heading')
                     ->columnSpanFull()

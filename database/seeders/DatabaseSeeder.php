@@ -19,7 +19,6 @@ use App\Models\Organization;
 use App\Models\Tag;
 use App\Models\User;
 use App\Models\UserPreference;
-use App\Models\VoucherType;
 use Illuminate\Database\Seeder;
 use Squire\Models\Region;
 
@@ -69,17 +68,7 @@ class DatabaseSeeder extends Seeder
                         ]);
                 });
             });
-        $voucherTypes = VoucherType::factory(10)
-            ->create()
-            ->each(function ($record) use ($organizations) {
-                $organizations->each(function ($organization) use ($record) {
-                    $record->organizationVoucherTypes()
-                        ->create([
-                            'organization_id' => $organization->getKey(),
-                            'is_active' => true,
-                        ]);
-                });
-            });
+
         collect([
             'Apparel' => [
                 'Reebok', 'Sketchers', 'Polo', 'Adidas', 'New Balance',
@@ -98,10 +87,10 @@ class DatabaseSeeder extends Seeder
                 'Express Airway', 'TravelPlus',
             ],
         ])
-            ->map(function ($brands, $category) use ($offerTypes, $voucherTypes, $regionIds) {
+            ->map(function ($brands, $category) use ($offerTypes, $regionIds) {
                 $category = Category::factory()->create(['name' => $category]);
                 collect($brands)
-                    ->each(function ($brand) use ($category, $offerTypes, $voucherTypes, $regionIds) {
+                    ->each(function ($brand) use ($category, $offerTypes, $regionIds) {
                         $brand = Brand::factory()
                             ->state(['region_ids' => $regionIds->all()])
                             ->state(['name' => $brand])
@@ -110,9 +99,8 @@ class DatabaseSeeder extends Seeder
                             ->for($brand)
                             ->for($category)
                             ->create();
-                        $discounts = Discount::factory(5)->for($brand)->create()->each(function ($discount) use ($offerTypes, $voucherTypes) {
+                        $discounts = Discount::factory(5)->for($brand)->create()->each(function ($discount) use ($offerTypes) {
                             $discount->offerTypes()->attach($offerTypes->random());
-                            $discount->voucherType()->associate($voucherTypes->random());
                             $discount->save();
 
                             FeaturedDeal::query()->create(['discount_id' => $discount->getKey()]);

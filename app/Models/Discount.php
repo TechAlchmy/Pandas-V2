@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Concerns\InteractsWithAuditable;
 use App\Enums\DiscountCallToActionEnum;
+use App\Enums\DiscountVoucherTypeEnum;
 use Brick\Money\Money;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,7 +24,7 @@ class Discount extends Model
         'starts_at' => 'immutable_datetime',
         'ends_at' => 'immutable_datetime',
         'is_active' => 'boolean',
-        'cta' => DiscountCallToActionEnum::class,
+        'voucher_type' => DiscountVoucherTypeEnum::class,
     ];
 
     public function discountOffers()
