@@ -139,4 +139,9 @@ class Discount extends Model
             ? null
             : Money::ofMinor($this->limit_amount, 'USD'));
     }
+
+    protected function cta(): Attribute
+    {
+        return Attribute::get(fn () => $this->cta_text ?? $this->voucher_type->getLabel());
+    }
 }

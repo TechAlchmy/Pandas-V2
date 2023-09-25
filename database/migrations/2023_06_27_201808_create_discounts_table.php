@@ -27,7 +27,7 @@ return new class extends Migration
             $table->datetime('ends_at')->nullable();
             $table->string('api_link')->nullable();
             $table->string('link')->nullable();
-            $table->unsignedInteger('cta')->nullable();
+            $table->string('cta_text')->nullable();
             $table->unsignedInteger('views')->default(0);
             $table->unsignedInteger('clicks')->default(0);
             $table->string('code')->nullable();

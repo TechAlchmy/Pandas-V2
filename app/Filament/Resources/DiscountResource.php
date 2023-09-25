@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\DiscountCallToActionEnum;
 use App\Enums\DiscountVoucherTypeEnum;
 use App\Filament\Resources\DiscountResource\Pages;
 use App\Forms\Components\AuditableView;
@@ -62,6 +61,8 @@ class DiscountResource extends Resource
                 Forms\Components\Hidden::make('is_slug_changed_manually')
                     ->default(false)
                     ->dehydrated(false),
+                Forms\Components\TextInput::make('cta_text')
+                    ->maxLength(255),
                 Forms\Components\Section::make()
                     ->columns(4)
                     ->columnSpan(1)
