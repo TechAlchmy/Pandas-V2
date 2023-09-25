@@ -10,6 +10,7 @@ use App\Models\Discount;
 use App\Models\OfferType;
 use Squire\Models\Region;
 use App\Models\Tag;
+use App\Models\VoucherType;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -195,7 +196,8 @@ class DiscountResource extends Resource
                 Tables\Columns\TextColumn::make('brand.name'),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('voucherType.type'),
+                Tables\Columns\TextColumn::make('voucher_type')
+                    ->formatStateUsing(fn ($state) => $state->getLabel()),
                 Tables\Columns\ToggleColumn::make('is_active')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('starts_at')
@@ -212,9 +214,11 @@ class DiscountResource extends Resource
                     ->searchable()
                     ->relationship('brand', 'name'),
                 Tables\Filters\SelectFilter::make('voucher_type')
-                    ->preload()
-                    ->searchable()
-                    ->relationship('voucherType', 'type'),
+                    ->native(false)
+                    ->options(DiscountVoucherTypeEnum::collect()
+                        ->mapWithKeys(fn ($type) => [
+                            $type->value => $type->getLabel(),
+                        ])),
                 Tables\Filters\SelectFilter::make('offer_type')
                     ->preload()
                     ->searchable()
