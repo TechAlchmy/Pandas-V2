@@ -53,12 +53,19 @@ class DiscountResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('voucher_type')
+                    ->required()
                     ->live()
                     ->enum(DiscountVoucherTypeEnum::class)
                     ->options(DiscountVoucherTypeEnum::collect()
                         ->mapWithKeys(fn ($type) => [
                             $type->value => $type->getLabel(),
                         ]))
+                    ->disableOptionWhen(function ($value) {
+                        return \in_array($value, [
+                            DiscountVoucherTypeEnum::ExternalApiLink->value,
+                            DiscountVoucherTypeEnum::GeneratedDiscountCode->value,
+                        ]);
+                    })
                     ->default(DiscountVoucherTypeEnum::DefinedAmountsGiftCard->value)
                     ->searchable(),
                 Forms\Components\TextInput::make('slug')
