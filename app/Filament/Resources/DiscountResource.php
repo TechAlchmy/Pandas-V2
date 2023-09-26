@@ -55,7 +55,7 @@ class DiscountResource extends Resource
                         ->mapWithKeys(fn ($type) => [
                             $type->value => $type->getLabel(),
                         ]))
-                    ->default(DiscountVoucherTypeEnum::AddToCart)
+                    ->default(DiscountVoucherTypeEnum::DefinedAmountsGiftCard->value)
                     ->searchable(),
                 Forms\Components\TextInput::make('slug')
                     ->afterStateUpdated(function ($set) {
@@ -111,10 +111,10 @@ class DiscountResource extends Resource
                 Forms\Components\TextInput::make('api_link')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('link')
-                    ->visible(fn ($get) => $get('voucher_type') == DiscountVoucherTypeEnum::GoToSite)
+                    ->visible(fn ($get) => DiscountVoucherTypeEnum::tryFrom($get('voucher_type') ?? -1) == DiscountVoucherTypeEnum::ExternalLink)
                     ->maxLength(255),
                 Forms\Components\TextInput::make('code')
-                    ->visible(fn ($get) => $get('voucher_type') == DiscountVoucherTypeEnum::GetCode)
+                    ->visible(fn ($get) => DiscountVoucherTypeEnum::tryFrom($get('voucher_type') ?? -1) == DiscountVoucherTypeEnum::FixedDiscountCode)
                     ->maxLength(255),
                 Forms\Components\Tabs::make('Heading')
                     ->columnSpanFull()
