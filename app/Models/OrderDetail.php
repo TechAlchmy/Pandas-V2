@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
+use Znck\Eloquent\Traits\BelongsToThrough;
 
 class OrderDetail extends Model implements Sortable
 {
     use HasFactory;
+    use BelongsToThrough;
     use SortableTrait;
 
     public function order()
@@ -28,6 +30,11 @@ class OrderDetail extends Model implements Sortable
     public function discount()
     {
         return $this->belongsTo(Discount::class);
+    }
+
+    public function brand()
+    {
+        return $this->belongsToThrough(Brand::class, Discount::class);
     }
 
     public function buildSortQuery(): Builder
