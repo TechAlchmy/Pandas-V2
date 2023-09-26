@@ -66,6 +66,8 @@ class DiscountResource extends Resource
                     ->default(false)
                     ->dehydrated(false),
                 Forms\Components\TextInput::make('cta_text')
+                    ->visible(fn ($get) => $get('voucher_type'))
+                    ->datalist(\array_map(fn ($type) => $type->getLabel(), DiscountVoucherTypeEnum::cases()))
                     ->maxLength(255),
                 Forms\Components\Section::make()
                     ->columns(4)
