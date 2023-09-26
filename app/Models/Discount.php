@@ -10,13 +10,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kirschbaum\PowerJoins\PowerJoins;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Discount extends Model
+class Discount extends Model implements HasMedia
 {
     use HasFactory;
     use InteractsWithAuditable;
     use SoftDeletes;
     use PowerJoins;
+    use InteractsWithMedia;
 
     protected $casts = [
         'amount' => 'array',
@@ -113,6 +116,12 @@ class Discount extends Model
         return $query->where('is_active', false)
             ->orWhere('starts_at', '>=', now())
             ->orWhere('ends_at', '<=', now());
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('featured')
+            ->singleFile();
     }
 
     protected function isAmountSingle(): Attribute

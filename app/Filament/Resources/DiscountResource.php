@@ -39,6 +39,10 @@ class DiscountResource extends Resource
                     ->required()
                     ->relationship('brand', 'name', fn ($query) => $query->where('is_active', true))
                     ->searchable(),
+                Forms\Components\SpatieMediaLibraryFileUpload::make('featured')
+                    ->collection('featured')
+                    ->openable()
+                    ->downloadable(),
                 Forms\Components\TextInput::make('name')
                     ->afterStateUpdated(function ($get, $set, ?string $state) {
                         if (! $get('is_slug_changed_manually') && filled($state)) {
