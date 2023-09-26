@@ -4,10 +4,12 @@ namespace App\Enums;
 
 enum DiscountVoucherTypeEnum: int
 {
-    case GetCode = 0;
-    case GoToSite = 1;
-    case AddToCart = 2;
-    case RedeemNow = 3;
+    case FixedDiscountCode = 0;
+    case GeneratedDiscountCode = 1;
+    case ExternalLink = 2;
+    case ExternalApiLink = 3;
+    case DefinedAmountsGiftCard = 4;
+    case TopUpGiftCard = 5;
 
     public static function collect()
     {
