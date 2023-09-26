@@ -103,30 +103,18 @@ class DiscountResource extends Resource
                         Forms\Components\Placeholder::make('Orders')
                             ->content(fn ($record) => $record?->loadCount(['orders'])->orders_count),
                     ]),
-                Flatpickr::make('duration')
-                    ->live()
-                    ->range()
-                    ->dehydrated(false)
-                    ->enableTime()
-                    ->enableSeconds(false)
-                    ->required(fn ($get) => $get('is_active'))
-                    ->formatStateUsing(function ($record) {
-                        if ($record?->ends_at) {
-                            return \implode(' to ', [$record->starts_at->format('Y-m-d H:i'), $record->ends_at->format('Y-m-d H:i')]);
-                        }
-
-                        return $record?->starts_at?->format('Y-m-d H:i');
-                    })
-                    ->afterStateUpdated(function ($state, $set) {
-                        if (\str_contains($state, 'to')) {
-                            $set('starts_at', \head(\explode(' to ', $state)));
-                            $set('ends_at', \last(\explode(' to ', $state)));
-                        } else {
-                            $set('starts_at', $state);
-                        }
-                    }),
-                Forms\Components\Hidden::make('starts_at'),
-                Forms\Components\Hidden::make('ends_at'),
+                Forms\Components\Grid::make()
+                    ->columnSpan(1)
+                    ->schema([
+                        Forms\Components\DateTimePicker::make('starts_at')
+                            ->live()
+                            ->required()
+                            ->native(false)
+                            ->default(today()->format('Y-m-d')),
+                        Forms\Components\DateTimePicker::make('ends_at')
+                            ->native(false)
+                            ->visible(fn ($get) => (bool) $get('starts_at')),
+                    ]),
                 Forms\Components\TextInput::make('api_link')
                     ->visible(fn ($get) => \in_array($get('voucher_type'), [
                         DiscountVoucherTypeEnum::ExternalApiLink->value,
