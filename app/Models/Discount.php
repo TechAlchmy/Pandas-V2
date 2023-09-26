@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Concerns\InteractsWithAuditable;
 use App\Enums\DiscountCallToActionEnum;
+use App\Enums\DiscountVoucherTypeEnum;
 use Brick\Money\Money;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,7 +24,7 @@ class Discount extends Model
         'starts_at' => 'immutable_datetime',
         'ends_at' => 'immutable_datetime',
         'is_active' => 'boolean',
-        'cta' => DiscountCallToActionEnum::class,
+        'voucher_type' => DiscountVoucherTypeEnum::class,
     ];
 
     public function discountOffers()
@@ -46,11 +47,6 @@ class Discount extends Model
     {
         return $this->belongsToMany(Order::class, 'order_details')
             ->withTimestamps();
-    }
-
-    public function voucherType()
-    {
-        return $this->belongsTo(VoucherType::class);
     }
 
     public function brand()
@@ -101,8 +97,8 @@ class Discount extends Model
 
     public function scopeWithVoucherType($query, $organization)
     {
-        return $query->withWhereHas('voucherType', function ($query) use ($organization) {
-            $query->forOrganization($organization);
+        return $query->when($organization, function ($query, $organization) {
+            $query->whereIn('voucher_type', $organization->voucher_types);
         });
     }
 
@@ -137,5 +133,10 @@ class Discount extends Model
         return Attribute::get(fn () => is_null($this->limit_amount)
             ? null
             : Money::ofMinor($this->limit_amount, 'USD'));
+    }
+
+    protected function cta(): Attribute
+    {
+        return Attribute::get(fn () => $this->cta_text ?? $this->voucher_type->getLabel());
     }
 }

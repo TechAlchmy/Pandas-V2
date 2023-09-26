@@ -18,7 +18,6 @@ class DiscountFactory extends Factory
     {
         return [
             'name' => $this->faker->randomElement(['Discount Up to 99%', 'Off By 50%', 'Garage Sale 35%', 'Total Cashback $250']),
-            'voucher_type_id' => null,
             'slug' => $this->faker->slug,
             'excerpt' => $this->faker->text(),
             'is_active' => true,
@@ -26,7 +25,7 @@ class DiscountFactory extends Factory
             'ends_at' => $this->faker->dateTimeBetween('now', '+1 years'),
             'api_link' => $this->faker->url,
             'link' => $this->faker->url,
-            'cta' => $this->faker->numberBetween(0, 3),
+            'voucher_type' => $this->faker->numberBetween(0, 3),
             'views' => $this->faker->numberBetween(1, 100),
             'clicks' => $this->faker->numberBetween(1, 100),
             'code' => $this->faker->word,

@@ -24,7 +24,7 @@
                     <div>{{ $this->record->excerpt }}</div>
                 @endif
                 <div class="flex gap-6">
-                    @if (in_array($this->record->cta, [\App\Enums\DiscountCallToActionEnum::AddToCart, \App\Enums\DiscountCallToActionEnum::RedeemNow]))
+                    @if (in_array($this->record->voucher_type, [\App\Enums\DiscountVoucherTypeEnum::AddToCart, \App\Enums\DiscountVoucherTypeEnum::RedeemNow]))
                         <div x-data class="space-y-6">
                             <div class="flex gap-6 items-center">
                                 @if (!$this->record->is_amount_single)
@@ -37,28 +37,28 @@
                                 <x-input class="lg:max-w-[50%] !border-solid border-black p-2" type="number" wire:model="quantity" min="1" />
                             </div>
                             <div class="flex gap-6 items-center">
-                                @if ($this->record->cta == \App\Enums\DiscountCallToActionEnum::AddToCart)
+                                @if ($this->record->voucher_type == \App\Enums\DiscountVoucherTypeEnum::AddToCart)
                                     <x-button class="hover:bg-panda-green" x-on:click="$wire.addToCart();$wire.updateClicks()" outlined>
-                                        Add to cart
+                                        {{ $this->record->cta }}
                                     </x-button>
                                 @endif
-                                @if ($this->record->cta == \App\Enums\DiscountCallToActionEnum::RedeemNow)
+                                @if ($this->record->voucher_type == \App\Enums\DiscountVoucherTypeEnum::RedeemNow)
                                     <x-button class="hover:bg-panda-green" x-data x-on:click="$dispatch('open-modal', {id: 'cardknox'})" outlined size="lg">
-                                        Redeem Now
+                                        {{ $this->record->cta }}
                                     </x-button>
                                 @endif
                             </div>
                         </div>
                     @endif
-                    @if ($this->record->cta == \App\Enums\DiscountCallToActionEnum::GoToSite)
+                    @if ($this->record->voucher_type == \App\Enums\DiscountVoucherTypeEnum::GoToSite)
                         <x-link x-on:click="$wire.updateClicks()" class="hover:bg-panda-green" :href="$this->record->link" outlined size="lg">
-                            Go to link
+                            {{ $this->record->cta }}
                         </x-link>
                     @endif
-                    @if ($this->record->cta == \App\Enums\DiscountCallToActionEnum::GetCode)
+                    @if ($this->record->voucher_type == \App\Enums\DiscountVoucherTypeEnum::GetCode)
                         <div x-data="{ modalOpen: false }">
                             <x-button class="hover:bg-panda-green" x-on:click="modalOpen = true" outlined size="lg">
-                                Redeem
+                                {{ $this->record->cta }}
                             </x-button>
                             <template x-teleport="body">
                                 <div x-show="modalOpen" class="fixed top-0 left-0 z-[99] flex items-center justify-center w-screen h-screen" x-cloak>

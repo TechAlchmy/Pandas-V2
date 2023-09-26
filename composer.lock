@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e4f37339751adf98459e1052708940b3",
+    "content-hash": "7ac39aa10096d99ccc20d867dcc7a23f",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -4602,6 +4602,65 @@
                 }
             ],
             "time": "2023-06-21T08:46:11+00:00"
+        },
+        {
+            "name": "mr-punyapal/laravel-extended-relationships",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mr-punyapal/laravel-extended-relationships.git",
+                "reference": "7bcec17691efb94f85bc4a60f74edd1eaf71845d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mr-punyapal/laravel-extended-relationships/zipball/7bcec17691efb94f85bc4a60f74edd1eaf71845d",
+                "reference": "7bcec17691efb94f85bc4a60f74edd1eaf71845d",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^10.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^7.9",
+                "orchestra/testbench": "^8.0",
+                "pestphp/pest": "^2.0",
+                "pestphp/pest-plugin-arch": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Mrpunyapal\\LaravelExtendedRelationships\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "mr-punyapal",
+                    "email": "mrpunyapal071@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Package provides additional, more efficient relationship methods for Laravel Eloquent models.",
+            "homepage": "https://github.com/mr-punyapal/laravel-extended-relationships",
+            "keywords": [
+                "eloquent",
+                "has-many",
+                "laravel",
+                "laravel-extended-relationships",
+                "mr-punyapal",
+                "relationship"
+            ],
+            "support": {
+                "issues": "https://github.com/mr-punyapal/laravel-extended-relationships/issues",
+                "source": "https://github.com/mr-punyapal/laravel-extended-relationships/tree/1.1.0"
+            },
+            "time": "2023-06-20T16:31:28+00:00"
         },
         {
             "name": "mtdowling/jmespath.php",

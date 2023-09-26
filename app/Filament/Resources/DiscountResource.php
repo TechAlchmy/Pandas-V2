@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\DiscountCallToActionEnum;
+use App\Enums\DiscountVoucherTypeEnum;
 use App\Filament\Resources\DiscountResource\Pages;
 use App\Forms\Components\AuditableView;
 use App\Models\Category;
@@ -10,6 +10,7 @@ use App\Models\Discount;
 use App\Models\OfferType;
 use Squire\Models\Region;
 use App\Models\Tag;
+use App\Models\VoucherType;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -46,8 +47,14 @@ class DiscountResource extends Resource
                     ->reactive()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Select::make('voucher_type_id')
-                    ->relationship('voucherType', 'type')
+                Forms\Components\Select::make('voucher_type')
+                    ->live()
+                    ->enum(DiscountVoucherTypeEnum::class)
+                    ->options(DiscountVoucherTypeEnum::collect()
+                        ->mapWithKeys(fn ($type) => [
+                            $type->value => $type->getLabel(),
+                        ]))
+                    ->default(DiscountVoucherTypeEnum::AddToCart)
                     ->searchable(),
                 Forms\Components\TextInput::make('slug')
                     ->afterStateUpdated(function ($set) {
@@ -58,6 +65,8 @@ class DiscountResource extends Resource
                 Forms\Components\Hidden::make('is_slug_changed_manually')
                     ->default(false)
                     ->dehydrated(false),
+                Forms\Components\TextInput::make('cta_text')
+                    ->maxLength(255),
                 Forms\Components\Section::make()
                     ->columns(4)
                     ->columnSpan(1)
@@ -81,15 +90,17 @@ class DiscountResource extends Resource
                 Forms\Components\TextInput::make('api_link')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('link')
+                    ->visible(fn ($get) => $get('voucher_type') == DiscountVoucherTypeEnum::GoToSite)
                     ->maxLength(255),
-                Forms\Components\Select::make('cta')
-                    ->enum(DiscountCallToActionEnum::class)
-                    ->options(DiscountCallToActionEnum::class)
-                    ->searchable(),
                 Forms\Components\TextInput::make('code')
+                    ->visible(fn ($get) => $get('voucher_type') == DiscountVoucherTypeEnum::GetCode)
                     ->maxLength(255),
                 Forms\Components\Tabs::make('Heading')
                     ->columnSpanFull()
+                    ->visible(fn ($get) => \in_array($get('voucher_type'), [
+                        DiscountVoucherTypeEnum::RedeemNow,
+                        DiscountVoucherTypeEnum::AddToCart,
+                    ]))
                     ->tabs([
                         Forms\Components\Tabs\Tab::make('Amounts')
                             ->schema([
@@ -185,7 +196,8 @@ class DiscountResource extends Resource
                 Tables\Columns\TextColumn::make('brand.name'),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('voucherType.type'),
+                Tables\Columns\TextColumn::make('voucher_type')
+                    ->formatStateUsing(fn ($state) => $state->getLabel()),
                 Tables\Columns\ToggleColumn::make('is_active')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('starts_at')
@@ -202,9 +214,11 @@ class DiscountResource extends Resource
                     ->searchable()
                     ->relationship('brand', 'name'),
                 Tables\Filters\SelectFilter::make('voucher_type')
-                    ->preload()
-                    ->searchable()
-                    ->relationship('voucherType', 'type'),
+                    ->native(false)
+                    ->options(DiscountVoucherTypeEnum::collect()
+                        ->mapWithKeys(fn ($type) => [
+                            $type->value => $type->getLabel(),
+                        ])),
                 Tables\Filters\SelectFilter::make('offer_type')
                     ->preload()
                     ->searchable()
