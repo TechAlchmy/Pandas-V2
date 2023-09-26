@@ -78,6 +78,7 @@ class DiscountResource extends Resource
                     ->default(false)
                     ->dehydrated(false),
                 Forms\Components\TextInput::make('cta_text')
+                    ->required()
                     ->maxLength(255)
                     ->visible(fn ($get) => \filled($get('voucher_type')))
                     ->datalist([
@@ -91,7 +92,9 @@ class DiscountResource extends Resource
                     ->columnSpan(1)
                     ->schema([
                         Forms\Components\Toggle::make('is_active')
+                            ->label('Active')
                             ->live()
+                            ->required()
                             ->default(false),
                         Forms\Components\Placeholder::make('views')
                             ->content(fn ($record) => $record->views ?? 0),
@@ -125,18 +128,27 @@ class DiscountResource extends Resource
                 Forms\Components\Hidden::make('starts_at'),
                 Forms\Components\Hidden::make('ends_at'),
                 Forms\Components\TextInput::make('api_link')
+                    ->visible(fn ($get) => \in_array($get('voucher_type'), [
+                        DiscountVoucherTypeEnum::ExternalApiLink->value,
+                        DiscountVoucherTypeEnum::GeneratedDiscountCode->value,
+                    ]))
+                    ->required(fn ($get) => \in_array($get('voucher_type'), [
+                        DiscountVoucherTypeEnum::ExternalApiLink->value,
+                        DiscountVoucherTypeEnum::GeneratedDiscountCode->value,
+                    ]))
                     ->maxLength(255),
                 Forms\Components\TextInput::make('link')
-                    ->visible(fn ($get) => DiscountVoucherTypeEnum::tryFrom($get('voucher_type') ?? -1) == DiscountVoucherTypeEnum::ExternalLink)
+                    ->visible(fn ($get) => $get('voucher_type') == DiscountVoucherTypeEnum::ExternalLink->value)
+                    ->required(fn ($get) => $get('voucher_type') == DiscountVoucherTypeEnum::ExternalLink->value)
                     ->maxLength(255),
                 Forms\Components\TextInput::make('code')
-                    ->visible(fn ($get) => DiscountVoucherTypeEnum::tryFrom($get('voucher_type') ?? -1) == DiscountVoucherTypeEnum::FixedDiscountCode)
+                    ->visible(fn ($get) => $get('voucher_type') == DiscountVoucherTypeEnum::FixedDiscountCode->value)
+                    ->required(fn ($get) => $get('voucher_type') == DiscountVoucherTypeEnum::FixedDiscountCode->value)
                     ->maxLength(255),
                 Forms\Components\Tabs::make('Heading')
                     ->columnSpanFull()
                     ->visible(fn ($get) => \in_array($get('voucher_type'), [
-                        DiscountVoucherTypeEnum::RedeemNow,
-                        DiscountVoucherTypeEnum::AddToCart,
+                        DiscountVoucherTypeEnum::DefinedAmountsGiftCard->value,
                     ]))
                     ->tabs([
                         Forms\Components\Tabs\Tab::make('Amounts')
@@ -156,6 +168,9 @@ class DiscountResource extends Resource
                             ->columns()
                             ->schema([
                                 Forms\Components\TextInput::make('limit_qty')
+                                    ->visible(fn ($get) => \in_array(DiscountVoucherTypeEnum::tryFrom($get('voucher_type')), [
+                                        DiscountVoucherTypeEnum::DefinedAmountsGiftCard,
+                                    ]))
                                     ->numeric(),
                                 Forms\Components\TextInput::make('limit_amount')
                                     ->formatStateUsing(fn ($state) => $state / 100)
@@ -182,6 +197,43 @@ class DiscountResource extends Resource
                                     ->numeric(),
                             ]),
                     ]),
+                Forms\Components\Tabs::make('Heading')
+                    ->columnSpanFull()
+                    ->visible(fn ($get) => \in_array(DiscountVoucherTypeEnum::tryFrom($get('voucher_type')), [
+                        DiscountVoucherTypeEnum::TopUpGiftCard,
+                    ]))
+                    ->tabs([
+                        Forms\Components\Tabs\Tab::make('Limit')
+                            ->columns()
+                            ->schema([
+                                Forms\Components\TextInput::make('limit_amount')
+                                    ->formatStateUsing(fn ($state) => $state / 100)
+                                    ->dehydrateStateUsing(fn ($state) => $state * 100)
+                                    ->prefix('USD')
+                                    ->numeric(),
+                            ]),
+                        Forms\Components\Tabs\Tab::make('Percentage')
+                            ->columns()
+                            ->schema([
+                                Forms\Components\TextInput::make('public_percentage')
+                                    ->suffix('%')
+                                    ->minValue(0)
+                                    ->maxValue(100)
+                                    ->formatStateUsing(fn ($state) => $state / 100)
+                                    ->dehydrateStateUsing(fn ($state) => $state * 100)
+                                    ->numeric(),
+                                Forms\Components\TextInput::make('percentage')
+                                    ->suffix('%')
+                                    ->minValue(0)
+                                    ->maxValue(100)
+                                    ->formatStateUsing(fn ($state) => $state / 100)
+                                    ->dehydrateStateUsing(fn ($state) => $state * 100)
+                                    ->numeric(),
+                            ]),
+                    ]),
+                Forms\Components\RichEditor::make('excerpt')
+                    ->placeholder('Enter Description')
+                    ->columnSpanFull(),
                 Forms\Components\Tabs::make('Heading')
                     ->tabs([
                         Forms\Components\Tabs\Tab::make('Tags')
