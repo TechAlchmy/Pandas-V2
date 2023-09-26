@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Resources\UserResource\Widgets;
 
-use App\Enums\DiscountCallToActionEnum;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Models\Order;

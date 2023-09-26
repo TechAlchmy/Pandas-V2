@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Concerns\InteractsWithAuditable;
-use App\Enums\DiscountCallToActionEnum;
 use App\Enums\DiscountVoucherTypeEnum;
 use Brick\Money\Money;
 use Illuminate\Database\Eloquent\Casts\Attribute;
