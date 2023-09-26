@@ -12,6 +12,7 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Illuminate\Database\Query\Expression;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -77,11 +78,11 @@ class ListDeals extends Component implements HasForms
             ->withVoucherType(auth()->user()?->organization)
             ->active()
             ->when($this->filter['search'], function ($query, $value) {
-                $query->where('name', 'like', "%{$value}%")
-                    ->orWhereRelation('tags', 'name', 'like', "%{$value}%")
+                $query->where(new Expression('lower(name)'), 'like', "%{$value}%")
+                    ->orWhereRelation('tags', new Expression('lower(name)'), 'like', "%{$value}%")
                     ->orWhereHas('brand', function ($query) use ($value) {
-                        $query->where('name', 'like', "%{$value}%")
-                            ->orWhereRelation('categories', 'name', 'like', "%{$value}%");
+                        $query->where(new Expression('lower(name)'), 'like', "%{$value}%")
+                            ->orWhereRelation('categories', new Expression('lower(name)'), 'like', "%{$value}%");
                     });
             })
             ->when($this->filter['brand_id'], fn($query) => $query->where('brand_id', $this->filter['brand_id']))
