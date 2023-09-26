@@ -11,6 +11,7 @@ use App\Models\OfferType;
 use Squire\Models\Region;
 use App\Models\Tag;
 use App\Models\VoucherType;
+use Coolsam\FilamentFlatpickr\Forms\Components\Flatpickr;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -83,12 +84,30 @@ class DiscountResource extends Resource
                         Forms\Components\Placeholder::make('Orders')
                             ->content(fn ($record) => $record?->loadCount(['orders'])->orders_count),
                     ]),
-                Forms\Components\DateTimePicker::make('starts_at')
+                Flatpickr::make('duration')
+                    ->live()
+                    ->range()
+                    ->dehydrated(false)
+                    ->enableTime()
+                    ->enableSeconds(false)
                     ->required(fn ($get) => $get('is_active'))
-                    ->native(false),
-                Forms\Components\DateTimePicker::make('ends_at')
-                    ->required(fn ($get) => $get('is_active'))
-                    ->native(false),
+                    ->formatStateUsing(function ($record) {
+                        if ($record->ends_at) {
+                            return \implode(' to ', [$record->starts_at->format('Y-m-d H:i'), $record->ends_at->format('Y-m-d H:i')]);
+                        }
+
+                        return $record->starts_at?->format('Y-m-d H:i');
+                    })
+                    ->afterStateUpdated(function ($state, $set) {
+                        if (\str_contains($state, 'to')) {
+                            $set('starts_at', \head(\explode(' to ', $state)));
+                            $set('ends_at', \last(\explode(' to ', $state)));
+                        } else {
+                            $set('starts_at', $state);
+                        }
+                    }),
+                Forms\Components\Hidden::make('starts_at'),
+                Forms\Components\Hidden::make('ends_at'),
                 Forms\Components\TextInput::make('api_link')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('link')
