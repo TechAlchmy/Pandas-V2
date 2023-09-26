@@ -92,11 +92,11 @@ class DiscountResource extends Resource
                     ->enableSeconds(false)
                     ->required(fn ($get) => $get('is_active'))
                     ->formatStateUsing(function ($record) {
-                        if ($record->ends_at) {
+                        if ($record?->ends_at) {
                             return \implode(' to ', [$record->starts_at->format('Y-m-d H:i'), $record->ends_at->format('Y-m-d H:i')]);
                         }
 
-                        return $record->starts_at?->format('Y-m-d H:i');
+                        return $record?->starts_at?->format('Y-m-d H:i');
                     })
                     ->afterStateUpdated(function ($state, $set) {
                         if (\str_contains($state, 'to')) {
