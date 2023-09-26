@@ -110,7 +110,7 @@ class DiscountResource extends Resource
                             ->live()
                             ->required()
                             ->native(false)
-                            ->default(today()->format('Y-m-d')),
+                            ->default(now()->format('Y-m-d')),
                         Forms\Components\DateTimePicker::make('ends_at')
                             ->native(false)
                             ->visible(fn ($get) => (bool) $get('starts_at')),
