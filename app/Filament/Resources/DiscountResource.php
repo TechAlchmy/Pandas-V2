@@ -207,8 +207,8 @@ class DiscountResource extends Resource
                             ->columns()
                             ->schema([
                                 Forms\Components\TextInput::make('limit_amount')
-                                    ->formatStateUsing(fn ($state) => $state / 100)
-                                    ->dehydrateStateUsing(fn ($state) => $state * 100)
+                                    ->formatStateUsing(fn ($state) => filled($state) ? $state / 100 : null)
+                                    ->dehydrateStateUsing(fn ($state) => filled($state) ? $state * 100 : null)
                                     ->prefix('USD')
                                     ->numeric(),
                             ]),
@@ -219,15 +219,15 @@ class DiscountResource extends Resource
                                     ->suffix('%')
                                     ->minValue(0)
                                     ->maxValue(100)
-                                    ->formatStateUsing(fn ($state) => $state / 100)
-                                    ->dehydrateStateUsing(fn ($state) => $state * 100)
+                                    ->formatStateUsing(fn ($state) => filled($state) ? $state / 100 : null)
+                                    ->dehydrateStateUsing(fn ($state) => filled($state) ? $state * 100 : null)
                                     ->numeric(),
                                 Forms\Components\TextInput::make('percentage')
                                     ->suffix('%')
                                     ->minValue(0)
                                     ->maxValue(100)
-                                    ->formatStateUsing(fn ($state) => $state / 100)
-                                    ->dehydrateStateUsing(fn ($state) => $state * 100)
+                                    ->formatStateUsing(fn ($state) => filled($state) ? $state / 100 : null)
+                                    ->dehydrateStateUsing(fn ($state) => filled($state) ? $state * 100 : null)
                                     ->numeric(),
                             ]),
                     ]),
