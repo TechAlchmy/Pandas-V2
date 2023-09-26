@@ -120,6 +120,17 @@ class CreateOrder extends Component implements HasForms, HasActions
 
     public function createOrder($data)
     {
+        foreach (cart()->items() as $item) {
+            if ($item['itemable']->limit_qty && $item['quantity'] > $this->record->limit_qty) {
+                Notification::make()
+                    ->danger()
+                    ->title('Quantity maximum limit is ' . $this->record->limit_qty)
+                    ->send();
+
+                return;
+            }
+        }
+
         $data['xAmount'] = cart()->total() / 100;
         $data['xExp'] = $data['xExp_month'].$data['xExp_year'];
 
