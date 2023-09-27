@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\DiscountVoucherTypeEnum;
 use App\Filament\Resources\OrganizationResource\Pages;
 use App\Forms\Components\AuditableView;
 use App\Filament\Resources\OrganizationResource\RelationManagers;
@@ -23,7 +24,7 @@ class OrganizationResource extends Resource
 {
     protected static ?string $model = Organization::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-building-office';
 
     protected static ?string $navigationGroup = 'Organizations';
 
@@ -101,18 +102,18 @@ class OrganizationResource extends Resource
                     ]),
                 Forms\Components\Select::make('voucher_types')
                     ->placeholder('Select Voucher Types')
-                    ->relationship('voucherTypes', 'type')
                     ->live()
                     ->multiple()
-                    ->helperText(fn ($state) => count($state) < VoucherType::query()->count() ? null : 'All selected')
-                    ->default(VoucherType::query()->pluck('id')->all())
+                    ->default(\array_map(fn ($type) => $type->value, DiscountVoucherTypeEnum::cases()))
+                    ->options(DiscountVoucherTypeEnum::class)
+                    ->enum(DiscountVoucherTypeEnum::class)
                     ->hintActions([
                         Forms\Components\Actions\Action::make('clear')
                             ->visible(fn ($state) => ! empty($state))
                             ->action(fn ($component) => $component->state([])),
                         Forms\Components\Actions\Action::make('all')
-                            ->hidden(fn ($state) => count($state) == VoucherType::query()->count())
-                            ->action(fn ($component) => $component->state(VoucherType::query()->pluck('id')->all())),
+                            ->hidden(fn ($state) => \count($state) == \count(DiscountVoucherTypeEnum::cases()))
+                            ->action(fn ($component) => $component->state(\array_map(fn ($type) => $type->value, DiscountVoucherTypeEnum::cases()))),
                     ]),
                 AuditableView::make('audit'),
             ]);

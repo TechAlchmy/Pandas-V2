@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Resources\UserResource\Widgets;
 
-use App\Enums\DiscountCallToActionEnum;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Models\Order;
@@ -30,9 +29,12 @@ class ListOrders extends Component implements HasTable, HasForms
             ->query(Order::query()
                 ->whereBelongsTo(auth()->user()))
             ->recordUrl(fn ($record) => route('orders.show', ['id' => $record->uuid]))
+            ->defaultSort('order_column', 'desc')
             ->columns([
-                Tables\Columns\TextColumn::make('order_number')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('order_column')
+                    ->label('Order Number')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('order_status')
                     ->badge()
                     ->colors([

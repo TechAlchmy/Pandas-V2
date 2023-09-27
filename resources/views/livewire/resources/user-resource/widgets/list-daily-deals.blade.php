@@ -12,7 +12,7 @@ $categories = computed(function () {
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 bg-panda-green">
     <div class="grid grid-cols-1">
         <div class="place-self-center">
-            <img class="max-h-[40rem]" src="{{ asset('storage/assets/list-daily-deals.png') }}" />
+            <img class="max-h-[40rem]" src="{{ getMediaPath('assets/list-daily-deals.png') }}" />
         </div>
     </div>
     <div class="grid grid-cols-1">

@@ -4,11 +4,11 @@ use function Laravel\Folio\{name};
 name('help');
 ?>
 <x-layouts.app>
-    <div class="grid grid-cols-1 md:grid-cols-2">
+    <div class="grid grid-cols-1 lg:grid-cols-2">
         <div>
-            <div class="relative min-h-screen max-h-[1080px]"
+            <div class="lg:min-h-screen bg-cover"
                 style="background-image: url(https://images.unsplash.com/photo-1648832328633-89b993c5d6b7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80)">
-                <div class="absolute inset-0 p-8 text-white flex flex-col justify-between">
+                <div class="p-8 text-white flex flex-col justify-between gap-16">
                     <h1 class="text-6xl font-editorial">Help</h1>
                     <p>
                         Panda People supplies benefits that are offered through your employer. If you’re not finding what you’re looking for on your My Benefits page, please reach out to your employer.
@@ -18,7 +18,7 @@ name('help');
                 </div>
             </div>
         </div>
-        <div class="p-8 space-y-4">
+        <div class="p-8 space-y-4 max-h-[100vh] overflow-y-scroll">
             <h2 class="text-6xl font-light font-editorial">Frequently Asked Questions</h2>
             <ul class="divide-y" x-data="{ selected: null }">
                 @foreach (range(1, 6) as $question)

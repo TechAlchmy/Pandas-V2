@@ -19,7 +19,7 @@ class OfferTypeResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationGroup = 'Prudct Types';
+    protected static ?string $navigationGroup = 'Products';
 
     protected static ?int $navigationSort = 1;
 

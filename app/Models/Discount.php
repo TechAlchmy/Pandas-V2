@@ -3,27 +3,30 @@
 namespace App\Models;
 
 use App\Concerns\InteractsWithAuditable;
-use App\Enums\DiscountCallToActionEnum;
+use App\Enums\DiscountVoucherTypeEnum;
 use Brick\Money\Money;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kirschbaum\PowerJoins\PowerJoins;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Discount extends Model
+class Discount extends Model implements HasMedia
 {
     use HasFactory;
     use InteractsWithAuditable;
     use SoftDeletes;
     use PowerJoins;
+    use InteractsWithMedia;
 
     protected $casts = [
         'amount' => 'array',
         'starts_at' => 'immutable_datetime',
         'ends_at' => 'immutable_datetime',
         'is_active' => 'boolean',
-        'cta' => DiscountCallToActionEnum::class,
+        'voucher_type' => DiscountVoucherTypeEnum::class,
     ];
 
     public function discountOffers()
@@ -46,11 +49,6 @@ class Discount extends Model
     {
         return $this->belongsToMany(Order::class, 'order_details')
             ->withTimestamps();
-    }
-
-    public function voucherType()
-    {
-        return $this->belongsTo(VoucherType::class);
     }
 
     public function brand()
@@ -101,16 +99,19 @@ class Discount extends Model
 
     public function scopeWithVoucherType($query, $organization)
     {
-        return $query->withWhereHas('voucherType', function ($query) use ($organization) {
-            $query->forOrganization($organization);
+        return $query->when($organization, function ($query, $organization) {
+            $query->whereIn('voucher_type', $organization->voucher_types);
         });
     }
 
     public function scopeActive($query)
     {
-        return $query->where('is_active', true)
-            ->where('starts_at', '<=', now())
-            ->where('ends_at', '>=', now());
+        return $query->where('discounts.is_active', true)
+            ->where('discounts.starts_at', '<=', now())
+            ->where(function ($query) {
+                $query->whereNull('discounts.ends_at')
+                    ->orWhere('discounts.ends_at', '>=', now());
+            });
     }
 
     public function scopeInactive($query)
@@ -118,6 +119,12 @@ class Discount extends Model
         return $query->where('is_active', false)
             ->orWhere('starts_at', '>=', now())
             ->orWhere('ends_at', '<=', now());
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('featured')
+            ->singleFile();
     }
 
     protected function isAmountSingle(): Attribute
@@ -137,5 +144,10 @@ class Discount extends Model
         return Attribute::get(fn () => is_null($this->limit_amount)
             ? null
             : Money::ofMinor($this->limit_amount, 'USD'));
+    }
+
+    protected function cta(): Attribute
+    {
+        return Attribute::get(fn () => $this->cta_text ?? $this->voucher_type->getLabel());
     }
 }

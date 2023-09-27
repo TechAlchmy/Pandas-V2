@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('email', 45);
             $table->string('company_registration_code')->unique();
             $table->string('region_id', 5)->nullable();
+            $table->jsonb('voucher_types')->nullable();
             $table->foreignIdFor(User::class, 'created_by_id')->nullable();
             $table->foreignIdFor(User::class, 'updated_by_id')->nullable();
             $table->softDeletes();
