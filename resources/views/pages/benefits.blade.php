@@ -9,7 +9,7 @@ name('benefits');
         ->get();
 @endphp
 <x-layouts.app>
-    <section class="overflow-x-hidden">
+    <section class="overflow-hidden">
         <div class="px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto">
             <div class="relative hidden lg:flex h-screen">
                 <div class="absolute top-[-5rem] h-screen -z-10">
