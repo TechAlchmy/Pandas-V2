@@ -6,8 +6,7 @@ name('help');
 <x-layouts.app>
     <div class="grid grid-cols-1 lg:grid-cols-2">
         <div>
-            <div class="lg:min-h-screen bg-cover"
-                style="background-image: url(https://images.unsplash.com/photo-1648832328633-89b993c5d6b7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80)">
+            <div class="lg:min-h-screen bg-cover" style="background-image: url({{ getMediaPath('assets/help-page-banner.png') }})">
                 <div class="p-8 text-white flex flex-col justify-between gap-16">
                     <h1 class="text-6xl font-editorial">Help</h1>
                     <p>

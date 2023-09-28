@@ -1,8 +1,7 @@
 <div class="max-w-[1920px] mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-2">
         <div>
-            <div class="relative min-h-[10rem] md:h-full w-full"
-                style="background-image: url(https://images.unsplash.com/photo-1648832328633-89b993c5d6b7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80)">
+            <div class="relative min-h-[10rem] md:h-full w-full bg-cover" style="background-image: url({{ getMediaPath('assets/contact-us-banner.png') }})">
                 <div x-data="@js(['index' => 0, 'testimonials' => $this->testimonials])" x-init="setInterval(() => {
                     if (index + 1 >= testimonials.length) {
                         index = 0;
