@@ -131,7 +131,7 @@ class DatabaseSeeder extends Seeder
                             ->state(['name' => $brand])
                             ->create();
 
-                        $brand->addMediaFromUrl($logoUrl)->toMediaCollection('logo');
+                        $brand->addMediaFromUrl($logoUrl)->toMediaCollection('logo', 's3');
 
                         BrandCategory::factory()
                             ->for($brand)
