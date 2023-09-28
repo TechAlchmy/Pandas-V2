@@ -23,4 +23,15 @@ enum DiscountVoucherTypeEnum: int
             ->replace('_', ' ')
             ->title();
     }
+
+    public function getDefaultLabel()
+    {
+        return match ($this) {
+            self::FixedDiscountCode, self::GeneratedDiscountCode => 'Get Code',
+            self::ExternalApiLink, self::ExternalLink => 'Go to link',
+            self::DefinedAmountsGiftCard => 'Add to cart',
+            self::TopUpGiftCard => 'Top up Gift Card',
+            default => 'Get it now!',
+        };
+    }
 }
