@@ -133,7 +133,7 @@
                 </div>
             </div> --}}
 
-                <x-link href="/">Home</x-link>
+                <x-link href="/" :outlined="request()->is('/')">Home</x-link>
                 <x-link href="/benefits" :outlined="request()->is('benefits')">Benefits</x-link>
                 <x-link href="/deals" :outlined="request()->is('deals')">Deals</x-link>
                 <x-link href="/help" :outlined="request()->is('help')">Help</x-link>
