@@ -76,6 +76,8 @@ class DiscountInsightResource extends Resource
             ])
             ->actions([
                 Tables\Actions\Action::make('results')
+                    ->visible(fn ($record) => $record->discountInsightModels->isNotEmpty())
+                    ->modalSubmitAction(false)
                     ->infolist([
                         Infolists\Components\RepeatableEntry::make('discountInsightModels')
                             ->columns()
