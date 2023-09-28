@@ -53,7 +53,12 @@
                         @endforeach
                     </div>
                 @else
-                    <div>No Item</div>
+                    <div class="flex flex-col items-center justify-center gap-2">
+                        <p>No Items yet</p>
+                        <x-link :href="route('deals.index')" outlined class="hover:bg-panda-green">
+                            Find Deals
+                        </x-link>
+                    </div>
                 @endif
             </div>
             <div>
