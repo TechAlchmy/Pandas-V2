@@ -100,7 +100,7 @@ class Discount extends Model implements HasMedia
     public function scopeWithVoucherType($query, $organization)
     {
         return $query->when($organization, function ($query, $organization) {
-            $query->whereIn('voucher_type', $organization->voucher_types);
+            $query->whereIn('voucher_type', $organization->voucher_types ?? []);
         });
     }
 
