@@ -21,6 +21,10 @@ class Organization extends Model implements HasMedia
     use InteractsWithAuditable;
     use InteractsWithMedia;
 
+    protected $casts = [
+        'voucher_types' => 'array',
+    ];
+
     public function users()
     {
         return $this->hasMany(User::class);
