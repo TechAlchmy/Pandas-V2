@@ -30,11 +30,26 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $regionIds = Region::query()->where('country_id', 'us')->pluck('id');
-        $organizations = Organization::factory(10)->sequence(
-            $regionIds->random(10)
-                ->mapWithKeys(fn ($regionId) => ['region_id' => $regionId])
-                ->all(),
-        )->create()->each(function ($organization) {
+        $organizations = [];
+        foreach ([
+            'Reebok' => 'https://upload.wikimedia.org/wikipedia/commons/1/11/Reebok_red_logo.svg',
+            'Sketchers' => 'https://upload.wikimedia.org/wikipedia/commons/b/b8/Skechers.svg',
+            'Polo' => 'https://upload.wikimedia.org/wikipedia/commons/7/72/Polo_Ralph_Lauren_SVG_Logo.svg',
+            'Adidas' => 'https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg',
+            'New Balance' => 'https://upload.wikimedia.org/wikipedia/commons/e/ea/New_Balance_logo.svg',
+            'Boss' => 'https://upload.wikimedia.org/wikipedia/commons/7/73/Hugo-Boss-Logo.svg',
+            'Nike' => 'https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg',
+            'Puma' => 'https://upload.wikimedia.org/wikipedia/id/b/b4/Puma_logo.svg',
+            'Converse' => 'https://upload.wikimedia.org/wikipedia/commons/3/30/Converse_logo.svg',
+            'Burberry' => 'https://upload.wikimedia.org/wikipedia/commons/b/b4/Logo_Burberry_01.svg',
+        ] as $organization => $logoUrl) {
+            $organization = Organization::factory()
+                ->state(['name' => $organization, 'region_id' => $regionIds->random()])
+                ->create();
+
+            $organization->addMediaFromUrl($logoUrl)
+                ->toMediaCollection('logo', 's3');
+
             $user = User::factory()
                 ->create([
                     'organization_id' => $organization->id,
@@ -42,7 +57,8 @@ class DatabaseSeeder extends Seeder
                 ]);
             $user->managers()->create(['organization_id' => $organization->getKey()]);
             $user->userPreference()->save(UserPreference::factory()->make());
-        });
+        }
+
         User::factory(2)
             ->sequence(
                 ['email' => 'admin1@test.com'],
