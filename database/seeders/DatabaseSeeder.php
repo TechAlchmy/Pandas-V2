@@ -80,6 +80,7 @@ class DatabaseSeeder extends Seeder
                 'Nike' => 'https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg',
                 'Puma' => 'https://upload.wikimedia.org/wikipedia/id/b/b4/Puma_logo.svg',
                 'Converse' => 'https://upload.wikimedia.org/wikipedia/commons/3/30/Converse_logo.svg',
+                'Burberry' => 'https://upload.wikimedia.org/wikipedia/commons/b/b4/Logo_Burberry_01.svg',
             ],
             'Entertainment' => [
                 'Netflix' => 'https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg',
@@ -89,7 +90,8 @@ class DatabaseSeeder extends Seeder
                 'Spotify' => 'https://upload.wikimedia.org/wikipedia/commons/2/26/Spotify_logo_with_text.svg',
                 'Apple Music' => 'https://upload.wikimedia.org/wikipedia/commons/9/9d/AppleMusic_2019.svg',
                 'E3' => 'https://upload.wikimedia.org/wikipedia/commons/7/76/E3_Logo.svg',
-                'Google Play' => 'https://upload.wikimedia.org/wikipedia/commons/7/7a/Google_Play_2022_logo.svg'
+                'Google Play' => 'https://upload.wikimedia.org/wikipedia/commons/7/7a/Google_Play_2022_logo.svg',
+                'Paramount' => 'https://upload.wikimedia.org/wikipedia/commons/8/89/Paramount_Pictures_2022_%28Blue%29.svg',
             ],
             'Groceries' => [
                 'Walmart' => 'https://upload.wikimedia.org/wikipedia/commons/c/ca/Walmart_logo.svg',
@@ -100,6 +102,7 @@ class DatabaseSeeder extends Seeder
                 'Kroger' => 'https://upload.wikimedia.org/wikipedia/en/1/1c/Kroger_%282021%29_logo.svg',
                 'Albertsons' => 'https://upload.wikimedia.org/wikipedia/en/6/69/Albertsons_Companies_%28logo%29.svg',
                 'Publix' => 'https://upload.wikimedia.org/wikipedia/commons/9/95/Publix_Logo.svg',
+                'Danone' => 'https://upload.wikimedia.org/wikipedia/id/4/4c/Danone.svg',
             ],
             'Health & Wellness' => [
                 'Sweetgreen' => 'https://upload.wikimedia.org/wikipedia/commons/d/dd/Sweetgreen_logo.svg',
@@ -110,6 +113,7 @@ class DatabaseSeeder extends Seeder
                 'MyFitnessPal' => 'https://upload.wikimedia.org/wikipedia/en/6/63/MyFitnessPal_Logo.png',
                 'Nature\'s Way' => 'https://naturesway.com/cdn/shop/files/logo.webp?v=1660589651&width=200',
                 'Technogym' => 'https://upload.wikimedia.org/wikipedia/commons/5/53/Technogym_Logo.png',
+                'Dove' => 'https://upload.wikimedia.org/wikipedia/commons/4/4b/Dove_logo.png',
             ],
             'Travel' => [
                 'Expedia Group' => 'https://upload.wikimedia.org/wikipedia/commons/0/0a/Expedia_Group_logo.svg',
@@ -120,6 +124,7 @@ class DatabaseSeeder extends Seeder
                 'US Airways' => 'https://upload.wikimedia.org/wikipedia/commons/a/a6/US_Airways_Logo_2011.svg',
                 'Aloha' => 'https://upload.wikimedia.org/wikipedia/commons/9/9c/Aloha_Airlines_Logo.svg',
                 'Contiki' => 'https://upload.wikimedia.org/wikipedia/commons/5/5c/Contiki-logo-clean-v2.svg',
+                'Garuda' => 'https://upload.wikimedia.org/wikipedia/id/f/fe/Garuda_Indonesia_Logo.svg',
             ],
         ])
             ->map(function ($brands, $category) use ($offerTypes, $regionIds) {
