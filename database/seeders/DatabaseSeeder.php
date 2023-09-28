@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $regionIds = Region::query()->where('country_id', 'us')->pluck('id');
-        $organizations = [];
+        $organizations = collect();
         foreach ([
             'Reebok' => 'https://upload.wikimedia.org/wikipedia/commons/1/11/Reebok_red_logo.svg',
             'Sketchers' => 'https://upload.wikimedia.org/wikipedia/commons/b/b8/Skechers.svg',
@@ -57,6 +57,7 @@ class DatabaseSeeder extends Seeder
                 ]);
             $user->managers()->create(['organization_id' => $organization->getKey()]);
             $user->userPreference()->save(UserPreference::factory()->make());
+            $organizations->add($organization);
         }
 
         User::factory(2)
