@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\DiscountVoucherTypeEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -25,7 +26,8 @@ class DiscountFactory extends Factory
             'ends_at' => $this->faker->dateTimeBetween('now', '+1 years'),
             'api_link' => $this->faker->url,
             'link' => $this->faker->url,
-            'voucher_type' => $this->faker->numberBetween(0, 3),
+            'voucher_type' => $voucherType = DiscountVoucherTypeEnum::tryFrom($this->faker->numberBetween(0, 5)),
+            'cta_text' => $voucherType->getDefaultLabel(),
             'views' => $this->faker->numberBetween(1, 100),
             'clicks' => $this->faker->numberBetween(1, 100),
             'code' => $this->faker->word,
