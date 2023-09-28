@@ -1,5 +1,4 @@
 <div class="p-4 lg:p-8">
-    <form wire:submit.prevent="save">
     <div x-show="!$wire.isEditing" class="grid grid-cols-1 lg:grid-cols-4 gap-6 border-t pt-4">
         <div>
             <h2 class="text-xl font-bold">{{ auth()->user()->name }}</h2>
@@ -28,6 +27,7 @@
             {{ auth()->user()->organization?->getFirstMedia('logo')?->img() }}
         </div>
     </div>
+    <form wire:submit.prevent="save" x-show="$wire.isEditing">
         {{ $this->form }}
         <div class="flex justify-end">
             <x-button type="submit" size="lg" outlined class="inline-block mt-8">

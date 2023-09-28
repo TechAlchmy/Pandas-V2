@@ -15,6 +15,8 @@ class EditProfileForm extends Component implements HasForms
 
     public $data;
 
+    public $isEditing = false;
+
     public function mount()
     {
         $this->form->fill(auth()->user()->toArray());
