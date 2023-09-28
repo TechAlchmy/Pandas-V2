@@ -34,6 +34,8 @@ class ContactUsForm extends Component implements HasForms
             ->success()
             ->title('Received! We will contact you back soon.')
             ->send();
+
+        $this->form->fill();
     }
 
     public function form(Form $form): Form
