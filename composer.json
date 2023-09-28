@@ -11,6 +11,7 @@
         "php": "^8.1",
         "blade-ui-kit/blade-icons": "^1.5",
         "brick/money": "^0.8.0",
+        "brickx/maintenance-switch": "^1.0",
         "coolsam/flatpickr": "^3.0",
         "fakerphp/faker": "^1.23",
         "filament/filament": "^3.0-stable",
