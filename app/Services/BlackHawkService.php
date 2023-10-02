@@ -32,23 +32,24 @@ class BlackHawkService
         return static::$instance;
     }
 
-    public static function api()
-    {
-        $instance = static::instance();
-
-        $headers = [
-            'clientProgramId' => $instance->clientProgramId,
-            'merchantId' => $instance->merchantId,
-            'accept' => 'application/json; charset=utf-8'
-        ];
-
-        $response = Http::withHeaders($headers)->withOptions([
-                'cert' => [$instance->cert, $instance->certPassword]
-            ])
-            ->get(
-                "{$instance->api}/clientProgram/byKey", 
-                ['clientProgramId' => $instance->clientProgramId]);
-
-        return $response;
-    }
+     // This is the catalog endpoint for egift cards
+     public static function api()
+     {
+         $instance = static::instance();
+ 
+         $headers = [
+             'requestId' => uniqid(), // This should be a unique id from our api call log
+             'merchantId' => $instance->merchantId,
+             'accept' => 'application/json; charset=utf-8'
+         ];
+ 
+         $response = Http::withHeaders($headers)->withOptions([
+                 'cert' => [$instance->cert, $instance->certPassword]
+             ])
+             ->get(
+                 "{$instance->api}/clientProgram/byKey", 
+                 ['clientProgramId' => $instance->clientProgramId]);
+ 
+         return $response->json();
+     }
 }
