@@ -38,4 +38,12 @@ return [
         ],
         'transaction_key' => env('CARDKNOX_TRANSACTION_KEY'),
     ],
+
+    'blackhawk' => [
+        'api' => env('BLACKHAWK_API', 'https://apipp.blackhawknetwork.com/rewardsCatalogProcessing/v1'),
+        'client_program_id' => env('BLACKHAWK_CLIENT_PROGRAM_ID', 95006442),
+        'merchant_id' => env('BLACKHAWK_MERCHANT_ID', 60300004707),
+        'cert' => env('BLACKHAWK_CERT', public_path('key/stag.p12')),
+        'cert_password' => env('BLACKHAWK_CERT_PASSWORD', 'BH3F2FDP7J4ZXJV3PB1CFM1M4C'),
+    ],
 ];
