@@ -18,7 +18,7 @@ class EditDiscount extends EditRecord
         ];
     }
 
-    public function getSubheading(): string
+    public function getSubheading(): string | null
     {
         return $this->record->is_bhn
             ? 'This is a BHN Discount and hence allows limited modifications only!'
@@ -37,9 +37,9 @@ class EditDiscount extends EditRecord
             $validator = validator($this->data, [
                 'amount.*' => "numeric|required|numeric|min:{$this->data['bh_min']}|max:{$this->data['bh_max']}",
             ], [
-                'amount.*.min' => "The amount must be at least {$this->data['bh_min']}.",
-                'amount.*.max' => "The amount may not be greater than {$this->data['bh_max']}.",
-                'amount.*.numeric' => 'The amount must be a number.',
+                'amount.*.min' => "Each amount must be at least {$this->data['bh_min']}.",
+                'amount.*.max' => "Each amount may not be greater than {$this->data['bh_max']}.",
+                'amount.*.numeric' => 'Each amount must be a number.',
             ]);
 
             if (
