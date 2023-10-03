@@ -12,7 +12,6 @@ use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -21,6 +20,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Actions\Action;
+use Filament\Tables\Filters\TernaryFilter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\HtmlString;
 
@@ -49,7 +49,7 @@ class ApiCallResource extends Resource
 
         return $table
             ->columns([
-                TextColumn::make('created_at')->dateTime(),
+                TextColumn::make('created_at')->dateTime()->sortable(),
                 TextColumn::make('api'),
                 TextColumn::make('success')
                     ->badge()
@@ -60,19 +60,18 @@ class ApiCallResource extends Resource
                     })
             ])
             ->filters([
-                //
+                TernaryFilter::make('success'),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Action::make('call')->label('Call')->icon('heroicon-o-play')->requiresConfirmation()
-                    ->modalContent(fn (Model $record) => empty($record->success)
-                        ? new HtmlString('Are you sure you want to call the api?')
-                        : new HtmlString('This has already succeeded! You can no longer recall this api!'))
+                Action::make('call')->label('Try Again')->icon('heroicon-o-play')->requiresConfirmation()
+                    ->modalContent(new HtmlString('Are you sure you want to call the api?'))
                     ->action(fn (Model $record) => empty($record->success) ? FetchBlackHawk::dispatch() : null)
-                    ->hidden(function () use ($disabledApiButton) {
-                        return $disabledApiButton;
-                    })
+                    ->hidden(function (Model $record) use ($disabledApiButton) {
+                        return $disabledApiButton || $record->success;
+                    }),
+                Tables\Actions\ViewAction::make(),
             ])
+            ->defaultSort('id', 'desc')
 
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
