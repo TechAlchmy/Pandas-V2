@@ -22,6 +22,9 @@ class ApiCall extends Model
 
     public static function disabledApiButton(): bool
     {
-        return Carbon::parse(static::orderBy('id', 'desc')->first()?->created_at)->diffInSeconds(now()) < 15;
+        $lastCall = static::orderBy('id', 'desc')->first();
+        return $lastCall
+            ? Carbon::parse(static::orderBy('id', 'desc')->first()?->created_at)->diffInSeconds(now()) < 15
+            : false;
     }
 }
