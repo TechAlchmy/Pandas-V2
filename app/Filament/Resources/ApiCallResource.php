@@ -63,12 +63,16 @@ class ApiCallResource extends Resource
                 TernaryFilter::make('success'),
             ])
             ->actions([
-                Action::make('call')->label('Try Again')->icon('heroicon-o-play')->requiresConfirmation()
+                Action::make('call')->label('Try Again')
+                    ->icon('heroicon-o-play')
+                    ->requiresConfirmation()
                     ->modalContent(new HtmlString('Are you sure you want to call the api?'))
                     ->action(fn (Model $record) => empty($record->success) ? FetchBlackHawk::dispatch() : null)
-                    ->hidden(function (Model $record) use ($disabledApiButton) {
-                        return $disabledApiButton || $record->success;
-                    }),
+                    ->hidden(function (Model $record) {
+                        return $record->success !== false;
+                        // !== false because we hide if true or null
+                    })
+                    ->disabled($disabledApiButton),
                 Tables\Actions\ViewAction::make(),
             ])
             ->defaultSort('id', 'desc')

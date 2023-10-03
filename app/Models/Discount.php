@@ -27,6 +27,7 @@ class Discount extends Model implements HasMedia
         'ends_at' => 'immutable_datetime',
         'is_active' => 'boolean',
         'voucher_type' => DiscountVoucherTypeEnum::class,
+        'bh_options' => 'array'
     ];
 
     public function discountOffers()

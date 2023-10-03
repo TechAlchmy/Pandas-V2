@@ -43,7 +43,7 @@ class DiscountResource extends Resource
                     ->collection('featured')
                     ->openable()
                     ->downloadable(),
-                Forms\Components\TextInput::make('name')
+                Forms\Components\TextInput::make('name')->live(debounce: 1000)
                     ->afterStateUpdated(function ($get, $set, ?string $state) {
                         if (! $get('is_slug_changed_manually') && filled($state)) {
                             $set('slug', str($state)->slug());
@@ -61,7 +61,7 @@ class DiscountResource extends Resource
                             $type->value => $type->getLabel(),
                         ]))
                     ->disableOptionWhen(function ($value) {
-                        return \in_array($value, [
+                        return in_array($value, [
                             DiscountVoucherTypeEnum::ExternalApiLink->value,
                             DiscountVoucherTypeEnum::GeneratedDiscountCode->value,
                         ]);
