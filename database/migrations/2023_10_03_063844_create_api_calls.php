@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('api_calls', function (Blueprint $table) {
             $table->id();
             $table->string('api');
-            $table->boolean('success')->default(false);
-            $table->json('response');
+            $table->boolean('success')->nullable();
+            $table->json('response')->nullable();
             $table->timestamp('created_at');
         });
     }

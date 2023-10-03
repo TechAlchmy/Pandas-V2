@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\ApiCall;
 use Illuminate\Support\Facades\Http;
 
 class BlackHawkService
@@ -38,23 +39,39 @@ class BlackHawkService
         // There should be a waiting period of 1 minute before retrying
         $instance = static::instance();
 
+        $result = [];
+
         $headers = [
             'requestId' => uniqid(), // This should be a unique id from our api call log
             'merchantId' => $instance->merchantId,
             'accept' => 'application/json; charset=utf-8'
         ];
 
-        $response = Http::withHeaders($headers)->withOptions([
+        $promise = Http::async()->withHeaders($headers)->withOptions([
             'cert' => [$instance->cert, $instance->certPassword]
         ])
             ->get(
                 "{$instance->api}/clientProgram/byKey",
                 ['clientProgramId' => $instance->clientProgramId]
+            )->then(
+                function ($response) use (&$result) {
+                    $result = [
+                        'response' => $response->json(),
+                        'success' => $response->ok()
+                    ];
+                    ApiCall::orderBy('id', 'desc')->first()->update($result);
+                }
             );
 
-        return [
-            'status' => $response->ok(),
-            'data' => $response->json()
-        ];
+        ApiCall::create([
+            'api' => 'catalog',
+            'response' => null,
+            'success' => null,
+            'created_at' => now()
+        ]);
+
+        $promise->wait();
+        return $result;
+
     }
 }

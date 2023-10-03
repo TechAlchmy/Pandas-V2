@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\ApiCall;
+use App\Models\Discount;
 use App\Services\BlackHawkService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -28,12 +29,28 @@ class FetchBlackHawk implements ShouldQueue
      */
     public function handle(): void
     {
-        $response = BlackHawkService::api();
-        ApiCall::create([
-            'api' => 'catalog',
-            'response' => $response['data'],
-            'success' => $response['status'],
-            'created_at' => now()
+        $result = BlackHawkService::api();
+
+        $status = $result['success'];
+
+        $response = $result['response'];
+
+        if ($status) {
+            // $this->updateDiscounts($response['products']);
+        }
+    }
+
+    private function updateDiscounts($products)
+    {
+        Discount::create([
+            'name' => $products['productName'],
+            'excerpt' => $products['productDescription'],
+            'brand_id' => $this->resolveBrand($products['parentBrandName'])
         ]);
+    }
+
+    private function resolveBrand($brandName)
+    {
+        return 1;
     }
 }
