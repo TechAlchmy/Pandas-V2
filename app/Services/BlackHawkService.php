@@ -72,6 +72,5 @@ class BlackHawkService
 
         $promise->wait();
         return $result;
-
     }
 }
