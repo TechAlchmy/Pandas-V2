@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::table('discounts', function (Blueprint $table) {
             $table->text('terms')->nullable();
+            $table->text('redemption_info')->nullable();
             $table->integer('bh_min')->unsigned()->nullable();
             $table->integer('bh_max')->unsigned()->nullable();
-            $table->json('bh_options')->nullable();
+            $table->boolean('is_bhn')->default(false);
         });
     }
 
@@ -26,9 +27,10 @@ return new class extends Migration
     {
         Schema::table('discounts', function (Blueprint $table) {
             $table->dropColumn('terms');
+            $table->dropColumn('redemption_info');
             $table->dropColumn('bh_min');
             $table->dropColumn('bh_max');
-            $table->dropColumn('bh_options');
+            $table->dropColumn('is_bhn');
         });
     }
 };

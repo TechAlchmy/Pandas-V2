@@ -45,8 +45,6 @@ class ApiCallResource extends Resource
 
     public static function table(Table $table): Table
     {
-        $disabledApiButton = Carbon::parse(ApiCall::orderBy('id', 'desc')->first()?->created_at)->diffInSeconds(now()) < 15;
-
         return $table
             ->columns([
                 TextColumn::make('created_at')->dateTime()->sortable(),
@@ -72,7 +70,7 @@ class ApiCallResource extends Resource
                         return $record->success !== false;
                         // !== false because we hide if true or null
                     })
-                    ->disabled($disabledApiButton),
+                    ->disabled(ApiCall::disabledApiButton()),
                 Tables\Actions\ViewAction::make(),
             ])
             ->defaultSort('id', 'desc')
