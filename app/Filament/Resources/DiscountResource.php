@@ -20,6 +20,7 @@ use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class DiscountResource extends Resource
@@ -41,8 +42,7 @@ class DiscountResource extends Resource
                     ->required()
                     ->relationship('brand', 'name', fn ($query) => $query->where('is_active', true))
                     ->searchable()
-                    ->disabledOn('edit', fn ($record) => $record->is_bhn),
-                    // ->disabled(fn ($record) => $record->is_bhn),
+                    ->disabled(fn (string $context, ?Model $record) => $context === 'edit' && $record?->is_bhn),
 
                 Forms\Components\SpatieMediaLibraryFileUpload::make('featured')
                     ->collection('featured')
@@ -75,8 +75,7 @@ class DiscountResource extends Resource
                     })
                     ->default(DiscountVoucherTypeEnum::DefinedAmountsGiftCard->value)
                     ->searchable()
-                    ->disabledOn('edit', fn ($record) => $record->is_bhn),
-                    // ->disabled(fn ($record) => $record->is_bhn),
+                    ->disabled(fn (string $context, ?Model $record) => $context === 'edit' && $record?->is_bhn),
 
                 Forms\Components\TextInput::make('slug')
                     ->afterStateUpdated(function ($set) {
@@ -179,7 +178,7 @@ class DiscountResource extends Resource
                                     ->nestedRecursiveRules([
                                         'numeric',
                                         'min:1'
-                                    ]),
+                                    ])->hint(fn($context, $livewire) => $context === 'edit' && $livewire->record->is_bhn ? "Min: {$livewire->record->bh_min} | Max: {$livewire->record->bh_max}" : null),
                             ]),
                         Forms\Components\Tabs\Tab::make('Limit')
                             ->columns()

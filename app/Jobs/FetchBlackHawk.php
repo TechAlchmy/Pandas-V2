@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Enums\DiscountVoucherTypeEnum;
+use App\Models\Brand;
 use App\Models\Discount;
 use App\Services\BlackHawkService;
 use Illuminate\Bus\Queueable;
@@ -47,7 +48,7 @@ class FetchBlackHawk implements ShouldQueue
             $fieldsFromApi = [
                 'name' => $product['productName'],
                 'excerpt' => $product['productDescription'],
-                'redemption_info' => $product['redemptionInfo'],
+                'redemption_info' => $product['redemptionInfo'] ?? null,
                 'brand_id' => $this->resolveBrand($product['parentBrandName']),
                 'terms' => $product['termsAndConditions']['text'],
                 'bh_min' => $product['valueRestrictions']['minimum'] ?? null,
@@ -68,21 +69,33 @@ class FetchBlackHawk implements ShouldQueue
                 'is_bhn' => true
             ];
 
-            Discount::create(array_merge($fieldsFromApi, $commonFields));
+            if (Discount::where('code', $fieldsFromApi['code'])->doesntExist()) {
+                Discount::create(array_merge($fieldsFromApi, $commonFields));
+            }
+
             // TODO: Image is saved in a seperate table, so need to add seperately. It is received from $product['productImage]
         });
     }
 
     private function resolveBrand($brandName): int
     {
-        return 1;
-        // TODO: This should check if this name ilike exists in our db and return it. else it should create and return a new id using firstOrCreate
+        $brand = Brand::where('name', 'ilike', $brandName)->first();
+        if ($brand) {
+            return $brand->id;
+        } else {
+            return Brand::create([
+                'name' => $brandName,
+                'link' => 'Please_Replace_This_'. time() . '_' . mt_rand(100000,999999), // This is get around string to fill not null condition
+                'slug' => Str::slug($brandName),
+                'is_active' => true
+            ])->id;
+        }
     }
 
     private function convertMinMaxToRange($min, $max): array
     {
         $arr = [$min, $max];
-        return array_map(fn($val) => $val * 100, $arr);
+        return array_map(fn ($val) => $val * 100, $arr);
         // TODO: 1, 100 => 1, 5, 10, 20, 50, 100
         // 1,100 => min, q1, median, q3, max
     }
