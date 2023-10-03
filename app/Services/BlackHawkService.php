@@ -28,28 +28,33 @@ class BlackHawkService
         if (static::$instance === null) {
             static::$instance = new static();
         }
-        
+
         return static::$instance;
     }
 
-     // This is the catalog endpoint for egift cards
-     public static function api()
-     {
-         $instance = static::instance();
- 
-         $headers = [
-             'requestId' => uniqid(), // This should be a unique id from our api call log
-             'merchantId' => $instance->merchantId,
-             'accept' => 'application/json; charset=utf-8'
-         ];
- 
-         $response = Http::withHeaders($headers)->withOptions([
-                 'cert' => [$instance->cert, $instance->certPassword]
-             ])
-             ->get(
-                 "{$instance->api}/clientProgram/byKey", 
-                 ['clientProgramId' => $instance->clientProgramId]);
- 
-         return $response->json();
-     }
+    // This is the catalog endpoint for egift cards
+    public static function api()
+    {
+        // There should be a waiting period of 1 minute before retrying
+        $instance = static::instance();
+
+        $headers = [
+            'requestId' => uniqid(), // This should be a unique id from our api call log
+            'merchantId' => $instance->merchantId,
+            'accept' => 'application/json; charset=utf-8'
+        ];
+
+        $response = Http::withHeaders($headers)->withOptions([
+            'cert' => [$instance->cert, $instance->certPassword]
+        ])
+            ->get(
+                "{$instance->api}/clientProgram/byKey",
+                ['clientProgramId' => $instance->clientProgramId]
+            );
+
+        return [
+            'status' => $response->ok(),
+            'data' => $response->json()
+        ];
+    }
 }

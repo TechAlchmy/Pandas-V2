@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\ApiCall;
 use App\Services\BlackHawkService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -27,6 +28,12 @@ class FetchBlackHawk implements ShouldQueue
      */
     public function handle(): void
     {
-        dd(BlackHawkService::api());
+        $response = BlackHawkService::api();
+        ApiCall::create([
+            'api' => 'catalog',
+            'response' => $response['data'],
+            'success' => $response['status'],
+            'created_at' => now()
+        ]);
     }
 }
