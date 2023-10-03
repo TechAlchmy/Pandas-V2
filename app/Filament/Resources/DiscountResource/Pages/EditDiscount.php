@@ -5,11 +5,12 @@ namespace App\Filament\Resources\DiscountResource\Pages;
 use App\Filament\Resources\DiscountResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Notifications\Notification;
 
 class EditDiscount extends EditRecord
 {
     protected static string $resource = DiscountResource::class;
-    
+
     protected function getHeaderActions(): array
     {
         return [
@@ -20,14 +21,41 @@ class EditDiscount extends EditRecord
     public function getSubheading(): string
     {
         return $this->record->is_bhn
-        ? 'This is a BHN Discount and hence allows limited modifications only!'
-        : null;
+            ? 'This is a BHN Discount and hence allows limited modifications only!'
+            : null;
     }
 
     protected function mutateFormDataBeforeFill(array $data): array
     {
         $data['timed'] = !empty($data['starts_at']);
         return $data;
+    }
+
+    protected function beforeValidate(): void
+    {
+        if ($this->data['bh_min'] && $this->data['bh_max'] && $this->data['is_bhn']) {
+            $validator = validator($this->data, [
+                'amount.*' => "numeric|required|numeric|min:{$this->data['bh_min']}|max:{$this->data['bh_max']}",
+            ], [
+                'amount.*.min' => "The amount must be at least {$this->data['bh_min']}.",
+                'amount.*.max' => "The amount may not be greater than {$this->data['bh_max']}.",
+                'amount.*.numeric' => 'The amount must be a number.',
+            ]);
+
+            if (
+                $validator->fails()
+            ) {
+                Notification::make()
+                    ->danger()
+                    ->title($validator->getMessageBag()->first())
+                    ->body("")
+                    ->persistent()
+                    ->send();
+    
+                $this->halt();
+            }
+        }
+        
     }
 
     protected function mutateFormDataBeforeSave(array $data): array

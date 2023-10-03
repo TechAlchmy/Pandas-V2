@@ -179,7 +179,7 @@ class DiscountResource extends Resource
                                     ->nestedRecursiveRules([
                                         'numeric',
                                         'min:1'
-                                    ]),
+                                    ])->hint(fn($context, $livewire) => $context === 'edit' && $livewire->record->is_bhn ? "Min: {$livewire->record->bh_min} | Max: {$livewire->record->bh_max}" : null),
                             ]),
                         Forms\Components\Tabs\Tab::make('Limit')
                             ->columns()
