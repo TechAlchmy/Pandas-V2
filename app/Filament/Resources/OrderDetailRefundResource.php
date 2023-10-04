@@ -22,7 +22,7 @@ class OrderDetailRefundResource extends Resource
 {
     protected static ?string $model = OrderDetailRefund::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-receipt-refund';
 
     protected static ?string $navigationGroup = 'E-Commerce';
 

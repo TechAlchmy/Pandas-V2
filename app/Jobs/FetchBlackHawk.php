@@ -64,7 +64,8 @@ class FetchBlackHawk implements ShouldQueue
             $commonFields = [
                 'slug' => Str::slug($product['productName'] . ' ' . mt_rand(100000, 999999)),
                 'voucher_type' => $voucherType,
-                'is_active' => true,
+                'is_active' => false,
+                'is_approved' => false,
                 'cta_text' => $voucherType->getDefaultLabel(),
                 'is_bhn' => true
             ];

@@ -18,6 +18,7 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Brickx\MaintenanceSwitch\MaintenanceSwitchPlugin;
+use Filament\Navigation\NavigationItem;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -47,6 +48,13 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\AccountWidget::class,
                 \App\Filament\Widgets\InfoWidget::class,
+            ])->navigationItems([
+                NavigationItem::make()
+                    // ->hidden(!in_array(Auth::user()?->roleId(), [UgRole::DIGITAL_MARKETING, UgRole::SUPERADMIN]))
+                    ->label('Go To Web')
+                    ->url('/')
+                    ->openUrlInNewTab()
+                    ->icon('heroicon-s-globe-americas'),
             ])
             ->plugins([
                 MaintenanceSwitchPlugin::make(),
