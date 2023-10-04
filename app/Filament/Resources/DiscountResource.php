@@ -11,6 +11,7 @@ use App\Models\OfferType;
 use Squire\Models\Region;
 use App\Models\Tag;
 use App\Models\VoucherType;
+use Closure;
 use Coolsam\FilamentFlatpickr\Forms\Components\Flatpickr;
 use Filament\Forms;
 use Filament\Forms\Components\Section;
@@ -320,7 +321,12 @@ class DiscountResource extends Resource
                     ->color(fn ($state) => match ($state) {
                         'Yes' => 'success',
                         'No' => 'danger'
-                    }),
+                    })->action(\Filament\Tables\Actions\Action::make('approve')
+                        ->label('Approve')
+                        ->icon('heroicon-o-check-circle')
+                        ->requiresConfirmation()
+                        ->modalHeading(fn($record) => $record->is_approved ? "Unapprove {$record->name} ?" : "Approve {$record->name} ?")
+                        ->action(fn ($record) => $record->update(['is_approved' => !$record->is_approved]))),
 
                 Tables\Columns\TextColumn::make('starts_at')
                     ->sortable()
@@ -351,6 +357,10 @@ class DiscountResource extends Resource
                     ->searchable()
                     ->relationship('tags', 'name'),
             ])
+            ->recordClasses(fn (Model $record) => match ($record->is_approved) {
+                false => 'bg-gray-100',
+                default => null,
+            })
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
