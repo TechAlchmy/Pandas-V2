@@ -234,7 +234,20 @@ class DiscountResource extends Resource
                                     ->formatStateUsing(fn ($state) => filled($state) ? $state / 100 : null)
                                     ->dehydrateStateUsing(fn ($state) => filled($state) ? $state * 100 : null)
                                     ->prefix('USD')
-                                    ->numeric(),
+                                    ->numeric()
+                                    ->hidden(fn (Get $get) => $get('voucher_type') === DiscountVoucherTypeEnum::TopUpGiftCard->value),
+                                Forms\Components\TextInput::make('bh_min')->label('Min Amount')
+                                    ->formatStateUsing(fn ($state) => filled($state) ? $state / 100 : null)
+                                    ->dehydrateStateUsing(fn ($state) => filled($state) ? $state * 100 : null)
+                                    ->prefix('USD')
+                                    ->numeric()->readOnly()
+                                    ->visible(fn (Get $get) => $get('voucher_type') === DiscountVoucherTypeEnum::TopUpGiftCard->value),
+                                Forms\Components\TextInput::make('bh_max')->label('Max Amount')
+                                    ->formatStateUsing(fn ($state) => filled($state) ? $state / 100 : null)
+                                    ->dehydrateStateUsing(fn ($state) => filled($state) ? $state * 100 : null)
+                                    ->prefix('USD')
+                                    ->numeric()->readOnly()
+                                    ->visible(fn (Get $get) => $get('voucher_type') === DiscountVoucherTypeEnum::TopUpGiftCard->value),
                             ]),
                         Forms\Components\Tabs\Tab::make('Percentage')
                             ->columns()
@@ -307,17 +320,21 @@ class DiscountResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('brand.name'),
+
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
+
                 Tables\Columns\TextColumn::make('voucher_type')
                     ->formatStateUsing(fn ($state) => $state->getLabel()),
+
                 Tables\Columns\ToggleColumn::make('is_active')
                     ->label('Active')
                     ->sortable(),
+
                 TextColumn::make('is_approved')
                     ->label('Approved')
                     ->badge(fn ($record) => $record->is_bhn)
-                    ->getStateUsing(fn ($record) => $record->is_bhn ? ($record->is_approved ? 'Yes' : 'No') : null)
+                    ->state(fn ($record) => $record->is_bhn ? ($record->is_approved ? 'Yes' : 'No') : null)
                     ->color(fn ($state) => match ($state) {
                         'Yes' => 'success',
                         'No' => 'danger'
@@ -325,12 +342,13 @@ class DiscountResource extends Resource
                         ->label('Approve')
                         ->icon('heroicon-o-check-circle')
                         ->requiresConfirmation()
-                        ->modalHeading(fn($record) => $record->is_approved ? "Unapprove {$record->name} ?" : "Approve {$record->name} ?")
+                        ->modalHeading(fn ($record) => $record->is_approved ? "Unapprove {$record->name} ?" : "Approve {$record->name} ?")
                         ->action(fn ($record) => $record->update(['is_approved' => !$record->is_approved]))),
 
                 Tables\Columns\TextColumn::make('starts_at')
                     ->sortable()
                     ->dateTime(),
+
                 Tables\Columns\TextColumn::make('ends_at')
                     ->sortable()
                     ->dateTime(),
@@ -338,20 +356,24 @@ class DiscountResource extends Resource
             ->defaultSort('id', 'desc')
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
+
                 Tables\Filters\SelectFilter::make('brand')
                     ->preload()
                     ->searchable()
                     ->relationship('brand', 'name'),
+
                 Tables\Filters\SelectFilter::make('voucher_type')
                     ->native(false)
                     ->options(DiscountVoucherTypeEnum::collect()
                         ->mapWithKeys(fn ($type) => [
                             $type->value => $type->getLabel(),
                         ])),
+
                 Tables\Filters\SelectFilter::make('offer_type')
                     ->preload()
                     ->searchable()
                     ->relationship('offerTypes', 'type'),
+
                 Tables\Filters\SelectFilter::make('tags')
                     ->preload()
                     ->searchable()

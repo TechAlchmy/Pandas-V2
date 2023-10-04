@@ -52,8 +52,8 @@ class FetchBlackHawk implements ShouldQueue
                 'redemption_info' => $product['redemptionInfo'] ?? null,
                 'brand_id' => $this->resolveBrand($product['parentBrandName']),
                 'terms' => $product['termsAndConditions']['text'],
-                'bh_min' => $product['valueRestrictions']['minimum'] ?? null,
-                'bh_max' => $product['valueRestrictions']['maximum'] ?? null,
+                'bh_min' => ($product['valueRestrictions']['minimum'] ?? null) * 100,
+                'bh_max' => ($product['valueRestrictions']['maximum'] ?? null) * 100,
                 'code' => $product['contentProviderCode'],
                 'amount' => $voucherType ===  DiscountVoucherTypeEnum::DefinedAmountsGiftCard
                     ?  array_map(fn ($val) => $val * 100, $product['valueRestrictions']['exclusivelyAllowedValues'])
