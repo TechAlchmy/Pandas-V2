@@ -8,8 +8,8 @@ enum DiscountVoucherTypeEnum: int
     case GeneratedDiscountCode = 1;
     case ExternalLink = 2;
     case ExternalApiLink = 3;
-    case DefinedAmountsGiftCard = 4; // This is also used for BHN gift cards
-    case TopUpGiftCard = 5;
+    case DefinedAmountsGiftCard = 4; // This is also used for BHN gift cards that has fixed options
+    case TopUpGiftCard = 5; // This is also use dfor BHN gift cards that does not have fixed options
 
     public static function collect()
     {
