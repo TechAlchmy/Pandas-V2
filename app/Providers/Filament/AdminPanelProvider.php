@@ -48,9 +48,9 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\AccountWidget::class,
                 \App\Filament\Widgets\InfoWidget::class,
-            ])->navigationItems([
+            ])
+            ->navigationItems([
                 NavigationItem::make()
-                    // ->hidden(!in_array(Auth::user()?->roleId(), [UgRole::DIGITAL_MARKETING, UgRole::SUPERADMIN]))
                     ->label('Go To Web')
                     ->url('/')
                     ->openUrlInNewTab()

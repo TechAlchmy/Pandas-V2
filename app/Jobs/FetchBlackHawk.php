@@ -33,18 +33,19 @@ class FetchBlackHawk implements ShouldQueue
     {
         $result = BlackHawkService::api();
 
-        $status = $result['success'];
-
-        $response = $result['response'];
-
-        if ($status) {
-            $this->updateDiscounts($response['products']);
+        if ($result['success']) {
+            $this->updateDiscounts($result['response']['products']);
         }
     }
 
     private function updateDiscounts($products)
     {
         collect($products)->each(function ($product) {
+
+            $voucherType = !empty($product['valueRestrictions']['exclusivelyAllowedValues'])
+                ? DiscountVoucherTypeEnum::DefinedAmountsGiftCard
+                : DiscountVoucherTypeEnum::TopUpGiftCard;
+
             $fieldsFromApi = [
                 'name' => $product['productName'],
                 'excerpt' => $product['productDescription'],
@@ -54,12 +55,10 @@ class FetchBlackHawk implements ShouldQueue
                 'bh_min' => $product['valueRestrictions']['minimum'] ?? null,
                 'bh_max' => $product['valueRestrictions']['maximum'] ?? null,
                 'code' => $product['contentProviderCode'],
-                'amount' => !empty($product['valueRestrictions']['exclusivelyAllowedValues'])
+                'amount' => $voucherType ===  DiscountVoucherTypeEnum::DefinedAmountsGiftCard
                     ?  array_map(fn ($val) => $val * 100, $product['valueRestrictions']['exclusivelyAllowedValues'])
                     : $this->convertMinMaxToRange($product['valueRestrictions']['minimum'], $product['valueRestrictions']['maximum']),
             ];
-
-            $voucherType = DiscountVoucherTypeEnum::DefinedAmountsGiftCard;
 
             $commonFields = [
                 'slug' => Str::slug($product['productName'] . ' ' . mt_rand(100000, 999999)),
@@ -73,7 +72,7 @@ class FetchBlackHawk implements ShouldQueue
             if (Discount::where('code', $fieldsFromApi['code'])->doesntExist()) {
                 Discount::create(array_merge($fieldsFromApi, $commonFields));
             }
-            
+
             // TODO: If we have some product that is missing from the API, we need to disable it.
             // TODO: If we have a disabled product that is present in their catalog, we need to enable it.
             // TODO: If we have a product that is present in their catalog, but the details are different, we need to update it.
@@ -90,7 +89,7 @@ class FetchBlackHawk implements ShouldQueue
         } else {
             return Brand::create([
                 'name' => $brandName,
-                'link' => 'Please_Replace_This_'. time() . '_' . mt_rand(100000,999999), // This is get around string to fill not null condition
+                'link' => 'Please_Replace_This_' . time() . '_' . mt_rand(100000, 999999), // This is get around string to fill not null condition
                 'slug' => Str::slug($brandName),
                 'is_active' => true
             ])->id;
