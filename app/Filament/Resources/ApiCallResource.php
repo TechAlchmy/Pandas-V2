@@ -26,7 +26,11 @@ class ApiCallResource extends Resource
 {
     protected static ?string $model = ApiCall::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-arrow-left-on-rectangle';
+
+    protected static ?string $navigationLabel = 'API Calls';
+
+    protected static ?string $navigationGroup = 'Utility Management';
 
     public static function form(Form $form): Form
     {

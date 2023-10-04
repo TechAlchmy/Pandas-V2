@@ -19,6 +19,7 @@ use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -32,6 +33,12 @@ class DiscountResource extends Resource
     protected static ?string $navigationGroup = 'Products';
 
     protected static ?int $navigationSort = 1;
+
+    public static function getNavigationLabel(): string
+    {
+        $count = Discount::where('is_approved', false)->count();
+        return 'Discounts' . ($count ? " ({$count})" : '');
+    }
 
     public static function form(Form $form): Form
     {
@@ -178,7 +185,7 @@ class DiscountResource extends Resource
                                     ->nestedRecursiveRules([
                                         'numeric',
                                         'min:1'
-                                    ])->hint(fn($context, $livewire) => $context === 'edit' && $livewire->record->is_bhn ? "Min: {$livewire->record->bh_min} | Max: {$livewire->record->bh_max}" : null),
+                                    ])->hint(fn ($context, $livewire) => $context === 'edit' && $livewire->record->is_bhn ? "Min: {$livewire->record->bh_min} | Max: {$livewire->record->bh_max}" : null),
                             ]),
                         Forms\Components\Tabs\Tab::make('Limit')
                             ->columns()
@@ -304,7 +311,17 @@ class DiscountResource extends Resource
                 Tables\Columns\TextColumn::make('voucher_type')
                     ->formatStateUsing(fn ($state) => $state->getLabel()),
                 Tables\Columns\ToggleColumn::make('is_active')
+                    ->label('Active')
                     ->sortable(),
+                TextColumn::make('is_approved')
+                    ->label('Approved')
+                    ->badge(fn ($record) => $record->is_bhn)
+                    ->getStateUsing(fn ($record) => $record->is_bhn ? ($record->is_approved ? 'Yes' : 'No') : null)
+                    ->color(fn ($state) => match ($state) {
+                        'Yes' => 'success',
+                        'No' => 'danger'
+                    }),
+
                 Tables\Columns\TextColumn::make('starts_at')
                     ->sortable()
                     ->dateTime(),

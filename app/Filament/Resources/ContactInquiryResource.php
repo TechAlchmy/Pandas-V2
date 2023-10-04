@@ -17,7 +17,7 @@ class ContactInquiryResource extends Resource
 {
     protected static ?string $model = ContactInquiry::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-briefcase';
 
     protected static ?string $navigationGroup = 'User Management';
 

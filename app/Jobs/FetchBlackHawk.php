@@ -64,7 +64,8 @@ class FetchBlackHawk implements ShouldQueue
             $commonFields = [
                 'slug' => Str::slug($product['productName'] . ' ' . mt_rand(100000, 999999)),
                 'voucher_type' => $voucherType,
-                'is_active' => true,
+                'is_active' => false,
+                'is_approved' => false,
                 'cta_text' => $voucherType->getDefaultLabel(),
                 'is_bhn' => true
             ];
@@ -72,6 +73,10 @@ class FetchBlackHawk implements ShouldQueue
             if (Discount::where('code', $fieldsFromApi['code'])->doesntExist()) {
                 Discount::create(array_merge($fieldsFromApi, $commonFields));
             }
+            
+            // TODO: If we have some product that is missing from the API, we need to disable it.
+            // TODO: If we have a disabled product that is present in their catalog, we need to enable it.
+            // TODO: If we have a product that is present in their catalog, but the details are different, we need to update it.
 
             // TODO: Image is saved in a seperate table, so need to add seperately. It is received from $product['productImage]
         });
