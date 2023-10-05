@@ -238,17 +238,21 @@ class DiscountResource extends Resource
                                     ->prefix('USD')
                                     ->numeric()
                                     ->hidden(fn (Get $get) => $get('voucher_type') === DiscountVoucherTypeEnum::TopUpGiftCard->value),
+
                                 Forms\Components\TextInput::make('bh_min')->label('Min Amount')
                                     ->formatStateUsing(fn ($state) => filled($state) ? $state / 100 : null)
                                     ->dehydrateStateUsing(fn ($state) => filled($state) ? $state * 100 : null)
                                     ->prefix('USD')
-                                    ->numeric()->readOnly()
+                                    ->numeric()
+                                    ->readOnly(fn ($livewire) => $livewire->record?->is_bhn)
                                     ->visible(fn (Get $get) => $get('voucher_type') === DiscountVoucherTypeEnum::TopUpGiftCard->value),
+
                                 Forms\Components\TextInput::make('bh_max')->label('Max Amount')
                                     ->formatStateUsing(fn ($state) => filled($state) ? $state / 100 : null)
                                     ->dehydrateStateUsing(fn ($state) => filled($state) ? $state * 100 : null)
                                     ->prefix('USD')
-                                    ->numeric()->readOnly()
+                                    ->numeric()
+                                    ->readOnly(fn ($livewire) => $livewire->record?->is_bhn)
                                     ->visible(fn (Get $get) => $get('voucher_type') === DiscountVoucherTypeEnum::TopUpGiftCard->value),
                             ]),
                         Forms\Components\Tabs\Tab::make('Percentage')
@@ -352,11 +356,11 @@ class DiscountResource extends Resource
 
                 Tables\Columns\TextColumn::make('starts_at')
                     ->sortable()
-                    ->dateTime(),
+                    ->dateTime('Y-m-d'),
 
                 Tables\Columns\TextColumn::make('ends_at')
                     ->sortable()
-                    ->dateTime(),
+                    ->dateTime('Y-m-d'),
             ])
             ->defaultSort('id', 'desc')
             ->filters([
@@ -390,6 +394,10 @@ class DiscountResource extends Resource
             })
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('web')
+                    ->icon('heroicon-o-link')
+                    ->url(fn ($record) => url("deals/$record->slug"))
+                    ->openUrlInNewTab(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

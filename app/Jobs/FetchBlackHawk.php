@@ -83,10 +83,9 @@ class FetchBlackHawk implements ShouldQueue
             }
 
             // TODO: If we have some product that is missing from the API, we need to disable it.
-            // TODO: If we have a disabled product that is present in their catalog, we need to enable it.
             // TODO: If we have a product that is present in their catalog, but the details are different, we need to update it.
-
-            // TODO: Image is saved in a seperate table, so need to add seperately. It is received from $product['productImage]
+            // TODO: If any change happens in already existing product, we need to disable it and put it to is_approved=false
+            // TODO: If anything needs to be approved, email notification daily after api call to {mail}
         });
     }
 
@@ -120,6 +119,7 @@ class FetchBlackHawk implements ShouldQueue
         $arr = [$min, $max];
         return array_map(fn ($val) => $val * 100, $arr);
         // TODO: 1, 100 => 1, 5, 10, 20, 50, 100
+        // This is no longer needed now as we keep range for defined amounts gift cards only
         // 1,100 => min, q1, median, q3, max
     }
 }
