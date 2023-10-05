@@ -25,6 +25,7 @@ use Livewire\Attributes\On;
 use Livewire\Attributes\Renderless;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
+use Throwable;
 
 class ViewDeal extends Component implements HasActions, HasForms
 {
@@ -71,7 +72,7 @@ class ViewDeal extends Component implements HasActions, HasForms
         $tax = 0;
         $total = $subtotal - $discount;
         $data['xAmount'] = $total / 100;
-        $data['xExp'] = $data['xExp_month'].$data['xExp_year'];
+        $data['xExp'] = $data['xExp_month'] . $data['xExp_year'];
 
         if (boolval($data['use_new']) || empty(\data_get($data, 'xToken'))) {
             \data_forget($data, 'xToken');
@@ -143,7 +144,11 @@ class ViewDeal extends Component implements HasActions, HasForms
             'payment_status' => PaymentStatus::tryFrom((string) $response->json('xStatus')),
         ]);
 
-        auth()->user()->notify(new OrderApprovedNotification($order));
+        try {
+            auth()->user()->notify(new OrderApprovedNotification($order));
+        } catch (Throwable $t) {
+            // TODO: Retry sending later through a job or maybe create a log in the backend about failed email
+        }
 
         //TODO: Send Notification
         Notification::make()
@@ -154,7 +159,8 @@ class ViewDeal extends Component implements HasActions, HasForms
         return redirect()->route('orders.show', ['id' => $order->uuid]);
     }
 
-    public function addToCart() {
+    public function addToCart()
+    {
         $this->validate();
         cart()->add($this->record?->getKey(), $this->quantity, $this->amount);
 

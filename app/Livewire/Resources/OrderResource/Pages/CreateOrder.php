@@ -23,6 +23,7 @@ use Filament\Actions\Contracts\HasActions;
 use Filament\Notifications\Notification;
 use Filament\Support\RawJs;
 use Illuminate\Support\Carbon;
+use Throwable;
 
 class CreateOrder extends Component implements HasForms, HasActions
 {
@@ -201,7 +202,11 @@ class CreateOrder extends Component implements HasForms, HasActions
 
         // TODO: Make an API Call to BHN to create a new order of the ordered item if this is_bhn
 
-        auth()->user()->notify(new OrderApprovedNotification($order));
+        try {
+            auth()->user()->notify(new OrderApprovedNotification($order));
+        } catch (Throwable $t) {
+            // TODO: Retry sending later through a job or maybe create a log in the backend about failed email
+        }
 
         //TODO: Send Notification
         Notification::make()

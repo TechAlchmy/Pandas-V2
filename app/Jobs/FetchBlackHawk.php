@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Enums\DiscountVoucherTypeEnum;
+use App\Models\ApiCall;
 use App\Models\Brand;
 use App\Models\Discount;
 use App\Services\BlackHawkService;
@@ -31,6 +32,10 @@ class FetchBlackHawk implements ShouldQueue
      */
     public function handle(): void
     {
+        // The following two lines are to test without calling api
+        // $testData = ApiCall::first();
+        // $this->updateDiscounts($testData->response['products']);
+
         $result = BlackHawkService::api();
 
         if ($result['success']) {
@@ -50,7 +55,7 @@ class FetchBlackHawk implements ShouldQueue
                 'name' => $product['productName'],
                 'excerpt' => $product['productDescription'],
                 'redemption_info' => $product['redemptionInfo'] ?? null,
-                'brand_id' => $this->resolveBrand($product['parentBrandName']),
+                'brand_id' => $this->resolveBrand($product),
                 'terms' => $product['termsAndConditions']['text'],
                 'bh_min' => ($product['valueRestrictions']['minimum'] ?? null) * 100,
                 'bh_max' => ($product['valueRestrictions']['maximum'] ?? null) * 100,
@@ -70,7 +75,12 @@ class FetchBlackHawk implements ShouldQueue
             ];
 
             if (Discount::where('code', $fieldsFromApi['code'])->doesntExist()) {
-                Discount::create(array_merge($fieldsFromApi, $commonFields));
+                $discount = Discount::create(array_merge($fieldsFromApi, $commonFields));
+
+                $discount->addMediaFromUrl($product['productImage']) //starting method
+                    // ->withCustomProperties(['mime-type' => 'image/jpeg']) //middle method
+                    ->preservingOriginal() //middle method
+                    ->toMediaCollection('featured', 's3'); //finishing method
             }
 
             // TODO: If we have some product that is missing from the API, we need to disable it.
@@ -81,18 +91,27 @@ class FetchBlackHawk implements ShouldQueue
         });
     }
 
-    private function resolveBrand($brandName): int
+    private function resolveBrand($product): int
     {
-        $brand = Brand::where('name', 'ilike', $brandName)->first();
+        $brand = Brand::where('name', 'ilike', $product['parentBrandName'])->first();
         if ($brand) {
             return $brand->id;
         } else {
-            return Brand::create([
-                'name' => $brandName,
+            $brand = Brand::create([
+                'name' => $product['parentBrandName'],
                 'link' => 'Please_Replace_This_' . time() . '_' . mt_rand(100000, 999999), // This is get around string to fill not null condition
-                'slug' => Str::slug($brandName),
+                'slug' => Str::slug($product['parentBrandName']),
                 'is_active' => true
-            ])->id;
+            ]);
+
+            if (!empty($product['productImage'])) {
+                $product['productImage'] = str_replace('xmall', 'xlarge', $product['productImage']);
+                $brand->addMediaFromUrl($product['productImage']) 
+                    ->preservingOriginal()
+                    ->toMediaCollection('logo', 's3');
+            }
+
+            return $brand->id;
         }
     }
 
