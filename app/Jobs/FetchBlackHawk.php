@@ -77,10 +77,9 @@ class FetchBlackHawk implements ShouldQueue
             if (Discount::where('code', $fieldsFromApi['code'])->doesntExist()) {
                 $discount = Discount::create(array_merge($fieldsFromApi, $commonFields));
 
-                $discount->addMediaFromUrl($product['productImage']) //starting method
-                    // ->withCustomProperties(['mime-type' => 'image/jpeg']) //middle method
-                    ->preservingOriginal() //middle method
-                    ->toMediaCollection('featured', 's3'); //finishing method
+                $discount->addMediaFromUrl($product['productImage'])
+                    ->preservingOriginal()
+                    ->toMediaCollection('featured', 's3');
             }
 
             // TODO: If we have some product that is missing from the API, we need to disable it.
@@ -105,8 +104,9 @@ class FetchBlackHawk implements ShouldQueue
             ]);
 
             if (!empty($product['logoImage'])) {
-                $product['logoImage'] = str_replace('xsmall', 'xlarge', $product['logoImage']);
-                $brand->addMediaFromUrl($product['logoImage']) 
+                $brandImage = str_replace('xsmall', 'xlarge', $product['logoImage']);
+
+                $brand->addMediaFromUrl($brandImage)
                     ->preservingOriginal()
                     ->toMediaCollection('logo', 's3');
             }
