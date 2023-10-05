@@ -20,6 +20,7 @@ use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Tables;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -54,6 +55,7 @@ class DiscountResource extends Resource
 
                 Forms\Components\SpatieMediaLibraryFileUpload::make('featured')
                     ->collection('featured')
+                    ->disk('s3')
                     ->openable()
                     ->downloadable(),
 
@@ -323,6 +325,9 @@ class DiscountResource extends Resource
 
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
+
+                SpatieMediaLibraryImageColumn::make('featured')
+                    ->collection('featured'),
 
                 Tables\Columns\TextColumn::make('voucher_type')
                     ->formatStateUsing(fn ($state) => $state->getLabel()),
