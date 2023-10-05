@@ -199,6 +199,8 @@ class CreateOrder extends Component implements HasForms, HasActions
             'payment_status' => PaymentStatus::tryFrom((string) $response->json('xStatus')),
         ]);
 
+        // TODO: Make an API Call to BHN to create a new order of the ordered item if this is_bhn
+
         auth()->user()->notify(new OrderApprovedNotification($order));
 
         //TODO: Send Notification

@@ -92,8 +92,6 @@ class BrandResource extends Resource
                             ->image(),
                     ]),
 
-
-
                 Tabs::make('Heading')
                     ->tabs([
                         Tabs\Tab::make('Brand Catregories')

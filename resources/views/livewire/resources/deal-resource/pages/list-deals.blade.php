@@ -36,7 +36,7 @@
                         <option value="percentage">% off</option>
                     </select>
                 </div>
-                <div class="h-28"></div>
+                <div class="h-10"></div>
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
                     @foreach ($this->deals as $deal)
                         <x-deal-card :record="$deal" />

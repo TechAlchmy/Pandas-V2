@@ -30,6 +30,15 @@ class Discount extends Model implements HasMedia
         'bh_options' => 'array'
     ];
 
+    protected static function booted(): void
+    {
+        static::updating(function (Discount $discount) {
+            if ($discount->is_active) {
+                $discount->is_approved = true;
+            }
+        });
+    }
+
     public function discountOffers()
     {
         return $this->hasMany(DiscountOffer::class);
