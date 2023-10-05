@@ -104,9 +104,9 @@ class FetchBlackHawk implements ShouldQueue
                 'is_active' => true
             ]);
 
-            if (!empty($product['productImage'])) {
-                $product['productImage'] = str_replace('xmall', 'xlarge', $product['productImage']);
-                $brand->addMediaFromUrl($product['productImage']) 
+            if (!empty($product['logoImage'])) {
+                $product['logoImage'] = str_replace('xsmall', 'xlarge', $product['logoImage']);
+                $brand->addMediaFromUrl($product['logoImage']) 
                     ->preservingOriginal()
                     ->toMediaCollection('logo', 's3');
             }
