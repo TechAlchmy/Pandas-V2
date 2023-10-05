@@ -117,7 +117,10 @@ class Discount extends Model implements HasMedia
     public function scopeActive($query)
     {
         return $query->where('discounts.is_active', true)
-            ->where('discounts.starts_at', '<=', now())
+            ->where(function ($query) {
+                $query->whereNull('discounts.starts_at')
+                    ->orWhere('discounts.starts_at', '<=', now());
+            })
             ->where(function ($query) {
                 $query->whereNull('discounts.ends_at')
                     ->orWhere('discounts.ends_at', '>=', now());
