@@ -36,10 +36,20 @@ class DiscountResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
-    public static function getNavigationLabel(): string
+    // public static function getNavigationLabel(): string
+    // {
+    //     $count = static::$model::where('is_approved', false)->count();
+    //     return 'Discounts' . ($count ? " ({$count})" : '');
+    // }
+
+    public static function getNavigationBadge(): ?string
     {
-        $count = Discount::where('is_approved', false)->count();
-        return 'Discounts' . ($count ? " ({$count})" : '');
+        return static::$model::where('is_approved', false)->count();
+    }
+
+    public static function getNavigationBadgeColor(): string | array | null
+    {
+        return 'danger';
     }
 
     public static function form(Form $form): Form
