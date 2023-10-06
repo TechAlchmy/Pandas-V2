@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Concerns\InteractsWithAuditable;
+use App\Services\BlackHawkService;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -56,6 +57,16 @@ class Brand extends Model implements HasMedia
     {
         return $this->belongsToMany(Organization::class, 'brand_organizations')
             ->withTimestamps();
+    }
+
+    public function scopeNeedsAttention($query)
+    {
+        return $query->where('link', 'like', '%' . BlackHawkService::DUMMY_URL_PREFIX . '%');
+    }
+
+    public function scopeDoesntNeedsAttention($query)
+    {
+        return $query->where('link', 'not like', '%' . BlackHawkService::DUMMY_URL_PREFIX . '%');
     }
 
     public function scopeForOrganization($query, $organization)

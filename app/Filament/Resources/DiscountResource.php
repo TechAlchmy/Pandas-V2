@@ -22,6 +22,7 @@ use Filament\Tables\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TernaryFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -397,6 +398,15 @@ class DiscountResource extends Resource
                     ->preload()
                     ->searchable()
                     ->relationship('tags', 'name'),
+
+                TernaryFilter::make('is_approved')->label('Needs Attention')
+                    ->trueLabel('Yes')
+                    ->falseLabel('No')
+                    ->queries(
+                        true: fn (Builder $query) => $query->where('is_approved', false),
+                        false: fn (Builder $query) => $query->where('is_approved', true),
+                        blank: fn (Builder $query) => $query
+                    ),
             ])
             ->recordClasses(fn (Model $record) => match ($record->is_approved) {
                 false => 'bg-gray-100',

@@ -24,9 +24,11 @@ use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\TernaryFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
+use PhpParser\Node\Expr\Ternary;
 use Ramsey\Uuid\Uuid;
 
 class BrandResource extends Resource
@@ -39,6 +41,16 @@ class BrandResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::$model::needsAttention()->count();
+    }
+
+    public static function getNavigationBadgeColor(): string | array | null
+    {
+        return 'danger';
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -48,7 +60,7 @@ class BrandResource extends Resource
                     ->placeholder('Enter Brand Name')
                     ->maxLength(255)
                     ->afterStateUpdated(function ($get, $set, ?string $state) {
-                        if (! $get('is_slug_changed_manually') && filled($state)) {
+                        if (!$get('is_slug_changed_manually') && filled($state)) {
                             $set('slug', str($state)->slug());
                         }
                     }),
@@ -85,7 +97,7 @@ class BrandResource extends Resource
                     ->columns(1)
                     ->columnSpan(1)
                     ->schema([
-                         SpatieMediaLibraryFileUpload::make('Logo')
+                        SpatieMediaLibraryFileUpload::make('Logo')
                             ->collection('logo')
                             ->downloadable()
                             ->openable()
@@ -105,7 +117,7 @@ class BrandResource extends Resource
                                     ->helperText(fn ($state) => count($state) < Category::query()->count() ? null : 'All selected')
                                     ->hintActions([
                                         Forms\Components\Actions\Action::make('clear')
-                                            ->visible(fn ($state) => ! empty($state))
+                                            ->visible(fn ($state) => !empty($state))
                                             ->action(fn ($component) => $component->state([])),
                                         Forms\Components\Actions\Action::make('all')
                                             ->hidden(fn ($state) => count($state) == Category::query()->count())
@@ -126,7 +138,7 @@ class BrandResource extends Resource
                                     ->helperText(fn ($state) => count($state) < Region::query()->where('country_id', 'us')->count() ? null : 'All selected')
                                     ->hintActions([
                                         Forms\Components\Actions\Action::make('clear')
-                                            ->visible(fn ($state) => ! empty($state))
+                                            ->visible(fn ($state) => !empty($state))
                                             ->action(fn ($component) => $component->state([])),
                                         Forms\Components\Actions\Action::make('all')
                                             ->hidden(fn ($state) => count($state) == Region::query()->where('country_id', 'us')->count())
@@ -166,23 +178,32 @@ class BrandResource extends Resource
 
             ])->defaultSort('name')
             ->filters([
-                    Tables\Filters\TernaryFilter::make('is_active'),
-                    Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\TernaryFilter::make('is_active'),
+                Tables\Filters\TrashedFilter::make(),
 
-                    //name search filter
-                    Filter::make('Search')
-                        ->form([
-                            TextInput::make('search')
-                                ->placeholder('Search Brands'),
+                //name search filter
+                Filter::make('Search')
+                    ->form([
+                        TextInput::make('search')
+                            ->placeholder('Search Brands'),
 
-                        ])
-                        ->query(function (Builder $query, array $data): Builder {
-                            return $query
-                                ->when(
-                                    $data['search'],
-                                    fn (Builder $query, $name): Builder => $query->where('name', 'like', "%{$name}%")
-                                );
-                        }),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['search'],
+                                fn (Builder $query, $name): Builder => $query->where('name', 'like', "%{$name}%")
+                            );
+                    }),
+                TernaryFilter::make('needs_attention')
+                    ->trueLabel('Yes')
+                    ->falseLabel('No')
+                    ->queries(
+                        true: fn (Builder $query) => $query->needsAttention(),
+                        false: fn (Builder $query) => !$query->doesntNeedAttention(),
+                        blank: fn (Builder $query) => $query
+                    ),
+
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
