@@ -17,15 +17,16 @@ class Setting extends Model
         static::updated(fn() => Cache::forget("settings_data"));
     }
 
-    public static function get($key): mixed
+    public static function get($key)
     {
-        return static::settingsData()[$key] ?? null;
+        return static::settingsData()[$key] ?? null;;
     }
 
-    private static function settingsData(): array
+    private static function settingsData()
     {
-        return (array) Cache::remember("settings_data", 60 * 60, function () {
-            return Setting::all();
+        Cache::forget("settings_data");
+        return Cache::remember("settings_data", 60 * 60, function () {
+            return Setting::first()->toArray();
         });
     }
 

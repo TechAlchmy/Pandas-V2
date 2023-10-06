@@ -29,7 +29,7 @@ class SettingResource extends Resource
                     ->prefix('$')
                     ->required()
                     ->numeric(),
-                Forms\Components\Textarea::make('confirmation_message')
+                Forms\Components\Textarea::make('order_processing_message')
                     ->required()
                     ->rows(3)
                     ->columnSpanFull(),

@@ -15,12 +15,12 @@ return new class extends Migration
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
             $table->integer('order_amount_limit')->unsigned()->nullable();
-            $table->text('confirmation_message');
+            $table->text('order_processing_message');
         });
 
         DB::table('settings')->insert([
             'order_amount_limit' => 1000,
-            'confirmation_message' => "You order is being processed. We will notify you as soon as it completes!",
+            'order_processing_message' => "You order is being processed. We will notify you as soon as it completes!",
         ]);
     }
 
