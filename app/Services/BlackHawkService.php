@@ -15,6 +15,8 @@ class BlackHawkService
 
     protected static ?self $instance = null;
 
+    const DUMMY_URL_PREFIX = 'Please_Replace_This_';
+
     public function __construct()
     {
         $this->api = config('services.blackhawk.api');

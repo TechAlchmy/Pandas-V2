@@ -97,7 +97,7 @@ class FetchBlackHawk implements ShouldQueue
         } else {
             $brand = Brand::create([
                 'name' => $product['parentBrandName'],
-                'link' => 'Please_Replace_This_' . time() . '_' . mt_rand(100000, 999999), // This is get around string to fill not null condition
+                'link' => BlackHawkService::DUMMY_URL_PREFIX . time() . '_' . mt_rand(100000, 999999), // This is get around string to fill not null condition
                 'slug' => Str::slug($product['parentBrandName']),
                 'is_active' => true
             ]);
