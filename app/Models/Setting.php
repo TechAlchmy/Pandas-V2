@@ -17,6 +17,7 @@ class Setting extends Model
         static::updated(fn() => Cache::forget("settings_data"));
     }
 
+    // We are ovveriding the default get method to get the settings data from cache instead of database, and return a value instead of a model
     public static function get($key)
     {
         return static::settingsData()[$key] ?? null;;
@@ -24,7 +25,6 @@ class Setting extends Model
 
     private static function settingsData()
     {
-        Cache::forget("settings_data");
         return Cache::remember("settings_data", 60 * 60, function () {
             return Setting::first()->toArray();
         });
