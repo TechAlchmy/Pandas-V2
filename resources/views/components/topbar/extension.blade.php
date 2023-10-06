@@ -3,18 +3,17 @@
         <div class="hidden md:flex justify-end items-center gap-3">
             <x-button tag="a" href="/contact-us">Contact Us</x-button>
             @auth
-                <div x-data="{
+            <div x-data="{
                     dropdownOpen: false
                 }" class="relative">
-                    <x-button x-on:click="dropdownOpen=true"
-                        class="inline-flex items-center justify-center border-none pl-3 pr-12 font-medium transition-colors bg-white active:bg-white focus:bg-white focus:outline-none disabled:opacity-50 disabled:pointer-events-none">
-                        <span>{{ auth()->user()->name }}</span>
-                        <svg class="absolute right-0 w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
-                        </svg>
-                    </x-button>
+                <x-button x-on:click="dropdownOpen=true" class="inline-flex items-center justify-center border-none pl-3 pr-12 font-medium transition-colors bg-white active:bg-white focus:bg-white focus:outline-none disabled:opacity-50 disabled:pointer-events-none">
+                    <span>{{ auth()->user()->name }}</span>
+                    <svg class="absolute right-0 w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                    </svg>
+                </x-button>
 
-                    {{-- <button x-on:click="dropdownOpen=true"
+                {{-- <button x-on:click="dropdownOpen=true"
                 class="inline-flex items-center justify-center h-12 py-2 pl-3 pr-12 text-sm font-medium transition-colors bg-white border rounded-md text-neutral-700 hover:bg-neutral-100 active:bg-white focus:bg-white focus:outline-none disabled:opacity-50 disabled:pointer-events-none">
                 <img src="{{ auth()->user()->avatar_url }}" class="object-cover w-8 h-8 border rounded-full border-neutral-200" />
                 <span class="flex flex-col items-start flex-shrink-0 h-full ml-2 leading-none translate-y-px">
@@ -26,48 +25,49 @@
                 <svg class="absolute right-0 w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
                 </svg>
-            </button> --}}
+                </button> --}}
 
-                    <div x-show="dropdownOpen" @click.away="dropdownOpen=false" x-transition:enter="ease-out duration-200" x-transition:enter-start="-translate-y-2" x-transition:enter-end="translate-y-0"
-                        class="absolute top-0 z-50 w-56 mt-12 -translate-x-1/2 left-1/2" x-cloak>
-                        <div class="p-1 mt-1 bg-white border rounded-md shadow-md border-neutral-200/70 text-neutral-700">
-                            <div class="px-2 py-1.5 text-sm font-semibold">My Account</div>
-                            <div class="h-px my-1 -mx-1 bg-neutral-200"></div>
-                            <x-link href="/dashboard"
-                                class="relative flex cursor-pointer select-none hover:bg-neutral-100 items-center rounded px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                    class="w-4 h-4 mr-2">
-                                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-                                    <circle cx="12" cy="7" r="4"></circle>
-                                </svg>
-                                <span>Profile</span>
-                                {{-- <span class="ml-auto text-xs tracking-widest opacity-60">⇧⌘P</span> --}}
-                            </x-link>
-                            @if (auth()->user()?->is_manager)
-                                <x-link :href="route('filament.management.pages.dashboard', ['tenant' => auth()->user()->organization])"
-                                    class="relative flex cursor-pointer select-none hover:bg-neutral-100 items-center rounded px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" class="w-4 h-4 mr-2">
-                                        <rect width="20" height="14" x="2" y="5" rx="2"></rect>
-                                        <line x1="2" x2="22" y1="10" y2="10"></line>
-                                    </svg>
-                                    <span>Manager Portal</span>
-                                    {{-- <span class="ml-auto text-xs tracking-widest opacity-60">⌘B</span> --}}
-                                </x-link>
-                            @endif
-                            @if (auth()->user()?->is_admin)
-                                <x-link :href="route('filament.admin.pages.dashboard')"
-                                    class="relative flex cursor-default select-none hover:bg-neutral-100 items-center rounded px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" class="w-4 h-4 mr-2">
-                                        <rect width="20" height="14" x="2" y="5" rx="2"></rect>
-                                        <line x1="2" x2="22" y1="10" y2="10"></line>
-                                    </svg>
-                                    <span>Admin Portal</span>
-                                    {{-- <span class="ml-auto text-xs tracking-widest opacity-60">⌘B</span> --}}
-                                </x-link>
-                            @endif
-                            {{-- <a href="#_"
+                <div x-show="dropdownOpen" @click.away="dropdownOpen=false" x-transition:enter="ease-out duration-200" x-transition:enter-start="-translate-y-2" x-transition:enter-end="translate-y-0" class="absolute top-0 z-50 w-56 mt-12 -translate-x-1/2 left-1/2" x-cloak>
+                    <div class="p-1 mt-1 bg-white border rounded-md shadow-md border-neutral-200/70 text-neutral-700">
+                        <div class="px-2 py-1.5 text-sm font-semibold">My Account</div>
+                        <div class="h-px my-1 -mx-1 bg-neutral-200"></div>
+                        <x-link href="/dashboard" class="relative flex cursor-pointer select-none hover:bg-neutral-100 items-center rounded px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-2">
+                                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span>Profile</span>
+                            {{-- <span class="ml-auto text-xs tracking-widest opacity-60">⇧⌘P</span> --}}
+                        </x-link>
+                        <x-link href="/dashboard?activeTab=4" class="relative flex cursor-pointer select-none hover:bg-neutral-100 items-center rounded px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-2">
+                                <circle cx="8" cy="21" r="2"></circle>
+                                <circle cx="20" cy="21" r="2"></circle>
+                                <path d="M5.67 6H23l-1.68 8.39a2 2 0 0 1-2 1.61H8.75a2 2 0 0 1-2-1.74L5.23 2.74A2 2 0 0 0 3.25 1H1"></path>
+                            </svg>
+                            <span>My Orders</span>
+                        </x-link>
+                        @if (auth()->user()?->is_manager)
+                        <x-link :href="route('filament.management.pages.dashboard', ['tenant' => auth()->user()->organization])" class="relative flex cursor-pointer select-none hover:bg-neutral-100 items-center rounded px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-2">
+                                <rect width="20" height="14" x="2" y="5" rx="2"></rect>
+                                <line x1="2" x2="22" y1="10" y2="10"></line>
+                            </svg>
+                            <span>Manager Portal</span>
+                            {{-- <span class="ml-auto text-xs tracking-widest opacity-60">⌘B</span> --}}
+                        </x-link>
+                        @endif
+                        @if (auth()->user()?->is_admin)
+                        <x-link :href="route('filament.admin.pages.dashboard')" class="relative flex cursor-default select-none hover:bg-neutral-100 items-center rounded px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-2">
+                                <rect width="20" height="14" x="2" y="5" rx="2"></rect>
+                                <line x1="2" x2="22" y1="10" y2="10"></line>
+                            </svg>
+                            <span>Admin Portal</span>
+                            {{-- <span class="ml-auto text-xs tracking-widest opacity-60">⌘B</span> --}}
+                        </x-link>
+                        @endif
+                        {{-- <a href="#_"
                         class="relative flex cursor-default select-none hover:bg-neutral-100 items-center rounded px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="w-4 h-4 mr-2">
@@ -79,7 +79,7 @@
                         <span>Settings</span>
                         <span class="ml-auto text-xs tracking-widest opacity-60">⌘S</span>
                     </a> --}}
-                            {{-- <a href="#_"
+                        {{-- <a href="#_"
                         class="relative flex cursor-default select-none hover:bg-neutral-100 items-center rounded px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="w-4 h-4 mr-2">
@@ -96,8 +96,8 @@
                         <span>Keyboard shortcuts</span>
                         <span class="ml-auto text-xs tracking-widest opacity-60">⌘K</span>
                     </a> --}}
-                            {{-- <div class="h-px my-1 -mx-1 bg-neutral-200"></div> --}}
-                            {{-- <div
+                        {{-- <div class="h-px my-1 -mx-1 bg-neutral-200"></div> --}}
+                        {{-- <div
                         class="relative flex cursor-default select-none hover:bg-neutral-100 items-center rounded px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round" class="w-4 h-4 mr-2">
@@ -108,7 +108,7 @@
                         </svg>
                         <span>Team</span>
                     </div> --}}
-                            {{-- <div class="relative group">
+                        {{-- <div class="relative group">
                         <div
                             class="relative flex cursor-default select-none hover:bg-neutral-100 items-center rounded px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -157,7 +157,7 @@
                             </div>
                         </div>
                     </div> --}}
-                            {{-- <div
+                        {{-- <div
                         class="relative flex cursor-default select-none hover:bg-neutral-100 items-center rounded px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round" class="w-4 h-4 mr-2">
@@ -167,8 +167,8 @@
                         <span>New Team</span>
                         <span class="ml-auto text-xs tracking-widest opacity-60">⌘+T</span>
                     </div> --}}
-                            {{-- <div class="h-px my-1 -mx-1 bg-neutral-200"></div> --}}
-                            {{-- <a href="#_"
+                        {{-- <div class="h-px my-1 -mx-1 bg-neutral-200"></div> --}}
+                        {{-- <a href="#_"
                         class="relative flex cursor-default select-none hover:bg-neutral-100 items-center rounded px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round" class="w-4 h-4 mr-2">
@@ -179,7 +179,7 @@
                         </svg>
                         <span>GitHub</span>
                     </a> --}}
-                            {{-- <a href="#_"
+                        {{-- <a href="#_"
                         class="relative flex cursor-default select-none hover:bg-neutral-100 items-center rounded px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round" class="w-4 h-4 mr-2">
@@ -193,7 +193,7 @@
                         </svg>
                         <span>Support</span>
                     </a> --}}
-                            {{-- <a href="#_"
+                        {{-- <a href="#_"
                         class="relative flex cursor-default select-none hover:bg-neutral-100 items-center rounded px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
                         data-disabled>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -202,11 +202,11 @@
                         </svg>
                         <span>API</span>
                     </a> --}}
-                            <div class="h-px my-1 -mx-1 bg-neutral-200"></div>
-                            <livewire:resources.user-resource.widgets.logout-button />
-                        </div>
+                        <div class="h-px my-1 -mx-1 bg-neutral-200"></div>
+                        <livewire:resources.user-resource.widgets.logout-button />
                     </div>
                 </div>
+            </div>
             @endauth
         </div>
     </div>
@@ -215,9 +215,7 @@
     <div x-data="{
         bannerVisible: false,
         bannerVisibleAfter: 300,
-    }" x-show="bannerVisible" x-transition:enter="transition ease-out duration-500" x-transition:enter-start="-translate-y-10" x-transition:enter-end="translate-y-0"
-        x-transition:leave="transition ease-in duration-300" x-transition:leave-start="translate-y-0" x-transition:leave-end="-translate-y-10"
-        x-on:cart-item-added.window="setTimeout(() => { bannerVisible = true }, bannerVisibleAfter);" class="absolute top-0 left-0 w-full h-auto py-2 duration-300 ease-out bg-black shadow-sm sm:py-0 sm:h-10" x-cloak>
+    }" x-show="bannerVisible" x-transition:enter="transition ease-out duration-500" x-transition:enter-start="-translate-y-10" x-transition:enter-end="translate-y-0" x-transition:leave="transition ease-in duration-300" x-transition:leave-start="translate-y-0" x-transition:leave-end="-translate-y-10" x-on:cart-item-added.window="setTimeout(() => { bannerVisible = true }, bannerVisibleAfter);" class="absolute top-0 left-0 w-full h-auto py-2 duration-300 ease-out bg-black shadow-sm sm:py-0 sm:h-10" x-cloak>
         <div class="flex items-center justify-between w-full h-full px-3 mx-auto max-w-7xl ">
             <a href="#" class="flex flex-col w-full h-full text-xs leading-6 text-white text-center duration-150 ease-out sm:flex-row sm:items-center opacity-80 hover:opacity-100">
                 {{-- <span class="flex items-center">
