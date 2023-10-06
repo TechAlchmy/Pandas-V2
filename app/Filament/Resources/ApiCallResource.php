@@ -51,6 +51,9 @@ class ApiCallResource extends Resource
             ->columns([
                 TextColumn::make('created_at')->dateTime()->sortable(),
                 TextColumn::make('api'),
+                TextColumn::make('request_id')->label('Request#'),
+                TextColumn::make('order_id')->state(fn ($record) => $record->order_id ?: '-')
+                    ->url(fn ($record) => $record->order_id ? route('filament.admin.resources.orders.edit', $record->order_id) : null),
                 TextColumn::make('success')
                     ->badge()
                     ->formatStateUsing(fn ($state) => $state ? 'OK' : 'X')

@@ -36,7 +36,7 @@ class FetchBlackHawk implements ShouldQueue
         // $testData = ApiCall::first();
         // $this->updateDiscounts($testData->response['products']);
 
-        $result = BlackHawkService::api();
+        $result = BlackHawkService::catalog();
 
         if ($result['success']) {
             $this->updateDiscounts($result['response']['products']);
