@@ -16,10 +16,21 @@ class ListApiCalls extends ListRecords
     {
         return [
             \Filament\Actions\Action::make('call')->label('Fetch Fresh Data')
-                    ->icon('heroicon-o-play')
-                    ->modalContent(new HtmlString('Are you sure you want to fresh the latest data ?'))
-                    ->action(fn() =>FetchBlackHawk::dispatch())
-                    ->disabled(ApiCall::disabledApiButton()),
+                ->icon('heroicon-o-play')
+                ->modalContent(new HtmlString('Are you sure you want to fresh the latest data ?'))
+                ->action(fn () => FetchBlackHawk::dispatch())
+                ->disabled(ApiCall::disabledApiButton()),
+        ];
+    }
+
+    public function getTabs(): array
+    {
+        return [
+            null => \Filament\Resources\Components\Tab::make('All'),
+            'catalog' => \Filament\Resources\Components\Tab::make()
+                ->query(fn ($query) => $query->where('api', 'catalog')),
+            'order' => \Filament\Resources\Components\Tab::make()
+                ->query(fn ($query) => $query->where('api', 'order'))
         ];
     }
 }

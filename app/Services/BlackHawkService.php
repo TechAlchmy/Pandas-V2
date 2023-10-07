@@ -3,11 +3,13 @@
 namespace App\Services;
 
 use App\Models\ApiCall;
+use App\Models\Order;
 use Illuminate\Support\Facades\Http;
 
 class BlackHawkService
 {
-    protected readonly string $api;
+    protected readonly string $catalogApi;
+    protected readonly string $orderApi;
     protected readonly string $clientProgramId;
     protected readonly string $merchantId;
     protected readonly string $cert;
@@ -19,7 +21,8 @@ class BlackHawkService
 
     public function __construct()
     {
-        $this->api = config('services.blackhawk.api');
+        $this->catalogApi = config('services.blackhawk.catalog_api');
+        $this->orderApi = config('services.blackhawk.order_api');
         $this->clientProgramId = config('services.blackhawk.client_program_id');
         $this->merchantId = config('services.blackhawk.merchant_id');
         $this->cert = config('services.blackhawk.cert');
@@ -36,24 +39,32 @@ class BlackHawkService
     }
 
     // This is the catalog endpoint for egift cards
-    public static function api()
+    public static function catalog()
     {
-        // There should be a waiting period of 1 minute before retrying
         $instance = static::instance();
 
         $result = [];
 
+        $requestId = uniqid();
         $headers = [
-            'requestId' => uniqid(), // This should be a unique id from our api call log
+            'requestId' => $requestId, // This should be a unique id from our api call log
             'merchantId' => $instance->merchantId,
             'accept' => 'application/json; charset=utf-8'
         ];
+
+        ApiCall::create([
+            'api' => 'catalog',
+            'request_id' => $requestId,
+            'response' => null,
+            'success' => null,
+            'created_at' => now()
+        ]);
 
         $promise = Http::async()->withHeaders($headers)->withOptions([
             'cert' => [$instance->cert, $instance->certPassword]
         ])
             ->get(
-                "{$instance->api}/clientProgram/byKey",
+                "{$instance->catalogApi}/clientProgram/byKey",
                 ['clientProgramId' => $instance->clientProgramId]
             )->then(
                 function ($response) use (&$result) {
@@ -61,16 +72,72 @@ class BlackHawkService
                         'response' => $response->json(),
                         'success' => $response->ok()
                     ];
-                    ApiCall::orderBy('id', 'desc')->first()->update($result);
+                    ApiCall::where('api', 'catalog')->orderBy('id', 'desc')->first()->update($result);
                 }
             );
 
+        $promise->wait();
+        return $result;
+    }
+
+    // This is the place order endpoint for egift cards in realtime
+    public static function order(Order $order)
+    {
+        // There should be a waiting period such that the last request has a response received (not null) before retyring the api call again
+        $instance = static::instance();
+
+        $result = [];
+
+        $requestId = uniqid();
+        $headers = [
+            'requestId' => $requestId, // This should be a unique id from our api call log
+            'clientProgramNumber' => $instance->clientProgramId,
+            'millisecondsToWait' => 15000,
+            'merchantId' => $instance->merchantId,
+            'SYNCHRONOUS_ONLY' => 'true',
+            'Content-Type' => 'application/json'
+        ];
+
+        $refId = uniqid();
+        $order->loadMissing('orderDetails.discount');
+        $orderDetails = $order->orderDetails->map(function ($orderDetail) use ($refId) {
+            return [
+                'clientRefId' => (string) $refId,
+                'quantity' => (string) $orderDetail->quantity,
+                'amount' => (string) ($orderDetail->amount / 100),
+                'contentProvider' => (string) $orderDetail->discount->code
+            ];
+        });
+
         ApiCall::create([
-            'api' => 'catalog',
+            'api' => 'order',
+            'request_id' => $requestId,
+            'order_id' => $order->id,
             'response' => null,
             'success' => null,
             'created_at' => now()
         ]);
+
+        $promise = Http::async()->withHeaders($headers)->withOptions([
+            'cert' => [$instance->cert, $instance->certPassword]
+        ])
+            ->post(
+                "{$instance->orderApi}/submitRealTimeEgiftBulk",
+                [
+                    'clientProgramNumber' => $instance->clientProgramId,
+                    'paymentType' => 'ACH_DEBIT',
+                    'returnCardNumberAndPIN' => 'true',
+                    'orderDetails' => $orderDetails,
+                ]
+            )->then(
+                function ($response) use (&$result) {
+                    $result = [
+                        'response' => $response->json(),
+                        'success' => $response->created(), // $resposne->accepeted() or 202 we treat as failure
+                    ];
+                    ApiCall::where('api', 'order')->orderBy('id', 'desc')->first()->update($result);
+                }
+            );
 
         $promise->wait();
         return $result;

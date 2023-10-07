@@ -55,6 +55,10 @@ class AdminPanelProvider extends PanelProvider
                     ->url('/')
                     ->openUrlInNewTab()
                     ->icon('heroicon-s-globe-americas'),
+                NavigationItem::make()
+                    ->label('Settings')
+                    ->url('/admin/settings/1/edit')
+                    ->icon('heroicon-s-cog'),
             ])
             ->plugins([
                 MaintenanceSwitchPlugin::make(),

@@ -6,6 +6,7 @@ use App\Enums\PaymentStatus;
 use App\Models\Order;
 use App\Models\OrderDetailRefund;
 use App\Models\OrderRefund;
+use App\Models\Setting;
 use App\Notifications\SendUserOrderRefundInReview;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -18,6 +19,7 @@ use Filament\Notifications\Notification;
 use Illuminate\Support\Carbon;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
+use Filament\Support\Enums\FontWeight;
 
 use function Filament\Support\format_money;
 
@@ -46,6 +48,12 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                     ->size(Infolists\Components\TextEntry\TextEntrySize::Large)
                     ->getStateUsing(fn ($record) => $record->order_total / 100)
                     ->money('USD'),
+                Infolists\Components\TextEntry::make('note')->hiddenLabel()
+                    ->weight(FontWeight::Bold)
+                    ->color('warning')
+                    ->hidden(fn ($record) => $record->api_status === 'completed')
+                    ->state(Setting::get('order_processing_message'))
+                    ->columnSpanFull(),
                 Infolists\Components\RepeatableEntry::make('orderDetails')
                     ->label('Details')
                     ->columnSpanFull()
@@ -73,21 +81,21 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                                         ->required()
                                         ->minValue(1)
                                         ->maxValue(fn ($record, $get) => $record->orderDetails->firstWhere('id', $get('id'))?->quantity)
-                                        ->helperText(fn ($record, $get) => 'Max: '.$record->orderDetails->firstWhere('id', $get('id'))?->quantity)
+                                        ->helperText(fn ($record, $get) => 'Max: ' . $record->orderDetails->firstWhere('id', $get('id'))?->quantity)
                                         ->suffix(function ($record, $get, $state) {
                                             $orderDetail = $record->orderDetails->firstWhere('id', $get('id'));
                                             $orderDetail = $orderDetail->replicate(['quantity']);
                                             $orderDetail->quantity = $state;
                                             return format_money($orderDetail->total / 100, 'USD');
                                         })
-                                        ->disabled(fn ($get) => ! empty($get('order_detail_refund.id'))),
+                                        ->disabled(fn ($get) => !empty($get('order_detail_refund.id'))),
                                     Forms\Components\TextInput::make('order_detail_refund.note')
                                         ->label('Reason')
-                                        ->disabled(fn ($get) => ! empty($get('order_detail_refund.id')))
+                                        ->disabled(fn ($get) => !empty($get('order_detail_refund.id')))
                                         ->maxLength(255),
                                     Forms\Components\Placeholder::make('order_detail_refund.approved_at')
                                         ->label('Status')
-                                        ->visible(fn ($get) => ! empty($get('order_detail_refund.id')))
+                                        ->visible(fn ($get) => !empty($get('order_detail_refund.id')))
                                         ->content(function ($get) use ($record) {
                                             $orderDetail = $record->orderDetails->firstWhere('id', $get('id'));
                                             return $orderDetail->orderDetailRefund->status_message;
@@ -99,7 +107,7 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                             foreach ($data['order_details'] as $detail) {
                                 $orderDetail = $record->orderDetails->firstWhere('id', $detail['id']);
 
-                                if (! $orderDetail) {
+                                if (!$orderDetail) {
                                     continue;
                                 }
 
@@ -121,8 +129,8 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                                     return \implode(' - ', [
                                         $refund->orderDetail->discount->brand->name,
                                         $refund->orderDetail->discount->name,
-                                        'x'.$refund->quantity,
-                                        'Reason:'.$refund->note,
+                                        'x' . $refund->quantity,
+                                        'Reason:' . $refund->note,
                                     ]);
                                 }, $refunds)),
                             );

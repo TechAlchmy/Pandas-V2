@@ -9,6 +9,7 @@ use App\Http\Integrations\Cardknox\Requests\CreatePaymentMethod;
 use App\Models\Discount;
 use App\Models\Order;
 use App\Notifications\OrderApprovedNotification;
+use App\Services\BlackHawkService;
 use App\Services\CardknoxPayment\CardknoxBody;
 use App\Services\CardknoxPayment\CardknoxPayment;
 use Filament\Forms;
@@ -194,13 +195,14 @@ class CreateOrder extends Component implements HasForms, HasActions
             ]]);
         }
 
+        // TODO: Make an API Call to BHN to create a new order of the ordered item if this is_bhn
+        BlackHawkService::order($order);
+
         $order->update([
             'cardknox_refnum' => $response->json('xRefNum'),
             'order_status' => OrderStatus::Processing,
             'payment_status' => PaymentStatus::tryFrom((string) $response->json('xStatus')),
         ]);
-
-        // TODO: Make an API Call to BHN to create a new order of the ordered item if this is_bhn
 
         try {
             auth()->user()->notify(new OrderApprovedNotification($order));
