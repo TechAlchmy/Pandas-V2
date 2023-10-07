@@ -15,7 +15,7 @@ class ListApiCalls extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            \Filament\Actions\Action::make('call')->label('Fetch Fresh Data')
+            \Filament\Actions\Action::make('call')->label('Fetch Fresh Catalog Data')
                 ->icon('heroicon-o-play')
                 ->modalContent(new HtmlString('Are you sure you want to fresh the latest data ?'))
                 ->action(fn () => FetchBlackHawk::dispatch())

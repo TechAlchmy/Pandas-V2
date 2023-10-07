@@ -39,7 +39,7 @@ class BlackHawkService
     }
 
     // This is the catalog endpoint for egift cards
-    public static function catalog()
+    public static function catalog(?string $previousReq)
     {
         $instance = static::instance();
 
@@ -57,8 +57,13 @@ class BlackHawkService
             'request_id' => $requestId,
             'response' => null,
             'success' => null,
+            'previous_request' => $previousReq ?? null,
             'created_at' => now()
         ]);
+
+        if ($previousReq) {
+            ApiCall::where('request_id', $previousReq)->update(['allow_retry' => false]);
+        }
 
         $promise = Http::async()->withHeaders($headers)->withOptions([
             'cert' => [$instance->cert, $instance->certPassword]
@@ -81,7 +86,7 @@ class BlackHawkService
     }
 
     // This is the place order endpoint for egift cards in realtime
-    public static function order(Order $order)
+    public static function order(Order $order, ?string $previousReq = null)
     {
         // There should be a waiting period such that the last request has a response received (not null) before retyring the api call again
         $instance = static::instance();
@@ -115,8 +120,13 @@ class BlackHawkService
             'order_id' => $order->id,
             'response' => null,
             'success' => null,
+            'previous_request' => $previousReq ?? null,
             'created_at' => now()
         ]);
+
+        if ($previousReq) {
+            ApiCall::where('request_id', $previousReq)->update(['allow_retry' => false]);
+        }
 
         $promise = Http::async()->withHeaders($headers)->withOptions([
             'cert' => [$instance->cert, $instance->certPassword]

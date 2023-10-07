@@ -16,7 +16,8 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    // 'name' => env('APP_NAME', 'Panda People'),
+    'name' => 'Panda People',
 
     /*
     |--------------------------------------------------------------------------

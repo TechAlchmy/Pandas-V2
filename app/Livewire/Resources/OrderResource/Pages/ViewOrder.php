@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Resources\OrderResource\Pages;
 
+use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Models\Order;
 use App\Models\OrderDetailRefund;
@@ -51,7 +52,7 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                 Infolists\Components\TextEntry::make('note')->hiddenLabel()
                     ->weight(FontWeight::Bold)
                     ->color('warning')
-                    ->hidden(fn ($record) => $record->api_status === 'completed')
+                    ->visible(fn ($record) => OrderStatus::isIncomplete($record->order_status))
                     ->state(Setting::get('order_processing_message'))
                     ->columnSpanFull(),
                 Infolists\Components\RepeatableEntry::make('orderDetails')

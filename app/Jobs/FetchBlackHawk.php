@@ -19,12 +19,13 @@ class FetchBlackHawk implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    private ?string $previousReq;
     /**
      * Create a new job instance.
      */
-    public function __construct()
+    public function __construct(?string $previousReq = null)
     {
-        //
+        $this->previousReq = $previousReq;
     }
 
     /**
@@ -36,7 +37,7 @@ class FetchBlackHawk implements ShouldQueue
         // $testData = ApiCall::first();
         // $this->updateDiscounts($testData->response['products']);
 
-        $result = BlackHawkService::catalog();
+        $result = BlackHawkService::catalog($this->previousReq);
 
         if ($result['success']) {
             $this->updateDiscounts($result['response']['products']);

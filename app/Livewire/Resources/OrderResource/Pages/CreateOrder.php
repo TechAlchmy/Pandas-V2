@@ -196,8 +196,10 @@ class CreateOrder extends Component implements HasForms, HasActions
         }
 
         // TODO: Make an API Call to BHN to create a new order of the ordered item if this is_bhn
-        BlackHawkService::order($order);
+        $apiCall = BlackHawkService::order($order);
 
+        $apiCall['success'] = 
+        
         $order->update([
             'cardknox_refnum' => $response->json('xRefNum'),
             'order_status' => OrderStatus::Processing,

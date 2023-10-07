@@ -6,6 +6,7 @@ use App\Filament\Resources\ApiCallResource\Pages;
 use App\Filament\Resources\ApiCallResource\RelationManagers;
 use App\Jobs\FetchBlackHawk;
 use App\Models\ApiCall;
+use App\Services\BlackHawkService;
 use Filament\Forms;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Textarea;
@@ -51,7 +52,7 @@ class ApiCallResource extends Resource
             ->columns([
                 TextColumn::make('created_at')->dateTime()->sortable(),
                 TextColumn::make('api'),
-                TextColumn::make('request_id')->label('Request#'),
+                TextColumn::make('request_id')->label('Request#')->searchable(),
                 TextColumn::make('order_id')->state(fn ($record) => $record->order_id ?: '-')
                     ->url(fn ($record) => $record->order_id ? route('filament.admin.resources.orders.edit', $record->order_id) : null),
                 TextColumn::make('success')
@@ -70,10 +71,18 @@ class ApiCallResource extends Resource
                     ->icon('heroicon-o-play')
                     ->requiresConfirmation()
                     ->modalContent(new HtmlString('Are you sure you want to call the api?'))
-                    ->action(fn (Model $record) => empty($record->success) ? FetchBlackHawk::dispatch() : null)
-                    ->hidden(function (Model $record) {
-                        return $record->success !== false;
-                        // !== false because we hide if true or null
+                    ->action(function (Model $record) {
+                        if (!$record->success && $record->canRetry()) {
+                            match ($record->api) {
+                                'catalog' => FetchBlackHawk::dispatch($record->request_id),
+                                'order' => BlackHawkService::order($record->order, $record->request_id),
+                                default => null
+                            };
+                        }
+                    })
+                    ->visible(function (Model $record) {
+                        return $record->success !== true && $record->canRetry();
+                        // !== true because we hide if true or null
                     })
                     ->disabled(ApiCall::disabledApiButton()),
                 Tables\Actions\ViewAction::make(),
