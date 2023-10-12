@@ -78,9 +78,12 @@ class FetchBlackHawk implements ShouldQueue
             if (Discount::where('code', $fieldsFromApi['code'])->doesntExist()) {
                 $discount = Discount::create(array_merge($fieldsFromApi, $commonFields));
 
-                $discount->addMediaFromUrl($product['productImage'])
-                    ->preservingOriginal()
-                    ->toMediaCollection('featured', 's3');
+                try {
+                    $discount->addMediaFromUrl($product['productImage'])
+                        ->preservingOriginal()
+                        ->toMediaCollection('featured', 's3');
+                } catch (\Spatie\MediaLibrary\MediaCollections\Exceptions\UnreachableUrl $e) {
+                }
             }
 
             // TODO: If we have some product that is missing from the API, we need to disable it.

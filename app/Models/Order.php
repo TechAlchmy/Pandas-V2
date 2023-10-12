@@ -35,6 +35,11 @@ class Order extends Model implements Sortable
         return $this->belongsTo(User::class);
     }
 
+    public function apiCalls()
+    {
+        return $this->hasMany(ApiCall::class);
+    }
+
     public function orderDetails()
     {
         return $this->hasMany(OrderDetail::class);

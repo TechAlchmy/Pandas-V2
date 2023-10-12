@@ -4,6 +4,7 @@ namespace App\Livewire\Resources\OrderResource\Pages;
 
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
+use App\Filament\Widgets\GiftWidget;
 use App\Models\Order;
 use App\Models\OrderDetailRefund;
 use App\Models\OrderRefund;
@@ -15,6 +16,8 @@ use Filament\Forms;
 use Filament\Infolists\Concerns\InteractsWithInfolists;
 use Filament\Infolists\Contracts\HasInfolists;
 use Filament\Infolists;
+use Filament\Infolists\Components\RepeatableEntry;
+use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Carbon;
@@ -31,8 +34,10 @@ class ViewOrder extends Component implements HasForms, HasInfolists
 
     public $id;
 
+
     public function viewInfolist(Infolist $infolist)
     {
+        // dd($this->record->apiCalls->firstWhere('success', true)->response);
         return $infolist
             ->record($this->record)
             ->columns(['default' => 2])
@@ -55,6 +60,16 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                     ->visible(fn ($record) => OrderStatus::isIncomplete($record->order_status))
                     ->state(Setting::get('order_processing_message'))
                     ->columnSpanFull(),
+
+                RepeatableEntry::make('apiCalls')->label('Gift Card')
+                    ->schema([
+                        Infolists\Components\ImageEntry::make('name')
+                            ->getStateUsing(fn ($record) => $record)
+                            ->label('Name'),
+
+                    ])
+                    ->hidden(fn ($record) => $record->apiCalls->firstWhere('success', false)),
+
                 Infolists\Components\RepeatableEntry::make('orderDetails')
                     ->label('Details')
                     ->columnSpanFull()
@@ -166,7 +181,7 @@ class ViewOrder extends Component implements HasForms, HasInfolists
             ->with('orderDetails', function ($query) {
                 $query->with('orderDetailRefund', fn ($query) => $query->withTrashed())
                     ->with('discount.brand.media');
-            })
+            })->whereHas('apiCalls', fn ($query) => $query->where('success', true))
             ->withExists(['orderDetailRefunds' => fn ($query) => $query->withTrashed()])
             ->firstWhere('uuid', $this->id);
     }
