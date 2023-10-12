@@ -84,12 +84,33 @@ class FetchBlackHawk implements ShouldQueue
                         ->toMediaCollection('featured', 's3');
                 } catch (\Spatie\MediaLibrary\MediaCollections\Exceptions\UnreachableUrl $e) {
                 }
-            }
+            } else {
+                $existingDiscount = Discount::where('code', $fieldsFromApi['code'])->first();
 
-            // TODO: If we have some product that is missing from the API, we need to disable it.
-            // TODO: If we have a product that is present in their catalog, but the details are different, we need to update it.
-            // TODO: If any change happens in already existing product, we need to disable it and put it to is_approved=false
-            // TODO: If anything needs to be approved, email notification daily after api call to {mail}
+                // Convert the existingDiscount model and $fieldsFromApi array to collections for comparison.
+                $detailsHaveChanged = collect($fieldsFromApi)->reject(function ($value, $key) use ($existingDiscount) {
+                    return $existingDiscount[$key] == $value;
+                })->isNotEmpty();
+
+
+                if ($detailsHaveChanged) {
+                    // Update the existing discount entry with new details and make it requiring approval.
+                    $existingDiscount->update($fieldsFromApi);
+
+                    $existingDiscount->update([
+                        'is_active' => false,
+                        'is_approved' => false
+                    ]);
+
+                    //send email to 
+                    // Setting::get('');
+                }
+
+                // TODO: If we have some product that is missing from the API, we need to disable it.
+                // TODO: If we have a product that is present in their catalog, but the details are different, we need to update it.
+                // TODO: If any change happens in already existing product, we need to disable it and put it to is_approved=false
+                // TODO: If anything needs to be approved, email notification daily after api call to {mail}
+            }
         });
     }
 
