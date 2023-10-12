@@ -3,9 +3,12 @@
 namespace App\Jobs;
 
 use App\Enums\DiscountVoucherTypeEnum;
+use App\Mail\ApprovalRequiredMail;
 use App\Models\ApiCall;
 use App\Models\Brand;
 use App\Models\Discount;
+use App\Models\Setting;
+use App\Notifications\ApprovalRequired;
 use App\Services\BlackHawkService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -13,6 +16,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 
 class FetchBlackHawk implements ShouldQueue
@@ -105,13 +109,18 @@ class FetchBlackHawk implements ShouldQueue
                     //send email to 
                     // Setting::get('');
                 }
-
-                // TODO: If we have some product that is missing from the API, we need to disable it.
-                // TODO: If we have a product that is present in their catalog, but the details are different, we need to update it.
-                // TODO: If any change happens in already existing product, we need to disable it and put it to is_approved=false
-                // TODO: If anything needs to be approved, email notification daily after api call to {mail}
             }
+
+            // TODO: If anything needs to be approved, email notification daily after api call to {mail}
+
         });
+
+        // TODO: If we have some product that is missing from the API, we need to disable it.
+        $apiProductCodes = collect($products)->pluck('contentProviderCode')->toArray();
+        Discount::whereNotIn('code', $apiProductCodes)->where('is_active', true)->update(['is_active' => false]);
+
+        $receiver = Setting::get('notification_email');
+        Notification::route('mail', $receiver)->notify(new ApprovalRequired());
     }
 
     private function resolveBrand($product): int

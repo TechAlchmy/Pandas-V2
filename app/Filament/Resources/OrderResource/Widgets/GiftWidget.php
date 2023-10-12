@@ -19,10 +19,12 @@ class GiftWidget extends Widget
 
     protected function getViewData(): array
     {
-        return ApiCall::where('success', true)
+        $data = ApiCall::where('success', true)
             ->where('order_id', $this->record->id)
             ->whereNotNull('response')
             ->value('response');
+
+        return $data ?? [];
     }
     public function render(): View
     {
