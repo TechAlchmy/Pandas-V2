@@ -114,6 +114,13 @@ class BlackHawkService
             ];
         });
 
+        $reqData = [
+            'clientProgramNumber' => $instance->clientProgramId,
+            'paymentType' => 'ACH_DEBIT',
+            'returnCardNumberAndPIN' => 'true',
+            'orderDetails' => $orderDetails,
+        ];
+
         ApiCall::create([
             'api' => 'order',
             'request_id' => $requestId,
@@ -121,7 +128,8 @@ class BlackHawkService
             'response' => null,
             'success' => null,
             'previous_request' => $previousReq ?? null,
-            'created_at' => now()
+            'created_at' => now(),
+            'request' => $reqData
         ]);
 
         if ($previousReq) {
@@ -133,12 +141,7 @@ class BlackHawkService
         ])
             ->post(
                 "{$instance->orderApi}/submitRealTimeEgiftBulk",
-                [
-                    'clientProgramNumber' => $instance->clientProgramId,
-                    'paymentType' => 'ACH_DEBIT',
-                    'returnCardNumberAndPIN' => 'true',
-                    'orderDetails' => $orderDetails,
-                ]
+                $reqData
             )->then(
                 function ($response) use (&$result) {
                     $result = [

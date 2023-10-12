@@ -41,7 +41,7 @@ class ApprovalRequired extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->line('There are ' . $this->count . ' discounts waiting for approval.')
+            ->line('There are ' . $this->count . ' discount(s) waiting for approval.')
             ->action('Approve Now', url('/admin/discounts?&tableFilters[is_approved][value]=1'));
     }
 

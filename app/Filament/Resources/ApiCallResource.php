@@ -39,6 +39,10 @@ class ApiCallResource extends Resource
             ->schema([
                 TextInput::make('created_at')->disabled(),
                 TextInput::make('api')->disabled(),
+                Textarea::make('request')->columnSpanFull()
+                    ->formatStateUsing(fn ($state) => json_encode($state, JSON_PRETTY_PRINT))
+                    ->rows(20)
+                    ->disabled(),
                 Textarea::make('response')->columnSpanFull()
                     ->formatStateUsing(fn ($state) => json_encode($state, JSON_PRETTY_PRINT))
                     ->rows(20)

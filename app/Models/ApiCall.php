@@ -17,6 +17,7 @@ class ApiCall extends Model
     public $timestamps = false;
 
     protected $casts = [
+        'request' => 'array',
         'response' => 'array'
     ];
 
