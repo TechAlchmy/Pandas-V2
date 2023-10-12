@@ -5,6 +5,7 @@ namespace App\Livewire\Resources\OrderResource\Pages;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Filament\Widgets\GiftWidget;
+use App\Models\Discount;
 use App\Models\Order;
 use App\Models\OrderDetailRefund;
 use App\Models\OrderRefund;
@@ -16,14 +17,21 @@ use Filament\Forms;
 use Filament\Infolists\Concerns\InteractsWithInfolists;
 use Filament\Infolists\Contracts\HasInfolists;
 use Filament\Infolists;
+use Filament\Infolists\Components\Group;
+use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Components\TextEntry\TextEntrySize;
 use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Carbon;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Filament\Support\Enums\FontWeight;
+use Illuminate\Support\HtmlString;
+use Illuminate\Support\Str;
+use Milon\Barcode\DNS1D;
 
 use function Filament\Support\format_money;
 
@@ -37,7 +45,7 @@ class ViewOrder extends Component implements HasForms, HasInfolists
 
     public function viewInfolist(Infolist $infolist)
     {
-        // dd($this->record->apiCalls->firstWhere('success', true)->response);
+        // dd(Discount::where('code', $this->record->apiCalls[0]->response['contentProviderCode'])->first()?->media?->first()->collection_name);
         return $infolist
             ->record($this->record)
             ->columns(['default' => 2])
@@ -61,14 +69,47 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                     ->state(Setting::get('order_processing_message'))
                     ->columnSpanFull(),
 
-                RepeatableEntry::make('apiCalls')->label('Gift Card')
+                RepeatableEntry::make('apiCalls')->label('Gift Card Details')
+                    ->columnSpanFull()
+                    ->contained(false)
+                    // ->columns(['default' => 2, 'md' => 4, 'lg' => 5])
                     ->schema([
-                        Infolists\Components\ImageEntry::make('name')
-                            ->getStateUsing(fn ($record) => $record)
-                            ->label('Name'),
+                        Section::make(fn ($record) => Discount::firstWhere('code', $record['response']['contentProviderCode'])?->name)
 
-                    ])
-                    ->hidden(fn ($record) => $record->apiCalls->firstWhere('success', false)),
+                            ->schema([
+                                ImageEntry::make('card_image')
+                                    ->defaultImageUrl(fn ($record) => Discount::firstWhere('code', $record['response']['contentProviderCode'])->media?->first()?->original_url)
+                                    ->hiddenLabel()
+                                    ->height(200)
+                                    ->columnSpan(1),
+
+                                Group::make([
+                                    TextEntry::make('tran_amount')
+                                        ->getStateUsing(fn ($record) => $record['response']['transactionAmount'])
+                                        ->label('Amount')
+                                        ->prefix('$ '),
+
+                                    TextEntry::make('pin')
+                                        ->getStateUsing(fn ($record) => $record['response']['pin'])
+                                        ->label('Access Number'),
+                                    // ->color('warning'),
+
+                                    TextEntry::make('card_number')
+                                        ->getStateUsing(fn ($record) => substr($record['response']['cardNumber'], 0, -1 * strlen($record['response']['pin'])))
+                                        ->hiddenLabel()
+                                        ->prefix('Card #: ')
+                                        ->columnSpanFull()
+                                        ->prose(),
+                                    TextEntry::make('scan_code')
+                                        ->html(true)
+                                        ->getStateUsing(fn ($record) => DNS1D::getBarcodeHTML($record['response']['cardNumber'], 'PHARMA2T', 3, 33, 'green'))
+
+                                ])->columns(2)->columnSpan(1),
+
+                            ])->columnSpanFull()
+                            ->columns(2)
+
+                    ]),
 
                 Infolists\Components\RepeatableEntry::make('orderDetails')
                     ->label('Details')
@@ -181,7 +222,7 @@ class ViewOrder extends Component implements HasForms, HasInfolists
             ->with('orderDetails', function ($query) {
                 $query->with('orderDetailRefund', fn ($query) => $query->withTrashed())
                     ->with('discount.brand.media');
-            })->whereHas('apiCalls', fn ($query) => $query->where('success', true))
+            })->with('apiCalls', fn ($query) => $query->where('success', true))
             ->withExists(['orderDetailRefunds' => fn ($query) => $query->withTrashed()])
             ->firstWhere('uuid', $this->id);
     }
