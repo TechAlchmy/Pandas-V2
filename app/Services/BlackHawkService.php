@@ -155,4 +155,69 @@ class BlackHawkService
         $promise->wait();
         return $result;
     }
+
+    public static function bulkOrder(Order $order)
+    {
+        $instance = static::instance();
+
+        $result = [];
+
+        $requestId = uniqid();
+
+        $headers = [
+            'requestId' => $requestId, // This should be a unique id from our api call log
+            'clientProgramNumber' => $instance->clientProgramId,
+            'millisecondsToWait' => 15000,
+            'merchantId' => $instance->merchantId,
+            'SYNCHRONOUS_ONLY' => 'true',
+            'Content-Type' => 'application/json'
+        ];
+
+        $refId = uniqid();
+        $order->loadMissing('orderDetails.discount');
+        $orderDetails = $order->orderDetails->map(function ($orderDetail) use ($refId) {
+            return [
+                'clientRefId' => (string) $refId,
+                'quantity' => (string) $orderDetail->quantity,
+                'amount' => (string) ($orderDetail->amount / 100),
+                'contentProvider' => (string) $orderDetail->discount->code
+            ];
+        });
+
+        $reqData = [
+            'clientProgramNumber' => $instance->clientProgramId,
+            'paymentType' => 'ACH_DEBIT',
+            'returnCardNumberAndPIN' => 'true',
+            'orderDetails' => $orderDetails,
+        ];
+
+        ApiCall::create([
+            'api' => 'order',
+            'request_id' => $requestId,
+            'order_id' => $order->id,
+            'response' => null,
+            'success' => null,
+            'created_at' => now(),
+            'request' => $reqData
+        ]);
+
+        $promise = Http::async()->withHeaders($headers)->withOptions([
+            'cert' => [$instance->cert, $instance->certPassword]
+        ])
+            ->post(
+                "{$instance->orderApi}/submitRealTimeEgiftBulk",
+                $reqData
+            )->then(
+                function ($response) use (&$result) {
+                    $result = [
+                        'response' => $response->json(),
+                        'success' => $response->created(), // $resposne->accepeted() or 202 we treat as failure
+                    ];
+                    ApiCall::where('api', 'order')->orderBy('id', 'desc')->first()->update($result);
+                }
+            );
+
+        $promise->wait();
+        return;
+    }
 }

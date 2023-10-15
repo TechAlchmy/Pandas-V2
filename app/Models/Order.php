@@ -84,4 +84,11 @@ class Order extends Model implements Sortable
     {
         return ['uuid'];
     }
+
+    public function addToQueue()
+    {
+        OrderQueue::create([
+            'order_id' => $this->id,
+        ]);
+    }
 }

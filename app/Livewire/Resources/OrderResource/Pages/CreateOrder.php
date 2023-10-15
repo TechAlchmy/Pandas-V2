@@ -46,62 +46,62 @@ class CreateOrder extends Component implements HasForms, HasActions
             ->columns(2)
             ->schema([
                 Forms\Components\Section::make('Contact information')
-                   ->schema([
-                       Forms\Components\TextInput::make('xEmail')
-                           ->email()
-                           ->label('Email')
-                           ->required(),
-                   ]),
+                    ->schema([
+                        Forms\Components\TextInput::make('xEmail')
+                            ->email()
+                            ->label('Email')
+                            ->required(),
+                    ]),
 
                 Forms\Components\Section::make('Shipping information')
-                   ->columns(2)
-                   ->schema([
-                       Forms\Components\TextInput::make('xShipFirstname')
-                           ->label('First name')
-                           ->required(),
-                       Forms\Components\TextInput::make('xShipLastname')
-                           ->label('Last name')
-                           ->required(),
-                       Forms\Components\TextInput::make('xShipCompany')
-                        ->columnSpanFull()
-                           ->label('Company')
-                           ->required(),
-                       Forms\Components\TextInput::make('xShipStreet')
-                        ->columnSpanFull()
-                           ->label('Address')
-                           ->required(),
-                       Forms\Components\TextInput::make('xShipCity')
-                           ->label('City')
-                           ->required(),
-                       Forms\Components\TextInput::make('xShipCountry')
-                           ->label('Country')
-                           ->required(),
-                       Forms\Components\TextInput::make('xShipState')
-                           ->label('State')
-                           ->required(),
-                       Forms\Components\TextInput::make('xShipZip')
-                           ->label('Zip/Postal code')
-                           ->required(),
-                   ]),
+                    ->columns(2)
+                    ->schema([
+                        Forms\Components\TextInput::make('xShipFirstname')
+                            ->label('First name')
+                            ->required(),
+                        Forms\Components\TextInput::make('xShipLastname')
+                            ->label('Last name')
+                            ->required(),
+                        Forms\Components\TextInput::make('xShipCompany')
+                            ->columnSpanFull()
+                            ->label('Company')
+                            ->required(),
+                        Forms\Components\TextInput::make('xShipStreet')
+                            ->columnSpanFull()
+                            ->label('Address')
+                            ->required(),
+                        Forms\Components\TextInput::make('xShipCity')
+                            ->label('City')
+                            ->required(),
+                        Forms\Components\TextInput::make('xShipCountry')
+                            ->label('Country')
+                            ->required(),
+                        Forms\Components\TextInput::make('xShipState')
+                            ->label('State')
+                            ->required(),
+                        Forms\Components\TextInput::make('xShipZip')
+                            ->label('Zip/Postal code')
+                            ->required(),
+                    ]),
 
                 Forms\Components\Section::make('Payment')
-                   ->columns(2)
-                   ->schema([
-                       Forms\Components\TextInput::make('xCardNum')
+                    ->columns(2)
+                    ->schema([
+                        Forms\Components\TextInput::make('xCardNum')
                             ->columnSpanFull()
                             ->label('Card number')
                             ->required(),
-                       Forms\Components\DatePicker::make('xExp')
+                        Forms\Components\DatePicker::make('xExp')
                             ->minDate(now())
                             ->label('Expiration date')
                             ->required(),
-                       Forms\Components\TextInput::make('xCVV')
-                           ->label('CVC')
-                           ->numeric()
-                           ->minLength(3)
-                           ->maxLength(3)
-                           ->required(),
-                   ]),
+                        Forms\Components\TextInput::make('xCVV')
+                            ->label('CVC')
+                            ->numeric()
+                            ->minLength(3)
+                            ->maxLength(3)
+                            ->required(),
+                    ]),
             ]);
     }
 
@@ -143,7 +143,7 @@ class CreateOrder extends Component implements HasForms, HasActions
         }
 
         $data['xAmount'] = cart()->total() / 100;
-        $data['xExp'] = $data['xExp_month'].$data['xExp_year'];
+        $data['xExp'] = $data['xExp_month'] . $data['xExp_year'];
 
         // TODO: add email to the orders table or pass a user_id when creating the order.
         $order = cart()->createOrder();
@@ -195,11 +195,11 @@ class CreateOrder extends Component implements HasForms, HasActions
             ]]);
         }
 
-        // TODO: Make an API Call to BHN to create a new order of the ordered item if this is_bhn
-        $apiCall = BlackHawkService::order($order);
+        // $apiCall = BlackHawkService::order($order);
+        // We no longer place order for blackhawk, but instead save it in our queue
 
-        $apiCall['success'] = 
-        
+        $order->addToQueue();
+
         $order->update([
             'cardknox_refnum' => $response->json('xRefNum'),
             'order_status' => OrderStatus::Processing,
