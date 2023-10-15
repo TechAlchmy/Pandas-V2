@@ -41,29 +41,38 @@ class OrderQueueResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('order_id')
-                    ->numeric()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('order_id')->state(fn ($record) => $record->order_id ?: '-')
+                    ->url(fn ($record) => $record->order_id ? route('filament.admin.resources.orders.edit', $record->order_id) : null),
+
+                Tables\Columns\TextColumn::make('is_current')->label('Status')
+                    ->formatStateUsing(fn ($state) => $state ? 'Running...' : 'Waiting...'),
+
                 Tables\Columns\TextColumn::make('attempted_at')
                     ->dateTime()
                     ->sortable(),
+
                 Tables\Columns\IconColumn::make('is_order_placed')->label('Order Placed ?')
                     ->boolean(),
+
                 Tables\Columns\IconColumn::make('is_order_success')->label('Order Successful ?')
                     ->boolean(),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->paginated([25, 50, 100, 'all'])
             ->filters([
                 //
             ])

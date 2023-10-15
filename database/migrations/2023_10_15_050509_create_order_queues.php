@@ -25,6 +25,10 @@ return new class extends Migration
                 ->nullable()
                 ->comment('If get order details returns success this will be true and this cycle is done. But if get order returns failed, make this false and softdelete this and create a duplicate queue to retry from start');
 
+            $table->boolean('is_current')
+                ->default(false)
+                ->comment('Set this when this queue starts running, and unset it when it stops or ends.');
+
             $table->timestamps();
             $table->softDeletes();
         });
