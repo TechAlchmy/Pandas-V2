@@ -19,8 +19,6 @@ class OrderQueue extends Model
     {
         return $this->belongsTo(Order::class);
     }
-    // We assume this as one to one relationship becuase all previous queue will be deleted if failed and a new one will be created
-    // This means we will always have one and only one active queue
 
     public function start(): void
     {

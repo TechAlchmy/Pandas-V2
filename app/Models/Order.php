@@ -11,9 +11,9 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 
@@ -41,10 +41,13 @@ class Order extends Model implements Sortable
         return $this->hasMany(ApiCall::class);
     }
 
-    public function orderQueues(): HasMany
+    public function orderQueue(): HasOne
     {
-        return $this->hasMany(OrderQueue::class);
+        return $this->hasOne(OrderQueue::class);
     }
+    // We assume this as one to one relationship becuase all previous queue will be deleted if failed and a new one will be created
+    // This means we will always have one and only one active queue
+
 
     public function orderDetails()
     {
