@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Order;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('order_queues', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Order::class);
+            $table->foreignId('order_id')->constrained('orders')->onDelete('cascade');
             $table->timestamp('attempted_at')->nullable();
 
             $table->boolean('is_order_placed')

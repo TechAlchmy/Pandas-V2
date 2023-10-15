@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 
@@ -35,9 +36,14 @@ class Order extends Model implements Sortable
         return $this->belongsTo(User::class);
     }
 
-    public function apiCalls()
+    public function apiCalls(): HasMany
     {
         return $this->hasMany(ApiCall::class);
+    }
+
+    public function orderQueues(): HasMany
+    {
+        return $this->hasMany(OrderQueue::class);
     }
 
     public function orderDetails()

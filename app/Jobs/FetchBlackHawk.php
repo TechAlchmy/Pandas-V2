@@ -3,8 +3,6 @@
 namespace App\Jobs;
 
 use App\Enums\DiscountVoucherTypeEnum;
-use App\Mail\ApprovalRequiredMail;
-use App\Models\ApiCall;
 use App\Models\Brand;
 use App\Models\Discount;
 use App\Models\Setting;
@@ -18,6 +16,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
+use Throwable;
 
 class FetchBlackHawk implements ShouldQueue
 {
@@ -120,7 +119,11 @@ class FetchBlackHawk implements ShouldQueue
         Discount::whereNotIn('code', $apiProductCodes)->where('is_active', true)->update(['is_active' => false]);
 
         $receiver = Setting::get('notification_email');
-        Notification::route('mail', $receiver)->notify(new ApprovalRequired());
+        try {
+            Notification::route('mail', $receiver)->notify(new ApprovalRequired());
+        } catch (Throwable $t) {
+            //
+        }
     }
 
     private function resolveBrand($product): int

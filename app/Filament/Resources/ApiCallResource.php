@@ -79,7 +79,8 @@ class ApiCallResource extends Resource
                         if (!$record->success && $record->canRetry()) {
                             match ($record->api) {
                                 'catalog' => FetchBlackHawk::dispatch($record->request_id),
-                                'order' => BlackHawkService::order($record->order, $record->request_id),
+                                    // 'realtime_order' => BlackHawkService::order($record->order, $record->request_id),
+                                    // We no longer allow retrying order api, instead it is done by job
                                 default => null
                             };
                         }

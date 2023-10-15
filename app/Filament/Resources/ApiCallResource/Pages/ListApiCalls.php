@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\ApiCallResource\Pages;
 
+use App\Enums\BlackHawkApiTypes;
 use App\Filament\Resources\ApiCallResource;
 use App\Jobs\FetchBlackHawk;
 use App\Models\ApiCall;
@@ -28,9 +29,11 @@ class ListApiCalls extends ListRecords
         return [
             null => \Filament\Resources\Components\Tab::make('All'),
             'catalog' => \Filament\Resources\Components\Tab::make()
-                ->query(fn ($query) => $query->where('api', 'catalog')),
-            'order' => \Filament\Resources\Components\Tab::make()
-                ->query(fn ($query) => $query->where('api', 'order'))
+                ->query(fn ($query) => $query->where('api', BlackHawkApiTypes::Catalog->value)),
+            'bulk' => \Filament\Resources\Components\Tab::make()
+                ->query(fn ($query) => $query->where('api', BlackHawkApiTypes::BulkOrder->value)),
+            'realtime' => \Filament\Resources\Components\Tab::make()
+                ->query(fn ($query) => $query->where('api', BlackHawkApiTypes::RealtimeOrder->value))
         ];
     }
 }

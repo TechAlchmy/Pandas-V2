@@ -40,8 +40,13 @@ return [
     ],
 
     'blackhawk' => [
-        'catalog_api' => env('BLACKHAWK_CATALOG_ API', 'https://apipp.blackhawknetwork.com/rewardsCatalogProcessing/v1'),
-        'order_api' => env('BLACKHAWK_ORDER_ API', 'https://apipp.blackhawknetwork.com/rewardsOrderProcessing/v1'),
+        'base_url' => env('BLACKHAWK_BASE_URL', 'https://apipp.blackhawknetwork.com'),
+        'catalog_api' => env('BLACKHAWK_BASE_URL', 'https://apipp.blackhawknetwork.com')
+            . '/rewardsCatalogProcessing/v1/clientProgram/byKey',
+        'realtime_order_api' => env('BLACKHAWK_BASE_URL', 'https://apipp.blackhawknetwork.com')
+            . '/rewardsOrderProcessing/v1/submitRealTimeEgiftBulk',
+        'bulk_order_api' => env('BLACKHAWK_BASE_URL', 'https://apipp.blackhawknetwork.com')
+            . '/rewardsOrderProcessing/v1/submitEgiftBulk',
         'client_program_id' => env('BLACKHAWK_CLIENT_PROGRAM_ID', 95006442),
         'merchant_id' => env('BLACKHAWK_MERCHANT_ID', 60300004707),
         'cert' => env('BLACKHAWK_CERT', public_path('key/stag.p12')),

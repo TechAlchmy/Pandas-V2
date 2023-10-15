@@ -20,6 +20,7 @@ class OrderQueueResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-queue-list';
 
+    protected static ?string $navigationGroup = 'Utility Management';
 
     public static function infolist(Infolist $infolist): Infolist
     {
@@ -43,6 +44,10 @@ class OrderQueueResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('order_id')->state(fn ($record) => $record->order_id ?: '-')
                     ->url(fn ($record) => $record->order_id ? route('filament.admin.resources.orders.edit', $record->order_id) : null),
+
+                Tables\Columns\TextColumn::make('order.order_total')
+                    ->label('Order Total')
+                    ->prefix('$ '),
 
                 Tables\Columns\TextColumn::make('is_current')->label('Status')
                     ->formatStateUsing(fn ($state) => $state ? 'Running...' : 'Waiting...'),

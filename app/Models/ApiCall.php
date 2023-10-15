@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
+use App\Enums\BlackHawkApiTypes;
 use Carbon\Carbon;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ApiCall extends Model
 {
-    use HasFactory;
-
     protected $guarded = [
         'id'
     ];
@@ -18,7 +18,8 @@ class ApiCall extends Model
 
     protected $casts = [
         'request' => 'array',
-        'response' => 'array'
+        'response' => 'array',
+        'api' => BlackHawkApiTypes::class
     ];
 
     public function order(): \Illuminate\Database\Eloquent\Relations\BelongsTo

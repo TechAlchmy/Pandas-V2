@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\BlackHawkApiTypes;
 use App\Models\ApiCall;
 use App\Models\Order;
 use Illuminate\Support\Facades\Http;
@@ -9,7 +10,8 @@ use Illuminate\Support\Facades\Http;
 class BlackHawkService
 {
     protected readonly string $catalogApi;
-    protected readonly string $orderApi;
+    protected readonly string $realtimeOrderApi;
+    protected readonly string $bulkOrkderApi;
     protected readonly string $clientProgramId;
     protected readonly string $merchantId;
     protected readonly string $cert;
@@ -22,7 +24,8 @@ class BlackHawkService
     public function __construct()
     {
         $this->catalogApi = config('services.blackhawk.catalog_api');
-        $this->orderApi = config('services.blackhawk.order_api');
+        $this->realtimeOrderApi = config('services.blackhawk.realtime_order_api');
+        $this->bulkOrkderApi = config('services.blackhawk.bulk_order_api');
         $this->clientProgramId = config('services.blackhawk.client_program_id');
         $this->merchantId = config('services.blackhawk.merchant_id');
         $this->cert = config('services.blackhawk.cert');
@@ -53,7 +56,7 @@ class BlackHawkService
         ];
 
         ApiCall::create([
-            'api' => 'catalog',
+            'api' => BlackHawkApiTypes::Catalog,
             'request_id' => $requestId,
             'response' => null,
             'success' => null,
@@ -69,7 +72,7 @@ class BlackHawkService
             'cert' => [$instance->cert, $instance->certPassword]
         ])
             ->get(
-                "{$instance->catalogApi}/clientProgram/byKey",
+                "$instance->catalogApi",
                 ['clientProgramId' => $instance->clientProgramId]
             )->then(
                 function ($response) use (&$result) {
@@ -122,7 +125,7 @@ class BlackHawkService
         ];
 
         ApiCall::create([
-            'api' => 'order',
+            'api' => BlackHawkApiTypes::RealtimeOrder,
             'request_id' => $requestId,
             'order_id' => $order->id,
             'response' => null,
@@ -140,7 +143,7 @@ class BlackHawkService
             'cert' => [$instance->cert, $instance->certPassword]
         ])
             ->post(
-                "{$instance->orderApi}/submitRealTimeEgiftBulk",
+                "$instance->realtimeOrderApi",
                 $reqData
             )->then(
                 function ($response) use (&$result) {
@@ -163,21 +166,28 @@ class BlackHawkService
         $result = [];
 
         $requestId = uniqid();
-
         $headers = [
             'requestId' => $requestId, // This should be a unique id from our api call log
-            'clientProgramNumber' => $instance->clientProgramId,
-            'millisecondsToWait' => 15000,
             'merchantId' => $instance->merchantId,
-            'SYNCHRONOUS_ONLY' => 'true',
-            'Content-Type' => 'application/json'
+            'Content-Type' => 'application/json',
+            'millisecondsToWait' => 15000
         ];
 
-        $refId = uniqid();
+        $apiCall = ApiCall::create([
+            'api' => BlackHawkApiTypes::BulkOrder,
+            'request_id' => $requestId,
+            'response' => null,
+            'success' => null,
+            'created_at' => now(),
+            'order_id' => $order->id,
+            'order_queue_id' => $order->orderQueue->id,
+            'allow_retry' => false // This is always false for this type
+        ]);
+
         $order->loadMissing('orderDetails.discount');
-        $orderDetails = $order->orderDetails->map(function ($orderDetail) use ($refId) {
+
+        $orderDetails = $order->orderDetails->map(function ($orderDetail) {
             return [
-                'clientRefId' => (string) $refId,
                 'quantity' => (string) $orderDetail->quantity,
                 'amount' => (string) ($orderDetail->amount / 100),
                 'contentProvider' => (string) $orderDetail->discount->code
@@ -191,33 +201,23 @@ class BlackHawkService
             'orderDetails' => $orderDetails,
         ];
 
-        ApiCall::create([
-            'api' => 'order',
-            'request_id' => $requestId,
-            'order_id' => $order->id,
-            'response' => null,
-            'success' => null,
-            'created_at' => now(),
-            'request' => $reqData
-        ]);
-
         $promise = Http::async()->withHeaders($headers)->withOptions([
             'cert' => [$instance->cert, $instance->certPassword]
         ])
             ->post(
-                "{$instance->orderApi}/submitRealTimeEgiftBulk",
+                $instance->bulkOrkderApi,
                 $reqData
             )->then(
-                function ($response) use (&$result) {
+                function ($response) use (&$result, $apiCall) {
                     $result = [
                         'response' => $response->json(),
-                        'success' => $response->created(), // $resposne->accepeted() or 202 we treat as failure
+                        'success' => $response->ok()
                     ];
-                    ApiCall::where('api', 'order')->orderBy('id', 'desc')->first()->update($result);
+                    $apiCall->update($result);
                 }
             );
 
         $promise->wait();
-        return;
+        return $result;
     }
 }
