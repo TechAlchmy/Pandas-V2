@@ -197,6 +197,7 @@ class CreateOrder extends Component implements HasForms, HasActions
 
         // $apiCall = BlackHawkService::order($order);
         // We no longer place order for blackhawk, but instead save it in our queue
+        // TODO: if item quantity is 1 and if there's only one item, add it to queue with a flag that it's realtime
 
         $order->addToQueue();
 

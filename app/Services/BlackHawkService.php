@@ -246,7 +246,9 @@ class BlackHawkService
 
             $orderQueue->update([
                 'is_order_success' => BlackHawkOrderStatus::isOrderSuccessful($response['orderStatus']),
-                'order_status' => $response['orderStatus']
+                'order_status' => $response['orderStatus'],
+                'fetched_at' => now(),
+                'gifts' => $resonse['eGifts'] ?? null,
             ]);
         }
     }

@@ -29,7 +29,9 @@ class ProcessOrderQueue implements ShouldQueue
     public function handle(): void
     {
         $limit = Setting::get('bulk_order_batch_size');
-        $orderQueues = OrderQueue::with('order')->where('is_order_placed', false)
+        $orderQueues = OrderQueue::with('order')
+            ->where('is_order_placed', false)
+            ->orderByRaw("CASE WHEN attempted_at IS NULL THEN 0 ELSE 1 END ASC")->orderBy('attempted_at', 'ASC')
             ->limit($limit)
             ->get();
 

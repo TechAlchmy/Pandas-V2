@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Enums\BlackHawkOrderStatus;
 use App\Models\OrderQueue;
 use App\Models\Setting;
 use App\Services\BlackHawkService;
@@ -30,12 +31,14 @@ class GetOrderStatus implements ShouldQueue
     public function handle(): void
     {
         $limit = Setting::get('bulk_order_batch_size');
+
         $orderQueues = OrderQueue::with('order')
             ->where('is_order_placed', true)
             ->where(function ($q) {
-                $q->whereNull('is_order_success');
+                $q->whereNull('is_order_success')
+                    ->whereIn('order_status', BlackHawkOrderStatus::pending());
             })
-            ->orderBy('updated_at', 'asc')
+            ->orderByRaw("CASE WHEN fetched_at IS NULL THEN 0 ELSE 1 END ASC")->orderBy('fetched_at', 'ASC')
             ->limit($limit)
             ->get();
 

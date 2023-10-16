@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\BlackHawkOrderStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -32,8 +33,13 @@ return new class extends Migration
                 ->nullable()
                 ->comment('If get order details returns success this will be true and this cycle is done. If order is still processing, keep this null. But if get order returns failed, make this false and softdelete this and create a duplicate queue to retry from start');
 
-            $table->string('order_status')->nullable()
+            $table->string('order_status')
+                ->default(BlackHawkOrderStatus::Default)
                 ->comment('This is the response received when performing get status api.');
+
+            $table->timestamp('fetched_at')->nullable();
+
+            $table->json('gifts')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

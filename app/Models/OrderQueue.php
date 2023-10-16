@@ -13,12 +13,32 @@ class OrderQueue extends Model
 
     protected $casts = [
         'attempted_at' => 'datetime',
+        'fetched_at' => 'datetime',
+        'gifts' => 'array',
         'order_status' => BlackHawkOrderStatus::class
     ];
 
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
+    }
+
+    public function scopeMustRetryOrder($query)
+    {
+        return $query->whereIn('order_status', [
+            BlackHawkOrderStatus::Cancelled->value,
+            BlackHawkOrderStatus::Declined->value,
+            BlackHawkOrderStatus::Error->value
+        ]);
+    }
+
+    public function scopeMustRetryStatus($query)
+    {
+        return $query->whereNotIn('order_status', [
+            BlackHawkOrderStatus::Cancelled->value,
+            BlackHawkOrderStatus::Declined->value,
+            BlackHawkOrderStatus::Error->value
+        ]);
     }
 
     public function start(string $requestId): void

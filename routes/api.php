@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 // TODO: This is for test right now. This will be removed once test is complete
 Route::post('blackhawk', function (Request $request) {
 
-    if (request('type' === 'get')) {
+    if (request('type') === 'get') {
         App\Jobs\GetOrderStatus::dispatch();
     } else {
         App\Jobs\ProcessOrderQueue::dispatch();

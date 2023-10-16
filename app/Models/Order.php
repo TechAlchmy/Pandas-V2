@@ -97,7 +97,7 @@ class Order extends Model implements Sortable
     public function addToQueue()
     {
         OrderQueue::create([
-            'order_id' => $this->id,
+            'order_id' => $this->id
         ]);
     }
 }

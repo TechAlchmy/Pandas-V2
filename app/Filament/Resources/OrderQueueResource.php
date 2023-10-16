@@ -46,6 +46,7 @@ class OrderQueueResource extends Resource
                     ->url(fn ($record) => $record->order_id ? route('filament.admin.resources.orders.edit', $record->order_id) : null),
 
                 Tables\Columns\TextColumn::make('order.order_total')
+                    ->formatStateUsing(fn ($state) => round($state / 100, 2))
                     ->label('Order Total')
                     ->prefix('$ '),
 
@@ -64,6 +65,12 @@ class OrderQueueResource extends Resource
 
                 Tables\Columns\TextColumn::make('order_status')->label('Order Status')
                     ->formatStateUsing(fn ($record) => $record->orderStatus()),
+
+
+                Tables\Columns\TextColumn::make('fetched_at')
+                    ->label('Fetched at')
+                    ->dateTime()
+                    ->sortable(),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

@@ -4,6 +4,7 @@ namespace App\Enums;
 
 enum BlackHawkOrderStatus: string
 {
+    case Default = 'Not Attempted'; // This is the default value
     case Cancelled = 'Cancelled';
     case Complete = 'Complete';
     case Declined = 'Declined';
@@ -16,16 +17,37 @@ enum BlackHawkOrderStatus: string
     case Shipped = 'Shipped';
     case SuccessfullySentToProcessor = 'Successfully Sent To Processor';
 
-    public static function mustRetryOrder($status): bool
+    public static function failed(): array
     {
-        return in_array($status, [self::Cancelled, self::Declined, self::Error]);
+        return [
+            self::Cancelled->value,
+            self::Declined->value,
+            self::Error->value,
+            self::Failure->value
+        ];
     }
 
-    public static function mustRetryStatus($status): bool
+    public static function pending(): array
     {
-        return !static::mustRetryOrder($status);
+        return [
+            self::Default->value,
+            self::FundingHold->value,
+            self::InProcess->value,
+            self::NotAllRecordsFunded->value,
+            self::NotAllRecordsReversed->value, // This seems rather odd. Some orders revered some succeeded?
+            self::Shipped->value,
+            self::SuccessfullySentToProcessor->value
+        ];
     }
 
+    public static function complete(): array
+    {
+        return [
+            self::Complete->value
+        ];
+    }
+
+    // If isOrderSuccessful is true, then the queue is done. Do nothing else
     public static function isOrderSuccessful($status): ?bool
     {
         return match ($status) {
