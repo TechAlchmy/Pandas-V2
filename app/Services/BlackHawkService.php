@@ -4,8 +4,8 @@ namespace App\Services;
 
 use App\Enums\BlackHawkApiType;
 use App\Enums\BlackHawkOrderStatus;
+use App\Enums\OrderStatus;
 use App\Models\ApiCall;
-use App\Models\Order;
 use App\Models\OrderQueue;
 use Illuminate\Support\Facades\Http;
 
@@ -319,6 +319,12 @@ class BlackHawkService
                 'fetched_at' => now(),
                 'gifts' => $response['eGifts'] ?? $orderQueue->gifts,
             ]);
+
+            if ($orderStatus === BlackHawkOrderStatus::Complete->value) {
+                $orderQueue->order->update([
+                    'order_status' => OrderStatus::Completed->value
+                ]);
+            }
         }
     }
 }

@@ -33,6 +33,7 @@ use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconPosition;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
+use Throwable;
 
 use function Filament\Support\format_money;
 
@@ -73,6 +74,7 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                 ViewEntry::make('apiCalls')->label('Gift Card Details')
                     ->columnSpanFull()
                     ->view('livewire.gift-card', ['orderQueue'  => $this->record->orderQueue])
+                    ->visible(!empty($this->record->orderQueue->gifts))
                 // ->columns(['default' => 2, 'md' => 4, 'lg' => 5])
                 ,
 
@@ -146,16 +148,21 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                                     ]);
                             }
 
-                            auth()->user()->notify(
-                                new SendUserOrderRefundInReview($this->record->order_column, \array_map(function ($refund) {
-                                    return \implode(' - ', [
-                                        $refund->orderDetail->discount->brand->name,
-                                        $refund->orderDetail->discount->name,
-                                        'x' . $refund->quantity,
-                                        'Reason:' . $refund->note,
-                                    ]);
-                                }, $refunds)),
-                            );
+                            try {
+                                auth()->user()->notify(
+                                    new SendUserOrderRefundInReview($this->record->order_column, \array_map(function ($refund) {
+                                        return \implode(' - ', [
+                                            $refund->orderDetail->discount->brand->name,
+                                            $refund->orderDetail->discount->name,
+                                            'x' . $refund->quantity,
+                                            'Reason:' . $refund->note,
+                                        ]);
+                                    }, $refunds)),
+                                );
+                            } catch (Throwable $t) {
+                                // Do nothing or populate a table with this error, along with other mail errors
+                            }
+
 
                             $action->success();
                         })

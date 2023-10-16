@@ -1,7 +1,7 @@
 @foreach ($orderQueue->gifts as $gift)
 @php($discount = App\Models\Discount::firstWhere('code', $gift['contentProviderCode']))
 
-<div style="--cols-default: repeat(1, minmax(0, 1fr));" class="grid grid-cols-[--cols-default] gap-4">
+<div style="--cols-default: repeat(1, minmax(0, 1fr));" class="grid grid-cols-[--cols-default] gap-4 mb-5">
     <li class="fi-in-repeatable-item block">
         <dl>
             <div style="--cols-default: repeat(1, minmax(0, 1fr));" class="grid grid-cols-[--cols-default] fi-in-component-ctn gap-6">
@@ -211,4 +211,5 @@
     </li>
     <!--[if ENDBLOCK]><![endif]-->
 </div>
+
 @endforeach
