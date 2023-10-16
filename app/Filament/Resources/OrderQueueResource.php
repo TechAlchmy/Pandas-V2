@@ -50,7 +50,7 @@ class OrderQueueResource extends Resource
                     ->prefix('$ '),
 
                 Tables\Columns\TextColumn::make('is_current')->label('Status')
-                    ->formatStateUsing(fn ($state) => $state ? 'Running...' : 'Waiting...'),
+                    ->formatStateUsing(fn ($record) => $record->queueState()),
 
                 Tables\Columns\TextColumn::make('attempted_at')
                     ->dateTime()

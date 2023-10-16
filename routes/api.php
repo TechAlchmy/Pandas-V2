@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,8 +16,11 @@ use Illuminate\Support\Facades\Route;
 
 // TODO: This is for test right now. This will be removed once test is complete
 Route::post('blackhawk', function (Request $request) {
-    // App\Services\BlackHawkService::order(Order::orderBy('id', 'desc')->first());
-    App\Jobs\FetchBlackHawk::dispatch();
+    App\Jobs\ProcessOrderQueue::dispatch();
+    // App\Services\BlackHawkService::bulkOrder( App\Models\Order::orderBy('id', 'desc')->first());
+
+    // App\Services\BlackHawkService::order( App\Models\Order::orderBy('id', 'desc')->first());
+    // App\Jobs\FetchBlackHawk::dispatch();
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

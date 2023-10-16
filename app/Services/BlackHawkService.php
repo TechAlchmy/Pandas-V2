@@ -159,7 +159,7 @@ class BlackHawkService
         return $result;
     }
 
-    public static function bulkOrder(Order $order)
+    public static function bulkOrder(Order $order): bool
     {
         $instance = static::instance();
 
@@ -170,21 +170,10 @@ class BlackHawkService
             'requestId' => $requestId, // This should be a unique id from our api call log
             'merchantId' => $instance->merchantId,
             'Content-Type' => 'application/json',
-            'millisecondsToWait' => 15000
+            'millisecondsToWait' => '15000'
         ];
 
-        $apiCall = ApiCall::create([
-            'api' => BlackHawkApiTypes::BulkOrder,
-            'request_id' => $requestId,
-            'response' => null,
-            'success' => null,
-            'created_at' => now(),
-            'order_id' => $order->id,
-            'order_queue_id' => $order->orderQueue->id,
-            'allow_retry' => false // This is always false for this type
-        ]);
-
-        $order->loadMissing('orderDetails.discount');
+        $order->loadMissing('orderQueue', 'orderDetails.discount');
 
         $orderDetails = $order->orderDetails->map(function ($orderDetail) {
             return [
@@ -201,23 +190,28 @@ class BlackHawkService
             'orderDetails' => $orderDetails,
         ];
 
-        $promise = Http::async()->withHeaders($headers)->withOptions([
+        $apiCall = ApiCall::create([
+            'api' => BlackHawkApiTypes::BulkOrder,
+            'request_id' => $requestId,
+            'request' => $reqData,
+            'response' => null,
+            'success' => null,
+            'created_at' => now(),
+            'order_id' => $order->id,
+            'order_queue_id' => $order->orderQueue->id,
+            'allow_retry' => false // This is always false for this type
+        ]);
+
+        $promise = Http::withHeaders($headers)->withOptions([
             'cert' => [$instance->cert, $instance->certPassword]
         ])
             ->post(
                 $instance->bulkOrkderApi,
                 $reqData
-            )->then(
-                function ($response) use (&$result, $apiCall) {
-                    $result = [
-                        'response' => $response->json(),
-                        'success' => $response->ok()
-                    ];
-                    $apiCall->update($result);
-                }
             );
 
-        $promise->wait();
-        return $result;
+        $success = $promise->created() || $promise->accepted();
+
+        return $success;
     }
 }

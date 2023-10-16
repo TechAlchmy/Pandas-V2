@@ -32,7 +32,12 @@ class SettingResource extends Resource
                     ->numeric(),
 
                 Forms\Components\TextInput::make('max_retries')
-                ->hint('')
+                    ->hint('')
+                    ->required()
+                    ->numeric(),
+
+                Forms\Components\TextInput::make('bulk_order_batch_size')
+                    ->hint('How many orders should process every minute? Recommended: 3')
                     ->required()
                     ->numeric(),
 

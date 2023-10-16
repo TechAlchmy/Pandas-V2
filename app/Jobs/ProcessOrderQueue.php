@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\OrderQueue;
+use App\Models\Setting;
 use App\Services\BlackHawkService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -15,13 +16,11 @@ class ProcessOrderQueue implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $limit = 3;
     /**
      * Create a new job instance.
      */
-    public function __construct(int $limit)
+    public function __construct()
     {
-        $this->limit = $limit;
     }
 
 
@@ -30,7 +29,11 @@ class ProcessOrderQueue implements ShouldQueue
      */
     public function handle(): void
     {
-        $orderQueues = OrderQueue::where('is_order_placed', false)->get();
+        $limit = Setting::get('bulk_order_batch_size');
+        $orderQueues = OrderQueue::with('order')->where('is_order_placed', false)
+            ->limit($limit)
+            ->get();
+
         $orderQueues->each(function ($orderQueue) {
             $orderQueue->start();
 

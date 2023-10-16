@@ -35,4 +35,17 @@ class OrderQueue extends Model
             'is_current' => false
         ]);
     }
+
+    public function queueState(): string
+    {
+        if ($this->is_order_placed) {
+            return 'Processed ✔';
+        }
+
+        if ($this->is_current) {
+            return 'Processing...';
+        }
+
+        return 'Waiting...';
+    }
 }
