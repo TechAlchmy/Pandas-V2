@@ -74,7 +74,7 @@ class OrderQueue extends Model
     public function orderStatus(): string
     {
         $append = '';
-        if ($this->is_order_success) {
+        if (in_array($this->order_status, BlackHawkOrderStatus::complete())) {
             $append = ' ✔';
         }
 

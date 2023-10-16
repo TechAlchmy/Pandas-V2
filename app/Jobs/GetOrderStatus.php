@@ -34,10 +34,7 @@ class GetOrderStatus implements ShouldQueue
 
         $orderQueues = OrderQueue::with('order')
             ->where('is_order_placed', true)
-            ->where(function ($q) {
-                $q->whereNull('is_order_success')
-                    ->whereIn('order_status', BlackHawkOrderStatus::pending());
-            })
+            ->whereIn('order_status', BlackHawkOrderStatus::pending())
             ->orderByRaw("CASE WHEN fetched_at IS NULL THEN 0 ELSE 1 END ASC")->orderBy('fetched_at', 'ASC')
             ->limit($limit)
             ->get();

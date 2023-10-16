@@ -32,9 +32,6 @@ class OrderQueueResource extends Resource
 
                 \Filament\Infolists\Components\IconEntry::make('is_order_placed')
                     ->label('Order Placed?'),
-
-                \Filament\Infolists\Components\IconEntry::make('is_order_success')
-                    ->label('Order Successful?')->true()->false(),
             ]);
     }
 
@@ -60,12 +57,9 @@ class OrderQueueResource extends Resource
                 Tables\Columns\IconColumn::make('is_order_placed')->label('Order Placed ?')
                     ->boolean(),
 
-                Tables\Columns\IconColumn::make('is_order_success')->label('Success?')
-                    ->boolean(),
 
                 Tables\Columns\TextColumn::make('order_status')->label('Order Status')
                     ->formatStateUsing(fn ($record) => $record->orderStatus()),
-
 
                 Tables\Columns\TextColumn::make('fetched_at')
                     ->label('Fetched at')
@@ -88,8 +82,9 @@ class OrderQueueResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->paginated([25, 50, 100, 'all'])
+            ->defaultSort('id', 'desc')
             ->filters([
-                //
+                // TODO: Add filters such as flagged queue item, pending only
             ])
             ->actions([
                 // Tables\Actions\EditAction::make(),

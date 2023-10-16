@@ -29,10 +29,6 @@ return new class extends Migration
                 ->default(false)
                 ->comment('Set this when this queue starts running, and unset it when it stops or ends.');
 
-            $table->boolean('is_order_success')
-                ->nullable()
-                ->comment('If get order details returns success this will be true and this cycle is done. If order is still processing, keep this null. But if get order returns failed, make this false and softdelete this and create a duplicate queue to retry from start');
-
             $table->string('order_status')
                 ->default(BlackHawkOrderStatus::Default)
                 ->comment('This is the response received when performing get status api.');

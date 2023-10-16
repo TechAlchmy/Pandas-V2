@@ -29,14 +29,19 @@ class ProcessOrderQueue implements ShouldQueue
     public function handle(): void
     {
         $limit = Setting::get('bulk_order_batch_size');
-        $orderQueues = OrderQueue::with('order')
+        $orderQueues = OrderQueue::with('order.orderDetails')
             ->where('is_order_placed', false)
             ->orderByRaw("CASE WHEN attempted_at IS NULL THEN 0 ELSE 1 END ASC")->orderBy('attempted_at', 'ASC')
             ->limit($limit)
             ->get();
 
         $orderQueues->each(function ($orderQueue) {
-            BlackHawkService::bulkOrder($orderQueue);
+            $noOfItems = $orderQueue->order->orderDetails->sum('quantity');
+            if ($noOfItems > 1) {
+                BlackHawkService::bulkOrder($orderQueue);
+            } else {
+                BlackHawkService::realtimeOrder($orderQueue);
+            }
         });
     }
 }
