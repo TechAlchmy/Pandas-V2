@@ -6,7 +6,6 @@ use App\Filament\Resources\ApiCallResource\Pages;
 use App\Filament\Resources\ApiCallResource\RelationManagers;
 use App\Jobs\FetchBlackHawk;
 use App\Models\ApiCall;
-use App\Services\BlackHawkService;
 use Filament\Forms;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Textarea;
@@ -38,14 +37,17 @@ class ApiCallResource extends Resource
         return $form
             ->schema([
                 TextInput::make('created_at')->disabled(),
+
                 TextInput::make('api')->disabled(),
+
                 Textarea::make('request')->columnSpanFull()
                     ->formatStateUsing(fn ($state) => json_encode($state, JSON_PRETTY_PRINT))
-                    ->rows(20)
+                    ->rows(15)
                     ->disabled(),
+
                 Textarea::make('response')->columnSpanFull()
                     ->formatStateUsing(fn ($state) => json_encode($state, JSON_PRETTY_PRINT))
-                    ->rows(20)
+                    ->rows(15)
                     ->disabled()
             ]);
     }
@@ -55,11 +57,14 @@ class ApiCallResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('created_at')->dateTime()->sortable(),
+
                 TextColumn::make('api'),
+
                 TextColumn::make('request_id')->label('Request#')->searchable()->copyable(),
 
                 TextColumn::make('order_id')->state(fn ($record) => $record->order_id ?: '-')
                     ->url(fn ($record) => $record->order_id ? route('filament.admin.resources.orders.edit', $record->order_id) : null),
+
                 TextColumn::make('success')
                     ->badge()
                     ->formatStateUsing(fn ($state) => $state ? 'OK' : 'X')

@@ -54,10 +54,10 @@ class OrderQueue extends Model
     public function orderStatus(): string
     {
         $append = '';
-        if ($this->is_order_placed) {
+        if ($this->is_order_success) {
             $append = ' ✔';
         }
 
-        return $this->order_status . $append;
+        return $this->order_status->value . $append;
     }
 }

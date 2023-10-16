@@ -32,16 +32,15 @@ class GetOrderStatus implements ShouldQueue
         $limit = Setting::get('bulk_order_batch_size');
         $orderQueues = OrderQueue::with('order')
             ->where('is_order_placed', true)
-            ->where('is_order_success', true)
+            ->where(function ($q) {
+                $q->whereNull('is_order_success');
+            })
+            ->orderBy('updated_at', 'asc')
             ->limit($limit)
             ->get();
 
         $orderQueues->each(function ($orderQueue) {
-            $orderQueue->fetchStatus();
-
-            $status = BlackHawkService::requestStatus($orderQueue->order);
-
-            $orderQueue->stop($status);
+            BlackHawkService::cardInfo($orderQueue);
         });
     }
 }

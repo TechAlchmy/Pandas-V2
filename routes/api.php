@@ -16,7 +16,14 @@ use Illuminate\Support\Facades\Route;
 
 // TODO: This is for test right now. This will be removed once test is complete
 Route::post('blackhawk', function (Request $request) {
-    App\Jobs\ProcessOrderQueue::dispatch();
+
+    if (request('type' === 'get')) {
+        App\Jobs\GetOrderStatus::dispatch();
+    } else {
+        App\Jobs\ProcessOrderQueue::dispatch();
+    }
+
+    dd('done');
     // App\Services\BlackHawkService::bulkOrder( App\Models\Order::orderBy('id', 'desc')->first());
 
     // App\Services\BlackHawkService::order( App\Models\Order::orderBy('id', 'desc')->first());

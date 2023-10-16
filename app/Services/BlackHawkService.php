@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\BlackHawkApiType;
+use App\Enums\BlackHawkOrderStatus;
 use App\Models\ApiCall;
 use App\Models\Order;
 use App\Models\OrderQueue;
@@ -13,6 +14,7 @@ class BlackHawkService
     protected readonly string $catalogApi;
     protected readonly string $realtimeOrderApi;
     protected readonly string $bulkOrkderApi;
+    protected readonly string $retreiveCardApi;
     protected readonly string $clientProgramId;
     protected readonly string $merchantId;
     protected readonly string $cert;
@@ -27,6 +29,7 @@ class BlackHawkService
         $this->catalogApi = config('services.blackhawk.catalog_api');
         $this->realtimeOrderApi = config('services.blackhawk.realtime_order_api');
         $this->bulkOrkderApi = config('services.blackhawk.bulk_order_api');
+        $this->retreiveCardApi = config('services.blackhawk.retreive_card_api');
         $this->clientProgramId = config('services.blackhawk.client_program_id');
         $this->merchantId = config('services.blackhawk.merchant_id');
         $this->cert = config('services.blackhawk.cert');
@@ -136,7 +139,7 @@ class BlackHawkService
             'cert' => [$instance->cert, $instance->certPassword]
         ])
             ->post(
-                "$instance->realtimeOrderApi",
+                $instance->realtimeOrderApi,
                 $reqData
             )->then(
                 function ($response) use (&$result) {
@@ -213,7 +216,7 @@ class BlackHawkService
         $orderQueue->stop($success);
     }
 
-    public static function cardInfo(OrderQueue $orderQueue): bool
+    public static function cardInfo(OrderQueue $orderQueue): void
     {
         $instance = static::instance();
 
@@ -230,31 +233,21 @@ class BlackHawkService
             'requestId' => $requestId
         ];
 
-        $apiCall = ApiCall::create([
-            'api' => BlackHawkApiType::CardInfo,
-            'request_id' => $requestId,
-            'request' => $reqData,
-            'response' => null,
-            'success' => null,
-            'created_at' => now(),
-            'order_id' => $order->id,
-            'order_queue_id' => $order->orderQueue->id,
-        ]);
-
         $promise = Http::withHeaders($headers)->withOptions([
             'cert' => [$instance->cert, $instance->certPassword]
         ])
-            ->post(
-                $instance->bulkOrkderApi,
+            ->get(
+                $instance->retreiveCardApi,
                 $reqData
             );
 
-        $success = $promise->created() || $promise->accepted();
-        $apiCall->update([
-            'response' => $promise->json(),
-            'success' => $success
-        ]);
+        if ($promise->ok()) {
+            $response = $promise->json();
 
-        return $success;
+            $orderQueue->update([
+                'is_order_success' => BlackHawkOrderStatus::isOrderSuccessful($response['orderStatus']),
+                'order_status' => $response['orderStatus']
+            ]);
+        }
     }
 }

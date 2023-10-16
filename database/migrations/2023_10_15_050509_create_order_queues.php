@@ -30,7 +30,7 @@ return new class extends Migration
 
             $table->boolean('is_order_success')
                 ->nullable()
-                ->comment('If get order details returns success this will be true and this cycle is done. But if get order returns failed, make this false and softdelete this and create a duplicate queue to retry from start');
+                ->comment('If get order details returns success this will be true and this cycle is done. If order is still processing, keep this null. But if get order returns failed, make this false and softdelete this and create a duplicate queue to retry from start');
 
             $table->string('order_status')->nullable()
                 ->comment('This is the response received when performing get status api.');
