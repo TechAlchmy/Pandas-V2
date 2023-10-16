@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\BlackHawkApiTypes;
+use App\Enums\BlackHawkApiType;
 use Carbon\Carbon;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,7 +19,7 @@ class ApiCall extends Model
     protected $casts = [
         'request' => 'array',
         'response' => 'array',
-        'api' => BlackHawkApiTypes::class
+        'api' => BlackHawkApiType::class
     ];
 
     public function order(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -37,6 +37,9 @@ class ApiCall extends Model
 
     public function canRetry(): bool
     {
-        return $this->allow_retry;
+        return empty($this->previous_request)
+            && in_array($this->api, [
+                BlackHawkApiType::Catalog->value, BlackHawkApiType::RealtimeOrder->value
+            ]);
     }
 }

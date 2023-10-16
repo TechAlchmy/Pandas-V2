@@ -29,7 +29,7 @@ class ApiCallResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-arrow-left-on-rectangle';
 
-    protected static ?string $navigationLabel = 'API Calls';
+    protected static ?string $navigationLabel = 'API Logs';
 
     protected static ?string $navigationGroup = 'Utility Management';
 
@@ -56,7 +56,8 @@ class ApiCallResource extends Resource
             ->columns([
                 TextColumn::make('created_at')->dateTime()->sortable(),
                 TextColumn::make('api'),
-                TextColumn::make('request_id')->label('Request#')->searchable(),
+                TextColumn::make('request_id')->label('Request#')->searchable()->copyable(),
+
                 TextColumn::make('order_id')->state(fn ($record) => $record->order_id ?: '-')
                     ->url(fn ($record) => $record->order_id ? route('filament.admin.resources.orders.edit', $record->order_id) : null),
                 TextColumn::make('success')

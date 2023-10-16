@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Enums\BlackHawkOrderStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,7 +12,8 @@ class OrderQueue extends Model
     use SoftDeletes;
 
     protected $casts = [
-        'attempted_at' => 'datetime'
+        'attempted_at' => 'datetime',
+        'order_status' => BlackHawkOrderStatus::class
     ];
 
     public function order(): BelongsTo
@@ -20,11 +21,12 @@ class OrderQueue extends Model
         return $this->belongsTo(Order::class);
     }
 
-    public function start(): void
+    public function start(string $requestId): void
     {
         $this->update([
             'attempted_at' => now(),
-            'is_current' => true
+            'is_current' => true,
+            'request_id' => $requestId
         ]);
     }
 
@@ -47,5 +49,15 @@ class OrderQueue extends Model
         }
 
         return 'Waiting...';
+    }
+
+    public function orderStatus(): string
+    {
+        $append = '';
+        if ($this->is_order_placed) {
+            $append = ' ✔';
+        }
+
+        return $this->order_status . $append;
     }
 }

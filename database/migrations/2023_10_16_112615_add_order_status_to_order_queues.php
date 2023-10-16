@@ -11,8 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('api_calls', function (Blueprint $table) {
-            $table->string('previous_request')->nullable();
+        Schema::table('order_queues', function (Blueprint $table) {
         });
     }
 
@@ -21,8 +20,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('api_calls', function (Blueprint $table) {
-            $table->dropColumn('previous_request');
+        Schema::table('order_queues', function (Blueprint $table) {
+            $table->dropColumn('order_status');
         });
     }
 };

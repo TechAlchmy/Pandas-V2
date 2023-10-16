@@ -2,9 +2,10 @@
 
 namespace App\Services;
 
-use App\Enums\BlackHawkApiTypes;
+use App\Enums\BlackHawkApiType;
 use App\Models\ApiCall;
 use App\Models\Order;
+use App\Models\OrderQueue;
 use Illuminate\Support\Facades\Http;
 
 class BlackHawkService
@@ -56,17 +57,13 @@ class BlackHawkService
         ];
 
         ApiCall::create([
-            'api' => BlackHawkApiTypes::Catalog,
+            'api' => BlackHawkApiType::Catalog,
             'request_id' => $requestId,
             'response' => null,
             'success' => null,
             'previous_request' => $previousReq ?? null,
             'created_at' => now()
         ]);
-
-        if ($previousReq) {
-            ApiCall::where('request_id', $previousReq)->update(['allow_retry' => false]);
-        }
 
         $promise = Http::async()->withHeaders($headers)->withOptions([
             'cert' => [$instance->cert, $instance->certPassword]
@@ -125,7 +122,7 @@ class BlackHawkService
         ];
 
         ApiCall::create([
-            'api' => BlackHawkApiTypes::RealtimeOrder,
+            'api' => BlackHawkApiType::RealtimeOrder,
             'request_id' => $requestId,
             'order_id' => $order->id,
             'response' => null,
@@ -134,10 +131,6 @@ class BlackHawkService
             'created_at' => now(),
             'request' => $reqData
         ]);
-
-        if ($previousReq) {
-            ApiCall::where('request_id', $previousReq)->update(['allow_retry' => false]);
-        }
 
         $promise = Http::async()->withHeaders($headers)->withOptions([
             'cert' => [$instance->cert, $instance->certPassword]
@@ -159,13 +152,15 @@ class BlackHawkService
         return $result;
     }
 
-    public static function bulkOrder(Order $order): bool
+    public static function bulkOrder(OrderQueue $orderQueue): void
     {
+
         $instance = static::instance();
 
-        $result = [];
-
         $requestId = uniqid();
+
+        $orderQueue->start($requestId);
+
         $headers = [
             'requestId' => $requestId, // This should be a unique id from our api call log
             'merchantId' => $instance->merchantId,
@@ -173,9 +168,9 @@ class BlackHawkService
             'millisecondsToWait' => '15000'
         ];
 
-        $order->loadMissing('orderQueue', 'orderDetails.discount');
+        $orderQueue->loadMissing('order.orderDetails.discount');
 
-        $orderDetails = $order->orderDetails->map(function ($orderDetail) {
+        $orderDetails = $orderQueue->order->orderDetails->map(function ($orderDetail) {
             return [
                 'quantity' => (string) $orderDetail->quantity,
                 'amount' => (string) ($orderDetail->amount / 100),
@@ -191,15 +186,14 @@ class BlackHawkService
         ];
 
         $apiCall = ApiCall::create([
-            'api' => BlackHawkApiTypes::BulkOrder,
+            'api' => BlackHawkApiType::BulkOrder,
             'request_id' => $requestId,
             'request' => $reqData,
             'response' => null,
             'success' => null,
             'created_at' => now(),
-            'order_id' => $order->id,
-            'order_queue_id' => $order->orderQueue->id,
-            'allow_retry' => false // This is always false for this type
+            'order_id' => $orderQueue->order_id,
+            'order_queue_id' => $orderQueue->id,
         ]);
 
         $promise = Http::withHeaders($headers)->withOptions([
@@ -211,6 +205,55 @@ class BlackHawkService
             );
 
         $success = $promise->created() || $promise->accepted();
+        $apiCall->update([
+            'response' => $promise->json(),
+            'success' => $success
+        ]);
+
+        $orderQueue->stop($success);
+    }
+
+    public static function cardInfo(OrderQueue $orderQueue): bool
+    {
+        $instance = static::instance();
+
+        $requestId = $orderQueue->request_id;
+
+        $headers = [
+            'requestId' => $requestId, // This should be a unique id from our api call log
+            'merchantId' => $instance->merchantId,
+            'Content-Type' => 'application/json'
+        ];
+
+        $reqData = [
+            'clientProgramNumber' => $instance->clientProgramId,
+            'requestId' => $requestId
+        ];
+
+        $apiCall = ApiCall::create([
+            'api' => BlackHawkApiType::CardInfo,
+            'request_id' => $requestId,
+            'request' => $reqData,
+            'response' => null,
+            'success' => null,
+            'created_at' => now(),
+            'order_id' => $order->id,
+            'order_queue_id' => $order->orderQueue->id,
+        ]);
+
+        $promise = Http::withHeaders($headers)->withOptions([
+            'cert' => [$instance->cert, $instance->certPassword]
+        ])
+            ->post(
+                $instance->bulkOrkderApi,
+                $reqData
+            );
+
+        $success = $promise->created() || $promise->accepted();
+        $apiCall->update([
+            'response' => $promise->json(),
+            'success' => $success
+        ]);
 
         return $success;
     }

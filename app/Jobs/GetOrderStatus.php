@@ -12,7 +12,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class ProcessOrderQueue implements ShouldQueue
+class GetOrderStatus implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -21,6 +21,7 @@ class ProcessOrderQueue implements ShouldQueue
      */
     public function __construct()
     {
+        //
     }
 
     /**
@@ -29,12 +30,18 @@ class ProcessOrderQueue implements ShouldQueue
     public function handle(): void
     {
         $limit = Setting::get('bulk_order_batch_size');
-        $orderQueues = OrderQueue::with('order')->where('is_order_placed', false)
+        $orderQueues = OrderQueue::with('order')
+            ->where('is_order_placed', true)
+            ->where('is_order_success', true)
             ->limit($limit)
             ->get();
 
         $orderQueues->each(function ($orderQueue) {
-            BlackHawkService::bulkOrder($orderQueue);
+            $orderQueue->fetchStatus();
+
+            $status = BlackHawkService::requestStatus($orderQueue->order);
+
+            $orderQueue->stop($status);
         });
     }
 }

@@ -49,7 +49,7 @@ class OrderQueueResource extends Resource
                     ->label('Order Total')
                     ->prefix('$ '),
 
-                Tables\Columns\TextColumn::make('is_current')->label('Status')
+                Tables\Columns\TextColumn::make('is_current')->label('Queue Status')
                     ->formatStateUsing(fn ($record) => $record->queueState()),
 
                 Tables\Columns\TextColumn::make('attempted_at')
@@ -59,8 +59,11 @@ class OrderQueueResource extends Resource
                 Tables\Columns\IconColumn::make('is_order_placed')->label('Order Placed ?')
                     ->boolean(),
 
-                Tables\Columns\IconColumn::make('is_order_success')->label('Order Successful ?')
+                Tables\Columns\IconColumn::make('is_order_success')->label('Success?')
                     ->boolean(),
+
+                Tables\Columns\TextColumn::make('order_status')->label('Order Status')
+                    ->formatStateUsing(fn ($record) => $record->orderStatus()),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
