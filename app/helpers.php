@@ -61,14 +61,15 @@ if (!function_exists('barCodeGenerator')) {
         $image = $generator->getBarcode($cardNumber, $generator::TYPE_CODE_128);
 
         $image = Image::make($image)->encode('webp');
-        $resource = $image->stream(null, 80)->detach();
+        $resource = $image->stream(null, 100)->detach();
 
-        $filename = 'barcodes/' . Str::random(240) .  time() . '.webp';
+        $filename = 'barcodes/' . Str::random(200) .  time() . '.webp';
 
         $status = Storage::disk('s3')->put("$filename", $resource, 'public');
-
         if ($status) {
-            return $filename;
+            $tempUrl = url(Storage::temporaryUrl($filename, now()->addMinutes(5)));
         }
+
+        return ($tempUrl ?? '');
     }
 }

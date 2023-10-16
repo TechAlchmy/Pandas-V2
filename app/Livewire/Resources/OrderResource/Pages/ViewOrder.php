@@ -23,6 +23,7 @@ use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Components\TextEntry\TextEntrySize;
+use Filament\Infolists\Components\ViewEntry;
 use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Carbon;
@@ -69,47 +70,11 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                     ->state(Setting::get('order_processing_message'))
                     ->columnSpanFull(),
 
-                RepeatableEntry::make('apiCalls')->label('Gift Card Details')
+                ViewEntry::make('apiCalls')->label('Gift Card Details')
                     ->columnSpanFull()
-                    ->contained(false)
-                    // ->columns(['default' => 2, 'md' => 4, 'lg' => 5])
-                    ->schema([
-                        Section::make(fn ($record) => Discount::firstWhere('code', $record['response']['contentProviderCode'])?->name)
-                            ->icon('https://panda-static.s3.us-east-2.amazonaws.com/assets/panda_logo.png')
-                            ->iconPosition(IconPosition::After)
-                            ->schema([
-                                ImageEntry::make('card_image')
-                                    ->defaultImageUrl(fn ($record) => Discount::firstWhere('code', $record['response']['contentProviderCode'])->media?->first()?->original_url)
-                                    ->hiddenLabel()
-                                    ->height(200)
-                                    ->columnSpan(1),
-
-                                Group::make([
-                                    TextEntry::make('tran_amount')
-                                        ->getStateUsing(fn ($record) => $record['response']['transactionAmount'])
-                                        ->label('Amount')
-                                        ->prefix('$ '),
-
-                                    TextEntry::make('pin')
-                                        ->getStateUsing(fn ($record) => $record['response']['pin'])
-                                        ->label('Access Number'),
-                                    // ->color('warning'),
-
-                                    TextEntry::make('card_number')
-                                        ->getStateUsing(fn ($record) => substr($record['response']['cardNumber'], 0, -1 * strlen($record['response']['pin'])))
-                                        ->hiddenLabel()
-                                        ->prefix('Card #: ')
-                                        ->columnSpanFull()
-                                        ->prose(),
-                                    TextEntry::make('scan_code')
-                                        ->getStateUsing(fn ($record) => barCodeGenerator($record['response']['cardNumber']))
-
-                                ])->columns(2)->columnSpan(1),
-
-                            ])->columnSpanFull()
-                            ->columns(2)
-
-                    ]),
+                    ->view('livewire.gift-card', ['orderQueue'  => $this->record->orderQueue])
+                // ->columns(['default' => 2, 'md' => 4, 'lg' => 5])
+                ,
 
                 Infolists\Components\RepeatableEntry::make('orderDetails')
                     ->label('Details')
