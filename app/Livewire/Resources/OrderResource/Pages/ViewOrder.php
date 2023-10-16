@@ -29,9 +29,9 @@ use Illuminate\Support\Carbon;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Filament\Support\Enums\FontWeight;
+use Filament\Support\Enums\IconPosition;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
-use Milon\Barcode\DNS1D;
 
 use function Filament\Support\format_money;
 
@@ -75,7 +75,8 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                     // ->columns(['default' => 2, 'md' => 4, 'lg' => 5])
                     ->schema([
                         Section::make(fn ($record) => Discount::firstWhere('code', $record['response']['contentProviderCode'])?->name)
-
+                            ->icon('https://panda-static.s3.us-east-2.amazonaws.com/assets/panda_logo.png')
+                            ->iconPosition(IconPosition::After)
                             ->schema([
                                 ImageEntry::make('card_image')
                                     ->defaultImageUrl(fn ($record) => Discount::firstWhere('code', $record['response']['contentProviderCode'])->media?->first()?->original_url)
@@ -101,8 +102,7 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                                         ->columnSpanFull()
                                         ->prose(),
                                     TextEntry::make('scan_code')
-                                        ->html(true)
-                                        ->getStateUsing(fn ($record) => DNS1D::getBarcodeHTML($record['response']['cardNumber'], 'PHARMA2T', 3, 33, 'green'))
+                                        ->getStateUsing(fn ($record) => barCodeGenerator($record['response']['cardNumber']))
 
                                 ])->columns(2)->columnSpan(1),
 
