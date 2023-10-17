@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "barryvdh/laravel-dompdf": "^2.0",
         "blade-ui-kit/blade-icons": "^1.5",
         "brick/money": "^0.8.0",
         "brickx/maintenance-switch": "^1.0",
@@ -28,6 +29,7 @@
         "livewire/volt": "^1.0",
         "mr-punyapal/laravel-extended-relationships": "^1.1",
         "opcodesio/log-viewer": "^3.1",
+        "picqer/php-barcode-generator": "^2.4",
         "pxlrbt/filament-excel": "^2.1",
         "ramsey/uuid": "^4.7",
         "saloonphp/laravel-plugin": "^2.0",

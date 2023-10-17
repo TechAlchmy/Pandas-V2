@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,7 +16,17 @@ use Illuminate\Support\Facades\Route;
 
 // TODO: This is for test right now. This will be removed once test is complete
 Route::post('blackhawk', function (Request $request) {
-    App\Services\BlackHawkService::order(Order::orderBy('id', 'desc')->first());
+
+    if (request('type') === 'get') {
+        App\Jobs\GetOrderStatus::dispatch();
+    } else {
+        App\Jobs\ProcessOrderQueue::dispatch();
+    }
+
+    dd('done');
+    // App\Services\BlackHawkService::bulkOrder( App\Models\Order::orderBy('id', 'desc')->first());
+
+    // App\Services\BlackHawkService::order( App\Models\Order::orderBy('id', 'desc')->first());
     // App\Jobs\FetchBlackHawk::dispatch();
 });
 

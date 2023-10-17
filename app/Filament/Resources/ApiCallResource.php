@@ -28,7 +28,7 @@ class ApiCallResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-arrow-left-on-rectangle';
 
-    protected static ?string $navigationLabel = 'API Calls';
+    protected static ?string $navigationLabel = 'API Logs';
 
     protected static ?string $navigationGroup = 'Utility Management';
 
@@ -37,10 +37,17 @@ class ApiCallResource extends Resource
         return $form
             ->schema([
                 TextInput::make('created_at')->disabled(),
+
                 TextInput::make('api')->disabled(),
+
+                Textarea::make('request')->columnSpanFull()
+                    ->formatStateUsing(fn ($state) => json_encode($state, JSON_PRETTY_PRINT))
+                    ->rows(15)
+                    ->disabled(),
+
                 Textarea::make('response')->columnSpanFull()
                     ->formatStateUsing(fn ($state) => json_encode($state, JSON_PRETTY_PRINT))
-                    ->rows(20)
+                    ->rows(15)
                     ->disabled()
             ]);
     }
@@ -50,10 +57,14 @@ class ApiCallResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('created_at')->dateTime()->sortable(),
+
                 TextColumn::make('api'),
-                TextColumn::make('request_id')->label('Request#'),
+
+                TextColumn::make('request_id')->label('Request#')->searchable()->copyable(),
+
                 TextColumn::make('order_id')->state(fn ($record) => $record->order_id ?: '-')
                     ->url(fn ($record) => $record->order_id ? route('filament.admin.resources.orders.edit', $record->order_id) : null),
+
                 TextColumn::make('success')
                     ->badge()
                     ->formatStateUsing(fn ($state) => $state ? 'OK' : 'X')
@@ -70,10 +81,19 @@ class ApiCallResource extends Resource
                     ->icon('heroicon-o-play')
                     ->requiresConfirmation()
                     ->modalContent(new HtmlString('Are you sure you want to call the api?'))
-                    ->action(fn (Model $record) => empty($record->success) ? FetchBlackHawk::dispatch() : null)
-                    ->hidden(function (Model $record) {
-                        return $record->success !== false;
-                        // !== false because we hide if true or null
+                    ->action(function (Model $record) {
+                        if (!$record->success && $record->canRetry()) {
+                            match ($record->api) {
+                                'catalog' => FetchBlackHawk::dispatch($record->request_id),
+                                    // 'realtime_order' => BlackHawkService::order($record->order, $record->request_id),
+                                    // We no longer allow retrying order api, instead it is done by job
+                                default => null
+                            };
+                        }
+                    })
+                    ->visible(function (Model $record) {
+                        return $record->success !== true && $record->canRetry();
+                        // !== true because we hide if true or null
                     })
                     ->disabled(ApiCall::disabledApiButton()),
                 Tables\Actions\ViewAction::make(),

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\ApiCallResource\Pages;
 
+use App\Enums\BlackHawkApiType;
 use App\Filament\Resources\ApiCallResource;
 use App\Jobs\FetchBlackHawk;
 use App\Models\ApiCall;
@@ -15,7 +16,7 @@ class ListApiCalls extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            \Filament\Actions\Action::make('call')->label('Fetch Fresh Data')
+            \Filament\Actions\Action::make('call')->label('Fetch Fresh Catalog Data')
                 ->icon('heroicon-o-play')
                 ->modalContent(new HtmlString('Are you sure you want to fresh the latest data ?'))
                 ->action(fn () => FetchBlackHawk::dispatch())
@@ -28,9 +29,11 @@ class ListApiCalls extends ListRecords
         return [
             null => \Filament\Resources\Components\Tab::make('All'),
             'catalog' => \Filament\Resources\Components\Tab::make()
-                ->query(fn ($query) => $query->where('api', 'catalog')),
-            'order' => \Filament\Resources\Components\Tab::make()
-                ->query(fn ($query) => $query->where('api', 'order'))
+                ->query(fn ($query) => $query->where('api', BlackHawkApiType::Catalog->value)),
+            'bulk' => \Filament\Resources\Components\Tab::make()
+                ->query(fn ($query) => $query->where('api', BlackHawkApiType::BulkOrder->value)),
+            'realtime' => \Filament\Resources\Components\Tab::make()
+                ->query(fn ($query) => $query->where('api', BlackHawkApiType::RealtimeOrder->value))
         ];
     }
 }

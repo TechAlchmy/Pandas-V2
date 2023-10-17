@@ -16,4 +16,9 @@ enum OrderStatus: string
     case Cancelled = 'cancelled';
     case Refunded = 'refunded';
     case Failed = 'failed';
+
+    public static function isIncomplete($status): bool
+    {
+        return !in_array($status, [self::Completed, self::Cancelled, self::Refunded, self::Failed]);
+    }
 }

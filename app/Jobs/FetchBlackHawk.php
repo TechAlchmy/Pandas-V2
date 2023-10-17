@@ -3,9 +3,10 @@
 namespace App\Jobs;
 
 use App\Enums\DiscountVoucherTypeEnum;
-use App\Models\ApiCall;
 use App\Models\Brand;
 use App\Models\Discount;
+use App\Models\Setting;
+use App\Notifications\ApprovalRequired;
 use App\Services\BlackHawkService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -13,18 +14,21 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
+use Throwable;
 
 class FetchBlackHawk implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    private ?string $previousReq;
     /**
      * Create a new job instance.
      */
-    public function __construct()
+    public function __construct(?string $previousReq = null)
     {
-        //
+        $this->previousReq = $previousReq;
     }
 
     /**
@@ -36,7 +40,7 @@ class FetchBlackHawk implements ShouldQueue
         // $testData = ApiCall::first();
         // $this->updateDiscounts($testData->response['products']);
 
-        $result = BlackHawkService::catalog();
+        $result = BlackHawkService::catalog($this->previousReq);
 
         if ($result['success']) {
             $this->updateDiscounts($result['response']['products']);
@@ -77,16 +81,49 @@ class FetchBlackHawk implements ShouldQueue
             if (Discount::where('code', $fieldsFromApi['code'])->doesntExist()) {
                 $discount = Discount::create(array_merge($fieldsFromApi, $commonFields));
 
-                $discount->addMediaFromUrl($product['productImage'])
-                    ->preservingOriginal()
-                    ->toMediaCollection('featured', 's3');
+                try {
+                    $discount->addMediaFromUrl($product['productImage'])
+                        ->preservingOriginal()
+                        ->toMediaCollection('featured', 's3');
+                } catch (\Spatie\MediaLibrary\MediaCollections\Exceptions\UnreachableUrl $e) {
+                }
+            } else {
+                $existingDiscount = Discount::where('code', $fieldsFromApi['code'])->first();
+
+                // Convert the existingDiscount model and $fieldsFromApi array to collections for comparison.
+                $detailsHaveChanged = collect($fieldsFromApi)->reject(function ($value, $key) use ($existingDiscount) {
+                    return $existingDiscount[$key] == $value;
+                })->isNotEmpty();
+
+
+                if ($detailsHaveChanged) {
+                    // Update the existing discount entry with new details and make it requiring approval.
+                    $existingDiscount->update($fieldsFromApi);
+
+                    $existingDiscount->update([
+                        'is_active' => false,
+                        'is_approved' => false
+                    ]);
+
+                    //send email to 
+                    // Setting::get('');
+                }
             }
 
-            // TODO: If we have some product that is missing from the API, we need to disable it.
-            // TODO: If we have a product that is present in their catalog, but the details are different, we need to update it.
-            // TODO: If any change happens in already existing product, we need to disable it and put it to is_approved=false
             // TODO: If anything needs to be approved, email notification daily after api call to {mail}
+
         });
+
+        // TODO: If we have some product that is missing from the API, we need to disable it.
+        $apiProductCodes = collect($products)->pluck('contentProviderCode')->toArray();
+        Discount::whereNotIn('code', $apiProductCodes)->where('is_active', true)->update(['is_active' => false]);
+
+        $receiver = Setting::get('notification_email');
+        try {
+            Notification::route('mail', $receiver)->notify(new ApprovalRequired());
+        } catch (Throwable $t) {
+            //
+        }
     }
 
     private function resolveBrand($product): int

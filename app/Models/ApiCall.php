@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
+use App\Enums\BlackHawkApiType;
 use Carbon\Carbon;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ApiCall extends Model
 {
-    use HasFactory;
-
     protected $guarded = [
         'id'
     ];
@@ -17,8 +17,15 @@ class ApiCall extends Model
     public $timestamps = false;
 
     protected $casts = [
-        'response' => 'array'
+        'request' => 'array',
+        'response' => 'array',
+        'api' => BlackHawkApiType::class
     ];
+
+    public function order(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Order::class);
+    }
 
     public static function disabledApiButton(): bool
     {
@@ -26,5 +33,13 @@ class ApiCall extends Model
         return $lastCall
             ? Carbon::parse(static::orderBy('id', 'desc')->first()?->created_at)->diffInSeconds(now()) < 15
             : false;
+    }
+
+    public function canRetry(): bool
+    {
+        return empty($this->previous_request)
+            && in_array($this->api, [
+                BlackHawkApiType::Catalog->value, BlackHawkApiType::RealtimeOrder->value
+            ]);
     }
 }

@@ -2,7 +2,10 @@
 
 namespace App\Livewire\Resources\OrderResource\Pages;
 
+use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
+use App\Filament\Widgets\GiftWidget;
+use App\Models\Discount;
 use App\Models\Order;
 use App\Models\OrderDetailRefund;
 use App\Models\OrderRefund;
@@ -14,12 +17,23 @@ use Filament\Forms;
 use Filament\Infolists\Concerns\InteractsWithInfolists;
 use Filament\Infolists\Contracts\HasInfolists;
 use Filament\Infolists;
+use Filament\Infolists\Components\Group;
+use Filament\Infolists\Components\ImageEntry;
+use Filament\Infolists\Components\RepeatableEntry;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Components\TextEntry\TextEntrySize;
+use Filament\Infolists\Components\ViewEntry;
 use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Carbon;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Filament\Support\Enums\FontWeight;
+use Filament\Support\Enums\IconPosition;
+use Illuminate\Support\HtmlString;
+use Illuminate\Support\Str;
+use Throwable;
 
 use function Filament\Support\format_money;
 
@@ -30,8 +44,10 @@ class ViewOrder extends Component implements HasForms, HasInfolists
 
     public $id;
 
+
     public function viewInfolist(Infolist $infolist)
     {
+        // dd(Discount::where('code', $this->record->apiCalls[0]->response['contentProviderCode'])->first()?->media?->first()->collection_name);
         return $infolist
             ->record($this->record)
             ->columns(['default' => 2])
@@ -51,9 +67,17 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                 Infolists\Components\TextEntry::make('note')->hiddenLabel()
                     ->weight(FontWeight::Bold)
                     ->color('warning')
-                    ->hidden(fn ($record) => $record->api_status === 'completed')
+                    ->visible(fn ($record) => OrderStatus::isIncomplete($record->order_status))
                     ->state(Setting::get('order_processing_message'))
                     ->columnSpanFull(),
+
+                ViewEntry::make('apiCalls')->label('Gift Card Details')
+                    ->columnSpanFull()
+                    ->view('livewire.gift-card', ['orderQueue'  => $this->record->orderQueue])
+                    ->visible(!empty($this->record->orderQueue->gifts))
+                // ->columns(['default' => 2, 'md' => 4, 'lg' => 5])
+                ,
+
                 Infolists\Components\RepeatableEntry::make('orderDetails')
                     ->label('Details')
                     ->columnSpanFull()
@@ -124,16 +148,21 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                                     ]);
                             }
 
-                            auth()->user()->notify(
-                                new SendUserOrderRefundInReview($this->record->order_column, \array_map(function ($refund) {
-                                    return \implode(' - ', [
-                                        $refund->orderDetail->discount->brand->name,
-                                        $refund->orderDetail->discount->name,
-                                        'x' . $refund->quantity,
-                                        'Reason:' . $refund->note,
-                                    ]);
-                                }, $refunds)),
-                            );
+                            try {
+                                auth()->user()->notify(
+                                    new SendUserOrderRefundInReview($this->record->order_column, \array_map(function ($refund) {
+                                        return \implode(' - ', [
+                                            $refund->orderDetail->discount->brand->name,
+                                            $refund->orderDetail->discount->name,
+                                            'x' . $refund->quantity,
+                                            'Reason:' . $refund->note,
+                                        ]);
+                                    }, $refunds)),
+                                );
+                            } catch (Throwable $t) {
+                                // Do nothing or populate a table with this error, along with other mail errors
+                            }
+
 
                             $action->success();
                         })
@@ -165,7 +194,7 @@ class ViewOrder extends Component implements HasForms, HasInfolists
             ->with('orderDetails', function ($query) {
                 $query->with('orderDetailRefund', fn ($query) => $query->withTrashed())
                     ->with('discount.brand.media');
-            })
+            })->with('apiCalls', fn ($query) => $query->where('success', true))
             ->withExists(['orderDetailRefunds' => fn ($query) => $query->withTrashed()])
             ->firstWhere('uuid', $this->id);
     }

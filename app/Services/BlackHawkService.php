@@ -2,14 +2,19 @@
 
 namespace App\Services;
 
+use App\Enums\BlackHawkApiType;
+use App\Enums\BlackHawkOrderStatus;
+use App\Enums\OrderStatus;
 use App\Models\ApiCall;
-use App\Models\Order;
+use App\Models\OrderQueue;
 use Illuminate\Support\Facades\Http;
 
 class BlackHawkService
 {
     protected readonly string $catalogApi;
-    protected readonly string $orderApi;
+    protected readonly string $realtimeOrderApi;
+    protected readonly string $bulkOrkderApi;
+    protected readonly string $retreiveCardApi;
     protected readonly string $clientProgramId;
     protected readonly string $merchantId;
     protected readonly string $cert;
@@ -22,7 +27,9 @@ class BlackHawkService
     public function __construct()
     {
         $this->catalogApi = config('services.blackhawk.catalog_api');
-        $this->orderApi = config('services.blackhawk.order_api');
+        $this->realtimeOrderApi = config('services.blackhawk.realtime_order_api');
+        $this->bulkOrkderApi = config('services.blackhawk.bulk_order_api');
+        $this->retreiveCardApi = config('services.blackhawk.retreive_card_api');
         $this->clientProgramId = config('services.blackhawk.client_program_id');
         $this->merchantId = config('services.blackhawk.merchant_id');
         $this->cert = config('services.blackhawk.cert');
@@ -39,7 +46,7 @@ class BlackHawkService
     }
 
     // This is the catalog endpoint for egift cards
-    public static function catalog()
+    public static function catalog(?string $previousReq)
     {
         $instance = static::instance();
 
@@ -53,10 +60,11 @@ class BlackHawkService
         ];
 
         ApiCall::create([
-            'api' => 'catalog',
+            'api' => BlackHawkApiType::Catalog,
             'request_id' => $requestId,
             'response' => null,
             'success' => null,
+            'previous_request' => $previousReq ?? null,
             'created_at' => now()
         ]);
 
@@ -64,7 +72,7 @@ class BlackHawkService
             'cert' => [$instance->cert, $instance->certPassword]
         ])
             ->get(
-                "{$instance->catalogApi}/clientProgram/byKey",
+                "$instance->catalogApi",
                 ['clientProgramId' => $instance->clientProgramId]
             )->then(
                 function ($response) use (&$result) {
@@ -80,66 +88,243 @@ class BlackHawkService
         return $result;
     }
 
-    // This is the place order endpoint for egift cards in realtime
-    public static function order(Order $order)
+    // This is the place order endpoint for egift cards in realtime where we used to wait before recieving response
+    // public static function order(Order $order, ?string $previousReq = null)
+    // {
+    //     // There should be a waiting period such that the last request has a response received (not null) before retyring the api call again
+    //     $instance = static::instance();
+
+    //     $result = [];
+
+    //     $requestId = uniqid();
+    //     $headers = [
+    //         'requestId' => $requestId, // This should be a unique id from our api call log
+    //         'clientProgramNumber' => $instance->clientProgramId,
+    //         'millisecondsToWait' => 15000,
+    //         'merchantId' => $instance->merchantId,
+    //         'SYNCHRONOUS_ONLY' => 'true',
+    //         'Content-Type' => 'application/json'
+    //     ];
+
+    //     $refId = uniqid();
+    //     $order->loadMissing('orderDetails.discount');
+    //     $orderDetails = $order->orderDetails->map(function ($orderDetail) use ($refId) {
+    //         return [
+    //             'clientRefId' => (string) $refId,
+    //             'quantity' => (string) $orderDetail->quantity,
+    //             'amount' => (string) ($orderDetail->amount / 100),
+    //             'contentProvider' => (string) $orderDetail->discount->code
+    //         ];
+    //     });
+
+    //     $reqData = [
+    //         'clientProgramNumber' => $instance->clientProgramId,
+    //         'paymentType' => 'ACH_DEBIT',
+    //         'returnCardNumberAndPIN' => 'true',
+    //         'orderDetails' => $orderDetails,
+    //     ];
+
+    //     ApiCall::create([
+    //         'api' => BlackHawkApiType::RealtimeOrder,
+    //         'request_id' => $requestId,
+    //         'order_id' => $order->id,
+    //         'response' => null,
+    //         'success' => null,
+    //         'previous_request' => $previousReq ?? null,
+    //         'created_at' => now(),
+    //         'request' => $reqData
+    //     ]);
+
+    //     $promise = Http::async()->withHeaders($headers)->withOptions([
+    //         'cert' => [$instance->cert, $instance->certPassword]
+    //     ])
+    //         ->post(
+    //             $instance->realtimeOrderApi,
+    //             $reqData
+    //         )->then(
+    //             function ($response) use (&$result) {
+    //                 $result = [
+    //                     'response' => $response->json(),
+    //                     'success' => $response->created(), // $resposne->accepeted() or 202 we treat as failure
+    //                 ];
+    //                 ApiCall::where('api', 'order')->orderBy('id', 'desc')->first()->update($result);
+    //             }
+    //         );
+
+    //     $promise->wait();
+    //     return $result;
+    // }
+
+    // This is the place order endpoint for egift cards in realtime after this was added to queue
+    public static function realtimeOrder(OrderQueue $orderQueue): void
     {
-        // There should be a waiting period such that the last request has a response received (not null) before retyring the api call again
         $instance = static::instance();
 
-        $result = [];
-
         $requestId = uniqid();
+
+        $orderQueue->start($requestId);
+
         $headers = [
             'requestId' => $requestId, // This should be a unique id from our api call log
             'clientProgramNumber' => $instance->clientProgramId,
-            'millisecondsToWait' => 15000,
+            'millisecondsToWait' => '15000',
             'merchantId' => $instance->merchantId,
-            'SYNCHRONOUS_ONLY' => 'true',
+            // 'SYNCHRONOUS_ONLY' => 'false', 
             'Content-Type' => 'application/json'
         ];
 
-        $refId = uniqid();
-        $order->loadMissing('orderDetails.discount');
-        $orderDetails = $order->orderDetails->map(function ($orderDetail) use ($refId) {
+        $orderQueue->loadMissing('order.orderDetails.discount');
+
+        $orderDetails = $orderQueue->order->orderDetails->map(function ($orderDetail) {
             return [
-                'clientRefId' => (string) $refId,
                 'quantity' => (string) $orderDetail->quantity,
                 'amount' => (string) ($orderDetail->amount / 100),
                 'contentProvider' => (string) $orderDetail->discount->code
             ];
         });
 
-        ApiCall::create([
-            'api' => 'order',
+        $reqData = [
+            'clientProgramNumber' => $instance->clientProgramId,
+            'paymentType' => 'ACH_DEBIT',
+            'returnCardNumberAndPIN' => 'true',
+            'orderDetails' => $orderDetails,
+        ];
+
+        $apiCall = ApiCall::create([
+            'api' => BlackHawkApiType::RealtimeOrder,
             'request_id' => $requestId,
-            'order_id' => $order->id,
+            'request' => $reqData,
             'response' => null,
             'success' => null,
-            'created_at' => now()
+            'created_at' => now(),
+            'order_id' => $orderQueue->order_id,
+            'order_queue_id' => $orderQueue->id,
         ]);
 
-        $promise = Http::async()->withHeaders($headers)->withOptions([
+        $promise = Http::withHeaders($headers)->withOptions([
             'cert' => [$instance->cert, $instance->certPassword]
         ])
             ->post(
-                "{$instance->orderApi}/submitRealTimeEgiftBulk",
-                [
-                    'clientProgramNumber' => $instance->clientProgramId,
-                    'paymentType' => 'ACH_DEBIT',
-                    'returnCardNumberAndPIN' => 'true',
-                    'orderDetails' => $orderDetails,
-                ]
-            )->then(
-                function ($response) use (&$result) {
-                    $result = [
-                        'response' => $response->json(),
-                        'success' => $response->created(), // $resposne->accepeted() or 202 we treat as failure
-                    ];
-                    ApiCall::where('api', 'order')->orderBy('id', 'desc')->first()->update($result);
-                }
+                $instance->realtimeOrderApi,
+                $reqData
             );
 
-        $promise->wait();
-        return $result;
+        $success = $promise->created() || $promise->accepted();
+        $apiCall->update([
+            'response' => $promise->json(),
+            'success' => $success
+        ]);
+
+        $orderQueue->stop($success);
+    }
+
+    // TODO: Refactor duplicate code of realtime and bulk order APIs
+
+    public static function bulkOrder(OrderQueue $orderQueue): void
+    {
+        $instance = static::instance();
+
+        $requestId = uniqid();
+
+        $orderQueue->start($requestId);
+
+        $headers = [
+            'requestId' => $requestId, // This should be a unique id from our api call log
+            'merchantId' => $instance->merchantId,
+            'Content-Type' => 'application/json',
+            'millisecondsToWait' => '15000'
+        ];
+
+        $orderQueue->loadMissing('order.orderDetails.discount');
+
+        $orderDetails = $orderQueue->order->orderDetails->map(function ($orderDetail) {
+            return [
+                'quantity' => (string) $orderDetail->quantity,
+                'amount' => (string) ($orderDetail->amount / 100),
+                'contentProvider' => (string) $orderDetail->discount->code
+            ];
+        });
+
+        $reqData = [
+            'clientProgramNumber' => $instance->clientProgramId,
+            'paymentType' => 'ACH_DEBIT',
+            'returnCardNumberAndPIN' => 'true',
+            'orderDetails' => $orderDetails,
+        ];
+
+        $apiCall = ApiCall::create([
+            'api' => BlackHawkApiType::BulkOrder,
+            'request_id' => $requestId,
+            'request' => $reqData,
+            'response' => null,
+            'success' => null,
+            'created_at' => now(),
+            'order_id' => $orderQueue->order_id,
+            'order_queue_id' => $orderQueue->id,
+        ]);
+
+        $promise = Http::withHeaders($headers)->withOptions([
+            'cert' => [$instance->cert, $instance->certPassword]
+        ])
+            ->post(
+                $instance->bulkOrkderApi,
+                $reqData
+            );
+
+        $success = $promise->created() || $promise->accepted();
+        $apiCall->update([
+            'response' => $promise->json(),
+            'success' => $success
+        ]);
+
+        $orderQueue->stop($success);
+    }
+
+    public static function cardInfo(OrderQueue $orderQueue): void
+    {
+        $instance = static::instance();
+
+        $requestId = $orderQueue->request_id;
+
+        $headers = [
+            'requestId' => $requestId, // This should be a unique id from our api call log
+            'merchantId' => $instance->merchantId,
+            'Content-Type' => 'application/json'
+        ];
+
+        $reqData = [
+            'clientProgramNumber' => $instance->clientProgramId,
+            'requestId' => $requestId
+        ];
+
+        $promise = Http::withHeaders($headers)->withOptions([
+            'cert' => [$instance->cert, $instance->certPassword]
+        ])
+            ->get(
+                $instance->retreiveCardApi,
+                $reqData
+            );
+
+        if ($promise->ok()) {
+            $response = $promise->json();
+
+            if (!empty($response['orderStatus'])) {
+                $orderStatus = $response['orderStatus'];
+            } else {
+                $orderStatus = !empty($response['eGifts']) ? BlackHawkOrderStatus::Complete->value : BlackHawkOrderStatus::Default->value;
+            }
+
+            $orderQueue->update([
+                'order_status' => $orderStatus,
+                'fetched_at' => now(),
+                'gifts' => $response['eGifts'] ?? $orderQueue->gifts,
+            ]);
+
+            if ($orderStatus === BlackHawkOrderStatus::Complete->value) {
+                $orderQueue->order->update([
+                    'order_status' => OrderStatus::Completed->value
+                ]);
+            }
+        }
     }
 }

@@ -6,6 +6,7 @@ use App\Filament\Resources\SettingResource\Pages;
 use App\Filament\Resources\SettingResource\RelationManagers;
 use App\Models\Setting;
 use Filament\Forms;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -29,7 +30,34 @@ class SettingResource extends Resource
                     ->prefix('$')
                     ->required()
                     ->numeric(),
+
+                Forms\Components\TextInput::make('max_retries')
+                    ->hint('')
+                    ->required()
+                    ->numeric(),
+
+                Forms\Components\TextInput::make('bulk_order_batch_size')
+                    ->hint('How many orders should process every minute? Recommended: 3')
+                    ->required()
+                    ->numeric(),
+
+                Forms\Components\TextInput::make('notification_email')
+                    ->hint('This is where you will receive notifications to check discount if any needs approval.')
+                    ->nullable()
+                    ->columnSpanFull()
+                    ->email(),
+
                 Forms\Components\Textarea::make('order_processing_message')
+                    ->required()
+                    ->rows(3)
+                    ->columnSpanFull(),
+
+                Textarea::make('order_success_message')
+                    ->required()
+                    ->rows(3)
+                    ->columnSpanFull(),
+
+                Textarea::make('order_failed_message')
                     ->required()
                     ->rows(3)
                     ->columnSpanFull(),
