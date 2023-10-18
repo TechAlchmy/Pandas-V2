@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Resources\DealResource\Pages;
 
+use App\Enums\DiscountVoucherTypeEnum;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Http\Integrations\Cardknox\Requests\CreatePaymentMethod;
@@ -172,6 +173,17 @@ class ViewDeal extends Component implements HasActions, HasForms
             'quantity' => $this->quantity,
             'image_url' => $this->record->brand->getFirstMediaUrl('logo'),
         ]]);
+    }
+
+    public function handleClick()
+    {
+        $this->updateClicks();
+        if ($this->record->voucher_type == DiscountVoucherTypeEnum::TopUpGiftCard) {
+            // TODO: Blackhawk integration with top up
+        }
+        if ($this->record->voucher_type == DiscountVoucherTypeEnum::ExternalLink) {
+            return redirect($this->record->link);
+        }
     }
 
     public function render()
