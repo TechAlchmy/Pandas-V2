@@ -24,7 +24,7 @@
                     <div>{{ $this->record->excerpt }}</div>
                 @endif
                 <div class="flex gap-6">
-                    @if (in_array($this->record->voucher_type, [\App\Enums\DiscountVoucherTypeEnum::DefinedAmountsGiftCard]))
+                    @if (in_array($this->record->voucher_type, [\App\Enums\DiscountVoucherTypeEnum::DefinedAmountsGiftCard, \App\Enums\DiscountVoucherTypeEnum::TopUpGiftCard]))
                         <div x-data class="space-y-6">
                             <div class="flex gap-6 items-center">
                                 @if (!$this->record->is_amount_single)
