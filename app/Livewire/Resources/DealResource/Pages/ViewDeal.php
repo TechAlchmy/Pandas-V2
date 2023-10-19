@@ -45,6 +45,9 @@ class ViewDeal extends Component implements HasActions, HasForms
     public function mount()
     {
         $this->amount = \head($this->record->amount);
+        if ($this->record->voucher_type == DiscountVoucherTypeEnum::TopUpGiftCard) {
+            $this->amount = $this->record->bh_max / 100;
+        }
     }
 
     public function createOrder($data)
@@ -54,11 +57,14 @@ class ViewDeal extends Component implements HasActions, HasForms
                 ->danger()
                 ->title('Quantity maximum limit is ' . $this->record->limit_qty)
                 ->send();
+        $amount = $this->record->voucher_type == DiscountVoucherTypeEnum::DefinedAmountsGiftCard
+            ? $this->amount
+            : $this->amount * 100;
 
             return;
         }
 
-        $subtotal = $this->quantity * $this->amount;
+        $subtotal = $this->quantity * $amount;
 
         if ($this->record->limit_amount && $subtotal > $this->record->limit_amount) {
             Notification::make()
@@ -101,7 +107,7 @@ class ViewDeal extends Component implements HasActions, HasForms
         $order->orderDetails()->create([
             'discount_id' => $this->record->getKey(),
             'quantity' => $this->quantity,
-            'amount' => $this->amount,
+            'amount' => $amount,
             'public_percentage' => $this->record->public_percentage,
             'percentage' => $this->record->percentage,
         ]);
@@ -163,13 +169,17 @@ class ViewDeal extends Component implements HasActions, HasForms
     public function addToCart()
     {
         $this->validate();
-        cart()->add($this->record?->getKey(), $this->quantity, $this->amount);
+        $amount = $this->record->voucher_type == DiscountVoucherTypeEnum::DefinedAmountsGiftCard
+            ? $this->amount
+            : $this->amount * 100;
+
+        cart()->add($this->record?->getKey(), $this->quantity, $amount);
 
         $this->updateClicks();
 
         $this->dispatch('cart-item-added', ...['record' => [
             'name' => $this->record->name,
-            'amount' => \Filament\Support\format_money($this->amount / 100, 'USD'),
+            'amount' => \Filament\Support\format_money($amount / 100, 'USD'),
             'quantity' => $this->quantity,
             'image_url' => $this->record->brand->getFirstMediaUrl('logo'),
         ]]);
