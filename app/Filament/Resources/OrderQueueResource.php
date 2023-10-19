@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\BlackHawkOrderStatus;
 use App\Filament\Resources\OrderQueueResource\Pages;
 use App\Filament\Resources\OrderQueueResource\RelationManagers;
 use App\Models\OrderQueue;
@@ -10,6 +11,8 @@ use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -84,8 +87,13 @@ class OrderQueueResource extends Resource
             ->paginated([25, 50, 100, 'all'])
             ->defaultSort('id', 'desc')
             ->filters([
-                // TODO: Add filters such as flagged queue item, pending only
-            ])
+                Filter::make('flagged')
+                    ->default(false)
+                    ->query(fn (Builder $query) => $query->flagged()),
+                SelectFilter::make('order_status')
+                    ->options(collect(BlackHawkOrderStatus::getOptions()))
+                    ->label(''),
+            ], layout: \Filament\Tables\Enums\FiltersLayout::AboveContent)
             ->actions([
                 // Tables\Actions\EditAction::make(),
             ])

@@ -17,6 +17,12 @@ enum BlackHawkOrderStatus: string
     case Shipped = 'Shipped';
     case SuccessfullySentToProcessor = 'Successfully Sent To Processor';
 
+    public static function getOptions()
+    {
+        return collect(self::cases())
+            ->mapWithKeys(fn ($type) => [$type->name => $type->value]);
+    }
+
     public static function failed(): array
     {
         return [

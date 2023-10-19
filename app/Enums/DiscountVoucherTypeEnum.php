@@ -5,6 +5,7 @@ namespace App\Enums;
 enum DiscountVoucherTypeEnum: int
 {
     case FixedDiscountCode = 0;
+
     case GeneratedDiscountCode = 1;
     case ExternalLink = 2;
     case ExternalApiLink = 3;

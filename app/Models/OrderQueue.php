@@ -23,6 +23,15 @@ class OrderQueue extends Model
         return $this->belongsTo(Order::class);
     }
 
+    public function scopeFlagged($query)
+    {
+        return $query->where('created_at', '<=', now()->subDay())
+            ->where(function ($q) {
+                $q->where('is_order_placed', true)
+                    ->where('order_status', '<>', BlackHawkOrderStatus::Complete);
+            })->orWhere('is_order_placed', false);
+    }
+
     public function scopeMustRetryOrder($query)
     {
         return $query->whereIn('order_status', [
