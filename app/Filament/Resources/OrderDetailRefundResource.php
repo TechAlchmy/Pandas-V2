@@ -63,7 +63,7 @@ class OrderDetailRefundResource extends Resource
                     ->boolean(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make('resolve_refund')
                     ->modalHeading(fn ($record) => \implode(' ', [
                         'Resolve Refund for',
