@@ -144,6 +144,8 @@ class ViewDeal extends Component implements HasActions, HasForms
             'payment_status' => PaymentStatus::tryFrom((string) $response->json('xStatus')),
         ]);
 
+        $order->addToQueue();
+        
         try {
             auth()->user()->notify(new OrderApprovedNotification($order));
         } catch (Throwable $t) {
