@@ -70,7 +70,6 @@ class OrderDetailRefundResource extends Resource
                         $record->discount->brand->name,
                         $record->discount->name,
                     ]))
-                    ->visible(fn ($record) => $record->order_detail_refund_exists && ! $record->is_refund_request_approved)
                     ->infolist([
                         Infolists\Components\Grid::make(3)
                             ->schema([
