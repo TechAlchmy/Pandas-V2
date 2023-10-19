@@ -122,4 +122,5 @@
         @endif
     </div>
     <x-cardknox-form />
+    <x-filament-actions::modals />
 </div>
