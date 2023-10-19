@@ -116,7 +116,8 @@ class FetchBlackHawk implements ShouldQueue
 
         // TODO: If we have some product that is missing from the API, we need to disable it.
         $apiProductCodes = collect($products)->pluck('contentProviderCode')->toArray();
-        Discount::whereNotIn('code', $apiProductCodes)->where('is_active', true)->update(['is_active' => false]);
+        Discount::whereNotIn('code', $apiProductCodes)->where('is_bhn', true)
+            ->where('is_active', true)->update(['is_active' => false]);
 
         $receiver = Setting::get('notification_email');
         try {
