@@ -96,8 +96,10 @@ class Order extends Model implements Sortable
 
     public function addToQueue()
     {
-        OrderQueue::create([
-            'order_id' => $this->id
-        ]);
+        // We can change the logic of what can be queued here in the future
+        if ($this->discounts()->where('is_bhn', true)->exists()) {
+            $this->orderQueue()->create();
+        }
+        // We are not queing order in Order::boot() because this queing logic needs complex calculations such as if payment is successfull and order is placed
     }
 }
