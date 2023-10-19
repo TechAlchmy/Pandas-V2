@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Resources\DealResource\Pages;
 
+use App\Enums\DiscountVoucherTypeEnum;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Http\Integrations\Cardknox\Requests\CreatePaymentMethod;
@@ -44,20 +45,39 @@ class ViewDeal extends Component implements HasActions, HasForms
     public function mount()
     {
         $this->amount = \head($this->record->amount);
+        if ($this->record->voucher_type == DiscountVoucherTypeEnum::TopUpGiftCard) {
+            $this->amount = $this->record->bh_max / 100;
+        }
     }
 
     public function createOrder($data)
     {
-        if ($this->record->limit_qty && $this->quantity > $this->record->limit_qty) {
-            Notification::make()
-                ->danger()
-                ->title('Quantity maximum limit is ' . $this->record->limit_qty)
-                ->send();
+        $amount = $this->record->voucher_type == DiscountVoucherTypeEnum::DefinedAmountsGiftCard
+            ? $this->amount
+            : $this->amount * 100;
+        if ($this->record->voucher_type == DiscountVoucherTypeEnum::DefinedAmountsGiftCard) {
+            if ($this->record->limit_qty && $this->quantity > $this->record->limit_qty) {
+                Notification::make()
+                    ->danger()
+                    ->title('Quantity maximum limit is ' . $this->record->limit_qty)
+                    ->send();
 
-            return;
+                return;
+            }
         }
 
-        $subtotal = $this->quantity * $this->amount;
+        if ($this->record->voucher_type == DiscountVoucherTypeEnum::TopUpGiftCard) {
+            if ($this->record->bh_min >= $amount || $this->record->bh_max <= $amount) {
+                Notification::make()
+                    ->danger()
+                    ->title('limit is ' . \Filament\Support\format_money($this->record->bh_min / 100, 'USD') . ' and ' . format_money($this->record->bh_max / 100, 'USD'))
+                    ->send();
+
+                return;
+            }
+        }
+
+        $subtotal = $this->quantity * $amount;
 
         if ($this->record->limit_amount && $subtotal > $this->record->limit_amount) {
             Notification::make()
@@ -100,7 +120,7 @@ class ViewDeal extends Component implements HasActions, HasForms
         $order->orderDetails()->create([
             'discount_id' => $this->record->getKey(),
             'quantity' => $this->quantity,
-            'amount' => $this->amount,
+            'amount' => $amount,
             'public_percentage' => $this->record->public_percentage,
             'percentage' => $this->record->percentage,
         ]);
@@ -164,16 +184,28 @@ class ViewDeal extends Component implements HasActions, HasForms
     public function addToCart()
     {
         $this->validate();
-        cart()->add($this->record?->getKey(), $this->quantity, $this->amount);
+        $amount = $this->record->voucher_type == DiscountVoucherTypeEnum::DefinedAmountsGiftCard
+            ? $this->amount
+            : $this->amount * 100;
+
+        cart()->add($this->record?->getKey(), $this->quantity, $amount);
 
         $this->updateClicks();
 
         $this->dispatch('cart-item-added', ...['record' => [
             'name' => $this->record->name,
-            'amount' => \Filament\Support\format_money($this->amount / 100, 'USD'),
+            'amount' => \Filament\Support\format_money($amount / 100, 'USD'),
             'quantity' => $this->quantity,
             'image_url' => $this->record->brand->getFirstMediaUrl('logo'),
         ]]);
+    }
+
+    public function handleClick()
+    {
+        $this->updateClicks();
+        if ($this->record->voucher_type == DiscountVoucherTypeEnum::ExternalLink) {
+            return redirect($this->record->link);
+        }
     }
 
     public function render()
