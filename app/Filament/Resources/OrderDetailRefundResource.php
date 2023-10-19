@@ -74,10 +74,10 @@ class OrderDetailRefundResource extends Resource
                         Infolists\Components\Grid::make(3)
                             ->schema([
                                 Infolists\Components\TextEntry::make('quantity')
-                                    ->getStateUsing(fn ($record) => $record->orderDetailRefund->quantity)
+                                    ->getStateUsing(fn ($record) => $record->quantity)
                                     ->label('Quantity to Refund'),
                                 Infolists\Components\TextEntry::make('note')
-                                    ->getStateUsing(fn ($record) => $record->orderDetailRefund->note),
+                                    ->getStateUsing(fn ($record) => $record->note),
                                 Infolists\Components\TextEntry::make('estimated_amount_refunded')
                                     ->getStateUsing(function ($record) {
                                         $record->quantity = $record->orderDetailRefund->quantity;
