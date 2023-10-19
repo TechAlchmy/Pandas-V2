@@ -80,8 +80,8 @@ class OrderDetailRefundResource extends Resource
                                     ->getStateUsing(fn ($record) => $record->note),
                                 Infolists\Components\TextEntry::make('estimated_amount_refunded')
                                     ->getStateUsing(function ($record) {
-                                        $record->quantity = $record->orderDetailRefund->quantity;
-                                        return $record->total / 100;
+                                        $record->orderDetail->quantity = $record->quantity;
+                                        return $record->orderDetail->total / 100;
                                     })
                                     ->money('USD'),
                             ]),
