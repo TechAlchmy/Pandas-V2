@@ -27,13 +27,6 @@
                     @if (in_array($this->record->voucher_type, [\App\Enums\DiscountVoucherTypeEnum::DefinedAmountsGiftCard, \App\Enums\DiscountVoucherTypeEnum::TopUpGiftCard]))
                         <div x-data class="space-y-6">
                             <div class="flex gap-6 items-center">
-                                @if (!$this->record->is_amount_single)
-                                    <select wire:model.live.number="amount" class="border border-black">
-                                        @foreach ($this->record->amount as $amount)
-                                            <option value="{{ $amount }}">{{ Filament\Support\format_money($amount / 100, 'USD') }}</option>
-                                        @endforeach
-                                    </select>
-                                @endif
                                 @if ($this->record->voucher_type == \App\Enums\DiscountVoucherTypeEnum::TopUpGiftCard)
                                     <div class="flex items-center space-x-1 w-full">
                                         <span>$</span>
@@ -41,6 +34,13 @@
                                     </div>
                                 @endif
                                 @if($this->record->voucher_type == \App\Enums\DiscountVoucherTypeEnum::DefinedAmountsGiftCard)
+                                    @if (!$this->record->is_amount_single)
+                                        <select wire:model.live.number="amount" class="border border-black">
+                                            @foreach ($this->record->amount as $amount)
+                                                <option value="{{ $amount }}">{{ Filament\Support\format_money($amount / 100, 'USD') }}</option>
+                                            @endforeach
+                                        </select>
+                                    @endif
                                     <x-input class="lg:max-w-[50%] !border-solid border-black p-2" type="number" wire:model="quantity" min="1" />
                                 @endif
                             </div>
