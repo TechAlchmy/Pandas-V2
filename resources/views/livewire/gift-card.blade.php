@@ -29,7 +29,7 @@
                                                         <dd class="">
                                                             <div class="fi-in-image flex items-center gap-x-2.5">
                                                                 <div class="flex gap-x-1.5">
-                                                                    <img src="{{$discount->media?->first()?->original_url}}" style="height: 200px;" class="max-w-none object-cover object-center ring-white dark:ring-gray-900">
+                                                                    <img src="{{$discount->media?->first()?->original_url}}" style="height: {{$size==='sm' ? 170 : 200}}px;" class="max-w-none object-cover object-center ring-white dark:ring-gray-900">
                                                                 </div>
                                                             </div>
                                                         </dd>
@@ -41,10 +41,10 @@
                                         <div style="--col-span-default: span 1 / span 1;" class="col-[--col-span-default]">
                                             <div>
                                                 <dl>
-                                                    <div style="--cols-default: repeat(1, minmax(0, 1fr)); --cols-lg: repeat(2, minmax(0, 1fr));" class="grid grid-cols-[--cols-default] lg:grid-cols-[--cols-lg] fi-in-component-ctn gap-6">
+                                                    <div style="--cols-default: repeat(1, minmax(0, 1fr)); --cols-lg: repeat(2, minmax(0, 1fr));" class="grid grid-cols-[--cols-default] lg:grid-cols-[--cols-lg] fi-in-component-ctn gap-{{$size==='sm' ? 2 : 6}}">
                                                         <div style="--col-span-default: span 1 / span 1;" class="col-[--col-span-default]">
                                                             <div class="fi-in-entry-wrp">
-                                                                <div class="grid gap-y-2">
+                                                                <div class="grid">
                                                                     <div class="flex items-center justify-between gap-x-3">
                                                                         <dt class="fi-in-entry-wrp-label inline-flex items-center gap-x-3">
                                                                             <span class="text-sm font-medium leading-6 text-gray-950 dark:text-white">
@@ -52,7 +52,7 @@
                                                                             </span>
                                                                         </dt>
                                                                     </div>
-                                                                    <div class="grid gap-y-2">
+                                                                    <div class="grid">
                                                                         <dd class="">
                                                                             <div class="fi-in-text">
                                                                                 <div class="fi-in-affixes flex">
@@ -77,7 +77,7 @@
                                                         <div style="--col-span-default: span 1 / span 1;" class="col-[--col-span-default]">
                                                             <div class="fi-in-entry-wrp">
 
-                                                                <div class="grid gap-y-2">
+                                                                <div class="grid">
                                                                     <div class="flex items-center justify-between gap-x-3">
                                                                         <dt class="fi-in-entry-wrp-label inline-flex items-center gap-x-3">
 
@@ -89,7 +89,7 @@
                                                                         </dt>
                                                                     </div>
 
-                                                                    <div class="grid gap-y-2">
+                                                                    <div class="grid">
                                                                         <dd class="">
                                                                             <div class="fi-in-text">
                                                                                 <div class="fi-in-affixes flex">

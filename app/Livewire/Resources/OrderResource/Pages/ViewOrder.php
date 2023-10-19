@@ -73,7 +73,10 @@ class ViewOrder extends Component implements HasForms, HasInfolists
 
                 ViewEntry::make('apiCalls')->label('Gift Card Details')
                     ->columnSpanFull()
-                    ->view('livewire.gift-card', ['orderQueue'  => $this->record->orderQueue])
+                    ->view('livewire.gift-card', [
+                        'orderQueue'  => $this->record->orderQueue,
+                        'size' => 'lg'
+                    ])
                     ->visible(!empty($this->record->orderQueue->gifts))
                 // ->columns(['default' => 2, 'md' => 4, 'lg' => 5])
                 ,

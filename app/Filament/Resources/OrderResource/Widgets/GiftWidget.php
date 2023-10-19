@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class GiftWidget extends Widget
 {
-    protected static string $view = 'filament.resources.order-resource.widgets.gift-widget';
+    // protected static string $view = 'filament.resources.order-resource.widgets.gift-widget';
+    protected static string $view = 'livewire.gift-card';
 
     public ?Model $record = null;
 
@@ -17,17 +18,13 @@ class GiftWidget extends Widget
 
     protected static ?int $sort = 1;
 
-    protected function getViewData(): array
-    {
-        $data = ApiCall::where('success', true)
-            ->where('order_id', $this->record->id)
-            ->whereNotNull('response')
-            ->value('response');
+    // protected function getViewData(): array
+    // {
+    //     return $this->record?->orderQueue?->toArray();
+    // }
 
-        return $data ?? [];
-    }
     public function render(): View
     {
-        return view(static::$view, ['data' => $this->getViewData()]);
+        return view(static::$view, ['orderQueue' => $this->record?->orderQueue, 'size' => 'sm']);
     }
 }

@@ -14,8 +14,8 @@ enum BlackHawkOrderStatus: string
     case NotAllRecordsFunded = 'Not All Records Funded';
     case NotAllRecordsReversed = 'Not All Records Reversed';
     case Failure = 'Failure';
-    case Shipped = 'Shipped';
-    case SuccessfullySentToProcessor = 'Successfully Sent To Processor';
+    case Shipped = 'Shipped'; // This is not valid for our use-case
+    case SuccessfullySentToProcessor = 'Successfully Sent To Processor'; // This is not valid for our use-case
 
     public static function getOptions()
     {
@@ -28,7 +28,6 @@ enum BlackHawkOrderStatus: string
         return [
             self::Cancelled->value,
             self::Declined->value,
-            self::Error->value,
             self::Failure->value
         ];
     }

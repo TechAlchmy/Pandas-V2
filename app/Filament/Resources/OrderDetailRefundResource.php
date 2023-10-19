@@ -51,10 +51,10 @@ class OrderDetailRefundResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status_message'),
                 Tables\Columns\TextColumn::make('orderDetail.subtotal')
-                    ->getStateUsing(fn ($state) => $state / 100)
+                    ->formatStateUsing(fn ($state) => $state / 100)
                     ->money('USD'),
                 Tables\Columns\TextColumn::make('orderDetail.total')
-                    ->getStateUsing(fn ($state) => $state / 100)
+                    ->formatStateUsing(fn ($state) => $state / 100)
                     ->money('USD'),
             ])
             ->filters([
@@ -70,7 +70,7 @@ class OrderDetailRefundResource extends Resource
                         $record->discount->brand->name,
                         $record->discount->name,
                     ]))
-                    ->visible(fn ($record) => $record->order_detail_refund_exists && ! $record->is_refund_request_approved)
+                    ->visible(fn ($record) => $record->order_detail_refund_exists && !$record->is_refund_request_approved)
                     ->infolist([
                         Infolists\Components\Grid::make(3)
                             ->schema([
@@ -100,11 +100,14 @@ class OrderDetailRefundResource extends Resource
                                 ->user
                                 ->notify(new SendUserOrderRefundRejected(
                                     $this->getOwnerRecord()->order_column,
-                                    \implode(' - ', [
-                                        $record->discount->brand->name,
-                                        $record->discount->name,
-                                    ]
-                                )));
+                                    \implode(
+                                        ' - ',
+                                        [
+                                            $record->discount->brand->name,
+                                            $record->discount->name,
+                                        ]
+                                    )
+                                ));
 
                             Notification::make()
                                 ->success()
@@ -131,11 +134,14 @@ class OrderDetailRefundResource extends Resource
                             ->user
                             ->notify(new SendUserOrderRefundApproved(
                                 $this->getOwnerRecord()->order_column,
-                                \implode(' - ', [
-                                    $record->discount->brand->name,
-                                    $record->discount->name,
-                                ]
-                            )));
+                                \implode(
+                                    ' - ',
+                                    [
+                                        $record->discount->brand->name,
+                                        $record->discount->name,
+                                    ]
+                                )
+                            ));
                         return $notification;
                     }),
             ])
