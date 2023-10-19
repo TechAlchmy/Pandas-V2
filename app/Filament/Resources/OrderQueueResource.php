@@ -16,6 +16,9 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Actions\Action;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\HtmlString;
 
 class OrderQueueResource extends Resource
 {
@@ -95,6 +98,18 @@ class OrderQueueResource extends Resource
                     ->label(''),
             ], layout: \Filament\Tables\Enums\FiltersLayout::AboveContent)
             ->actions([
+                Action::make('call')->label('Reset Queue')
+                    ->icon('heroicon-o-play')
+                    ->requiresConfirmation()
+                    ->modalContent(new HtmlString('This will move this order back to queue. Are you sure ?'))
+                    ->action(function (Model $record) {
+                        if ($record->allowResetFlag()) {
+                            $record->resetFlag();
+                        }
+                    })
+                    ->visible(function (Model $record) {
+                        return $record->allowResetFlag();
+                    })
                 // Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

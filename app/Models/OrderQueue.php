@@ -32,22 +32,33 @@ class OrderQueue extends Model
             })->orWhere('is_order_placed', false);
     }
 
-    public function scopeMustRetryOrder($query)
+    public function resetFlag(): void
     {
-        return $query->whereIn('order_status', [
-            BlackHawkOrderStatus::Cancelled->value,
-            BlackHawkOrderStatus::Declined->value,
-            BlackHawkOrderStatus::Error->value
-        ]);
+        if (!$this->allowResetFlag()) {
+            return;
+        }
+
+        $freshRecord = [
+            'is_current' => false,
+            'order_status' => BlackHawkOrderStatus::Default,
+            'fetched_at' => null,
+            'gifts' => null,
+            'created_at' => now(),
+        ];
+
+        if (!$this->is_order_placed) {
+            $freshRecord['request_id'] = null;
+            $freshRecord['attempted_at'] = null;
+        }
+
+
+        $this->update($freshRecord);
     }
 
-    public function scopeMustRetryStatus($query)
+    public function allowResetFlag(): bool
     {
-        return $query->whereNotIn('order_status', [
-            BlackHawkOrderStatus::Cancelled->value,
-            BlackHawkOrderStatus::Declined->value,
-            BlackHawkOrderStatus::Error->value
-        ]);
+        // If we already got the gifts, it means black hawk charged us money, so we can't allow resetting flag. Otherwise we will be charged twice.
+        return empty($this->gifts) && $this->created_at < now()->subDay();
     }
 
     public function start(string $requestId): void
