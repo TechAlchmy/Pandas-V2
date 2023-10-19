@@ -51,10 +51,10 @@ class OrderDetailRefundResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status_message'),
                 Tables\Columns\TextColumn::make('orderDetail.subtotal')
-                    ->formatStateUsing(fn ($state) => $state / 100)
+                    ->getStateUsing(fn ($record) => $record->orderDetail->subtotal / 100)
                     ->money('USD'),
                 Tables\Columns\TextColumn::make('orderDetail.total')
-                    ->formatStateUsing(fn ($state) => $state / 100)
+                    ->getStateUsing(fn ($record) => $record->orderDetail->total / 100)
                     ->money('USD'),
             ])
             ->filters([
@@ -63,26 +63,25 @@ class OrderDetailRefundResource extends Resource
                     ->boolean(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make('resolve_refund')
                     ->modalHeading(fn ($record) => \implode(' ', [
                         'Resolve Refund for',
-                        $record->discount->brand->name,
-                        $record->discount->name,
+                        $record->orderDetail->discount->brand->name,
+                        $record->orderDetail->discount->name,
                     ]))
-                    ->visible(fn ($record) => $record->order_detail_refund_exists && !$record->is_refund_request_approved)
                     ->infolist([
                         Infolists\Components\Grid::make(3)
                             ->schema([
                                 Infolists\Components\TextEntry::make('quantity')
-                                    ->getStateUsing(fn ($record) => $record->orderDetailRefund->quantity)
+                                    ->getStateUsing(fn ($record) => $record->quantity)
                                     ->label('Quantity to Refund'),
                                 Infolists\Components\TextEntry::make('note')
-                                    ->getStateUsing(fn ($record) => $record->orderDetailRefund->note),
+                                    ->getStateUsing(fn ($record) => $record->note),
                                 Infolists\Components\TextEntry::make('estimated_amount_refunded')
                                     ->getStateUsing(function ($record) {
-                                        $record->quantity = $record->orderDetailRefund->quantity;
-                                        return $record->total / 100;
+                                        $record->orderDetail->quantity = $record->quantity;
+                                        return $record->orderDetail->total / 100;
                                     })
                                     ->money('USD'),
                             ]),
