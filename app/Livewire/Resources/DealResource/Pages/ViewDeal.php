@@ -66,6 +66,15 @@ class ViewDeal extends Component implements HasActions, HasForms
             }
         }
 
+        if ($this->record->voucher_type == DiscountVoucherTypeEnum::TopUpGiftCard) {
+            if ($this->record->bh_min >= $amount || $this->record->bh_max <= $amount) {
+                Notification::make()
+                    ->danger()
+                    ->title('limit is ' . \Filament\Support\format_money($this->record->bh_min / 100, 'USD') . ' and ' . format_money($this->record->bh_max / 100, 'USD'))
+                    ->send();
+
+                return;
+            }
         }
 
         $subtotal = $this->quantity * $amount;
