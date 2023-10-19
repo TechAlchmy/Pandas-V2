@@ -70,15 +70,15 @@
                 <div x-show="!useNew && cardknox_payment_method.cc != null" class="place-self-center grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div>
                         <h5>Card Number</h5>
-                        <span x-text="cardknox_payment_method.cc.MaskedCardNumber"></span>
+                        <span x-text="cardknox_payment_method.cc?.MaskedCardNumber"></span>
                     </div>
                     <div>
                         <h5>Expired</h5>
-                        <span x-text="cardknox_payment_method.cc.Exp.substring(0, 2)"></span>
+                        <span x-text="cardknox_payment_method.cc?.Exp.substring(0, 2)"></span>
                         <span>/</span>
-                        <span x-text="cardknox_payment_method.cc.Exp.substring(2)"></span>
+                        <span x-text="cardknox_payment_method.cc?.Exp.substring(2)"></span>
                     </div>
-                    <input type="hidden" name="xToken" x-bind:value="cardknox_payment_method.cc.Token" />
+                    <input type="hidden" name="xToken" x-bind:value="cardknox_payment_method.cc?.Token" />
                 </div>
             </div>
             <div x-show="useNew || cardknox_payment_method.cc == null" class="grid grid-cols-1 md:grid-cols-3 gap-6">
