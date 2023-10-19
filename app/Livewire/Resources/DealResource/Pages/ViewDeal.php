@@ -178,9 +178,6 @@ class ViewDeal extends Component implements HasActions, HasForms
     public function handleClick()
     {
         $this->updateClicks();
-        if ($this->record->voucher_type == DiscountVoucherTypeEnum::TopUpGiftCard) {
-            // TODO: Blackhawk integration with top up
-        }
         if ($this->record->voucher_type == DiscountVoucherTypeEnum::ExternalLink) {
             return redirect($this->record->link);
         }
