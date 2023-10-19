@@ -39,8 +39,7 @@
                                         <span>$</span>
                                         <x-input class="w-full !border-solid border-black p-2" type="number" wire:model="amount" :min="$this->record->bh_min / 100" :max="$this->record->bh_max / 100" />
                                     </div>
-                                @endif
-                                @if($this->record->voucher_type == \App\Enums\DiscountVoucherTypeEnum::DefinedAmountsGiftCard)
+                                @else
                                     <x-input class="lg:max-w-[50%] !border-solid border-black p-2" type="number" wire:model="quantity" min="1" />
                                 @endif
                             </div>
