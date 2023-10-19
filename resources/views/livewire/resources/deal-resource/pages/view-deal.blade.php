@@ -37,14 +37,12 @@
                                 <x-input class="lg:max-w-[50%] !border-solid border-black p-2" type="number" wire:model="quantity" min="1" />
                             </div>
                             <div class="flex gap-6 items-center">
-                                @if ($this->record->voucher_type == \App\Enums\DiscountVoucherTypeEnum::DefinedAmountsGiftCard)
-                                    <x-button class="hover:bg-panda-green" x-on:click="$wire.addToCart();$wire.updateClicks()" outlined>
-                                        {{ $this->record->cta }}
-                                    </x-button>
-                                    <x-button class="hover:bg-panda-green" x-data x-on:click="$dispatch('open-modal', {id: 'cardknox'})" outlined size="lg">
-                                        Buy Now
-                                    </x-button>
-                                @endif
+                                <x-button class="hover:bg-panda-green" x-on:click="$wire.addToCart();$wire.updateClicks()" outlined>
+                                    {{ $this->record->cta }}
+                                </x-button>
+                                <x-button class="hover:bg-panda-green" x-data x-on:click="$dispatch('open-modal', {id: 'cardknox'})" outlined size="lg">
+                                    Buy Now
+                                </x-button>
                             </div>
                         </div>
                     @endif
