@@ -42,7 +42,8 @@ enum BlackHawkOrderStatus: string
             self::NotAllRecordsFunded->value,
             self::NotAllRecordsReversed->value, // This seems rather odd. Some orders revered some succeeded?
             self::Shipped->value,
-            self::SuccessfullySentToProcessor->value
+            self::SuccessfullySentToProcessor->value,
+            self::Error->value,
         ];
     }
 

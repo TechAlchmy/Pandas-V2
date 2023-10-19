@@ -175,13 +175,14 @@ class BlackHawkService
 
         $orderQueue->loadMissing('order.orderDetails.discount');
 
-        $orderDetails = $orderQueue->order->orderDetails->map(function ($orderDetail) {
-            return [
-                'quantity' => (string) $orderDetail->quantity,
-                'amount' => (string) ($orderDetail->amount / 100),
-                'contentProvider' => (string) $orderDetail->discount->code
-            ];
-        });
+        $orderDetails = $orderQueue->order->orderDetails->where('discount.is_bhn', true)
+            ->map(function ($orderDetail) {
+                return [
+                    'quantity' => (string) $orderDetail->quantity,
+                    'amount' => (string) ($orderDetail->amount / 100),
+                    'contentProvider' => (string) $orderDetail->discount->code
+                ];
+            })->values();
 
         $reqData = [
             'clientProgramNumber' => $instance->clientProgramId,
@@ -237,13 +238,14 @@ class BlackHawkService
 
         $orderQueue->loadMissing('order.orderDetails.discount');
 
-        $orderDetails = $orderQueue->order->orderDetails->map(function ($orderDetail) {
-            return [
-                'quantity' => (string) $orderDetail->quantity,
-                'amount' => (string) ($orderDetail->amount / 100),
-                'contentProvider' => (string) $orderDetail->discount->code
-            ];
-        });
+        $orderDetails = $orderQueue->order->orderDetails->where('discount.is_bhn', true)
+            ->map(function ($orderDetail) {
+                return [
+                    'quantity' => (string) $orderDetail->quantity,
+                    'amount' => (string) ($orderDetail->amount / 100),
+                    'contentProvider' => (string) $orderDetail->discount->code
+                ];
+            })->values();
 
         $reqData = [
             'clientProgramNumber' => $instance->clientProgramId,

@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Model::unguard();
-        Model::shouldBeStrict(! app()->isProduction());
+        Model::shouldBeStrict(!app()->isProduction());
         Relation::enforceMorphMap(ModelFinder::all()->all());
         FilamentColor::register([
             'primary' => Color::Neutral,

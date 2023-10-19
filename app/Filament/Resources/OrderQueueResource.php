@@ -50,6 +50,10 @@ class OrderQueueResource extends Resource
 
                 Tables\Columns\TextColumn::make('order.order_total')
                     ->formatStateUsing(fn ($state) => round($state / 100, 2))
+                    // ->formatStateUsing(fn ($state) => collect($state)->sum('amount'))
+                    // ->getStateUsing(function ($record) {
+                    //     return $record->order->orderDetails->sum('amount');
+                    // })
                     ->label('Order Total')
                     ->prefix('$ '),
 
