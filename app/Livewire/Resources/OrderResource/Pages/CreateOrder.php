@@ -116,6 +116,13 @@ class CreateOrder extends Component implements HasForms, HasActions
                 return;
             }
         }
+
+        if ($item['itemable']->voucher_type == DiscountVoucherTypeEnum::TopUpGiftCard) {
+            $amount *= 100;
+            if ($item['itemable']->bh_min <= $amount && $item['itemable']->bh_max >= $amount) {
+                cart()->update($id, $item['itemable']->getKey(), $quantity, $amount);
+                return;
+            }
         }
 
         Notification::make()
