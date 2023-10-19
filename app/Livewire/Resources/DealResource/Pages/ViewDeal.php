@@ -52,16 +52,20 @@ class ViewDeal extends Component implements HasActions, HasForms
 
     public function createOrder($data)
     {
-        if ($this->record->limit_qty && $this->quantity > $this->record->limit_qty) {
-            Notification::make()
-                ->danger()
-                ->title('Quantity maximum limit is ' . $this->record->limit_qty)
-                ->send();
         $amount = $this->record->voucher_type == DiscountVoucherTypeEnum::DefinedAmountsGiftCard
             ? $this->amount
             : $this->amount * 100;
+        if ($this->record->voucher_type == DiscountVoucherTypeEnum::DefinedAmountsGiftCard) {
+            if ($this->record->limit_qty && $this->quantity > $this->record->limit_qty) {
+                Notification::make()
+                    ->danger()
+                    ->title('Quantity maximum limit is ' . $this->record->limit_qty)
+                    ->send();
 
-            return;
+                return;
+            }
+        }
+
         }
 
         $subtotal = $this->quantity * $amount;
