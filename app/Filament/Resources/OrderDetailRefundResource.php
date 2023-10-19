@@ -51,10 +51,10 @@ class OrderDetailRefundResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status_message'),
                 Tables\Columns\TextColumn::make('orderDetail.subtotal')
-                    ->getStateUsing(fn ($state) => $state / 100)
+                    ->getStateUsing(fn ($record) => $record->orderDetail->subtotal / 100)
                     ->money('USD'),
                 Tables\Columns\TextColumn::make('orderDetail.total')
-                    ->getStateUsing(fn ($state) => $state / 100)
+                    ->getStateUsing(fn ($record) => $record->orderDetail->total / 100)
                     ->money('USD'),
             ])
             ->filters([
