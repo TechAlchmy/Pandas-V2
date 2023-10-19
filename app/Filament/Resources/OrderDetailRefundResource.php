@@ -67,8 +67,8 @@ class OrderDetailRefundResource extends Resource
                 Tables\Actions\Action::make('resolve_refund')
                     ->modalHeading(fn ($record) => \implode(' ', [
                         'Resolve Refund for',
-                        $record->discount->brand->name,
-                        $record->discount->name,
+                        $record->orderDetail->discount->brand->name,
+                        $record->orderDetail->discount->name,
                     ]))
                     ->infolist([
                         Infolists\Components\Grid::make(3)
