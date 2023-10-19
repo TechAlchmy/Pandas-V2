@@ -48,8 +48,7 @@
                             </div>
                         </div>
                     @endif
-                    @if ($this->record->voucher_type == \App\Enums\DiscountVoucherTypeEnum::ExternalLink
-                        || $this->record->voucher_type == \App\Enums\DiscountVoucherTypeEnum::TopUpGiftCard)
+                    @if ($this->record->voucher_type == \App\Enums\DiscountVoucherTypeEnum::ExternalLink)
                         <x-link x-on:click="$wire.handleClick()" class="hover:bg-panda-green" :href="$this->record->link" outlined size="lg">
                             {{ $this->record->cta }}
                         </x-link>
