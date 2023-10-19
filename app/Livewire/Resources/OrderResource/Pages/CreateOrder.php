@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Resources\OrderResource\Pages;
 
+use App\Enums\DiscountVoucherTypeEnum;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Models\Cart;
@@ -109,9 +110,12 @@ class CreateOrder extends Component implements HasForms, HasActions
     {
         $item = cart()->items()->get($id);
 
-        if ($item['itemable']->limit_qty >= $quantity) {
-            cart()->update($id, $item['itemable']->getKey(), $quantity, $amount);
-            return;
+        if ($item['itemable']->voucher_type == DiscountVoucherTypeEnum::DefinedAmountsGiftCard) {
+            if ($item['itemable']->limit_qty >= $quantity) {
+                cart()->update($id, $item['itemable']->getKey(), $quantity, $amount);
+                return;
+            }
+        }
         }
 
         Notification::make()
