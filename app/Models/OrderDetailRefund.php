@@ -34,17 +34,17 @@ class OrderDetailRefund extends Model
 
     public function discount()
     {
-        return $this->belongsToThrough(OrderDetail::class, Discount::class);
+        return $this->belongsToThrough(Discount::class, OrderDetail::class);
     }
 
     public function brand()
     {
-        return $this->belongsToThrough(OrderDetail::class, [Discount::class, Brand::class]);
+        return $this->belongsToThrough(Brand::class, [Discount::class, OrderDetail::class]);
     }
 
     public function user()
     {
-        return $this->belongsToThrough(User::class, [OrderDetail::class, Order::class]);
+        return $this->belongsToThrough(User::class, [Order::class, OrderDetail::class]);
     }
 
     public function uniqueIds()
