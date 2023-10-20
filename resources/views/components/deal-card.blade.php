@@ -1,10 +1,11 @@
 @props(['record'])
 
 <div class="space-y-2 mt-4 min-h-full flex flex-col">
+
     <div class="flex-grow flex">
         <div class="flex-1">
             <x-a class="inline" :href="route('deals.show', ['id' => $record->slug])">
-                <h4 class="text-2xl font-light">{{ $record->brand->name }}</h4>
+                <h4 class="text-xl font-light">{{ $record->brand->name }}</h4>
             </x-a>
             <p class="text-sm">{{ $record->name }}</p>
         </div>
@@ -18,8 +19,6 @@
         </div>
     </div>
 
-
-
     <div class="h-20">
         <p class=" line-clamp-3">{{ $record->excerpt }}</p>
     </div>
@@ -30,5 +29,8 @@
             See Deals
         </x-link>
     </div>
+
+    <div class="flex-grow"></div>
+    <div class="flex-grow"></div>
 
 </div>
