@@ -28,7 +28,7 @@
                         <div x-data class="space-y-6">
                             <div class="flex gap-6 items-center">
                                 @if ($this->record->voucher_type == \App\Enums\DiscountVoucherTypeEnum::TopUpGiftCard)
-                                    <div>
+                                    <div class="w-full">
                                         <div class="flex items-center space-x-1 w-full">
                                             <span>$</span>
                                             <x-input class="w-full !border-solid border-black p-2" type="number" wire:model="amount" :min="$this->record->bh_min / 100" :max="$this->record->bh_max / 100" />
