@@ -116,6 +116,11 @@ class CreateOrder extends Component implements HasForms, HasActions
                 cart()->update($id, $item['itemable']->getKey(), $quantity, $amount);
                 return;
             }
+
+            Notification::make()
+                ->title('Quantity limit reached ' . $item['itemable']->name)
+                ->danger()
+                ->send();
         }
 
         if ($item['itemable']->voucher_type == DiscountVoucherTypeEnum::TopUpGiftCard) {
@@ -125,12 +130,12 @@ class CreateOrder extends Component implements HasForms, HasActions
                 cart()->update($id, $item['itemable']->getKey(), $quantity, $amount);
                 return;
             }
-        }
 
-        Notification::make()
-            ->title('Quantity limit reached ' . $item['itemable']->name)
-            ->danger()
-            ->send();
+            Notification::make()
+                ->title('limit is ' . \Filament\Support\format_money($item['itemable']->bh_min / 100, 'USD') . ' and ' . \Filament\Support\format_money($item['itemable']->bh_max / 100, 'USD'))
+                ->danger()
+                ->send();
+        }
     }
 
     public function createOrder($data)
