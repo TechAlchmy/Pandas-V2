@@ -34,7 +34,6 @@ class DatabaseSeeder extends Seeder
         foreach ([
             'Reebok' => 'https://upload.wikimedia.org/wikipedia/commons/1/11/Reebok_red_logo.svg',
             'Sketchers' => 'https://upload.wikimedia.org/wikipedia/commons/b/b8/Skechers.svg',
-            'Polo' => 'https://upload.wikimedia.org/wikipedia/commons/7/72/Polo_Ralph_Lauren_SVG_Logo.svg',
             'Adidas' => 'https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg',
             'New Balance' => 'https://upload.wikimedia.org/wikipedia/commons/e/ea/New_Balance_logo.svg',
             'Boss' => 'https://upload.wikimedia.org/wikipedia/commons/7/73/Hugo-Boss-Logo.svg',
@@ -90,7 +89,6 @@ class DatabaseSeeder extends Seeder
             'Apparel' => [
                 'Reebok' => 'https://upload.wikimedia.org/wikipedia/commons/1/11/Reebok_red_logo.svg',
                 'Sketchers' => 'https://upload.wikimedia.org/wikipedia/commons/b/b8/Skechers.svg',
-                'Polo' => 'https://upload.wikimedia.org/wikipedia/commons/7/72/Polo_Ralph_Lauren_SVG_Logo.svg',
                 'Adidas' => 'https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg',
                 'New Balance' => 'https://upload.wikimedia.org/wikipedia/commons/e/ea/New_Balance_logo.svg',
                 'Boss' => 'https://upload.wikimedia.org/wikipedia/commons/7/73/Hugo-Boss-Logo.svg',
