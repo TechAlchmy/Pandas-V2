@@ -65,12 +65,11 @@ class OrderDetailRefundResource extends Resource
                         return $record->approved_at ? 'Approved' : 'In Review';
                     })
                     ->badge()
-                    ->colors(function ($record) {
-                        if ($record->trashed()) {
-                            return 'danger';
-                        }
-                        return $record->approved_at ? 'success' : 'gray';
-                    }),
+                    ->colors([
+                        'Rejected' => 'danger',
+                        'Approved' => 'success',
+                        'In Review' => 'grey',
+                    ]),
                 Tables\Columns\TextColumn::make('orderDetail.subtotal')
                     ->getStateUsing(fn ($record) => $record->orderDetail->subtotal / 100)
                     ->money('USD'),
