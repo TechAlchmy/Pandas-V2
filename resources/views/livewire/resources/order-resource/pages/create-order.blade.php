@@ -40,13 +40,13 @@
                                             <x-input x-on:change="$wire.updateItem('{{ $id }}', $event.target.value, '{{ $item['amount'] }}').then(() => $wire.$refresh())" value="{{ $item['quantity'] }}"
                                                 type="number" class="px-2 w-full max-w-full border !border-solid border-black" min="1" />
                                         @endif
-                                        @if($item['itemable']->voucher_type == \App\Enums\DiscountVoucherTypeEnum::TopUpGiftCard)
+                                        {{-- @if($item['itemable']->voucher_type == \App\Enums\DiscountVoucherTypeEnum::TopUpGiftCard)
                                         <div class="flex items-center space-x-1">
                                             <span>$</span>
                                             <x-input x-on:change="$wire.updateItem('{{ $id }}', '{{ $item['quantity'] }}', $event.target.value).then(() => $wire.$refresh())" value="{{ $item['amount'] / 100 }}"
                                                 type="number" class="px-2 w-full max-w-full border !border-solid border-black" :min="$item['itemable']->bh_min" :max="$item['itemable']->bh_max" />
                                             </div>
-                                        @endif
+                                        @endif --}}
                                     </div>
                                     <div class="hidden lg:block">
                                         <span class="line-through">{{ Filament\Support\format_money($item['subtotal'] / 100, 'USD') }}</span>
