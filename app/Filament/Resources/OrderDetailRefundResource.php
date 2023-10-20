@@ -118,7 +118,16 @@ class OrderDetailRefundResource extends Resource
 
                         $record->orderDetail->quantity = $record->quantity;
 
-                        (new CreateCcRefund($record->order->cardknox_refnum, $record->orderDetail->total / 100))->send()->throw();
+                        try {
+                            (new CreateCcRefund($record->order->cardknox_refnum, $record->orderDetail->total / 100))->send()->throw();
+                        } catch (\Throwable $e) {
+                            Notification::make()
+                                ->title('Error')
+                                ->body($e->getMessage())
+                                ->send();
+
+                            return;
+                        }
 
                         $record->update([
                             'approved_at' => \now(),
