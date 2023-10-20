@@ -52,7 +52,16 @@ class OrderDetailRefundResource extends Resource
                 Tables\Columns\TextColumn::make('orderDetail.discount.name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status_message')
-                    ->badge(),
+                    ->badge()
+                    ->colors(function ($record) {
+                        if ($record->trashed()) {
+                            return 'danger';
+                        }
+                        if ($record->approved_at) {
+                            return 'success';
+                        }
+                        return 'gray';
+                    }),
                 Tables\Columns\TextColumn::make('orderDetail.subtotal')
                     ->getStateUsing(fn ($record) => $record->orderDetail->subtotal / 100)
                     ->money('USD'),
