@@ -63,12 +63,12 @@ class SettingResource extends Resource
                     ->rows(3)
                     ->columnSpanFull(),
 
-                TextInput::make('cards_char_limit')
-                    ->label('Deals Card Desc Limit')
-                    ->hint('How many chars should be shown in the deals ? Recommended: 120')
-                    ->integer()
-                    ->minValue(0)
-                    ->required()
+                // TextInput::make('cards_char_limit')
+                //     ->label('Deals Card Desc Limit')
+                //     ->hint('How many chars should be shown in the deals ? Recommended: 120')
+                //     ->integer()
+                //     ->minValue(0)
+                //     ->required()
             ]);
     }
 
