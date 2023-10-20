@@ -15,14 +15,8 @@
     <p>{{ $record->excerpt }}</p>
     <!-- <div class="flex-grow"></div> -->
 
-    <!-- <div>
-        <x-link class="hover:bg-panda-green" outlined :href="route('deals.show', ['id' => $record->slug])">
-            See Deals
-        </x-link>
-    </div> -->
-
-    <div class="inline-block">
-        <x-link class="bg-gradient-to-l from-panda-green to-panda-green bg-no-repeat bg-right transition-all duration-500 ease-in-out transform hover:scale-105 hover:bg-left hover:bg-panda-green" style="background-size: 200% 100%;" outlined :href="route('deals.show', ['id' => $record->slug])">
+    <div>
+        <x-link class="transition-transform duration-300 transform hover:scale-105 hover:bg-panda-green" outlined :href="route('deals.show', ['id' => $record->slug])">
             See Deals
         </x-link>
     </div>

@@ -110,7 +110,7 @@ class ListDeals extends Component implements HasForms
     #[Computed()]
     public function featuredDeals()
     {
-        return \App\Models\Discount::query()
+        $featuredDeals = \App\Models\Discount::query()
             ->withBrand(auth()->user()?->organization)
             ->withOfferTypes(auth()->user()?->organization)
             ->withVoucherType(auth()->user()?->organization)
@@ -132,6 +132,15 @@ class ListDeals extends Component implements HasForms
                     ->take(4)
                     ->get();
             });
+
+        $charLimit = Setting::get('cards_char_limit');
+
+        $featuredDeals->map(function ($discount) use ($charLimit) {
+            $discount->excerpt = Str::of($discount->excerpt)->limit($charLimit);
+            return $discount;
+        });
+
+        return $featuredDeals;
     }
 
     #[Computed]
