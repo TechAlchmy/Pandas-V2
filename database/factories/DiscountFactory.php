@@ -26,7 +26,7 @@ class DiscountFactory extends Factory
             'ends_at' => $this->faker->dateTimeBetween('now', '+1 years'),
             'api_link' => $this->faker->url,
             'link' => $this->faker->url,
-            'voucher_type' => $voucherType = DiscountVoucherTypeEnum::tryFrom($this->faker->randomElement([0, 2, 4, 5])),
+            'voucher_type' => $voucherType = DiscountVoucherTypeEnum::tryFrom($this->faker->randomElement([0, 2])),
             'cta_text' => $voucherType->getDefaultLabel(),
             'views' => $this->faker->numberBetween(1, 100),
             'clicks' => $this->faker->numberBetween(1, 100),
