@@ -196,8 +196,11 @@ class CartService
             ]);
         }
 
-        $this->clear();
+        return $order;
+    }
 
+    public function finalize(Order $order)
+    {
         if (auth()->check()) {
             Cart::query()
                 ->whereBelongsTo(auth()->user())
@@ -206,8 +209,6 @@ class CartService
                     'order_id' => $order->getKey(),
                 ]);
         }
-
-        return $order;
     }
 
     protected function persist()
