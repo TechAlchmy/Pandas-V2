@@ -51,16 +51,25 @@ class OrderDetailRefundResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('orderDetail.discount.name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('status_message')
+                Tables\Columns\TextColumn::make('status')
+                    ->tooltip(function ($record) {
+                        if ($record->trashed()) {
+                            return $record->deleted_at->format('d M Y');
+                        }
+                        return $record->approved_at ? $record->approved_at->format('d M Y') : null;
+                    })
+                    ->getStateUsing(function ($record) {
+                        if ($record->trashed()) {
+                            return 'Rejected';
+                        }
+                        return $record->approved_at ? 'Approved' : 'In Review';
+                    })
                     ->badge()
                     ->colors(function ($record) {
                         if ($record->trashed()) {
                             return 'danger';
                         }
-                        if ($record->approved_at) {
-                            return 'success';
-                        }
-                        return 'gray';
+                        return $record->approved_at ? 'success' : 'gray';
                     }),
                 Tables\Columns\TextColumn::make('orderDetail.subtotal')
                     ->getStateUsing(fn ($record) => $record->orderDetail->subtotal / 100)
