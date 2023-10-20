@@ -40,6 +40,7 @@ class OrderDetailRefundResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->recordUrl(null)
             ->columns([
                 Tables\Columns\TextColumn::make('orderDetail.order.order_column')
                     ->label('Order Number')
@@ -93,10 +94,9 @@ class OrderDetailRefundResource extends Resource
                     ])
                     ->action(function ($action, $record, $arguments) {
                         if ($arguments['reject'] ?? false) {
-                            $record->orderDetailRefund->delete();
+                            $record->delete();
 
-                            $this->getOwnerRecord()
-                                ->user
+                            $record->user
                                 ->notify(new SendUserOrderRefundRejected(
                                     $this->getOwnerRecord()->order_column,
                                     \implode(
@@ -116,11 +116,11 @@ class OrderDetailRefundResource extends Resource
                             return;
                         }
 
-                        $record->quantity = $record->orderDetailRefund->quantity;
+                        $record->orderDetail->quantity = $record->quantity;
 
-                        (new CreateCcRefund($record->order->cardknox_refnum, $record->total / 100))->send();
+                        (new CreateCcRefund($record->order->cardknox_refnum, $record->orderDetail->total / 100))->send()->throw();
 
-                        $record->orderDetailRefund->update([
+                        $record->update([
                             'approved_at' => \now(),
                             'approved_by_id' => \auth()->id(),
                         ]);
@@ -129,10 +129,9 @@ class OrderDetailRefundResource extends Resource
                     })
                     ->successNotificationTitle('Refund Request approved')
                     ->successNotification(function ($notification, $record) {
-                        $this->getOwnerRecord()
-                            ->user
+                        $record->user
                             ->notify(new SendUserOrderRefundApproved(
-                                $this->getOwnerRecord()->order_column,
+                                $record->order->order_column,
                                 \implode(
                                     ' - ',
                                     [
