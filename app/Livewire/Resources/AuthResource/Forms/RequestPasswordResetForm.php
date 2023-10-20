@@ -60,7 +60,11 @@ class RequestPasswordResetForm extends Component implements HasForms
                 $notification = new ResetPassword($token);
                 $notification->url = url('reset-password', [$token]);
 
-                $user->notify($notification);
+                try {
+                    $user->notify($notification);
+                } catch (\Throwable $e) {
+                    logger()->error($e->getMessage());
+                }
             },
         );
 

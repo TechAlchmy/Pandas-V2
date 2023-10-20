@@ -91,7 +91,11 @@ class UserResource extends Resource
                     ->successNotificationTitle('User Verified')
                     ->action(function ($record, $action) {
                         $record->touch('organization_verified_at');
-                        $record->notify(new SendUserConfirmedNotification);
+                        try {
+                            $record->notify(new SendUserConfirmedNotification);
+                        } catch (\Throwable $e) {
+                            logger()->error($e->getMessage());
+                        }
                         $action->success();
                     }),
                 Tables\Actions\ForceDeleteAction::make()
@@ -100,7 +104,11 @@ class UserResource extends Resource
                     ->requiresConfirmation()
                     ->successNotificationTitle('User denied')
                     ->successNotification(function ($record, $notification) {
-                        $record->notify(new SendUserDeniedNotification);
+                        try {
+                            $record->notify(new SendUserDeniedNotification);
+                        } catch (\Throwable $e) {
+                            logger()->error($e->getMessage());
+                        }
                         return $notification;
                     }),
                 Tables\Actions\DeleteAction::make()

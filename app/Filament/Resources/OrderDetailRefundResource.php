@@ -97,8 +97,8 @@ class OrderDetailRefundResource extends Resource
                         if ($arguments['reject'] ?? false) {
                             $record->delete();
 
-                            $record->user
-                                ->notify(new SendUserOrderRefundRejected(
+                            try {
+                                $record->user->notify(new SendUserOrderRefundRejected(
                                     $this->getOwnerRecord()->order_column,
                                     \implode(
                                         ' - ',
@@ -108,6 +108,9 @@ class OrderDetailRefundResource extends Resource
                                         ]
                                     )
                                 ));
+                            } catch (\Throwable $e) {
+                                logger()->error($e->getMessage());
+                            }
 
                             Notification::make()
                                 ->success()
@@ -139,8 +142,8 @@ class OrderDetailRefundResource extends Resource
                     })
                     ->successNotificationTitle('Refund Request approved')
                     ->successNotification(function ($notification, $record) {
-                        $record->user
-                            ->notify(new SendUserOrderRefundApproved(
+                        try {
+                            $record->user->notify(new SendUserOrderRefundApproved(
                                 $record->order->order_column,
                                 \implode(
                                     ' - ',
@@ -150,6 +153,9 @@ class OrderDetailRefundResource extends Resource
                                     ]
                                 )
                             ));
+                        } catch (\Throwable $e) {
+                            logger()->error($e->getMessage());
+                        }
                         return $notification;
                     }),
             ])

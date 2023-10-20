@@ -238,7 +238,11 @@ class CreateOrder extends Component implements HasForms, HasActions
             return;
         }
 
-        auth()->user()->notify(new OrderApprovedNotification($order));
+        try {
+            auth()->user()->notify(new OrderApprovedNotification($order));
+        } catch (\Throwable $e) {
+            logger()->error($e->getMessage());
+        }
 
         //TODO: Send Notification
         Notification::make()

@@ -81,7 +81,11 @@ class Register extends Component implements HasForms
 
         auth()->login($user);
 
-        $user->notify(new SendUserUnderVerificationNotification);
+        try {
+            $user->notify(new SendUserUnderVerificationNotification);
+        } catch (\Throwable $e) {
+            logger()->error($e->getMessage());
+        }
 
         session()->regenerate();
 

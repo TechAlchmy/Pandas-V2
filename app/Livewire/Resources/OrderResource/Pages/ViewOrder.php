@@ -162,8 +162,8 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                                         ]);
                                     }, $refunds)),
                                 );
-                            } catch (Throwable $t) {
-                                // Do nothing or populate a table with this error, along with other mail errors
+                            } catch (\Throwable $e) {
+                                logger()->error($e->getMessage());
                             }
 
 
