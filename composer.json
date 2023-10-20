@@ -32,7 +32,7 @@
         "picqer/php-barcode-generator": "^2.4",
         "pxlrbt/filament-excel": "^2.1",
         "ramsey/uuid": "^4.7",
-        "saloonphp/laravel-plugin": "^2.0",
+        "saloonphp/laravel-plugin": "^3.0",
         "spatie/eloquent-sortable": "^4.0",
         "spatie/laravel-medialibrary": "^10.11",
         "spatie/laravel-model-info": "^1.4",
