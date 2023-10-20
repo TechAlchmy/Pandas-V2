@@ -141,6 +141,7 @@ class CreateOrder extends Component implements HasForms, HasActions
                         ->danger()
                         ->title('Quantity maximum limit is ' . $item['itemable']->limit_qty)
                         ->send();
+                    return;
                 }
 
                 if ($item['itemable']->limit_amount && $item['item_total'] > $item['itemable']->limit_amount) {
@@ -148,9 +149,8 @@ class CreateOrder extends Component implements HasForms, HasActions
                         ->danger()
                         ->title('Maximum amount allowed is ' . \Filament\Support\format_money($item['itemable']->limit_amount / 100, 'USD'))
                         ->send();
+                    return;
                 }
-
-                return;
             }
             if ($item['itemable']->voucher_type == DiscountVoucherTypeEnum::TopUpGiftCard) {
                 if ($this->record->bh_min >= $item['amount'] || $this->record->bh_max <= $item['amount']) {
@@ -158,8 +158,8 @@ class CreateOrder extends Component implements HasForms, HasActions
                         ->danger()
                         ->title('limit is ' . \Filament\Support\format_money($this->record->bh_min / 100, 'USD') . ' and ' . \Filament\Support\format_money($this->record->bh_max / 100, 'USD'))
                         ->send();
+                    return;
                 }
-                return;
             }
         }
 
