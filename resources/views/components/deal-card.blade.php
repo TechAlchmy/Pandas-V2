@@ -4,18 +4,19 @@
 
     <div class="flex-grow flex">
         <div class="flex-1">
-            <x-a class="inline" :href="route('deals.show', ['id' => $record->slug])">
-                <h4 class="text-xl font-light">{{ $record->brand->name }}</h4>
-            </x-a>
-            <p class="text-sm">{{ $record->name }}</p>
-        </div>
 
-        <div class="flex-shrink-0">
             @if ($record->brand->hasMedia('logo'))
             <x-a class="inline-block h-16 overflow-hidden" :href="route('deals.show', ['id' => $record->slug])">
                 {{ $record->brand->getFirstMedia('logo')->img()->attributes(['class' => 'object-contain max-w-[6rem] w-full h-full']) }}
             </x-a>
             @endif
+        </div>
+
+        <div class="flex-shrink-0">
+            <x-a class="inline" :href="route('deals.show', ['id' => $record->slug])">
+                <h4 class="text-sm md:text-xl font-light">{{ $record->brand->name }}</h4>
+            </x-a>
+            <p class="text-sm">{{ $record->name }}</p>
         </div>
     </div>
 
