@@ -135,21 +135,30 @@ class CreateOrder extends Component implements HasForms, HasActions
     public function createOrder($data)
     {
         foreach (cart()->items() as $item) {
-            if ($item['itemable']->limit_qty && $item['quantity'] > $item['itemable']->limit_qty) {
-                Notification::make()
-                    ->danger()
-                    ->title('Quantity maximum limit is ' . $item['itemable']->limit_qty)
-                    ->send();
+            if ($item['itemable']->voucher_type == DiscountVoucherTypeEnum::DefinedAmountsGiftCard) {
+                if ($item['itemable']->limit_qty && $item['quantity'] > $item['itemable']->limit_qty) {
+                    Notification::make()
+                        ->danger()
+                        ->title('Quantity maximum limit is ' . $item['itemable']->limit_qty)
+                        ->send();
+                }
+
+                if ($item['itemable']->limit_amount && $item['item_total'] > $item['itemable']->limit_amount) {
+                    Notification::make()
+                        ->danger()
+                        ->title('Maximum amount allowed is ' . \Filament\Support\format_money($item['itemable']->limit_amount / 100, 'USD'))
+                        ->send();
+                }
 
                 return;
             }
-
-            if ($item['itemable']->limit_amount && $item['item_total'] > $item['itemable']->limit_amount) {
-                Notification::make()
-                    ->danger()
-                    ->title('Maximum amount allowed is ' . \Filament\Support\format_money($item['itemable']->limit_amount / 100, 'USD'))
-                    ->send();
-
+            if ($item['itemable']->voucher_type == DiscountVoucherTypeEnum::TopUpGiftCard) {
+                if ($this->record->bh_min >= $item['amount'] || $this->record->bh_max <= $item['amount']) {
+                    Notification::make()
+                        ->danger()
+                        ->title('limit is ' . \Filament\Support\format_money($this->record->bh_min / 100, 'USD') . ' and ' . \Filament\Support\format_money($this->record->bh_max / 100, 'USD'))
+                        ->send();
+                }
                 return;
             }
         }
