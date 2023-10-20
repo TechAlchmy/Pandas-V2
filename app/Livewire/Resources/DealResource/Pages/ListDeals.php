@@ -97,12 +97,12 @@ class ListDeals extends Component implements HasForms
             })
             ->paginate(12);
 
-        $charLimit = Setting::get('cards_char_limit');
+        // $charLimit = Setting::get('cards_char_limit');
 
-        $deals->through(function ($discount) use ($charLimit) {
-            $discount->excerpt = Str::of($discount->excerpt)->limit($charLimit);
-            return $discount;
-        });
+        // $deals->through(function ($discount) use ($charLimit) {
+        //     $discount->excerpt = Str::of($discount->excerpt)->limit($charLimit);
+        //     return $discount;
+        // });
 
         return $deals;
     }
@@ -133,12 +133,12 @@ class ListDeals extends Component implements HasForms
                     ->get();
             });
 
-        $charLimit = Setting::get('cards_char_limit');
+        // $charLimit = Setting::get('cards_char_limit');
 
-        $featuredDeals->map(function ($discount) use ($charLimit) {
-            $discount->excerpt = Str::of($discount->excerpt)->limit($charLimit);
-            return $discount;
-        });
+        // $featuredDeals->map(function ($discount) use ($charLimit) {
+        //     $discount->excerpt = Str::of($discount->excerpt)->limit($charLimit);
+        //     return $discount;
+        // });
 
         return $featuredDeals;
     }
