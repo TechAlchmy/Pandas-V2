@@ -146,7 +146,7 @@ class CreateOrder extends Component implements HasForms, HasActions
             if ($item['itemable']->limit_amount && $item['subtotal'] > $item['itemable']->limit_amount) {
                 Notification::make()
                     ->danger()
-                    ->title('Maximum amount allowed is ' . $item['itemable']->limit_amount)
+                    ->title('Maximum amount allowed is ' . \Filament\Support\format_money($item['itemable']->limit_amount / 100, 'USD'))
                     ->send();
 
                 return;
