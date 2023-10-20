@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Discount;
 use App\Models\DiscountInsight;
 use App\Models\OfferType;
+use App\Models\Setting;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms;
@@ -17,6 +18,7 @@ use Livewire\Attributes\Computed;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Str;
 
 class ListDeals extends Component implements HasForms
 {
@@ -74,7 +76,7 @@ class ListDeals extends Component implements HasForms
     #[Computed()]
     public function deals()
     {
-        return \App\Models\Discount::query()
+        $deals = \App\Models\Discount::query()
             ->withBrand(auth()->user()?->organization)
             ->withVoucherType(auth()->user()?->organization)
             ->active()
@@ -94,12 +96,21 @@ class ListDeals extends Component implements HasForms
                 default => $query->inRandomOrder(),
             })
             ->paginate(12);
+
+        // $charLimit = Setting::get('cards_char_limit');
+
+        // $deals->through(function ($discount) use ($charLimit) {
+        //     $discount->excerpt = Str::of($discount->excerpt)->limit($charLimit);
+        //     return $discount;
+        // });
+
+        return $deals;
     }
 
     #[Computed()]
     public function featuredDeals()
     {
-        return \App\Models\Discount::query()
+        $featuredDeals = \App\Models\Discount::query()
             ->withBrand(auth()->user()?->organization)
             ->withOfferTypes(auth()->user()?->organization)
             ->withVoucherType(auth()->user()?->organization)
@@ -121,6 +132,15 @@ class ListDeals extends Component implements HasForms
                     ->take(4)
                     ->get();
             });
+
+        // $charLimit = Setting::get('cards_char_limit');
+
+        // $featuredDeals->map(function ($discount) use ($charLimit) {
+        //     $discount->excerpt = Str::of($discount->excerpt)->limit($charLimit);
+        //     return $discount;
+        // });
+
+        return $featuredDeals;
     }
 
     #[Computed]
