@@ -66,7 +66,11 @@ class OrderDetailRefundResource extends Resource
             ->filters([
                 Tables\Filters\TernaryFilter::make('approved_at')
                     ->label('Is Approved')
-                    ->boolean(),
+                    ->queries(function ($query) {
+                        return $query->whereNotNull('approved_at');
+                    }, function ($query) {
+                        return $query->onlyTrashed();
+                    }),
             ])
             ->actions([
                 // Tables\Actions\EditAction::make(),
