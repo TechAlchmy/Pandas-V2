@@ -186,4 +186,12 @@ class OrderDetailRefundResource extends Resource
             'edit' => Pages\EditOrderDetailRefund::route('/{record}/edit'),
         ];
     }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
+    }
 }
