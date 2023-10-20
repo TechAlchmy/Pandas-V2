@@ -7,6 +7,7 @@ use App\Filament\Resources\SettingResource\RelationManagers;
 use App\Models\Setting;
 use Filament\Forms;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -61,6 +62,13 @@ class SettingResource extends Resource
                     ->required()
                     ->rows(3)
                     ->columnSpanFull(),
+
+                TextInput::make('cards_char_limit')
+                    ->label('Deals Card Desc Limit')
+                    ->hint('How many chars should be shown in the deals ? Recommended: 120')
+                    ->integer()
+                    ->minValue(0)
+                    ->required()
             ]);
     }
 
