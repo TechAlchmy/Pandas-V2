@@ -31,7 +31,7 @@
                                     <div class="w-full">
                                         <div class="flex items-center space-x-1 w-full">
                                             <span>$</span>
-                                            <x-input class="w-full !border-solid border-black p-2" type="number" wire:model="amount" :min="$this->record->bh_min / 100" :max="$this->record->bh_max / 100" />
+                                            <x-input class="w-full !border-solid border-black p-2" type="number" wire:model="amount" placeholder="Enter amount..." :min="$this->record->bh_min / 100" :max="$this->record->bh_max / 100" />
                                         </div>
                                         <div class="flex items-center justify-between w-full text-xs mt-2">
                                             <span>{{ \Filament\Support\format_money($this->record->bh_min / 100, 'USD') }}</span>
