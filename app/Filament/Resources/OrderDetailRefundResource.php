@@ -66,6 +66,7 @@ class OrderDetailRefundResource extends Resource
             ->actions([
                 // Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make('resolve_refund')
+                    ->hidden(fn ($record) => filled($record->approved_at))
                     ->modalHeading(fn ($record) => \implode(' ', [
                         'Resolve Refund for',
                         $record->orderDetail->discount->brand->name,
