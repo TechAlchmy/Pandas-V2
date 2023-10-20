@@ -207,6 +207,20 @@ class ViewDeal extends Component implements HasActions, HasForms
             }
         }
 
+        if ($this->record->voucher_type == DiscountVoucherTypeEnum::TopUpGiftCard) {
+            if (cart()->items()->contains(function ($item) use ($amount) {
+                return $item['itemable']->getKey() == $this->record?->getKey()
+                    && $item['amount'] == $amount;
+            })) {
+                Notification::make()
+                    ->danger()
+                    ->title('Item already in your bag')
+                    ->send();
+
+                return;
+            }
+        }
+
         cart()->add($this->record?->getKey(), $this->quantity, $amount);
 
         $this->updateClicks();
