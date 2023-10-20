@@ -41,6 +41,7 @@ class OrderDetailRefundResource extends Resource
     {
         return $table
             ->recordUrl(null)
+            ->defaultSort('created_at', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('orderDetail.order.order_column')
                     ->label('Order Number')
@@ -57,6 +58,10 @@ class OrderDetailRefundResource extends Resource
                 Tables\Columns\TextColumn::make('orderDetail.total')
                     ->getStateUsing(fn ($record) => $record->orderDetail->total / 100)
                     ->money('USD'),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->label('requested at')
+                    ->sortable(),
             ])
             ->filters([
                 Tables\Filters\TernaryFilter::make('approved_at')
