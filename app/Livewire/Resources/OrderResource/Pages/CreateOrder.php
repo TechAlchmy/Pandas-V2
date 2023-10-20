@@ -25,6 +25,7 @@ use Filament\Actions\Contracts\HasActions;
 use Filament\Notifications\Notification;
 use Filament\Support\RawJs;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Throwable;
 
 class CreateOrder extends Component implements HasForms, HasActions
@@ -143,7 +144,7 @@ class CreateOrder extends Component implements HasForms, HasActions
                 return;
             }
 
-            if ($item['itemable']->limit_amount && $item['subtotal'] > $item['itemable']->limit_amount) {
+            if ($item['itemable']->limit_amount && $item['item_total'] > $item['itemable']->limit_amount) {
                 Notification::make()
                     ->danger()
                     ->title('Maximum amount allowed is ' . \Filament\Support\format_money($item['itemable']->limit_amount / 100, 'USD'))
@@ -156,73 +157,73 @@ class CreateOrder extends Component implements HasForms, HasActions
         $data['xAmount'] = cart()->total() / 100;
         $data['xExp'] = $data['xExp_month'] . $data['xExp_year'];
 
-        // TODO: add email to the orders table or pass a user_id when creating the order.
-        $order = cart()->createOrder();
+        try {
+            DB::beginTransaction();
+            // TODO: add email to the orders table or pass a user_id when creating the order.
+            $order = cart()->createOrder();
 
-        $data['xInvoice'] = $order->order_column;
+            $data['xInvoice'] = $order->order_column;
 
-        if (boolval($data['use_new']) || empty(\data_get($data, 'xToken'))) {
-            \data_forget($data, 'xToken');
-        } else {
-            \data_forget($data, 'xExp');
-            \data_forget($data, 'xCardNum');
-            \data_forget($data, 'xCVV');
-        }
-        \data_forget($data, 'use_new');
+            if (boolval($data['use_new']) || empty(\data_get($data, 'xToken'))) {
+                \data_forget($data, 'xToken');
+            } else {
+                \data_forget($data, 'xExp');
+                \data_forget($data, 'xCardNum');
+                \data_forget($data, 'xCVV');
+            }
+            \data_forget($data, 'use_new');
 
-        $cardknoxPayment = new CardknoxPayment;
-        $response = $cardknoxPayment->charge(new CardknoxBody($data));
+            $cardknoxPayment = new CardknoxPayment;
+            $response = $cardknoxPayment->charge(new CardknoxBody($data));
 
-        if (filled($response->json('xResult')) && $response->json('xStatus') === 'Error') {
-            $order->update([
-                'order_status' => OrderStatus::Failed,
-                'payment_status' => PaymentStatus::Failed,
-            ]);
-
-            foreach ($order->loadMissing('orderDetails')->orderDetails as $detail) {
-                cart()->add($detail->discount_id, $detail->quantity, $detail->amount);
+            if (filled($response->json('xResult')) && $response->json('xStatus') === 'Error') {
+                throw new \Exception($response->json('xError'));
             }
 
+            $paymentIds = auth()->user()->cardknox_payment_method_ids ?? [];
+            if (\array_key_exists('should_save_payment_detail', $data)) {
+                $paymentMethodResponse = (new CreatePaymentMethod(
+                    customerId: auth()->user()->cardknox_customer_id,
+                    token: $response->json('xToken'),
+                    tokenType: 'cc',
+                    exp: $response->json('xExp'),
+                ))->send();
+
+                auth()->user()->update(['cardknox_payment_method_ids' => [
+                    ...$paymentIds,
+                    'cc' => $paymentMethodResponse->json('PaymentMethodId'),
+                ]]);
+            }
+
+            // $apiCall = BlackHawkService::order($order);
+            // We no longer place order for blackhawk, but instead save it in our queue
+            // TODO: if item quantity is 1 and if there's only one item, add it to queue with a flag that it's realtime
+
+            $order->addToQueue();
+
+            $order->update([
+                'cardknox_refnum' => $response->json('xRefNum'),
+                'order_status' => OrderStatus::Processing,
+                'payment_status' => PaymentStatus::tryFrom((string) $response->json('xStatus')),
+            ]);
+
+            cart()->finalize($order);
+
+            cart()->clear();
+
+            DB::commit();
+        } catch (Throwable $e) {
+            DB::rollBack();
+
             Notification::make()
-                ->danger()
                 ->title('Error')
-                ->body($response->json('xError'))
+                ->body($e->getMessage())
                 ->send();
+
             return;
         }
 
-        $paymentIds = auth()->user()->cardknox_payment_method_ids ?? [];
-        if (\array_key_exists('should_save_payment_detail', $data)) {
-            $paymentMethodResponse = (new CreatePaymentMethod(
-                customerId: auth()->user()->cardknox_customer_id,
-                token: $response->json('xToken'),
-                tokenType: 'cc',
-                exp: $response->json('xExp'),
-            ))->send();
-
-            auth()->user()->update(['cardknox_payment_method_ids' => [
-                ...$paymentIds,
-                'cc' => $paymentMethodResponse->json('PaymentMethodId'),
-            ]]);
-        }
-
-        // $apiCall = BlackHawkService::order($order);
-        // We no longer place order for blackhawk, but instead save it in our queue
-        // TODO: if item quantity is 1 and if there's only one item, add it to queue with a flag that it's realtime
-
-        $order->addToQueue();
-
-        $order->update([
-            'cardknox_refnum' => $response->json('xRefNum'),
-            'order_status' => OrderStatus::Processing,
-            'payment_status' => PaymentStatus::tryFrom((string) $response->json('xStatus')),
-        ]);
-
-        try {
-            auth()->user()->notify(new OrderApprovedNotification($order));
-        } catch (Throwable $t) {
-            // TODO: Retry sending later through a job or maybe create a log in the backend about failed email
-        }
+        auth()->user()->notify(new OrderApprovedNotification($order));
 
         //TODO: Send Notification
         Notification::make()

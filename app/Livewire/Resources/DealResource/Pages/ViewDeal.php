@@ -19,6 +19,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Support\RawJs;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
@@ -103,74 +104,78 @@ class ViewDeal extends Component implements HasActions, HasForms
         }
         \data_forget($data, 'use_new');
 
-        // TODO: add email to the orders table or pass a user_id when creating the order.
-        $order = Order::query()
-            ->create([
-                'user_id' => auth()->id(),
-                'order_status' => OrderStatus::Pending,
-                'payment_status' => PaymentStatus::Pending,
-                'payment_method' => 'card',
-                'order_date' => now(),
-                'order_tax' => 0,
-                'order_subtotal' => $subtotal,
-                'order_discount' => $discount,
-                'order_total' => $total,
+        try {
+            DB::beginTransaction();
+            // TODO: add email to the orders table or pass a user_id when creating the order.
+            $order = Order::query()
+                ->create([
+                    'user_id' => auth()->id(),
+                    'order_status' => OrderStatus::Pending,
+                    'payment_status' => PaymentStatus::Pending,
+                    'payment_method' => 'card',
+                    'order_date' => now(),
+                    'order_tax' => 0,
+                    'order_subtotal' => $subtotal,
+                    'order_discount' => $discount,
+                    'order_total' => $total,
+                ]);
+
+            $order->orderDetails()->create([
+                'discount_id' => $this->record->getKey(),
+                'quantity' => $this->quantity,
+                'amount' => $amount,
+                'public_percentage' => $this->record->public_percentage,
+                'percentage' => $this->record->percentage,
             ]);
 
-        $order->orderDetails()->create([
-            'discount_id' => $this->record->getKey(),
-            'quantity' => $this->quantity,
-            'amount' => $amount,
-            'public_percentage' => $this->record->public_percentage,
-            'percentage' => $this->record->percentage,
-        ]);
+            $data['xInvoice'] = $order->order_column;
 
-        $data['xInvoice'] = $order->order_column;
+            $response = Http::post('https://x1.cardknox.com/gatewayjson', new CardknoxBody($data));
 
-        $response = Http::post('https://x1.cardknox.com/gatewayjson', new CardknoxBody($data));
+            if (filled($response->json('xResult')) && $response->json('xStatus') === 'Error') {
+                throw new \Exception($response->json('xError'));
+            }
 
-        if (filled($response->json('xResult')) && $response->json('xStatus') === 'Error') {
+            $paymentIds = auth()->user()->cardknox_payment_method_ids ?? [];
+            if (\array_key_exists('should_save_payment_detail', $data)) {
+                $paymentMethodResponse = (new CreatePaymentMethod(
+                    customerId: auth()->user()->cardknox_customer_id,
+                    token: $response->json('xToken'),
+                    tokenType: 'cc',
+                    exp: $response->json('xExp'),
+                ))->send();
+
+                auth()->user()->update(['cardknox_payment_method_ids' => [
+                    ...$paymentIds,
+                    'cc' => $paymentMethodResponse->json('PaymentMethodId'),
+                ]]);
+            }
+
             $order->update([
-                'order_status' => OrderStatus::Failed,
-                'payment_status' => PaymentStatus::Failed,
+                'cardknox_refnum' => $response->json('xRefNum'),
+                'order_status' => OrderStatus::Processing,
+                'payment_status' => PaymentStatus::tryFrom((string) $response->json('xStatus')),
             ]);
 
-            Notification::make()->danger()
+            $order->addToQueue();
+
+            cart()->finalize($order);
+
+            cart()->clear();
+
+            DB::commit();
+        } catch (Throwable $e) {
+            DB::rollBack();
+
+            Notification::make()
                 ->title('Error')
-                ->body($response->json('xError'))
+                ->body($e->getMessage())
                 ->send();
 
             return;
-        }
-
-        $paymentIds = auth()->user()->cardknox_payment_method_ids ?? [];
-        if (\array_key_exists('should_save_payment_detail', $data)) {
-            $paymentMethodResponse = (new CreatePaymentMethod(
-                customerId: auth()->user()->cardknox_customer_id,
-                token: $response->json('xToken'),
-                tokenType: 'cc',
-                exp: $response->json('xExp'),
-            ))->send();
-
-            auth()->user()->update(['cardknox_payment_method_ids' => [
-                ...$paymentIds,
-                'cc' => $paymentMethodResponse->json('PaymentMethodId'),
-            ]]);
-        }
-
-        $order->update([
-            'cardknox_refnum' => $response->json('xRefNum'),
-            'order_status' => OrderStatus::Processing,
-            'payment_status' => PaymentStatus::tryFrom((string) $response->json('xStatus')),
-        ]);
-
-        $order->addToQueue();
-        
-        try {
-            auth()->user()->notify(new OrderApprovedNotification($order));
-        } catch (Throwable $t) {
             // TODO: Retry sending later through a job or maybe create a log in the backend about failed email
         }
+        auth()->user()->notify(new OrderApprovedNotification($order));
 
         //TODO: Send Notification
         Notification::make()
