@@ -40,7 +40,7 @@ class ListOrders extends Component implements HasTable, HasForms
                     ->listWithLineBreaks()
                     ->getStateUsing(function ($record) {
                         return $record->orderDetails->map(function ($orderDetail) {
-                            return $orderDetail->brand->name;
+                            return $orderDetail->brand?->name ?? '(Deleted brand)';
                         });
                     }),
                 Tables\Columns\TextColumn::make('order_status')
