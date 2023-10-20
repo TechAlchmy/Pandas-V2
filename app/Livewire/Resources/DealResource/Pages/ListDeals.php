@@ -100,7 +100,6 @@ class ListDeals extends Component implements HasForms
         $charLimit = Setting::get('cards_char_limit');
 
         $deals->through(function ($discount) use ($charLimit) {
-            // Your code here
             $discount->excerpt = Str::of($discount->excerpt)->limit($charLimit);
             return $discount;
         });
