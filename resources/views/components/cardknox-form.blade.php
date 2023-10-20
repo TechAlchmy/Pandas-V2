@@ -64,7 +64,7 @@
                         </label>
                         <span>*</span>
                     </div>
-                    <iframe class="max-w-[18rem] max-h-[1.5rem]" data-ifields-id="card-number" data-ifields-placeholder="Card Number"
+                    <iframe class="max-w-[18.2rem] max-h-[1.5rem]" data-ifields-id="card-number" data-ifields-placeholder="Card Number"
                         src="https://cdn.cardknox.com/ifields/{{ config('services.cardknox.ifields.version') }}/ifield.htm"></iframe>
                 </div>
                 <div x-show="!useNew && cardknox_payment_method.cc != null" class="place-self-center grid grid-cols-1 md:grid-cols-3 gap-6">
