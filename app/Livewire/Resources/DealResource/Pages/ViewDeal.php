@@ -175,7 +175,11 @@ class ViewDeal extends Component implements HasActions, HasForms
             return;
             // TODO: Retry sending later through a job or maybe create a log in the backend about failed email
         }
-        auth()->user()->notify(new OrderApprovedNotification($order));
+        try {
+            auth()->user()->notify(new OrderApprovedNotification($order));
+        } catch (\Throwable $e) {
+            logger()->error('cannot notify order approved', ['error' => $e->getMessage()]);
+        }
 
         //TODO: Send Notification
         Notification::make()
