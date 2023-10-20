@@ -51,7 +51,8 @@ class OrderDetailRefundResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('orderDetail.discount.name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('status_message'),
+                Tables\Columns\TextColumn::make('status_message')
+                    ->badge(),
                 Tables\Columns\TextColumn::make('orderDetail.subtotal')
                     ->getStateUsing(fn ($record) => $record->orderDetail->subtotal / 100)
                     ->money('USD'),
@@ -66,10 +67,18 @@ class OrderDetailRefundResource extends Resource
             ->filters([
                 Tables\Filters\TernaryFilter::make('approved_at')
                     ->label('Is Approved')
-                    ->queries(function ($query) {
-                        return $query->whereNotNull('approved_at');
-                    }, function ($query) {
-                        return $query->onlyTrashed();
+                    ->options([
+                        1 => 'Yes',
+                        2 => 'No',
+                        3 => 'Pending',
+                    ])
+                    ->query(function ($query, $data) {
+                        return match ((int) $data['value']) {
+                            1 => $query->whereNotNull('approved_at'),
+                            2 => $query->onlyTrashed(),
+                            3 => $query->whereNull('approved_at'),
+                            default => $query,
+                        };
                     }),
             ])
             ->actions([
