@@ -27,6 +27,7 @@ class ListOrders extends Component implements HasTable, HasForms
     {
         return $table
             ->query(Order::query()
+                ->with('orderDetails.brand')
                 ->whereBelongsTo(auth()->user()))
             ->recordUrl(fn ($record) => route('orders.show', ['id' => $record->uuid]))
             ->defaultSort('order_column', 'desc')
@@ -35,6 +36,13 @@ class ListOrders extends Component implements HasTable, HasForms
                     ->label('Order Number')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('details')
+                    ->listWithLineBreaks()
+                    ->getStateUsing(function ($record) {
+                        return $record->orderDetails->map(function ($orderDetail) {
+                            return $orderDetail->brand->name;
+                        });
+                    }),
                 Tables\Columns\TextColumn::make('order_status')
                     ->badge()
                     ->colors([
