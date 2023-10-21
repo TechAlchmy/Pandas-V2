@@ -169,6 +169,11 @@ class CreateOrder extends Component implements HasForms, HasActions
             }
         }
 
+        $subtotal = cart()->subtotal();
+        $discount = cart()->discount();
+        $total = cart()->total();
+        $tax = cart()->tax();
+
         $data['xAmount'] = cart()->total() / 100;
         $data['xExp'] = $data['xExp_month'] . $data['xExp_year'];
 
@@ -197,11 +202,6 @@ class CreateOrder extends Component implements HasForms, HasActions
 
             return;
         }
-
-        $subtotal = cart()->subtotal();
-        $discount = cart()->discount();
-        $total = cart()->total();
-        $tax = cart()->tax();
 
         DB::beginTransaction();
         try {
