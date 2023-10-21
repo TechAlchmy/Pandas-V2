@@ -65,6 +65,15 @@ class ViewDeal extends Component implements HasActions, HasForms
 
                 return;
             }
+
+            if ($this->record->limit_amount && $subtotal > $this->record->limit_amount) {
+                Notification::make()
+                    ->danger()
+                    ->title('Maximum amount allowed is ' . $this->record->limit_amount)
+                    ->send();
+
+                return;
+            }
         }
 
         if ($this->record->voucher_type == DiscountVoucherTypeEnum::TopUpGiftCard) {
@@ -76,16 +85,6 @@ class ViewDeal extends Component implements HasActions, HasForms
 
                 return;
             }
-        }
-
-
-        if ($this->record->limit_amount && $subtotal > $this->record->limit_amount) {
-            Notification::make()
-                ->danger()
-                ->title('Maximum amount allowed is ' . $this->record->limit_amount)
-                ->send();
-
-            return;
         }
 
         $discount = (int) \round($subtotal * ($this->record->public_percentage / 100 / 100));
