@@ -209,8 +209,9 @@ class CreateOrder extends Component implements HasForms, HasActions
                 ->create([
                     'uuid' => $data['xInvoice'],
                     'user_id' => auth()->id(),
-                    'order_status' => OrderStatus::Pending,
-                    'payment_status' => PaymentStatus::Pending,
+                    'order_status' => OrderStatus::Processing,
+                    'payment_status' => PaymentStatus::tryFrom((string) $response->json('xStatus')),
+                    'cardknox_refnum' => $response->json('xRefNum'),
                     'payment_method' => 'card',
                     'order_date' => now(),
                     'order_tax' => $tax,
@@ -233,12 +234,6 @@ class CreateOrder extends Component implements HasForms, HasActions
             // We no longer place order for blackhawk, but instead save it in our queue
             // TODO: if item quantity is 1 and if there's only one item, add it to queue with a flag that it's realtime
             $order->addToQueue();
-
-            $order->update([
-                'cardknox_refnum' => $response->json('xRefNum'),
-                'order_status' => OrderStatus::Processing,
-                'payment_status' => PaymentStatus::tryFrom((string) $response->json('xStatus')),
-            ]);
 
             cart()->finalize($order);
 

@@ -126,8 +126,9 @@ class ViewDeal extends Component implements HasActions, HasForms
                 ->create([
                     'uuid' => $data['xInvoice'],
                     'user_id' => auth()->id(),
-                    'order_status' => OrderStatus::Pending,
-                    'payment_status' => PaymentStatus::Pending,
+                    'order_status' => OrderStatus::Processing,
+                    'payment_status' => PaymentStatus::tryFrom((string) $response->json('xStatus')),
+                    'cardknox_refnum' => $response->json('xRefNum'),
                     'payment_method' => 'card',
                     'order_date' => now(),
                     'order_tax' => $tax,
@@ -142,12 +143,6 @@ class ViewDeal extends Component implements HasActions, HasForms
                 'amount' => $amount,
                 'public_percentage' => $this->record->public_percentage,
                 'percentage' => $this->record->percentage,
-            ]);
-
-            $order->update([
-                'cardknox_refnum' => $response->json('xRefNum'),
-                'order_status' => OrderStatus::Processing,
-                'payment_status' => PaymentStatus::tryFrom((string) $response->json('xStatus')),
             ]);
 
             $order->addToQueue();
