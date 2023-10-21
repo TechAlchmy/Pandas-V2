@@ -54,6 +54,8 @@ class ViewDeal extends Component implements HasActions, HasForms
             : $this->amount * 100;
         $amount = (int) $amount;
 
+        $subtotal = $this->quantity * $amount;
+
         if ($this->record->voucher_type == DiscountVoucherTypeEnum::DefinedAmountsGiftCard) {
             if ($this->record->limit_qty && $this->quantity > $this->record->limit_qty) {
                 Notification::make()
@@ -76,7 +78,6 @@ class ViewDeal extends Component implements HasActions, HasForms
             }
         }
 
-        $subtotal = $this->quantity * $amount;
 
         if ($this->record->limit_amount && $subtotal > $this->record->limit_amount) {
             Notification::make()
