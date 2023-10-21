@@ -239,6 +239,32 @@ class CreateOrder extends Component implements HasForms, HasActions
         }
 
         try {
+            if (\array_key_exists('should_save_payment_detail', $data)) {
+                $paymentMethodResponse = (new CreatePaymentMethod(
+                    customerId: auth()->user()->cardknox_customer_id,
+                    token: $response->json('xToken'),
+                    tokenType: 'cc',
+                    exp: $response->json('xExp'),
+                ))->send()->throw();
+
+                $paymentIds = auth()->user()->cardknox_payment_method_ids ?? [];
+
+                auth()->user()->update(['cardknox_payment_method_ids' => [
+                    ...$paymentIds,
+                    'cc' => $paymentMethodResponse->json('PaymentMethodId'),
+                ]]);
+            }
+        } catch (\Throwable $e) {
+            logger()->error($e->getMessage());
+
+            Notification::make()
+                ->title('Warning')
+                ->body($e->getMessage())
+                ->warning()
+                ->send();
+        }
+
+        try {
             auth()->user()->notify(new OrderApprovedNotification($order));
         } catch (\Throwable $e) {
             logger()->error($e->getMessage());
