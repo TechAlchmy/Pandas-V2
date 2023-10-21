@@ -174,7 +174,7 @@ class CreateOrder extends Component implements HasForms, HasActions
         $total = cart()->total();
         $tax = cart()->tax();
 
-        $data['xAmount'] = cart()->total() / 100;
+        $data['xAmount'] = $total / 100;
         $data['xExp'] = $data['xExp_month'] . $data['xExp_year'];
 
         if (boolval($data['use_new']) || empty(\data_get($data, 'xToken'))) {
