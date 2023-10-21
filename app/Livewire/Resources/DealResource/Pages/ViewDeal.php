@@ -18,7 +18,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
-use Filament\Support\RawJs;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Livewire\Attributes\Computed;
@@ -27,7 +27,6 @@ use Livewire\Attributes\On;
 use Livewire\Attributes\Renderless;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
-use Throwable;
 
 class ViewDeal extends Component implements HasActions, HasForms
 {
@@ -103,17 +102,35 @@ class ViewDeal extends Component implements HasActions, HasForms
         }
         \data_forget($data, 'use_new');
 
+        $data['xInvoice'] = Str::orderedUuid();
+
         try {
-            DB::beginTransaction();
-            // TODO: add email to the orders table or pass a user_id when creating the order.
+            $response = Http::post('https://x1.cardknox.com/gatewayjson', new CardknoxBody($data));
+
+            if (filled($response->json('xResult')) && $response->json('xStatus') === 'Error') {
+                throw new \Exception($response->json('xError'));
+            }
+        } catch (\Throwable $e) {
+            Notification::make()
+                ->title('Error')
+                ->body($e->getMessage())
+                ->send();
+
+            return;
+        }
+
+        DB::beginTransaction();
+
+        try {
             $order = Order::query()
                 ->create([
+                    'uuid' => $data['xInvoice'],
                     'user_id' => auth()->id(),
                     'order_status' => OrderStatus::Pending,
                     'payment_status' => PaymentStatus::Pending,
                     'payment_method' => 'card',
                     'order_date' => now(),
-                    'order_tax' => 0,
+                    'order_tax' => $tax,
                     'order_subtotal' => $subtotal,
                     'order_discount' => $discount,
                     'order_total' => $total,
@@ -127,29 +144,6 @@ class ViewDeal extends Component implements HasActions, HasForms
                 'percentage' => $this->record->percentage,
             ]);
 
-            $data['xInvoice'] = $order->order_column;
-
-            $response = Http::post('https://x1.cardknox.com/gatewayjson', new CardknoxBody($data));
-
-            if (filled($response->json('xResult')) && $response->json('xStatus') === 'Error') {
-                throw new \Exception($response->json('xError'));
-            }
-
-            $paymentIds = auth()->user()->cardknox_payment_method_ids ?? [];
-            if (\array_key_exists('should_save_payment_detail', $data)) {
-                $paymentMethodResponse = (new CreatePaymentMethod(
-                    customerId: auth()->user()->cardknox_customer_id,
-                    token: $response->json('xToken'),
-                    tokenType: 'cc',
-                    exp: $response->json('xExp'),
-                ))->send();
-
-                auth()->user()->update(['cardknox_payment_method_ids' => [
-                    ...$paymentIds,
-                    'cc' => $paymentMethodResponse->json('PaymentMethodId'),
-                ]]);
-            }
-
             $order->update([
                 'cardknox_refnum' => $response->json('xRefNum'),
                 'order_status' => OrderStatus::Processing,
@@ -158,21 +152,43 @@ class ViewDeal extends Component implements HasActions, HasForms
 
             $order->addToQueue();
 
-            cart()->finalize($order);
-
-            cart()->clear();
-
             DB::commit();
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             DB::rollBack();
 
             Notification::make()
                 ->title('Error')
                 ->body($e->getMessage())
+                ->warning()
                 ->send();
 
             return;
-            // TODO: Retry sending later through a job or maybe create a log in the backend about failed email
+        }
+
+        try {
+            if (\array_key_exists('should_save_payment_detail', $data)) {
+                $paymentMethodResponse = (new CreatePaymentMethod(
+                    customerId: auth()->user()->cardknox_customer_id,
+                    token: $response->json('xToken'),
+                    tokenType: 'cc',
+                    exp: $response->json('xExp'),
+                ))->send()->throw();
+
+                $paymentIds = auth()->user()->cardknox_payment_method_ids ?? [];
+
+                auth()->user()->update(['cardknox_payment_method_ids' => [
+                    ...$paymentIds,
+                    'cc' => $paymentMethodResponse->json('PaymentMethodId'),
+                ]]);
+            }
+        } catch (\Throwable $e) {
+            logger()->error($e->getMessage());
+
+            Notification::make()
+                ->title('Warning')
+                ->body($e->getMessage())
+                ->warning()
+                ->send();
         }
 
         try {

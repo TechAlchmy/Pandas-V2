@@ -23,10 +23,10 @@ use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
 use Filament\Notifications\Notification;
-use Filament\Support\RawJs;
+use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-use Throwable;
+use Illuminate\Support\Facades\Http;
 
 class CreateOrder extends Component implements HasForms, HasActions
 {
@@ -172,48 +172,66 @@ class CreateOrder extends Component implements HasForms, HasActions
         $data['xAmount'] = cart()->total() / 100;
         $data['xExp'] = $data['xExp_month'] . $data['xExp_year'];
 
+        if (boolval($data['use_new']) || empty(\data_get($data, 'xToken'))) {
+            \data_forget($data, 'xToken');
+        } else {
+            \data_forget($data, 'xExp');
+            \data_forget($data, 'xCardNum');
+            \data_forget($data, 'xCVV');
+        }
+        \data_forget($data, 'use_new');
+
+        $data['xInvoice'] = Str::orderedUuid();
+
         try {
-            DB::beginTransaction();
-            // TODO: add email to the orders table or pass a user_id when creating the order.
-            $order = cart()->createOrder();
-
-            $data['xInvoice'] = $order->order_column;
-
-            if (boolval($data['use_new']) || empty(\data_get($data, 'xToken'))) {
-                \data_forget($data, 'xToken');
-            } else {
-                \data_forget($data, 'xExp');
-                \data_forget($data, 'xCardNum');
-                \data_forget($data, 'xCVV');
-            }
-            \data_forget($data, 'use_new');
-
-            $cardknoxPayment = new CardknoxPayment;
-            $response = $cardknoxPayment->charge(new CardknoxBody($data));
+            $response = Http::post('https://x1.cardknox.com/gatewayjson', new CardknoxBody($data));
 
             if (filled($response->json('xResult')) && $response->json('xStatus') === 'Error') {
                 throw new \Exception($response->json('xError'));
             }
+        } catch (\Throwable $e) {
+            Notification::make()
+                ->title('Error')
+                ->body($e->getMessage())
+                ->send();
 
-            $paymentIds = auth()->user()->cardknox_payment_method_ids ?? [];
-            if (\array_key_exists('should_save_payment_detail', $data)) {
-                $paymentMethodResponse = (new CreatePaymentMethod(
-                    customerId: auth()->user()->cardknox_customer_id,
-                    token: $response->json('xToken'),
-                    tokenType: 'cc',
-                    exp: $response->json('xExp'),
-                ))->send();
+            return;
+        }
 
-                auth()->user()->update(['cardknox_payment_method_ids' => [
-                    ...$paymentIds,
-                    'cc' => $paymentMethodResponse->json('PaymentMethodId'),
-                ]]);
+        $subtotal = cart()->subtotal();
+        $discount = cart()->discount();
+        $total = cart()->total();
+        $tax = cart()->tax();
+
+        DB::beginTransaction();
+        try {
+            $order = Order::query()
+                ->create([
+                    'uuid' => $data['xInvoice'],
+                    'user_id' => auth()->id(),
+                    'order_status' => OrderStatus::Pending,
+                    'payment_status' => PaymentStatus::Pending,
+                    'payment_method' => 'card',
+                    'order_date' => now(),
+                    'order_tax' => $tax,
+                    'order_subtotal' => $subtotal,
+                    'order_discount' => $discount,
+                    'order_total' => $total,
+                ]);
+
+            foreach (cart()->items() as $key => $item) {
+                $order->orderDetails()->create([
+                    'discount_id' => $item['itemable']->getKey(),
+                    'amount' => $item['amount'],
+                    'quantity' => $item['quantity'],
+                    'percentage' => $item['itemable']->percentage,
+                    'public_percentage' => $item['itemable']->public_percentage,
+                ]);
             }
 
             // $apiCall = BlackHawkService::order($order);
             // We no longer place order for blackhawk, but instead save it in our queue
             // TODO: if item quantity is 1 and if there's only one item, add it to queue with a flag that it's realtime
-
             $order->addToQueue();
 
             $order->update([
@@ -227,7 +245,7 @@ class CreateOrder extends Component implements HasForms, HasActions
             cart()->clear();
 
             DB::commit();
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             DB::rollBack();
 
             Notification::make()
