@@ -21,4 +21,10 @@ enum OrderStatus: string
     {
         return !in_array($status, [self::Completed, self::Cancelled, self::Refunded, self::Failed]);
     }
+
+    public static function getOptions()
+    {
+        return collect(self::cases())
+            ->mapWithKeys(fn ($type) => [$type->name => $type->value]);
+    }
 }

@@ -87,6 +87,11 @@ class Discount extends Model implements HasMedia
         return $this->hasMany(OrderDetail::class);
     }
 
+    public function scopeFlagged($query)
+    {
+        return $query->where('is_approved', false);
+    }
+
     public function scopeWithOfferTypes($query, $organization)
     {
         return $query->withWhereHas('offerTypes', function ($query) use ($organization) {

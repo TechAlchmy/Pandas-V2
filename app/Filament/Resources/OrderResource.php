@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\OrderResource\RelationManagers\OrderDetailsRelationManager;
 use App\Forms\Components\AuditableView;
 use Filament\Tables\Actions\Action;
+use Filament\Tables\Filters\SelectFilter;
 
 class OrderResource extends Resource
 {
@@ -30,6 +31,16 @@ class OrderResource extends Resource
     protected static ?string $navigationGroup = 'E-Commerce';
 
     protected static ?int $navigationSort = 1;
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::$model::flagged()->count();
+    }
+
+    public static function getNavigationBadgeColor(): string | array | null
+    {
+        return 'danger';
+    }
 
     public static function form(Form $form): Form
     {
@@ -107,6 +118,9 @@ class OrderResource extends Resource
                         false: fn (Builder $query) => $query->onlyTrashed(),
                         blank: fn (Builder $query) => $query->withoutTrashed(),
                     ),
+                SelectFilter::make('order_status')
+                    ->options(collect(OrderStatus::getOptions()))
+                    ->label(''),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

@@ -45,7 +45,7 @@ class DiscountResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::$model::where('is_approved', false)->count();
+        return static::$model::flagged()->count();
     }
 
     public static function getNavigationBadgeColor(): string | array | null

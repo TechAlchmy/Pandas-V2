@@ -94,6 +94,11 @@ class Order extends Model implements Sortable
         return ['uuid'];
     }
 
+    public function scopeFlagged($query)
+    {
+        return $query->where('order_status', OrderStatus::Failed);
+    }
+
     public function addToQueue()
     {
         // We can change the logic of what can be queued here in the future

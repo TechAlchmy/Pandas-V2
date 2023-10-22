@@ -28,6 +28,16 @@ class OrderDetailRefundResource extends Resource
 
     protected static ?string $modelLabel = 'Refund';
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::$model::flagged()->count();
+    }
+
+    public static function getNavigationBadgeColor(): string | array | null
+    {
+        return 'danger';
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -81,23 +91,38 @@ class OrderDetailRefundResource extends Resource
                     ->label('requested at')
                     ->sortable(),
             ])
-            ->filters([
-                Tables\Filters\TernaryFilter::make('approved_at')
-                    ->label('Is Approved')
-                    ->options([
-                        1 => 'Yes',
-                        2 => 'No',
-                        3 => 'Pending',
-                    ])
-                    ->query(function ($query, $data) {
-                        return match ((int) $data['value']) {
-                            1 => $query->whereNotNull('approved_at'),
-                            2 => $query->onlyTrashed(),
-                            3 => $query->whereNull('approved_at'),
-                            default => $query,
-                        };
-                    }),
-            ])
+            ->filters(
+                [
+                    // Tables\Filters\TernaryFilter::make('approved_at')
+                    //     ->label('Refund Status')
+                    //     ->placeholder('Pending')
+                    //     ->trueLabel('Approved')
+                    //     ->falseLabel('Rejected')
+                    //     ->queries(
+                    //         true: fn (Builder $query) => $query->whereNotNull('approved_at'),
+                    //         false: fn (Builder $query) =>  $query->onlyTrashed(),
+                    //         blank: fn (Builder $query) => $query->flagged(),
+                    //     ),
+
+                    Tables\Filters\SelectFilter::make('approved_at')
+                        ->label('Refund Status')
+                        ->options([
+                            'Approved' => 'Approved',
+                            'Rejected' => 'Rejected',
+                            'Pending' => 'Pending',
+                        ])->placeholder('All')
+
+                        ->query(function ($query, $data) {
+                            return match ($data['value']) {
+                                'Approved' => $query->whereNotNull('approved_at'),
+                                'Rejected' => $query->onlyTrashed(),
+                                'Pending' => $query->flagged(),
+                                default => $query,
+                            };
+                        }),
+                ],
+                layout: \Filament\Tables\Enums\FiltersLayout::AboveContent
+            )
             ->actions([
                 // Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make('resolve_refund')
