@@ -44,7 +44,9 @@ class ViewDeal extends Component implements HasActions, HasForms
 
     public function mount()
     {
-        $this->amount = \head($this->record->amount);
+        if ($this->record->voucher_type != DiscountVoucherTypeEnum::TopUpGiftCard) {
+            $this->amount = \head($this->record->amount);
+        }
     }
 
     public function validateOrder()
