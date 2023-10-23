@@ -60,7 +60,7 @@
                                     </div>
                                 </div>
                             </div>
-                            @if ($this->amount > 0)
+                            @if (($this->amount * 100) >= $this->record->bh_min && ($this->amount * 100) <= $this->record->bh_max)
                                 <div class="flex gap-6 items-center">
                                     <x-button class="hover:bg-panda-green" x-on:click="$wire.validateOrder(true)" outlined>
                                         {{ $this->record->cta }}
