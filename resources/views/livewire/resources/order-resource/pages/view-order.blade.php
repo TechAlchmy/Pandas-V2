@@ -2,6 +2,11 @@
     <div class="max-w-[1920px] mx-auto">
         <div class="max-w-3xl mx-auto">
             <div class="space-y-6">
+                <div class="flex gap-4">
+                    <span>Orders</span>
+                    @svg('heroicon-o-arrow-right')
+                    <span>#{{ $this->record->order_column }}</span>
+                </div>
                 <div class="flex justify-between">
                     <h1 class="text-4xl lg:text-7xl">My Order #{{ $this->record->order_column }}</h1>
                     <p class="hidden lg:block">{{ auth()->user()->organization?->name }}</p>
