@@ -224,4 +224,12 @@ class OrderDetailRefundResource extends Resource
                 SoftDeletingScope::class,
             ]);
     }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::query()
+            ->whereNull('approved_at')
+            ->withoutTrashed()
+            ->count();
+    }
 }
