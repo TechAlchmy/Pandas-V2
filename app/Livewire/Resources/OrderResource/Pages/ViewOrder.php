@@ -11,6 +11,7 @@ use App\Models\OrderDetailRefund;
 use App\Models\OrderRefund;
 use App\Models\Setting;
 use App\Notifications\SendUserOrderRefundInReview;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms;
@@ -31,6 +32,7 @@ use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconPosition;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Throwable;
@@ -44,6 +46,23 @@ class ViewOrder extends Component implements HasForms, HasInfolists
 
     public $id;
 
+    public function downloadGiftCard()
+    {
+        $orderQueue = $this->record->orderQueue;
+        $pdf = Pdf::loadView(
+            'livewire.gift-card',
+            [
+                'orderQueue'  => $this->record->orderQueue,
+                'size' => 'lg'
+            ]
+        )
+            ->setPaper('a5', 'landscape');
+
+        $fileName = 'card_' . time() . '_' . $orderQueue->id . '.pdf';
+        Storage::put('public/temp/' . $fileName, $pdf->stream());
+        return Storage::download('public/temp/' . $fileName);
+        // This needs to be deleted using a job probably 5 minutes after creating
+    }
 
     public function viewInfolist(Infolist $infolist)
     {
@@ -54,16 +73,20 @@ class ViewOrder extends Component implements HasForms, HasInfolists
             ->schema([
                 Infolists\Components\TextEntry::make('order_status')
                     ->badge(),
+
                 Infolists\Components\TextEntry::make('order_date')
                     ->date(),
+
                 Infolists\Components\TextEntry::make('order_discount')
                     ->size(Infolists\Components\TextEntry\TextEntrySize::Large)
                     ->getStateUsing(fn ($record) => $record->order_discount / 100)
                     ->money('USD'),
+
                 Infolists\Components\TextEntry::make('order_total')
                     ->size(Infolists\Components\TextEntry\TextEntrySize::Large)
                     ->getStateUsing(fn ($record) => $record->order_total / 100)
                     ->money('USD'),
+
                 Infolists\Components\TextEntry::make('note')->hiddenLabel()
                     ->weight(FontWeight::Bold)
                     ->color('warning')
@@ -71,7 +94,8 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                     ->state(Setting::get('order_processing_message'))
                     ->columnSpanFull(),
 
-                ViewEntry::make('apiCalls')->label('Gift Card Details')
+                ViewEntry::make('apiCalls')
+                    ->label('Gift Card Details')
                     ->columnSpanFull()
                     ->view('livewire.gift-card', [
                         'orderQueue'  => $this->record->orderQueue,

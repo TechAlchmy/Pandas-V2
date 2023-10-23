@@ -17,7 +17,10 @@
                                         {{$discount?->name}}
                                     </h3>
                                 </div>
-                                <button wire:click="downloadInvoice" class=" text-blue-500 hover:underline">Download</button>
+                                <div class="download-button-container">
+                                    <button wire:loading.remove wire:click="downloadGiftCard" class="hover:underline">Download</button>
+                                    <span wire:loading>Downloading...</span>
+                                </div>
                             </header>
                             <div class="fi-section-content-ctn border-t border-gray-200 dark:border-white/10">
                                 <div class="fi-section-content p-6">
