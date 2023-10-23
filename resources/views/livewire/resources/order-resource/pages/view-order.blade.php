@@ -2,9 +2,9 @@
     <div class="max-w-[1920px] mx-auto">
         <div class="max-w-3xl mx-auto">
             <div class="space-y-6">
-                <div class="flex gap-4">
+                <div class="flex gap-4 text-sm">
                     <span>Orders</span>
-                    @svg('heroicon-o-arrow-right')
+                    @svg('heroicon-o-arrow-right', 'w-5 h-5 text-gray-600')
                     <span>#{{ $this->record->order_column }}</span>
                 </div>
                 <div class="flex justify-between">
