@@ -25,7 +25,7 @@
                 @endif
                 <div class="flex gap-6">
                     @if ($this->record->voucher_type == \App\Enums\DiscountVoucherTypeEnum::DefinedAmountsGiftCard)
-                        <div x-data class="space-y-6 w-full">
+                        <div x-data class="space-y-6">
                             <div class="flex gap-6 items-center">
                                 @if (!$this->record->is_amount_single)
                                     <select wire:model.live.number="amount" class="border border-black">
@@ -47,7 +47,7 @@
                         </div>
                     @endif
                     @if ($this->record->voucher_type == \App\Enums\DiscountVoucherTypeEnum::TopUpGiftCard)
-                        <div x-data class="space-y-6">
+                        <div x-data class="space-y-6 w-full">
                             <div class="flex gap-6 items-center">
                                 <div class="w-full">
                                     <div class="flex items-center space-x-1 w-full">
