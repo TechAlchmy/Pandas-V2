@@ -99,7 +99,12 @@ class ApiCallResource extends Resource
                 Tables\Actions\ViewAction::make(),
             ])
             ->defaultSort('id', 'desc')
-
+            ->headerActions([
+                Tables\Actions\Action::make('refresh')
+                    ->action(function ($livewire) {
+                        $livewire->js('$wire.$refresh()');
+                    }),
+            ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
