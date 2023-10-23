@@ -49,7 +49,7 @@ class ViewDeal extends Component implements HasActions, HasForms
         }
     }
 
-    public function validateOrder()
+    public function validateOrder($shouldAddToCart = false)
     {
         if (empty($this->amount)) {
             Notification::make()
@@ -95,6 +95,12 @@ class ViewDeal extends Component implements HasActions, HasForms
 
                 return;
             }
+        }
+
+        if ($shouldAddToCart) {
+            $this->addToCart();
+            $this->updateClicks();
+            return;
         }
 
         $this->dispatch('open-modal', ['id' => 'cardknox']);

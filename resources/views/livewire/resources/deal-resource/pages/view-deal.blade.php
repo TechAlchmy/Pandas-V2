@@ -62,7 +62,7 @@
                             </div>
                             @if ($this->amount > 0)
                                 <div class="flex gap-6 items-center">
-                                    <x-button class="hover:bg-panda-green" x-on:click="$wire.addToCart();$wire.updateClicks()" outlined>
+                                    <x-button class="hover:bg-panda-green" x-on:click="$wire.validateOrder(true)" outlined>
                                         {{ $this->record->cta }}
                                     </x-button>
                                     <x-button class="hover:bg-panda-green" x-data x-on:click="$wire.validateOrder()" outlined size="lg">
