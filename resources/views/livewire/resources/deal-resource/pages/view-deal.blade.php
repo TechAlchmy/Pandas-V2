@@ -25,7 +25,7 @@
                 @endif
                 <div class="flex gap-6">
                     @if ($this->record->voucher_type == \App\Enums\DiscountVoucherTypeEnum::DefinedAmountsGiftCard)
-                        <div x-data class="space-y-6">
+                        <div x-data class="space-y-6 w-full">
                             <div class="flex gap-6 items-center">
                                 @if (!$this->record->is_amount_single)
                                     <select wire:model.live.number="amount" class="border border-black">
@@ -54,7 +54,7 @@
                                         <span>$</span>
                                         <x-input class="w-full !border-solid border-black p-2" type="number" wire:model="amount" placeholder="Enter amount..." :min="$this->record->bh_min / 100" :max="$this->record->bh_max / 100" />
                                     </div>
-                                    <div class="flex items-center gap-1 w-full text-xs mt-2 text-natural-500">
+                                    <div class="flex items-center gap-1 w-full text-xs mt-2 text-gray-300">
                                         <span>Min: {{ \Filament\Support\format_money($this->record->bh_min / 100, 'USD') }}</span>
                                         <span>Max: {{ \Filament\Support\format_money($this->record->bh_max / 100, 'USD') }}</span>
                                     </div>
