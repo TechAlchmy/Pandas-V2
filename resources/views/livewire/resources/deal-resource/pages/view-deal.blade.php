@@ -54,13 +54,13 @@
                                         <span>$</span>
                                         <x-input class="w-full !border-solid border-black p-2" type="number" wire:model="amount" placeholder="Enter amount..." :min="$this->record->bh_min / 100" :max="$this->record->bh_max / 100" />
                                     </div>
-                                    <div class="flex items-center justify-between w-full text-xs mt-2">
+                                    <div class="flex items-center gap-1 w-full text-xs mt-2 text-natural-500">
                                         <span>Min: {{ \Filament\Support\format_money($this->record->bh_min / 100, 'USD') }}</span>
                                         <span>Max: {{ \Filament\Support\format_money($this->record->bh_max / 100, 'USD') }}</span>
                                     </div>
                                 </div>
                             </div>
-                            @if ($this->amount > 0) 
+                            @if ($this->amount > 0)
                                 <div class="flex gap-6 items-center">
                                     <x-button class="hover:bg-panda-green" x-on:click="$wire.addToCart();$wire.updateClicks()" outlined>
                                         {{ $this->record->cta }}
