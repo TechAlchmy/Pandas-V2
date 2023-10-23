@@ -53,6 +53,12 @@ class ContactInquiryResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
             ])
+            ->headerActions([
+                Tables\Actions\Action::make('refresh')
+                    ->action(function ($livewire) {
+                        $livewire->js('$wire.$refresh()');
+                    }),
+            ])
             ->bulkActions([
                 // Tables\Actions\BulkActionGroup::make([
                 //     Tables\Actions\DeleteBulkAction::make(),

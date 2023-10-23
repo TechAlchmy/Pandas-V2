@@ -108,6 +108,12 @@ class OrderResource extends Resource
                         blank: fn (Builder $query) => $query->withoutTrashed(),
                     ),
             ])
+            ->headerActions([
+                Tables\Actions\Action::make('refresh')
+                    ->action(function ($livewire) {
+                        $livewire->js('$wire.$refresh()');
+                    }),
+            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
