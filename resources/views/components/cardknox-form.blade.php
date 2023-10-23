@@ -46,7 +46,10 @@
             'max-width': '10rem',
         };
         let defaultStyle = style;
-        let validStyle = style;
+        let validStyle = {
+            ...style,
+            color: 'black',
+        };
         let invalidStyle = {
             ...style,
             color: 'red',
