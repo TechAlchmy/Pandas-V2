@@ -103,7 +103,7 @@ class ViewDeal extends Component implements HasActions, HasForms
             return;
         }
 
-        $this->dispatch('open-modal', ['id' => 'cardknox']);
+        $this->js('$dispatch("open-modal", {id: "cardknox"})');
     }
 
     public function createOrder($data)
