@@ -204,6 +204,14 @@ class ViewDeal extends Component implements HasActions, HasForms
     public function addToCart()
     {
         $this->validate();
+        if (empty($this->amount)) {
+            Notification::make()
+                ->danger()
+                ->title('Please fill an amount')
+                ->send();
+            return;
+        }
+
         $amount = $this->record->voucher_type == DiscountVoucherTypeEnum::DefinedAmountsGiftCard
             ? $this->amount
             : $this->amount * 100;
