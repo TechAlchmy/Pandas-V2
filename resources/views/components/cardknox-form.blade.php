@@ -45,6 +45,43 @@
             'font-size': '16px',
             'max-width': '10rem',
         };
+        let defaultStyle = style;
+        let validStyle = style;
+        let invalidStyle = {
+            ...style,
+            color: 'red',
+        }
+        addIfieldKeyPressCallback(function(data) {
+            setIfieldStyle('card-number', data.cardNumberFormattedLength <= 0 ? defaultStyle : data.cardNumberIsValid ? validStyle : invalidStyle);
+            if (data.cardNumberFormattedLength <= 0) {
+                $refs.cardnumber.style.color = 'black';
+            } else {
+                $refs.cardnumber.style.color = data.cardNumberIsValid ? 'black' : 'red';
+            }
+            if (data.lastIfieldChanged === 'cvv'){
+                if (data.issuer === 'unknown' || data.cvvLength <= 0) {
+                    setIfieldStyle('cvv', defaultStyle);
+                    $refs.cvv.style.color = 'red';
+                    return;
+                }
+                setIfieldStyle('cvv', data.cvvIsValid ? validStyle : invalidStyle);
+                $refs.cvv.style.color = data.cvvIsValid ? 'black' : 'red';
+            } else if (data.lastIfieldChanged === 'card-number') {
+                if (data.issuer === 'unknown' || data.cvvLength <= 0) {
+                    setIfieldStyle('cvv', defaultStyle);
+                    $refs.cvv.style.color = 'black';
+                } else if (data.issuer === 'amex'){
+                    setIfieldStyle('cvv', data.cvvLength === 4 ? validStyle : invalidStyle);
+                    $refs.cvv.style.color = data.cvvLength === 4 ? 'black' : 'red';
+                } else {
+                    setIfieldStyle('cvv', data.cvvLength === 3 ? validStyle : invalidStyle);
+                    $refs.cvv.style.color = data.cvvLength === 3 ? 'black' : 'red';
+                }
+            } else if (data.lastIfieldChanged === 'ach') {
+                setIfieldStyle('ach',  data.achLength === 0 ? defaultStyle : data.achIsValid ? validStyle : invalidStyle);
+                $refs.ach.style.color = data.achIsValid === 0 ? 'black' : 'red';
+            }
+        });
         setIfieldStyle('card-number', style);
         setIfieldStyle('cvv', style);">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -58,7 +95,7 @@
                     <x-input type="text" name="xEmail" value="{{ auth()->user()?->email }}" />
                 </div>
                 <div x-show="useNew || cardknox_payment_method.cc == null" class="border-b-[1.5px] py-2 border-black flex gap-x-1 items-center font-medium">
-                    <div class="flex">
+                    <div x-ref="cardnumber" class="flex">
                         <label class="uppercase select-none caret-transparent">
                             Card Number
                         </label>
@@ -101,7 +138,7 @@
                     <x-input placeholder="{{ date('y') }}" name="xExp_year" type="number" minlength="2" maxlength="2" pattern="[0-9]*" autocomplete="cc-exp-year" />
                 </div>
                 <div class="border-b-[1.5px] py-2 border-black flex gap-x-1 items-center font-medium">
-                    <div class="flex">
+                    <div x-ref="cvv" class="flex">
                         <label class="uppercase select-none caret-transparent">
                             CVV
                         </label>
