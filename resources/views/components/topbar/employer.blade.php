@@ -143,9 +143,14 @@
                 <x-link href="/employer/company" :outlined="request()->is('employer/company')">Company</x-link>
             </div>
             <div class="hidden lg:flex lg:flex-1 lg:justify-end gap-3">
-                {{-- <x-link href="#" class="text-sm font-semibold leading-6 text-gray-900">Log in <span aria-hidden="true">&rarr;</span></x-link> --}}
-                <x-global-search />
-                <x-cart-button />
+                @guest
+                    <x-a :href="route('login')">
+                        <p class="text-base lg:text-2xl">Member Sign In</p>
+                    </x-a>
+                @endguest
+                <x-a href="/employer/resources">
+                    <p class="text-base lg:text-2xl">Schedule a Demo</p>
+                </x-a>
             </div>
         </nav>
     </div>
