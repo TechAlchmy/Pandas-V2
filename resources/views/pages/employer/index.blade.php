@@ -41,16 +41,16 @@ name('employer');
     </div>
     <div class="px-[min(6.99vw,50px)] py-8">
         <div class="flex flex-col lg:flex-row mx-auto w-full max-w-[1920px]">
-            <div>
+            <div class="space-y-4">
                 <h2 class="text-5xl font-editorial lg:text-7xl 2xl:text-9xl">What is Panda People</h2>
                 <p>
                     Employee benefits aren’t black and white anymore. There’s a spectrum of perks that can make an
                     impact on
                     your employees’ sense of fulfillment and their ability to truly engage with their work.
                 </p>
-                <div>
-                    <h3>Our Benefits</h3>
-                    <div class="flex">
+                <div class="hidden max-w-lg lg:block">
+                    <h3 class="text-4xl font-editorial">Our Benefits</h3>
+                    <div class="grid grid-cols-2 gap-1">
                         <ul class="list-disc">
                             <li>Housing Discount</li>
                             <li>Exclusive Cell Phone Plans</li>
@@ -59,21 +59,72 @@ name('employer');
                             <li>Groceries, Meals & Entertainment</li>
                             <li>Financial Wellness</li>
                         </ul>
-                        <p>
-                            Creating a company culture people truly appreciate starts with understanding how impactful
-                            easing the cost of living can be on improving engagement and retention. With Panda People,
-                            you get customized benefits that help you meet the needs of your people where they are.
+                        <div class="space-y-2">
+                            <p>
+                                Creating a company culture people truly appreciate starts with understanding how
+                                impactful
+                                easing the cost of living can be on improving engagement and retention. With Panda
+                                People,
+                                you get customized benefits that help you meet the needs of your people where they are.
 
-                            Our curated benefits bring real impact at a low cost to employers while helping your people
-                            live fuller life.
-                        </p>
+                                Our curated benefits bring real impact at a low cost to employers while helping your
+                                people
+                                live fuller life.
+                            </p>
+                            <x-link href="employer/benefits" class="bg-panda-green">View Benefits</x-link>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="-mr-64">
-                <img ssclass="w-[125vw]" src="{{ asset('storage/assets/employer-index-whatispanda.png') }}" />
+            <div class="-mr-96 lg:-mr-64">
+                <img class="w-[125vw]" src="{{ asset('storage/assets/employer-index-whatispanda.png') }}" />
             </div>
         </div>
+        <div class="max-w-lg lg:hidden">
+            <h3 class="text-4xl font-editorial">Our Benefits</h3>
+            <div class="grid grid-cols-1 gap-1">
+                <ul class="list-disc">
+                    <li>Housing Discount</li>
+                    <li>Exclusive Cell Phone Plans</li>
+                    <li>Childcare</li>
+                    <li>Health & Mental Wellness</li>
+                    <li>Groceries, Meals & Entertainment</li>
+                    <li>Financial Wellness</li>
+                </ul>
+                <div class="space-y-2">
+                    <p>
+                        Creating a company culture people truly appreciate starts with understanding how impactful
+                        easing the cost of living can be on improving engagement and retention. With Panda People,
+                        you get customized benefits that help you meet the needs of your people where they are.
 
+                        Our curated benefits bring real impact at a low cost to employers while helping your people
+                        live fuller life.
+                    </p>
+                    <x-link href="employer/benefits" class="bg-panda-green">View Benefits</x-link>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bg-panda-green">
+        <div class="px-[min(6.99vw,50px)] py-8">
+            <div class="grid grid-cols-1 gap-2 lg:grid-cols-2">
+                <img src="{{ asset('storage/assets/employer-why-panda.png') }}" />
+                <div class="space-y-2 place-self-center">
+                    <h3 class="text-7xl font-editorial">Why Panda People</h3>
+                    <p>
+                        We only offer targeted benefits that have a positive impact on engaging, retaining, and
+                        attracting employees where they live, work, and play—from discounts on rent to zero-cost cell
+                        phone plans to exclusive entertainment savings.
+
+                        Panda People’s relationships with local and national vendors mean we can customize benefits that
+                        make measurable impacts.
+
+                    </p>
+                    <div>
+                        <x-link outlined href="/employer/resources">Get Started Today</x-link>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </x-layouts.app>
