@@ -11,7 +11,7 @@
         <div class="grid grid-cols-1 gap-2 lg:grid-cols-2">
             <div class="order-2 lg:order-1">
                 <div class="-mb-24">
-                    <img src="{{ asset('storage/assets/employer-benefits-featured.png') }}" />
+                    <img src="{{ getMediaPath('assets/employer-benefits-featured.png') }}" />
                 </div>
             </div>
             <div class="order-1 py-8 text-white lg:order-2 px-[min(6.99vw,50px)] lg:px-0 place-self-center">
@@ -31,7 +31,7 @@
         <div class="grid grid-cols-1 gap-2 lg:grid-cols-2" x-data="{ activeAccordion: 0 }">
             @foreach (range(0, 5) as $i)
                 <div class="mt-24" x-show="activeAccordion==({{ $i }})">
-                    <img src="{{ asset('storage/assets/employer-benefit-program-' . $i . '.png') }}" />
+                    <img src="{{ getMediaPath('assets/employer-benefit-program-' . $i . '.png') }}" />
                 </div>
             @endforeach
             <div class="p-8">

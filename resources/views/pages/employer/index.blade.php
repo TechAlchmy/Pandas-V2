@@ -7,12 +7,12 @@ name('employer');
 <x-layouts.app for-employer>
     <div class="flex flex-col lg:flex-row mx-auto w-full max-w-[1920px] bg-black">
         <div class="mt-8 overflow-hidden">
-            <img class="hidden md:block lg:hidden -ml-10 min-w-[125vw]" src="{{ asset('/storage/assets/employer-index-tablet.png') }}" />
-            <img class="hidden mx-auto lg:block lg:px-8 2xl:px-0" src="{{ asset('/storage/assets/employer-index-desktop.png') }}" />
-            <img class="md:hidden -ml-40 min-w-[150vw]" src="{{ asset('/storage/assets/employer-index-mobile.png') }}" />
+            <img class="hidden md:block lg:hidden -ml-10 min-w-[125vw]" src="{{ getMediaPath('assets/employer-index-tablet.png') }}" />
+            <img class="hidden mx-auto lg:block lg:px-8 2xl:px-0" src="{{ getMediaPath('assets/employer-index-desktop.png') }}" />
+            <img class="md:hidden -ml-40 min-w-[150vw]" src="{{ getMediaPath('assets/employer-index-mobile.png') }}" />
             <div class="flex flex-col lg:flex-row-reverse">
                 <div class="-mt-32 -mr-10 md:-mr-20 md:-mt-20 lg:-mt-40 lg:-mr-10 lg:-ml-60 2xl:-mt-48 md:max-w-[90vw] md:mx-auto">
-                    <img class="order-1 lg:order-0 2xl:min-w-[35vw]" src="{{ asset('/storage/assets/employer-grow2.png') }}" />
+                    <img class="order-1 lg:order-0 2xl:min-w-[35vw]" src="{{ getMediaPath('assets/employer-grow2.png') }}" />
                 </div>
                 <div>
                     <div class="w-4/5 lg:w-3/5 flex flex-col md:flex-row  p-[50px] mt-[50px] text-container">
@@ -74,7 +74,7 @@ name('employer');
                 </div>
             </div>
             <div class="-mt-12 -mr-96 lg:-mr-64 lg:-mt-28">
-                <img class="w-[125vw] lg:w-[101vw]" src="{{ asset('storage/assets/employer-index-whatispanda.png') }}" />
+                <img class="w-[125vw] lg:w-[101vw]" src="{{ getMediaPath('assets/employer-index-whatispanda.png') }}" />
             </div>
         </div>
         <div class="max-w-lg lg:hidden">
@@ -112,7 +112,7 @@ name('employer');
     <div class="bg-panda-green">
         <div class="px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto">
             <div class="grid grid-cols-1 gap-2 lg:grid-cols-2">
-                <img src="{{ asset('storage/assets/employer-why-panda.png') }}" />
+                <img src="{{ getMediaPath('assets/employer-why-panda.png') }}" />
                 <div class="space-y-6 place-self-center">
                     <h3 class="text-7xl font-editorial">Why Panda People</h3>
                     <p>

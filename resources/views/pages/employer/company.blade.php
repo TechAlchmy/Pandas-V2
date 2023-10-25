@@ -5,16 +5,16 @@
 <x-layouts.app for-employer>
     <section class="flex flex-col lg:flex-row mx-auto w-full max-w-[1920px]">
         <div class="mt-8 overflow-hidden">
-            <img class="hidden md:block lg:hidden -ml-10 min-w-[125vw]" src="{{ asset('/storage/assets/employer-company-tablet.png') }}" />
-            <img class="hidden mx-auto lg:block lg:px-8 2xl:px-0" src="{{ asset('/storage/assets/employer-company-desktop.png') }}" />
-            <img class="md:hidden -ml-40 min-w-[150vw]" src="{{ asset('/storage/assets/employer-company-mobile.png') }}" />
+            <img class="hidden md:block lg:hidden -ml-10 min-w-[125vw]" src="{{ getMediaPath('assets/employer-company-tablet.png') }}" />
+            <img class="hidden mx-auto lg:block lg:px-8 2xl:px-0" src="{{ getMediaPath('assets/employer-company-desktop.png') }}" />
+            <img class="md:hidden -ml-40 min-w-[150vw]" src="{{ getMediaPath('assets/employer-company-mobile.png') }}" />
             <div class="flex flex-col lg:flex-row-reverse">
                 <div class="p-8 mt-10 md:-mr-4 md:-mt-20 lg:-mt-24 lg:-mr-10 lg:-ml-60 2xl:-mt-48 md:max-w-xs lg:max-w-lg md:mx-auto">
                     <h2 class="text-4xl font-editorial">About Us</h2>
                     <p class="mt-8">
                         Panda People was founded with a vision of helping improve employee benefits offerings by going beyond the norm. Through strategic partnerships with employers and benefit consultants, Panda People offers, maintains, and manages comprehensive and customized benefits packages for companies and their employees.
                     </p>
-                    {{-- <img class="order-1 lg:order-0 2xl:min-w-[35vw]" src="{{ asset('/storage/assets/employer-grow2.png') }}" /> --}}
+                    {{-- <img class="order-1 lg:order-0 2xl:min-w-[35vw]" src="{{ getMediaPath('assets/employer-grow2.png') }}" /> --}}
                 </div>
                 <div>
                     <div class="w-4/5 lg:w-3/5 flex flex-col md:flex-row  p-[50px] mt-[50px] text-container">
@@ -39,7 +39,7 @@
     <section class="bg-panda-green">
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
             <div class="-mt-40">
-                <img src="{{ asset('storage/assets/employer-company-what-one.png') }}" alt="Leadership" />
+                <img src="{{ getMediaPath('assets/employer-company-what-one.png') }}" alt="Leadership" />
             </div>
             <div class="p-8">
                 <p>
