@@ -59,8 +59,8 @@ class Register extends Component implements HasForms
 
         $data['organization_id'] = $this->organization?->getKey()
             ?? Organization::query()
-                ->where('company_registration_code', \data_get($data, 'company_registration_code'))
-                ->value('id');
+            ->where('company_registration_code', \data_get($data, 'company_registration_code'))
+            ->value('id');
 
         \data_forget($data, 'company_registration_code');
 
@@ -146,7 +146,9 @@ class Register extends Component implements HasForms
     public function render()
     {
         return view('livewire.resources.auth-resource.pages.register')
-            ->layout('components.layouts.guest');
+            ->layout('components.layouts.guest', [
+                'forEmployer' => session('url.intended') == route('employer'),
+            ]);
     }
 
     #[Computed]

@@ -4,7 +4,7 @@ use function Laravel\Folio\{name, middleware};
 middleware(['guest']);
 name('password.request');
 ?>
-<x-layouts.guest class="bg-panda-green">
+<x-layouts.guest class="bg-panda-green" :for-employer="session('url.intended') == route('employer')">
     <section class="pb-[min(184px,25.5vw)] max-w-[1920px] mx-auto grid grid-cols-1 lg:grid-cols-2">
         <div class="space-y-4 px-[min(6.99vw,50px)] py-4 order-2 lg:order-1">
             <div>
