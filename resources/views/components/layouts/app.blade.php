@@ -1,5 +1,12 @@
+@props([
+    'forEmployer' => false,
+])
 <x-layouts.base {{ $attributes }} class="flex flex-col min-h-screen">
-    <x-topbar />
+    @if ($forEmployer)
+        <x-topbar.employer />
+    @else
+        <x-topbar />
+    @endif
     @auth
         <x-topbar.extension />
     @endauth
