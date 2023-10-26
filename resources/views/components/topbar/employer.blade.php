@@ -1,3 +1,6 @@
+@props([
+    'forEmployer' => false,
+])
 <header class="bg-white border-b relative z-10" x-data="{ mobileMenuOpened: false }">
     <div class="max-w-[1920px] mx-auto">
         <nav class="mx-auto flex items-center justify-between px-[min(6.99vw,50px)] py-8" aria-label="Global">
@@ -9,12 +12,14 @@
                 </a>
             </div>
             <div class="flex items-center gap-x-4 lg:hidden">
-                <x-global-search />
-                <x-cart-button />
-                <button x-on:click="mobileMenuOpened = true" type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
-                    <span class="sr-only">Open main menu</span>
-                    @svg('hamburger-menu', null, ['class' => 'w-6 h-6'])
-                </button>
+                @guest
+                    <x-a :href="route('login')">
+                        <p class="text-base lg:text-2xl">Member Sign In</p>
+                    </x-a>
+                @endguest
+                <x-a href="/employer/resources">
+                    <p class="text-base lg:text-2xl">Schedule a Demo</p>
+                </x-a>
             </div>
             <div class="hidden lg:flex lg:gap-x-2">
                 {{-- <div class="relative" x-data="{ open: false }">
@@ -132,15 +137,20 @@
                     </div>
                 </div>
             </div> --}}
-                <x-link href="/" :outlined="request()->is('/')">Home</x-link>
-                <x-link href="/benefits" :outlined="request()->is('benefits')">Benefits</x-link>
-                <x-link href="/deals" :outlined="request()->is('deals')">Deals</x-link>
-                <x-link href="/help" :outlined="request()->is('help')">Help</x-link>
+                <x-link href="/employer" :outlined="request()->is('employer')">Home</x-link>
+                <x-link href="/employer/benefits" :outlined="request()->is('employer/benefits')">Benefits</x-link>
+                <x-link href="/employer/resources" :outlined="request()->is('employer/resources')">Resources</x-link>
+                <x-link href="/employer/company" :outlined="request()->is('employer/company')">Company</x-link>
             </div>
             <div class="hidden lg:flex lg:flex-1 lg:justify-end gap-3">
-                {{-- <x-link href="#" class="text-sm font-semibold leading-6 text-gray-900">Log in <span aria-hidden="true">&rarr;</span></x-link> --}}
-                <x-global-search />
-                <x-cart-button />
+                @guest
+                    <x-a :href="route('login')">
+                        <p class="text-base lg:text-2xl">Member Sign In</p>
+                    </x-a>
+                @endguest
+                <x-a href="/employer/resources">
+                    <p class="text-base lg:text-2xl">Schedule a Demo</p>
+                </x-a>
             </div>
         </nav>
     </div>
@@ -188,12 +198,10 @@
                                 <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Contact sales</a>
                             </div>
                         </div> --}}
-                        <x-a href="/" class="-mx-3 block rounded-lg px-3 py-2 text-2xl font-light leading-7 text-gray-900 hover:bg-gray-50">Home</x-a>
-                        <x-a href="/benefits" class="-mx-3 block rounded-lg px-3 py-2 text-2xl font-light leading-7 text-gray-900 hover:bg-gray-50">Benefits</x-a>
-                        <x-a href="/deals" class="-mx-3 block rounded-lg px-3 py-2 text-2xl font-light leading-7 text-gray-900 hover:bg-gray-50">Deals</x-a>
-                        <x-a href="/help" class="-mx-3 block rounded-lg px-3 py-2 text-2xl font-light leading-7 text-gray-900 hover:bg-gray-50">Help</x-a>
-                        <x-a href="/contact-us" class="-mx-3 block rounded-lg px-3 py-2 text-2xl font-light leading-7 text-gray-900 hover:bg-gray-50">Contact Us</x-a>
-                        <x-a href="/employer" class="-mx-3 block rounded-lg px-3 py-2 text-2xl font-light leading-7 text-gray-900 hover:bg-gray-50">For Employers</x-a>
+                        <x-a href="/employer" class="-mx-3 block rounded-lg px-3 py-2 text-2xl font-light leading-7 text-gray-900 hover:bg-gray-50">Home</x-a>
+                        <x-a href="/employer/benefits" class="-mx-3 block rounded-lg px-3 py-2 text-2xl font-light leading-7 text-gray-900 hover:bg-gray-50">Benefits</x-a>
+                        <x-a href="/employer/resources" class="-mx-3 block rounded-lg px-3 py-2 text-2xl font-light leading-7 text-gray-900 hover:bg-gray-50">Resources</x-a>
+                        <x-a href="/employer/company" class="-mx-3 block rounded-lg px-3 py-2 text-2xl font-light leading-7 text-gray-900 hover:bg-gray-50">Company</x-a>
                     </div>
                     <div class="py-6">
                         @auth

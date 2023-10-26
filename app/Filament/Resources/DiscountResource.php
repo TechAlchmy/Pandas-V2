@@ -374,6 +374,12 @@ class DiscountResource extends Resource
                     ->dateTime('Y-m-d'),
             ])
             ->defaultSort('id', 'desc')
+            ->headerActions([
+                Tables\Actions\Action::make('refresh')
+                    ->action(function ($livewire) {
+                        $livewire->js('$wire.$refresh()');
+                    }),
+            ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
 

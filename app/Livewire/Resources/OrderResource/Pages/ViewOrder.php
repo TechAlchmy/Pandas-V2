@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Resources\OrderResource\Pages;
 
+use App\Enums\AuthLevelEnum;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Filament\Widgets\GiftWidget;
@@ -10,6 +11,8 @@ use App\Models\Order;
 use App\Models\OrderDetailRefund;
 use App\Models\OrderRefund;
 use App\Models\Setting;
+use App\Models\User;
+use App\Notifications\OrderDetailRefundCreatedForAdminNotification;
 use App\Notifications\SendUserOrderRefundInReview;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -32,8 +35,6 @@ use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconPosition;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Throwable;
@@ -203,6 +204,13 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                                 logger()->error($e->getMessage());
                             }
 
+                            try {
+                                FacadesNotification::send(User::query()
+                                    ->where('auth_level', AuthLevelEnum::Admin)
+                                    ->get(), new OrderDetailRefundCreatedForAdminNotification());
+                            } catch (\Throwable $e) {
+                                logger()->error($e->getMessage());
+                            }
 
                             $action->success();
                         })

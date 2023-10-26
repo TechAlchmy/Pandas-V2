@@ -122,6 +122,12 @@ class OrderResource extends Resource
                     ->options(collect(OrderStatus::getOptions()))
                     ->label(''),
             ])
+            ->headerActions([
+                Tables\Actions\Action::make('refresh')
+                    ->action(function ($livewire) {
+                        $livewire->js('$wire.$refresh()');
+                    }),
+            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),

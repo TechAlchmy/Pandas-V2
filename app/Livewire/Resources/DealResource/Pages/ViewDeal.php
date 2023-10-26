@@ -44,7 +44,66 @@ class ViewDeal extends Component implements HasActions, HasForms
 
     public function mount()
     {
-        $this->amount = \head($this->record->amount);
+        if ($this->record->voucher_type != DiscountVoucherTypeEnum::TopUpGiftCard) {
+            $this->amount = \head($this->record->amount);
+        }
+    }
+
+    public function validateOrder($shouldAddToCart = false)
+    {
+        if (empty($this->amount)) {
+            Notification::make()
+                ->danger()
+                ->title('Please fill an amount')
+                ->send();
+            return;
+        }
+
+        $amount = $this->record->voucher_type == DiscountVoucherTypeEnum::DefinedAmountsGiftCard
+            ? $this->amount
+            : $this->amount * 100;
+        $amount = (int) $amount;
+
+        $subtotal = $this->quantity * $amount;
+
+        if ($this->record->voucher_type == DiscountVoucherTypeEnum::DefinedAmountsGiftCard) {
+            if ($this->record->limit_qty && $this->quantity > $this->record->limit_qty) {
+                Notification::make()
+                    ->danger()
+                    ->title('Quantity maximum limit is ' . $this->record->limit_qty)
+                    ->send();
+
+                return;
+            }
+
+            if ($this->record->limit_amount && $subtotal > $this->record->limit_amount) {
+                Notification::make()
+                    ->danger()
+                    ->title('Maximum amount allowed is ' . $this->record->limit_amount)
+                    ->send();
+
+                return;
+            }
+        }
+
+        if ($this->record->voucher_type == DiscountVoucherTypeEnum::TopUpGiftCard) {
+            if ($this->record->bh_min > $amount || $this->record->bh_max < $amount) {
+                Notification::make()
+                    ->danger()
+                    ->title('limit is ' . \Filament\Support\format_money($this->record->bh_min / 100, 'USD') . ' and ' . \Filament\Support\format_money($this->record->bh_max / 100, 'USD'))
+                    ->send();
+
+                return;
+            }
+        }
+
+        if ($shouldAddToCart) {
+            $this->addToCart();
+            $this->updateClicks();
+            return;
+        }
+
+        $this->js('$dispatch("open-modal", {id: "cardknox"})');
     }
 
     public function createOrder($data)
@@ -204,6 +263,14 @@ class ViewDeal extends Component implements HasActions, HasForms
     public function addToCart()
     {
         $this->validate();
+        if (empty($this->amount)) {
+            Notification::make()
+                ->danger()
+                ->title('Please fill an amount')
+                ->send();
+            return;
+        }
+
         $amount = $this->record->voucher_type == DiscountVoucherTypeEnum::DefinedAmountsGiftCard
             ? $this->amount
             : $this->amount * 100;

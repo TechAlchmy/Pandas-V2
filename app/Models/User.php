@@ -189,4 +189,9 @@ class User extends Authenticatable implements FilamentUser, HasTenants, HasDefau
     {
         return ['uuid'];
     }
+
+    public function routeNotificationForVonage($notification): string
+    {
+        return $this->phone_number;
+    }
 }

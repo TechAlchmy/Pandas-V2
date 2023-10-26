@@ -94,6 +94,12 @@ class DiscountInsightResource extends Resource
                             ]),
                     ]),
             ])
+            ->headerActions([
+                Tables\Actions\Action::make('refresh')
+                    ->action(function ($livewire) {
+                        $livewire->js('$wire.$refresh()');
+                    }),
+            ])
             ->bulkActions([
                 ExportBulkAction::make(),
                 // Tables\Actions\BulkActionGroup::make([

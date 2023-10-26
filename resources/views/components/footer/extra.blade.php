@@ -20,7 +20,7 @@
                             <li><x-a href="/dashboard">My Account</x-a></li>
                         @endauth
                         <li><x-a href="/contact-us">Contact Us</x-a></li>
-                        <li><x-a href="/help">For Employers</x-a></li>
+                        <li><x-a href="/employer">For Employers</x-a></li>
                     </ul>
                     <ul>
                         <li><x-a href="/">LinkedIn</x-a></li>

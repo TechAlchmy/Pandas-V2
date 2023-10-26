@@ -11,7 +11,7 @@ name('benefits');
 <x-layouts.app>
     <section class="overflow-hidden">
         <div class="px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto">
-            <div class="relative hidden lg:flex h-screen">
+            <div class="relative hidden h-screen lg:flex">
                 <div class="absolute top-[-5rem] h-screen -z-10">
                     <img class="" src="{{ getMediaPath('assets/benefits-hero-image.png') }}" />
                 </div>
@@ -29,8 +29,8 @@ name('benefits');
                     </div>
                 </div>
             </div>
-            <div class="lg:hidden grid grid-cols-1 lg:grid-cols-2 gap-6" x-data="{ shown: false }" x-intersect.once="shown = true">
-                <h1 x-show="shown" x-transition.duration.1500 class="text-3xl sm:text-6xl max-w-xl font-editorial">Get Ready to go beyond the basic</h1>
+            <div class="grid grid-cols-1 gap-6 lg:hidden lg:grid-cols-2" x-data="{ shown: false }" x-intersect.once="shown = true">
+                <h1 x-show="shown" x-transition.duration.1500 class="max-w-xl text-3xl sm:text-6xl font-editorial">Get Ready to go beyond the basic</h1>
                 <div class="space-y-6 lg:ml-56 xl:ml-80">
                     <p class="">
                         Real benefits for real people start with Panda. We’re here to help you thrive in ways that matters to you, so you can give more when it’s go time—in life and work.
@@ -43,11 +43,11 @@ name('benefits');
         </div>
         <img class="lg:hidden min-w-[125vw] -ml-20 lg:-ml-72 2xl:-ml-[42rem] -mt-8 md:-mt-16 lg:-mt-96" src="{{ getMediaPath('assets/benefit-circles.png') }}" alt="Collages images" />
     </section>
-    <section class="px-[min(6.99vw,50px)] py-8 md:-mt-40">
+    <section class="px-[min(6.99vw,50px)] py-8 md:-mt-40 lg:mt-0">
         <div class="max-w-[1920px] mx-auto">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
                 <div x-data="{ shown: false }" x-intersect.once="shown = true">
-                    <h2 x-show="shown" x-transition.duration.2000 class="text-6xl max-w-xl font-editorial">
+                    <h2 x-show="shown" x-transition.duration.2000 class="max-w-xl text-6xl font-editorial">
                         Benefits for Life Essentials
                     </h2>
                     <p>
@@ -80,10 +80,10 @@ name('benefits');
                             </li>
                         @endforeach
                     </ul>
-                    <div class="flex flex-col lg:flex-row gap-6">
+                    <div class="flex flex-col gap-6 lg:flex-row">
                         <p class="lg:w-1/2">Learn how to can sign up for supplemental benefits your employer can offer through Panda People. </p>
                         <div class="lg:w-1/2">
-                            <x-link href="#" class="hover:bg-panda-green mx-auto" outlined>See Additional Benefits</x-link>
+                            <x-link href="#" class="mx-auto hover:bg-panda-green" outlined>See Additional Benefits</x-link>
                         </div>
                     </div>
                 </div>
@@ -98,12 +98,12 @@ name('benefits');
                 </h2>
             </div>
         </div>
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <div>
                 <img class="lg:hidden -mt-16 sm:max-h-[30vh] mx-auto" src="{{ getMediaPath('assets/benefit-circles-mobile.png') }}" />
                 <img class="hidden lg:block -mt-40 md:-mt-96 2xl:max-h-[70vh] 2xl:mx-auto object-cover" src="{{ getMediaPath('assets/benefit-circles-2.png') }}" />
             </div>
-            <div x-data="{ shown: false }" x-intersect.once="shown = true" class="p-8 space-y-4 place-self-center -mt-20 lg:-mt-40 xl:-mt-20">
+            <div x-data="{ shown: false }" x-intersect.once="shown = true" class="p-8 -mt-20 space-y-4 place-self-center lg:-mt-40 xl:-mt-20">
                 <h2 x-show="shown" x-transition.duration.2000 class="text-4xl xl:text-6xl 2xl:text-7xl font-editorial">
                     We’re here to help you afford more of what brings you joy and everyday essentials.
                 </h2>

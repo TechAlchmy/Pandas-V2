@@ -47,25 +47,25 @@
                         </div>
                     @endif
                     @if ($this->record->voucher_type == \App\Enums\DiscountVoucherTypeEnum::TopUpGiftCard)
-                        <div x-data class="space-y-6">
+                        <div x-data class="space-y-6 w-full">
                             <div class="flex gap-6 items-center">
                                 <div class="w-full">
                                     <div class="flex items-center space-x-1 w-full">
                                         <span>$</span>
-                                        <x-input class="w-full !border-solid border-black p-2" type="number" wire:model="amount" placeholder="Enter amount..." :min="$this->record->bh_min / 100" :max="$this->record->bh_max / 100" />
+                                        <x-input class="w-full !border-solid border-black p-2" type="number" wire:model.live.debounce.300ms="amount" placeholder="Enter amount..." :min="$this->record->bh_min / 100" :max="$this->record->bh_max / 100" />
                                     </div>
-                                    <div class="flex items-center justify-between w-full text-xs mt-2">
+                                    <div class="flex items-center gap-1 w-full text-xs mt-2 text-gray-300">
                                         <span>Min: {{ \Filament\Support\format_money($this->record->bh_min / 100, 'USD') }}</span>
                                         <span>Max: {{ \Filament\Support\format_money($this->record->bh_max / 100, 'USD') }}</span>
                                     </div>
                                 </div>
                             </div>
-                            @if ($this->amount > 0) 
+                            @if (($this->amount * 100) >= $this->record->bh_min && ($this->amount * 100) <= $this->record->bh_max)
                                 <div class="flex gap-6 items-center">
-                                    <x-button class="hover:bg-panda-green" x-on:click="$wire.addToCart();$wire.updateClicks()" outlined>
+                                    <x-button class="hover:bg-panda-green" x-on:click="$wire.validateOrder(true)" outlined>
                                         {{ $this->record->cta }}
                                     </x-button>
-                                    <x-button class="hover:bg-panda-green" x-data x-on:click="$dispatch('open-modal', {id: 'cardknox'})" outlined size="lg">
+                                    <x-button class="hover:bg-panda-green" x-data x-on:click="$wire.validateOrder()" outlined size="lg">
                                         Buy Now
                                     </x-button>
                                 </div>

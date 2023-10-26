@@ -219,6 +219,12 @@ class OrderDetailRefundResource extends Resource
                         return $notification;
                     }),
             ])
+            ->headerActions([
+                Tables\Actions\Action::make('refresh')
+                    ->action(function ($livewire) {
+                        $livewire->js('$wire.$refresh()');
+                    }),
+            ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
@@ -248,5 +254,13 @@ class OrderDetailRefundResource extends Resource
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::query()
+            ->whereNull('approved_at')
+            ->withoutTrashed()
+            ->count();
     }
 }
