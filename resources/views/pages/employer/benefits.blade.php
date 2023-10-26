@@ -150,11 +150,13 @@
         </div>
         <x-hr />
     </section>
-    <section class="w-full py-8 space-y-8 mx-auto max-w-[1920px] bg-black">
-        <div class="text-white">
-            <h4 class="text-6xl text-left lg:text-center lg:-ml-80 font-editorial lg:text-9xl">Attract. Retain.</h4>
-            <h4 class="text-6xl text-right lg:text-center lg:ml-80 font-editorial lg:text-9xl">Grow. Perform.</h4>
+    <section class="bg-black">
+        <div class="w-full py-8 space-y-8 mx-auto max-w-[1920px] ">
+            <div class="text-white">
+                <h4 class="text-6xl text-left lg:text-center lg:-ml-80 font-editorial lg:text-9xl">Attract. Retain.</h4>
+                <h4 class="text-6xl text-right lg:text-center lg:ml-80 font-editorial lg:text-9xl">Grow. Perform.</h4>
+            </div>
+            <x-hr class="border-white" />
         </div>
-        <x-hr class="border-white" />
     </section>
 </x-layouts.app>
