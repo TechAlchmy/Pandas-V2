@@ -32,6 +32,7 @@ use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconPosition;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
@@ -48,19 +49,31 @@ class ViewOrder extends Component implements HasForms, HasInfolists
 
     public function downloadGiftCard()
     {
-        $orderQueue = $this->record->orderQueue;
-        $pdf = Pdf::loadView(
-            'livewire.gift-card',
-            [
-                'orderQueue'  => $this->record->orderQueue,
-                'size' => 'lg'
-            ]
-        )
-            ->setPaper('a5', 'landscape');
+        // this should have code to download the gift card using js as using DomPDF is not able to render the cards properly
 
-        $fileName = 'card_' . time() . '_' . $orderQueue->id . '.pdf';
-        Storage::put('public/temp/' . $fileName, $pdf->stream());
-        return Storage::download('public/temp/' . $fileName);
+        $orderQueue = $this->record->orderQueue;
+        // $pdf = Pdf::loadView(
+        //     'livewire.gift-card',
+        //     [
+        //         'orderQueue'  => $this->record->orderQueue,
+        //         'size' => 'lg'
+        //     ]
+        // )
+        //     ->setPaper('a5', 'landscape');
+
+        return response()->streamDownload(function () use ($orderQueue) {
+            echo Pdf::loadHtml(
+                // Use a different blade for this which is supported by DomPDF
+                Blade::render('livewire.gift-card', [
+                    'orderQueue'  => $this->record->orderQueue,
+                    'size' => 'lg'
+                ])
+            )->stream();
+        }, mt_rand(10000000, 99999999) . '.pdf');
+
+        // $fileName = 'card_' . time() . '_' . $orderQueue->id . '.pdf';
+        // Storage::put('public/temp/' . $fileName, $pdf->stream());
+        // return Storage::download('public/temp/' . $fileName);
         // This needs to be deleted using a job probably 5 minutes after creating
     }
 

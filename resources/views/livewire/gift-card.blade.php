@@ -18,7 +18,7 @@
                                     </h3>
                                 </div>
                                 <div class="download-button-container">
-                                    <button wire:loading.remove wire:click="downloadGiftCard" class="hover:underline">Download</button>
+                                    <button wire:loading.remove wire:click="downloadGiftCard" class="hover:underline" id="generate_pdf">Download</button>
                                     <span wire:loading>Downloading...</span>
                                 </div>
                             </header>
@@ -215,6 +215,5 @@
         </li>
         <!--[if ENDBLOCK]><![endif]-->
     </div>
-
     @endforeach
 </div>
