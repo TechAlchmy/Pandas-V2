@@ -119,9 +119,10 @@ class FetchBlackHawk implements ShouldQueue
         Discount::whereNotIn('code', $apiProductCodes)->where('is_bhn', true)
             ->where('is_active', true)->update(['is_active' => false]);
 
-        $receiver = Setting::get('notification_email');
+        $receivers = Setting::get('notification_emails');
+
         try {
-            Notification::route('mail', $receiver)->notify(new ApprovalRequired());
+            Notification::route('mail', $receivers)->notify(new ApprovalRequired());
         } catch (Throwable $t) {
             //
         }
