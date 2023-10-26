@@ -8,6 +8,7 @@ use App\Models\Setting;
 use Filament\Forms;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -62,6 +63,8 @@ class SettingResource extends Resource
                     ->required()
                     ->rows(3)
                     ->columnSpanFull(),
+
+                Toggle::make('show_counter_stats')->hint('Do you want to show counter stats on the dashboard?')
 
                 // TextInput::make('cards_char_limit')
                 //     ->label('Deals Card Desc Limit')

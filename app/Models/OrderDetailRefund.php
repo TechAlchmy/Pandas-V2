@@ -52,6 +52,11 @@ class OrderDetailRefund extends Model
         return ['uuid'];
     }
 
+    public function scopeFlagged($query)
+    {
+        return $query->whereNull('deleted_at')->whereNull('approved_at');
+    }
+
     protected function statusMessage(): Attribute
     {
         return Attribute::get(function () {
@@ -59,7 +64,7 @@ class OrderDetailRefund extends Model
                 return 'Rejected at ' . $this->deleted_at->format('d M Y');
             }
 
-            if (! empty($this->approved_at)) {
+            if (!empty($this->approved_at)) {
                 return 'Approved at ' . $this->approved_at->format('d M Y');
             }
 
