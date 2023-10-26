@@ -14,8 +14,12 @@ class Setting extends Model
 
     protected static function booted(): void
     {
-        static::updated(fn() => Cache::forget("settings_data"));
+        static::updated(fn () => Cache::forget("settings_data"));
     }
+
+    protected $casts = [
+        'notification_emails' => 'array'
+    ];
 
     // We are ovveriding the default get method to get the settings data from cache instead of database, and return a value instead of a model
     public static function get($key)
@@ -29,5 +33,4 @@ class Setting extends Model
             return Setting::first()->toArray();
         });
     }
-
 }

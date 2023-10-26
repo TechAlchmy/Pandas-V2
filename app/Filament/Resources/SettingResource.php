@@ -42,11 +42,13 @@ class SettingResource extends Resource
                     ->required()
                     ->numeric(),
 
-                Forms\Components\TextInput::make('notification_email')
+                Forms\Components\TagsInput::make('notification_emails')
                     ->hint('This is where you will receive notifications to check discount if any needs approval.')
                     ->nullable()
-                    ->columnSpanFull()
-                    ->email(),
+                    ->nestedRecursiveRules('email')
+                    ->splitKeys(['Tab', ' ', ','])
+                    ->placeholder('Add email')
+                    ->columnSpanFull(),
 
                 Forms\Components\Textarea::make('order_processing_message')
                     ->required()
