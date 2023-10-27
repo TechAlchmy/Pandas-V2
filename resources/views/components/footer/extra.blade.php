@@ -22,12 +22,12 @@
                         <li><x-a href="/contact-us">Contact Us</x-a></li>
                         <li><x-a href="/employer">For Employers</x-a></li>
                     </ul>
-                    <ul>
+                    {{-- <ul>
                         <li><x-a href="/">LinkedIn</x-a></li>
                         <li><x-a href="/benefits">Instagram</x-a></li>
                         <li><x-a href="/deals">Facebook</x-a></li>
                         <li><x-a href="/help">Youtube</x-a></li>
-                    </ul>
+                    </ul> --}}
                 </div>
                 <livewire:resources.subscriber-resource.forms.create-subscriber-form />
             </div>
