@@ -102,7 +102,7 @@
     <section class="px-[min(6.99vw,50px)] py-8">
         <x-hr />
         <div class="max-w-[1920px] mx-auto">
-            <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+            <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
                 <div class="lg:col-span-2" x-data="{ shown: false }" x-intersect.once="shown = true">
                     <h2 x-show="shown" x-transition.duration.2000 class="text-2xl md:text-5xl lg:text-7xl xl:text-8xl 2xl:text-9xl md:col-span-2 font-editorial">
                         …and Purchases Essential to Life
