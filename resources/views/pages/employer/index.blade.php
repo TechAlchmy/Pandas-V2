@@ -16,7 +16,7 @@ name('employer');
                     </div>
                     <div>
                         <div class="w-4/5 lg:w-3/5 flex flex-col md:flex-row  p-[50px] mt-[50px] text-container">
-                            <div class="flex flex-col gap-2 md:px-10" x-data="{ shown: false }" x-intersect.once="shown = true">
+                            <div class="flex flex-col gap-6 md:px-10" x-data="{ shown: false }" x-intersect.once="shown = true">
                                 <p class="text-white font-aeonik" x-show="shown" x-transition.opacity.duration.2000>
                                     Support your people’s growth with meaningful benefits that go beyond single-digit
                                     discounts for exclusive gyms. At Panda People, we deliver benefits that promote cultures
