@@ -78,7 +78,7 @@ name('employer');
                 <img class="w-[125vw] lg:w-[101vw]" src="{{ getMediaPath('assets/employer-index-whatispanda.png') }}" />
             </div>
         </div>
-        <div class="max-w-lg lg:hidden">
+        <div class="max-w-lg lg:hidden px-[min(6.99vw,50px)]">
             <h3 class="text-4xl font-editorial">Our Benefits</h3>
             <div class="grid grid-cols-1 gap-1">
                 <ul class="list-disc">
