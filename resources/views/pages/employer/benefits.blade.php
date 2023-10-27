@@ -32,6 +32,7 @@
             @foreach (range(0, 5) as $i)
                 <div class="mt-24" x-show="activeAccordion==({{ $i }})">
                     <img src="{{ getMediaPath('assets/employer-benefit-program-' . $i . '.png') }}" />
+                    <img src="{{ getMediaPath('assets/employer-benefits-last-round.png') }}"
                 </div>
             @endforeach
             <div class="p-8">
