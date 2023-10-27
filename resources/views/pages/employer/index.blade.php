@@ -112,9 +112,9 @@ name('employer');
     </section>
     <div class="bg-panda-green">
         <div class="px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto">
-            <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
-                <img class="col-span-2" src="{{ getMediaPath('assets/employer-why-panda.png') }}" />
-                <div class="space-y-6 place-self-center">
+            <div class="grid grid-cols-1 gap-6 lg:flex">
+                <img class="lg:w-3/5" src="{{ getMediaPath('assets/employer-why-panda.png') }}" />
+                <div class="space-y-6 lg:w-2/5 place-self-center">
                     <h3 class="text-7xl xl:text-8xl 2xl:text-9xl font-editorial">Why Panda People</h3>
                     <p class="lg:text-lg 2xl:text-2xl">
                         We only offer targeted benefits that have a positive impact on engaging, retaining, and
