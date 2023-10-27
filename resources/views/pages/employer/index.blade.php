@@ -46,7 +46,7 @@ name('employer');
                         your employees’ sense of fulfillment and their ability to truly engage with their work.
                     </p>
                 </div>
-                <div class="hidden max-w-xl mt-40 lg:block">
+                <div class="hidden max-w-3xl mt-40 lg:block">
                     <h3 class="text-4xl font-editorial">Our Benefits</h3>
                     <div class="grid grid-cols-2 gap-1">
                         <ul class="list-disc">
