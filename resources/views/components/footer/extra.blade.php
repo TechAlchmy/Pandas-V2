@@ -1,7 +1,7 @@
 <footer x-data="{ shown: false }" x-intersect.once="shown = true">
     <div class="text-white bg-black">
         <div class="max-w-[1920px] mx-auto">
-            <div x-show="shown" x-transition:enter.duration.1000ms.opactiy class="grid grid-cols-1 gap-6 p-8 md:grid-cols-3">
+            <div x-show="shown" x-transition:enter.duration.1000ms.opactiy class="grid grid-cols-1 gap-6 py-8 px-[min(6.99vw,50px)] md:grid-cols-3">
                 <x-a href="/">
                     <x-logo class="text-white" />
                 </x-a>
@@ -23,10 +23,14 @@
                         <li><x-a href="/employer">For Employers</x-a></li>
                     </ul>
                     <ul class="space-y-2">
-                        <li><x-a href="/">@svg('fab-linkedin', 'w-5 h-5')</x-a></li>
+                        {{-- <li><x-a href="/">@svg('fab-linkedin', 'w-5 h-5')</x-a></li>
                         <li><x-a href="/benefits">@svg('fab-instagram', 'w-5 h-5')</x-a></li>
                         <li><x-a href="/deals">@svg('fab-facebook', 'w-5 h-5')</x-a></li>
-                        <li><x-a href="/help">@svg('fab-youtube', 'w-5 h-5')</x-a></li>
+                        <li><x-a href="/help">@svg('fab-youtube', 'w-5 h-5')</x-a></li> --}}
+                        <li><x-a href="/"><img src="https://upload.wikimedia.org/wikipedia/commons/8/81/LinkedIn_icon.svg" class="w-5 h-5" /></x-a></li>
+                        <li><x-a href="/benefits"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/1920px-Instagram_logo_2022.svg.png" class="w-5 h-5" /></x-a></li>
+                        <li><x-a href="/deals"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/2023_Facebook_icon.svg/1920px-2023_Facebook_icon.svg.png" class="w-5 h-5" /></x-a></li>
+                        <li><x-a href="/help"><img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png?20220706172052" class="w-5 h-5" /></x-a></li>
                     </ul>
                 </div>
                 <livewire:resources.subscriber-resource.forms.create-subscriber-form />
