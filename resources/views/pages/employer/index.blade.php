@@ -57,7 +57,7 @@ name('employer');
                             <li>Groceries, Meals & Entertainment</li>
                             <li>Financial Wellness</li>
                         </ul>
-                        <div class="space-y-2">
+                        <div class="space-y-6">
                             <p>
                                 Creating a company culture people truly appreciate starts with understanding how
                                 impactful
@@ -89,7 +89,7 @@ name('employer');
                     <li>Groceries, Meals & Entertainment</li>
                     <li>Financial Wellness</li>
                 </ul>
-                <div class="space-y-2">
+                <div class="space-y-6">
                     <p>
                         Creating a company culture people truly appreciate starts with understanding how impactful
                         easing the cost of living can be on improving engagement and retention. With Panda People,
