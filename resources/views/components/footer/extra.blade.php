@@ -22,12 +22,12 @@
                         <li><x-a href="/contact-us">Contact Us</x-a></li>
                         <li><x-a href="/employer">For Employers</x-a></li>
                     </ul>
-                    {{-- <ul>
-                        <li><x-a href="/">LinkedIn</x-a></li>
-                        <li><x-a href="/benefits">Instagram</x-a></li>
-                        <li><x-a href="/deals">Facebook</x-a></li>
-                        <li><x-a href="/help">Youtube</x-a></li>
-                    </ul> --}}
+                    <ul class="space-y-2">
+                        <li><x-a href="/">@svg('fab-linkedin', 'w-5 h-5')</x-a></li>
+                        <li><x-a href="/benefits">@svg('fab-instagram', 'w-5 h-5')</x-a></li>
+                        <li><x-a href="/deals">@svg('fab-facebook', 'w-5 h-5')</x-a></li>
+                        <li><x-a href="/help">@svg('fab-youtube', 'w-5 h-5')</x-a></li>
+                    </ul>
                 </div>
                 <livewire:resources.subscriber-resource.forms.create-subscriber-form />
             </div>
