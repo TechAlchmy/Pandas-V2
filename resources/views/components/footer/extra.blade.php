@@ -1,11 +1,11 @@
 <footer x-data="{ shown: false }" x-intersect.once="shown = true">
-    <div class="bg-black text-white">
+    <div class="text-white bg-black">
         <div class="max-w-[1920px] mx-auto">
-            <div x-show="shown" x-transition:enter.duration.1000ms.opactiy class="grid grid-cols-1 md:grid-cols-3 gap-6 p-8">
+            <div x-show="shown" x-transition:enter.duration.1000ms.opactiy class="grid grid-cols-1 gap-6 p-8 md:grid-cols-3">
                 <x-a href="/">
                     <x-logo class="text-white" />
                 </x-a>
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div class="grid grid-cols-2 gap-4 md:grid-cols-3">
                     <ul>
                         <li><x-a href="/">Home</x-a></li>
                         <li><x-a href="/benefits">Benefits</x-a></li>
@@ -31,7 +31,9 @@
                 </div>
                 <livewire:resources.subscriber-resource.forms.create-subscriber-form />
             </div>
-            <div class="border-t border-white p-8 flex gap-8 items-center">
+        </div>
+        <div class="flex items-center gap-8 p-8 border-t border-white">
+            <div class="max-w-[1920px] mx-auto">
                 <h6 class="">Panda People® {{ date('Y') }} © All Rights Reserved</h6>
                 <x-a href="#" class="">Privacy Policy</x-a>
             </div>
