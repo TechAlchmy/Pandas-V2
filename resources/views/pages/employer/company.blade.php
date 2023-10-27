@@ -52,7 +52,7 @@
                 <h4 class="text-6xl text-left md:text-center md:-ml-60 lg:-ml-80 font-editorial lg:text-7xl xl:text-8xl 2xl:text-9xl">Attract. Retain.</h4>
                 <h4 class="text-6xl text-right md:text-center md:ml-60 lg:ml-80 font-editorial lg:text-7xl xl:text-8xl 2xl:text-9xl">Grow. Perform.</h4>
             </div>
-            <x-hr class="border-white" />
         </div>
+        <x-hr class="border-white" />
     </section>
 </x-layouts.app>
