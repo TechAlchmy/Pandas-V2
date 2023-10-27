@@ -115,7 +115,7 @@ name('employer');
             <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
                 <img class="col-span-2" src="{{ getMediaPath('assets/employer-why-panda.png') }}" />
                 <div class="space-y-6 place-self-center">
-                    <h3 class="text-7xl lg:text-8xl 2xl:text-9xl font-editorial">Why Panda People</h3>
+                    <h3 class="text-7xl xl:text-8xl 2xl:text-9xl font-editorial">Why Panda People</h3>
                     <p class="lg:text-lg 2xl:text-2xl">
                         We only offer targeted benefits that have a positive impact on engaging, retaining, and
                         attracting employees where they live, work, and play—from discounts on rent to zero-cost cell
