@@ -7,32 +7,34 @@
         ->get();
 @endphp
 <x-layouts.app for-employer>
-    <section class="mx-auto max-w-[1920px] bg-black">
-        <div class="grid grid-cols-1 gap-2 lg:grid-cols-2">
-            <div class="order-2 lg:order-1">
-                <div class="-mb-24">
-                    <img src="{{ getMediaPath('assets/employer-benefits-featured.png') }}" />
+    <section class="bg-black">
+        <section class="mx-auto max-w-[1920px] ">
+            <div class="grid grid-cols-1 gap-2 lg:grid-cols-2">
+                <div class="order-2 lg:order-1">
+                    <div class="-mb-24">
+                        <img src="{{ getMediaPath('assets/employer-benefits-featured.png') }}" />
+                    </div>
+                </div>
+                <div class="order-1 py-8 text-white lg:order-2 px-[min(6.99vw,50px)] lg:px-0 place-self-center">
+                    <h1 class="text-6xl lg:text-8xl 2xl:text-9xl font-editorial text-[#E0BAA5]">
+                        Benefits that help employees go further
+                    </h1>
+                    <div class="max-w-lg mt-10 space-y-8">
+                        <p class="">
+                            Panda People’s voluntary benefits give your people a daily boost where it matters so they can make space to live, play, and party on their terms. Everyone’s got a unique style, even if they’re in a uniform. Reward their flair and see real culture emerge.
+                        </p>
+                        <x-link color="white" outlined href="#benefits">View benefits</x-link>
+                    </div>
                 </div>
             </div>
-            <div class="order-1 py-8 text-white lg:order-2 px-[min(6.99vw,50px)] lg:px-0 place-self-center">
-                <h1 class="text-6xl lg:text-8xl 2xl:text-9xl font-editorial text-[#E0BAA5]">
-                    Benefits that help employees go further
-                </h1>
-                <div class="max-w-lg mt-10 space-y-8">
-                    <p class="">
-                        Panda People’s voluntary benefits give your people a daily boost where it matters so they can make space to live, play, and party on their terms. Everyone’s got a unique style, even if they’re in a uniform. Reward their flair and see real culture emerge.
-                    </p>
-                    <x-link color="white" outlined href="#benefits">View benefits</x-link>
-                </div>
-            </div>
-        </div>
+        </section>
     </section>
     <section class="mx-auto max-w-[1920px]">
         <div class="grid grid-cols-1 gap-2 lg:grid-cols-2" x-data="{ activeAccordion: 0 }">
             @foreach (range(0, 5) as $i)
                 <div class="mt-24" x-show="activeAccordion==({{ $i }})">
                     <img src="{{ getMediaPath('assets/employer-benefit-program-' . $i . '.png') }}" />
-                    <img src="{{ getMediaPath('assets/employer-benefits-last-round.png') }}" />
+                    <img class="-mt-32 md:-mt-48 xl:-mt-40 2xl:-mt-56" src="{{ getMediaPath('assets/employer-benefits-last-round.png') }}" />
                 </div>
             @endforeach
             <div class="p-8">
@@ -85,7 +87,7 @@
                     @foreach ($items as $item => $content)
                         <li class="py-6">
                             <button class="text-2xl" x-on:click="activeAccordion = activeAccordion == @js($loop->index) ? null : @js($loop->index)">{{ $item }}</button>
-                            <div class="grid grid-cols-2 gap-2 mt-6" x-show="activeAccordion == @js($loop->index)">
+                            <div class="grid grid-cols-1 gap-2 mt-6 lg:grid-cols-2" x-show="activeAccordion == @js($loop->index)">
                                 <div class="prose">{!! $content !!}</div>
                                 <div class="text-center">
                                     <x-link outlined>Learn more</x-link>
@@ -97,8 +99,11 @@
             </div>
         </div>
     </section>
-    <section class="px-[min(6.99vw,50px)] py-8 bg-neutral-300 grid min-h-[50vh]">
-        <h5 class="place-self-center">Placeholder for video</h5>
+    <section class="relative px-[min(6,99vw),50px] w-full max-w-[1920px] mx-auto 2xl:-mt-[600px]">
+        <div class="pt-[56.25%]"></div>
+        <div class="absolute inset-0 w-full h-full bg-neutral-300">
+            Placeholder for video
+        </div>
     </section>
     <section class="px-[min(6.99vw,50px)] py-8">
         <x-hr />
@@ -118,7 +123,7 @@
                 </div>
             </div>
         </div>
-        <div class="grid grid-cols-1 gap-6 mt-48 lg:grid-cols-4">
+        <div class="grid grid-cols-1 gap-6 mt-12 lg:mt-48 lg:grid-cols-4">
             <div class="">
                 <h4 class="text-3xl font-editorial">Meals & Entertainment</h4>
                 <ul>
@@ -146,7 +151,7 @@
                 </ul>
             </div>
             <div>
-                <x-link href="employer/resources" outlined>Sschedule a demo</x-link>
+                <x-link href="employer/resources" outlined>Schedule a demo</x-link>
             </div>
         </div>
         <x-hr />

@@ -40,7 +40,7 @@ name('employer');
             <div class="space-y-24 px-[min(6.99vw,50px)] py-8 2xl:ml-60">
                 <div class="space-y-6">
                     <h2 class="text-5xl font-editorial lg:text-7xl 2xl:text-8xl">What is Panda People</h2>
-                    <p>
+                    <p class="lg:text-lg xl:text-xl 2xl:text-2xl">
                         Employee benefits aren’t black and white anymore. There’s a spectrum of perks that can make an
                         impact on
                         your employees’ sense of fulfillment and their ability to truly engage with their work.
@@ -49,7 +49,7 @@ name('employer');
                 <div class="hidden max-w-3xl mt-40 lg:block">
                     <h3 class="text-4xl font-editorial">Our Benefits</h3>
                     <div class="grid grid-cols-2 gap-1">
-                        <ul class="list-disc">
+                        <ul class="list-disc lg:text-lg xl:text-xl 2xl:text-2xl">
                             <li>Housing Discount</li>
                             <li>Exclusive Cell Phone Plans</li>
                             <li>Childcare</li>
@@ -58,7 +58,7 @@ name('employer');
                             <li>Financial Wellness</li>
                         </ul>
                         <div class="space-y-6">
-                            <p>
+                            <p class=" lg:text-lg xl:text-xl 2xl:text-2xl">
                                 Creating a company culture people truly appreciate starts with understanding how
                                 impactful
                                 easing the cost of living can be on improving engagement and retention. With Panda
@@ -81,7 +81,7 @@ name('employer');
         </div>
         <div class="lg:hidden px-[min(6.99vw,50px)]">
             <h3 class="text-4xl font-editorial">Our Benefits</h3>
-            <div class="grid grid-cols-1 gap-1">
+            <div class="grid grid-cols-1 gap-4">
                 <ul class="list-disc">
                     <li>Housing Discount</li>
                     <li>Exclusive Cell Phone Plans</li>
@@ -145,7 +145,7 @@ name('employer');
             <p>With benefits like these, there’s a reason why employers who partner with Panda see engagement improve, turnover slow, and their businesses grow.</p>
         </div>
         <div class="lg:max-w-[80vw]">
-            <h3 class="mt-40 text-4xl md:text-6xl lg:text-8xl font-editorial 2xl:text-9xl">
+            <h3 class="mt-20 text-3xl lg:mt-40 md:text-6xl xl:text-7xl font-editorial 2xl:text-8xl">
                 Setting your company apart takes more, but it doesn’t have to cost more.
             </h3>
         </div>
