@@ -64,7 +64,8 @@ name('employer');
                                 easing the cost of living can be on improving engagement and retention. With Panda
                                 People,
                                 you get customized benefits that help you meet the needs of your people where they are.
-
+                                <br />
+                                <br />
                                 Our curated benefits bring real impact at a low cost to employers while helping your
                                 people
                                 live fuller life.
@@ -94,7 +95,8 @@ name('employer');
                         Creating a company culture people truly appreciate starts with understanding how impactful
                         easing the cost of living can be on improving engagement and retention. With Panda People,
                         you get customized benefits that help you meet the needs of your people where they are.
-
+                        <br />
+                        <br />
                         Our curated benefits bring real impact at a low cost to employers while helping your people
                         live fuller life.
                     </p>
