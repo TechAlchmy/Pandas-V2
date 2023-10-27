@@ -36,8 +36,8 @@ name('employer');
         </div>
     </section>
     <div class="">
-        <div class="flex flex-col w-full mx-auto overflow-hidden lg:flex-row">
-            <div class="space-y-24 px-[min(6.99vw,50px)] py-8 2xl:ml-60">
+        <div class="flex flex-col w-full mx-auto overflow-hidden lg:flex-row max-w-[1920px]">
+            <div class="space-y-24 px-[min(6.99vw,50px)] py-8">
                 <div class="space-y-6">
                     <h2 class="text-5xl font-editorial lg:text-7xl 2xl:text-8xl">What is Panda People</h2>
                     <p class="lg:text-lg xl:text-xl 2xl:text-2xl">
