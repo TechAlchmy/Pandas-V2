@@ -90,7 +90,7 @@
                             <div class="grid grid-cols-1 gap-2 mt-6 lg:grid-cols-2" x-show="activeAccordion == @js($loop->index)">
                                 <div class="prose">{!! $content !!}</div>
                                 <div class="text-center">
-                                    <x-link outlined>Learn more</x-link>
+                                    <x-link outlined href="">Learn more</x-link>
                                 </div>
                             </div>
                         </li>
@@ -99,9 +99,8 @@
             </div>
         </div>
     </section>
-    <section class="relative px-[min(6,99vw),50px] w-full max-w-[1920px] mx-auto 2xl:-mt-[600px]">
-        <div class="pt-[56.25%]"></div>
-        <div class="absolute inset-0 w-full h-full bg-neutral-300">
+    <section class="max-w-[1920px] mx-auto xl:-mt-64 2xl:-mt-[576px]">
+        <div class="aspect-video bg-neutral-300 mx-auto min-w-[100vw] lg:min-w-[1200px] lg:min-h-[600px] max-w-[1200px] max-h-[600px]">
             Placeholder for video
         </div>
     </section>
@@ -162,7 +161,7 @@
                 <h4 class="text-6xl text-left md:text-center md:-ml-60 lg:-ml-80 font-editorial lg:text-7xl xl:text-8xl 2xl:text-9xl">Attract. Retain.</h4>
                 <h4 class="text-6xl text-right md:text-center md:ml-60 lg:ml-80 font-editorial lg:text-7xl xl:text-8xl 2xl:text-9xl">Grow. Perform.</h4>
             </div>
-            <x-hr class="border-white" />
         </div>
+        <x-hr class="border-white" />
     </section>
 </x-layouts.app>
