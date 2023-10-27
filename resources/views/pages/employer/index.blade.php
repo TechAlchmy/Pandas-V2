@@ -120,10 +120,10 @@ name('employer');
                         We only offer targeted benefits that have a positive impact on engaging, retaining, and
                         attracting employees where they live, work, and play—from discounts on rent to zero-cost cell
                         phone plans to exclusive entertainment savings.
-
+                        <br />
+                        <br />
                         Panda People’s relationships with local and national vendors mean we can customize benefits that
                         make measurable impacts.
-
                     </p>
                     <div>
                         <x-link outlined href="/employer/resources">Get Started Today</x-link>
