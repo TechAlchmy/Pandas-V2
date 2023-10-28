@@ -22,7 +22,7 @@
                         <li><x-a href="/contact-us">Contact Us</x-a></li>
                         <li><x-a href="/employer">For Employers</x-a></li>
                     </ul>
-                    <ul class="space-y-2">
+                    <ul class="flex lg:flex-col gap-2 items-center justify-center">
                         {{-- <li><x-a href="/">@svg('fab-linkedin', 'w-5 h-5')</x-a></li>
                         <li><x-a href="/benefits">@svg('fab-instagram', 'w-5 h-5')</x-a></li>
                         <li><x-a href="/deals">@svg('fab-facebook', 'w-5 h-5')</x-a></li>
