@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Date::use(CarbonImmutable::class);
+        // Date::use(CarbonImmutable::class);
         Model::unguard();
         Model::shouldBeStrict(!app()->isProduction());
         Relation::enforceMorphMap(ModelFinder::all()->all());
