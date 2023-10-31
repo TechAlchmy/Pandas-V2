@@ -27,10 +27,11 @@ class ListEnvVars extends ListRecords
                 ->action(function ($action, $data) {
                     try {
                         Mail::to($data['email'])->send(new TestMail);
+                        $action->success();
                     } catch (\Throwable $e) {
                         logger()->error($e->getMessage());
+                        $action->failure();
                     }
-                    $action->success();
                 }),
         ];
     }
