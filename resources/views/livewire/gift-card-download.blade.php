@@ -16,7 +16,7 @@
             <b>Card Number</b><br /> {{ $gift['cardNumber'] ?? 'N/A' }}
         </div>
     </div>
-
+    <hr />
     <div class="scan-code">
         <b>Scan Code</b><br />
         <img src="{{ barCodeGenerator($gift['cardNumber'])}}" style="height: 40px;" alt="Scan Code Image">
@@ -31,7 +31,7 @@
         border-radius: 5px;
         padding: 10px;
         background-color: #fff;
-        border: 2px solid #333;
+        border: 2px solid #e0e0e0;
         /* This line adds the border */
         max-width: 75%;
         /* This line ensures the card doesn't go beyond 60% width */
@@ -69,7 +69,8 @@
     }
 
     .scan-code {
-        margin-top: 10px;
+        margin-top: 5px;
         margin-bottom: 5px;
+        text-align: center;
     }
 </style>
