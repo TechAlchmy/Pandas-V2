@@ -13,7 +13,7 @@
             <br /> ${{ $gift['amount'] ?? 'N/A' }}<br /><br />
             <b>Access Number</b>
             <br /> {{ $gift['pin'] ?? 'N/A' }}<br /> <br />
-            <b>Card Number</b><br /> {{ $gift['cardNumber'] ?? 'N/A' }}
+            <b>Card Number</b><br /> {{ substr($gift['cardNumber'], 0, -1 * strlen($gift['pin']))}}
         </div>
     </div>
     <hr style="border: 1px solid #e0e0e0" />

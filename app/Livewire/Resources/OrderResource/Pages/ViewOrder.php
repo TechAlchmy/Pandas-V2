@@ -50,33 +50,17 @@ class ViewOrder extends Component implements HasForms, HasInfolists
 
     public $id;
 
-    public function downloadGiftCard()
+    public $showDownload = true;
+
+    public function downloadGiftCard($downloadKey = 0)
     {
-        // this should have code to download the gift card using js as using DomPDF is not able to render the cards properly
-
-        $orderQueue = $this->record->orderQueue;
-        // $pdf = Pdf::loadView(
-        //     'livewire.gift-card',
-        //     [
-        //         'orderQueue'  => $this->record->orderQueue,
-        //         'size' => 'lg'
-        //     ]
-        // )
-        //     ->setPaper('a5', 'landscape');
-
-        return response()->streamDownload(function () use ($orderQueue) {
+        return response()->streamDownload(function () use ($downloadKey) {
             echo Pdf::loadHtml(
-                // Use a different blade for this which is supported by DomPDF
                 Blade::render('livewire.gift-card-download', [
-                    'gift'  => $this->record->orderQueue->gifts[0]
+                    'gift'  => $this->record->orderQueue->gifts[$downloadKey]
                 ])
             )->stream();
-        }, mt_rand(10000000, 99999999) . '.pdf');
-
-        // $fileName = 'card_' . time() . '_' . $orderQueue->id . '.pdf';
-        // Storage::put('public/temp/' . $fileName, $pdf->stream());
-        // return Storage::download('public/temp/' . $fileName);
-        // This needs to be deleted using a job probably 5 minutes after creating
+        }, mt_rand(10000000000000, 99999999999999) . '.pdf');
     }
 
     public function viewInfolist(Infolist $infolist)

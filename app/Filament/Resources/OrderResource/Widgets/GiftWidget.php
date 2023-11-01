@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Blade;
 
 class GiftWidget extends Widget
 {
-    // protected static string $view = 'filament.resources.order-resource.widgets.gift-widget';
     protected static string $view = 'livewire.gift-card';
 
     public ?Model $record = null;
@@ -22,10 +21,6 @@ class GiftWidget extends Widget
 
     protected static ?int $sort = 1;
 
-    // protected function getViewData(): array
-    // {
-    //     return $this->record?->orderQueue?->toArray();
-    // }
 
     public function render(): View
     {
@@ -35,15 +30,14 @@ class GiftWidget extends Widget
         ]);
     }
 
-    public function downloadGiftCard()
+    public function downloadGiftCard($downloadKey = 0)
     {
-        return response()->streamDownload(function () {
+        return response()->streamDownload(function () use ($downloadKey) {
             echo Pdf::loadHtml(
-                // Use a different blade for this which is supported by DomPDF
                 Blade::render('livewire.gift-card-download', [
-                    'gift'  => $this->record->orderQueue->gifts[0]
+                    'gift'  => $this->record->orderQueue->gifts[$downloadKey]
                 ])
             )->stream();
-        }, mt_rand(10000000, 99999999) . '.pdf');
+        }, mt_rand(10000000000000, 99999999999999) . '.pdf');
     }
 }
