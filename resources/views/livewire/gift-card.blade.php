@@ -17,7 +17,7 @@
                                         {{$discount?->name}}
                                     </h3>
                                 </div>
-                                <div class="download-button-container">
+                                <div class="download-button-container" x-show="$wire.showDownload">
                                     <button wire:loading.remove wire:click="downloadGiftCard" class="hover:underline" id="generate_pdf">Download</button>
                                     <span wire:loading>Downloading...</span>
                                 </div>

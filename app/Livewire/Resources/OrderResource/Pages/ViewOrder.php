@@ -35,6 +35,8 @@ use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconPosition;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Notification as FacadesNotification;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Throwable;
@@ -65,9 +67,8 @@ class ViewOrder extends Component implements HasForms, HasInfolists
         return response()->streamDownload(function () use ($orderQueue) {
             echo Pdf::loadHtml(
                 // Use a different blade for this which is supported by DomPDF
-                Blade::render('livewire.gift-card', [
-                    'orderQueue'  => $this->record->orderQueue,
-                    'size' => 'lg'
+                Blade::render('livewire.gift-card-download', [
+                    'gift'  => $this->record->orderQueue->gifts[0]
                 ])
             )->stream();
         }, mt_rand(10000000, 99999999) . '.pdf');
