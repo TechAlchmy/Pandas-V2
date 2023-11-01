@@ -1,5 +1,5 @@
 <div>
-    @foreach ($orderQueue->gifts ?? [] as $gift)
+    @foreach ($orderQueue->gifts ?? [] as $downloadKey => $gift)
     @php($discount = App\Models\Discount::firstWhere('code', $gift['contentProviderCode']))
 
     <div style="--cols-default: repeat(1, minmax(0, 1fr));" class="grid grid-cols-[--cols-default] gap-4 mb-5">
@@ -17,7 +17,10 @@
                                         {{$discount?->name}}
                                     </h3>
                                 </div>
-                                <button wire:click="downloadInvoice" class=" text-blue-500 hover:underline">Download</button>
+                                <div class="download-button-container" x-show="$wire.showDownload">
+                                    <button wire:loading.remove wire:click="downloadGiftCard('{{ $downloadKey }}')" class="hover:underline" id="generate_pdf">Download</button>
+                                    <span wire:loading>Downloading...</span>
+                                </div>
                             </header>
                             <div class="fi-section-content-ctn border-t border-gray-200 dark:border-white/10">
                                 <div class="fi-section-content p-6">
@@ -212,6 +215,5 @@
         </li>
         <!--[if ENDBLOCK]><![endif]-->
     </div>
-
     @endforeach
 </div>
