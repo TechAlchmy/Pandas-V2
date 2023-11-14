@@ -188,6 +188,11 @@ class DiscountResource extends Resource
                         DiscountVoucherTypeEnum::DefinedAmountsGiftCard->value,
                     ]))
                     ->tabs([
+                        Forms\Components\Tabs\Tab::make('Terms & Conditions')
+                            ->schema([
+                                Forms\Components\Textarea::make('terms')
+                                    ->default(fn($get) => DiscountVoucherTypeEnum::tryFrom($get('voucher_type'))?->getDefaultTermsAndConditions()),
+                            ]),
                         Forms\Components\Tabs\Tab::make('Amounts')
                             ->schema([
                                 Forms\Components\TagsInput::make('amount')
