@@ -2,6 +2,7 @@
     <div x-show="!$wire.isEditing" class="grid grid-cols-1 lg:grid-cols-4 gap-6 border-t pt-4">
         <div>
             <h2 class="text-xl font-bold">{{ auth()->user()->name }}</h2>
+            <button class="underline" x-on:click="$wire.$toggle('isEditing')">Edit</button>
         </div>
         <div class="space-y-2">
             <div>
