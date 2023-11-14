@@ -215,6 +215,9 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                         Infolists\Components\TextEntry::make('total')
                             ->getStateUsing(fn ($record) => $record->total / 100)
                             ->money('USD'),
+                        Infolists\Components\TextEntry::make('discount.terms')
+                            ->columnSpanFull()
+                            ->size(TextEntrySize::ExtraSmall),
                     ]),
             ]);
     }
