@@ -186,6 +186,7 @@ class ViewDeal extends Component implements HasActions, HasForms
                     'uuid' => $data['xInvoice'],
                     'user_id' => auth()->id(),
                     'order_status' => OrderStatus::Processing,
+                    'checkout_email' => data_get($data, 'xEmail'),
                     'payment_status' => PaymentStatus::tryFrom((string) $response->json('xStatus')),
                     'cardknox_refnum' => $response->json('xRefNum'),
                     'payment_method' => 'card',

@@ -209,6 +209,7 @@ class CreateOrder extends Component implements HasForms, HasActions
                 ->create([
                     'uuid' => $data['xInvoice'],
                     'user_id' => auth()->id(),
+                    'checkout_email' => data_get($data, 'xEmail'),
                     'order_status' => OrderStatus::Processing,
                     'payment_status' => PaymentStatus::tryFrom((string) $response->json('xStatus')),
                     'cardknox_refnum' => $response->json('xRefNum'),
