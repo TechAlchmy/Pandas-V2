@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\EnvVar;
 use App\Services\CartService;
 use Carbon\CarbonImmutable;
 use Filament\Support\Colors\Color;
@@ -33,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
         // Date::use(CarbonImmutable::class);
         Model::unguard();
         Model::shouldBeStrict(!app()->isProduction());
-        Relation::enforceMorphMap(ModelFinder::all()->all());
+        Relation::enforceMorphMap(ModelFinder::all()->reject(fn($model) => in_array($model, [EnvVar::class]))->all());
         FilamentColor::register([
             'primary' => Color::Neutral,
         ]);
