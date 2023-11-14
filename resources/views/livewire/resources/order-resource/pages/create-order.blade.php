@@ -54,9 +54,12 @@
                                     </div>
                                 </div>
 
-                                <div class="flex justify-end gap-6">
+                                <div class="flex justify-end gap-6 mt-4">
                                     {{ ($this->removeItem)(['id' => $id]) }}
                                     {{ ($this->saveItem)(['id' => $id]) }}
+                                    <div>
+                                        <x-discount-terms :record="$item['itemable']" />
+                                    </div>
                                 </div>
                             </div>
                         @endforeach

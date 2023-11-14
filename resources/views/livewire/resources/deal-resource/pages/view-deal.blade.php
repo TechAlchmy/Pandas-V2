@@ -23,6 +23,9 @@
                 @if ($this->record->excerpt)
                     <div>{{ $this->record->excerpt }}</div>
                 @endif
+                <div>
+                    <x-discount-terms :record="$this->record" />
+                </div>
                 <div class="flex gap-6">
                     @if ($this->record->voucher_type == \App\Enums\DiscountVoucherTypeEnum::DefinedAmountsGiftCard)
                         <div x-data class="space-y-6">
