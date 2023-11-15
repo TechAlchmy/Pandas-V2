@@ -1,4 +1,5 @@
 @import '../../node_modules/swiper/swiper-bundle.css';
+@import '../../node_modules/swiper/modules/autoplay.min.css';
 @font-face {
     font-family: "Aeonik";
     src: url("../../public/fonts/Aeonik-Regular.woff2") format("woff2"),
