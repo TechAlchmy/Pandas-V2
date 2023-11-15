@@ -25,6 +25,13 @@
                 @endif
                 <div>
                     <x-discount-terms :record="$this->record" />
+                    <p>
+                        @if ($this->record->is_refundable)
+                            <small>This deal is refundable</small>
+                        @else
+                            <small>This deal is non-refundable</small>
+                        @endif
+                    </p>
                 </div>
                 <div class="flex gap-6">
                     @if ($this->record->voucher_type == \App\Enums\DiscountVoucherTypeEnum::DefinedAmountsGiftCard)
