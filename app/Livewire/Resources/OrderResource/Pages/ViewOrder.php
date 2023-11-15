@@ -208,6 +208,7 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                             ]))
                             ->url(fn ($record) => route('deals.show', ['id' => $record->discount->slug]))
                             ->label('Name'),
+                            ->helperText(fn($record) => new HtmlString($record->redemption_info)),
                         Infolists\Components\TextEntry::make('amount')
                             ->getStateUsing(fn ($record) => $record->amount / 100)
                             ->money('USD'),
