@@ -295,6 +295,13 @@ class DiscountResource extends Resource
                     ->columnSpanFull(),
                 Forms\Components\Tabs::make('Heading')
                     ->tabs([
+                        Forms\Components\Tabs\Tab::make('Terms & Conditions')
+                            ->schema([
+                                Forms\Components\Toggle::make('is_refundable')
+                                    ->default(false),
+                                Forms\Components\Textarea::make('terms')
+                                    ->default(fn($get) => DiscountVoucherTypeEnum::tryFrom($get('voucher_type'))?->getDefaultTermsAndConditions()),
+                            ]),
                         Forms\Components\Tabs\Tab::make('Tags')
                             ->schema([
                                 Forms\Components\Select::make('tag_id')
