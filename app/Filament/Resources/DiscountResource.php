@@ -196,8 +196,8 @@ class DiscountResource extends Resource
                         Forms\Components\Tabs\Tab::make('Amounts')
                             ->schema([
                                 Forms\Components\TagsInput::make('amount')
-                                    ->formatStateUsing(fn ($state) => array_map(fn ($amount) => $amount / 100, $state))
-                                    ->dehydrateStateUsing(fn ($state) => array_map(fn ($amount) => $amount * 100, $state))
+                                    ->formatStateUsing(fn($state) => array_map(fn($amount) => $amount / 100, $state ?? []))
+                                    ->dehydrateStateUsing(fn($state) => array_map(fn($amount) => $amount * 100, $state ?? []))
                                     ->placeholder('Input amounts')
                                     ->splitKeys(['Tab', ' ', ','])
                                     ->tagPrefix('$')
