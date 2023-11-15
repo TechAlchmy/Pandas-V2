@@ -8,7 +8,8 @@ use Filament\Support\Contracts\HasLabel;
 
 enum OrderStatus: string implements HasLabel
 {
-    use Options, Values;
+    use Options;
+    use Values;
 
     case Pending = 'pending';
     case Processing = 'processing';
@@ -26,7 +27,9 @@ enum OrderStatus: string implements HasLabel
     public static function getOptions()
     {
         return collect(self::cases())
-            ->mapWithKeys(fn ($type) => [$type->name => $type->value]);
+            ->mapWithKeys(fn($type) => [$type->name => $type->value]);
+    }
+
     public function getLabel(): ?string
     {
         return str($this->name)->headline();
