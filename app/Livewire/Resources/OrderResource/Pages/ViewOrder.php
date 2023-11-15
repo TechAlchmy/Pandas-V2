@@ -109,8 +109,8 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                     ->columnSpanFull()
                     ->columns(['default' => 2, 'md' => 4, 'lg' => 5])
                     ->hintAction(Infolists\Components\Actions\Action::make('refund')
-                        ->fillForm(fn ($record) => [
-                            'order_details' => $record->orderDetails,
+                        ->fillForm(fn($record) => [
+                            'order_details' => $record->orderDetails->where(fn($orderDetail) => $orderDetail->discount->is_refundable),
                         ])
                         ->form(fn ($record) => [
                             Forms\Components\Repeater::make('order_details')
@@ -216,6 +216,7 @@ class ViewOrder extends Component implements HasForms, HasInfolists
                             ->getStateUsing(fn ($record) => $record->total / 100)
                             ->money('USD'),
                         Infolists\Components\TextEntry::make('discount.terms')
+                            ->helperText(fn($record) => $record->discount->is_refundable ? 'This discount is refundable' : 'This discount is non-refundable')
                             ->columnSpanFull()
                             ->size(TextEntrySize::ExtraSmall),
                     ]),
