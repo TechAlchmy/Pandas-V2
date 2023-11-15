@@ -140,7 +140,7 @@ class OrderResource extends Resource
     public static function getTableColumns(): array
     {
         return [
-            Tables\Columns\TextColumn::make('order_column')
+            Tables\Columns\TextColumn::make('uuid')
                 ->label('Order Number')
                 ->sortable()
                 ->searchable(),
