@@ -19,6 +19,13 @@
                     </x-button>
                 </form>
             </div>
+            <div class="h-12"></div>
+            <div class="items-center gap-2 lg:flex">
+                <p class="my-10">Already registered?<br> Sign in now.</p>
+                <div>
+                    <x-link href="/login" outlined size="lg">Sign in</x-link>
+                </div>
+            </div>
         </div>
     </div>
 </section>
