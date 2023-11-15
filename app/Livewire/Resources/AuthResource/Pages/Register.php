@@ -89,7 +89,7 @@ class Register extends Component implements HasForms
 
         session()->regenerate();
 
-        return redirect()->intended();
+        return redirect()->to('/');
     }
 
     public function form(Form $form): Form
