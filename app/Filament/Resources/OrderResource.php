@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\OrderResource\RelationManagers\OrderDetailsRelationManager;
 use App\Forms\Components\AuditableView;
 use Filament\Tables\Actions\Action;
+use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 
 class OrderResource extends Resource
@@ -119,9 +120,9 @@ class OrderResource extends Resource
                         blank: fn (Builder $query) => $query->withoutTrashed(),
                     ),
                 SelectFilter::make('order_status')
-                    ->options(collect(OrderStatus::getOptions()))
-                    ->label(''),
+                    ->options(OrderStatus::class),
             ])
+            ->filtersLayout(FiltersLayout::AboveContent)
             ->headerActions([
                 Tables\Actions\Action::make('refresh')
                     ->action(function ($livewire) {
