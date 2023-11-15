@@ -37,6 +37,10 @@ class ManagementPanelProvider extends PanelProvider
                     ->visible(fn () => filament()->auth()->user()->is_admin)
                     ->label('Return to admin')
                     ->url('/admin/organizations'),
+                MenuItem::make()
+                    ->url('/')
+                    ->icon('heroicon-o-link')
+                    ->label('Return to site'),
             ])
             ->colors([
                 'primary' => Color::Neutral,
