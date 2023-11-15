@@ -70,16 +70,14 @@
                                     </div>
                                 </div>
                             </div>
-                            @if (intval($this->amount) * 100 >= $this->record->bh_min && intval($this->amount) * 100 <= $this->record->bh_max)
-                                <div class="flex items-center gap-6">
-                                    <x-button class="hover:bg-panda-green" x-on:click="$wire.validateOrder(true)" outlined>
-                                        {{ $this->record->cta }}
-                                    </x-button>
-                                    <x-button class="hover:bg-panda-green" x-data x-on:click="$wire.validateOrder()" outlined size="lg">
-                                        Buy Now
-                                    </x-button>
-                                </div>
-                            @endif
+                            <div class="flex items-center gap-6">
+                                <x-button class="hover:bg-panda-green" x-on:click="$wire.validateOrder(true)" outlined>
+                                    {{ $this->record->cta }}
+                                </x-button>
+                                <x-button class="hover:bg-panda-green" x-data x-on:click="$wire.validateOrder()" outlined size="lg">
+                                    Buy Now
+                                </x-button>
+                            </div>
                         </div>
                     @endif
                     @if ($this->record->voucher_type == \App\Enums\DiscountVoucherTypeEnum::ExternalLink)
