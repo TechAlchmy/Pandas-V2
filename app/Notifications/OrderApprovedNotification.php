@@ -32,7 +32,7 @@ class OrderApprovedNotification extends Notification implements ShouldQueue
         return (new MailMessage)
                     ->line('Thank you for your purchase!')
                     ->line('Order #' . $this->order->order_column)
-                    ->line('Total $' . $this->order->order_total)
+                    ->line('Total $' . $this->order->order_total / 100)
                     ->action('View Orders', route('dashboard', ['activeTab' => 4]))
                     ->line('Thank you for using panda!');
     }
