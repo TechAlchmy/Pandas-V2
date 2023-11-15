@@ -70,8 +70,8 @@
                                     </div>
                                 </div>
                             </div>
-                            @if (($this->amount * 100) >= $this->record->bh_min && ($this->amount * 100) <= $this->record->bh_max)
-                                <div class="flex gap-6 items-center">
+                            @if (intval($this->amount) * 100 >= $this->record->bh_min && intval($this->amount) * 100 <= $this->record->bh_max)
+                                <div class="flex items-center gap-6">
                                     <x-button class="hover:bg-panda-green" x-on:click="$wire.validateOrder(true)" outlined>
                                         {{ $this->record->cta }}
                                     </x-button>
