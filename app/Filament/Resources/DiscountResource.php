@@ -301,6 +301,8 @@ class DiscountResource extends Resource
                                     ->default(false),
                                 Forms\Components\Textarea::make('terms')
                                     ->default(fn($get) => DiscountVoucherTypeEnum::tryFrom($get('voucher_type'))?->getDefaultTermsAndConditions()),
+                                Forms\Components\Textarea::make('redemption_info')
+                                    ->default(fn($get) => DiscountVoucherTypeEnum::tryFrom($get('voucher_type'))?->getRedemptionInfo()),
                             ]),
                         Forms\Components\Tabs\Tab::make('Tags')
                             ->schema([

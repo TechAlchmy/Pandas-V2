@@ -46,4 +46,15 @@ enum DiscountVoucherTypeEnum: int
             default => 'Get it now!',
         };
     }
+
+    public function getRedemptionInfo()
+    {
+        return match ($this) {
+            self::FixedDiscountCode, self::GeneratedDiscountCode => 'Get Code',
+            self::ExternalApiLink, self::ExternalLink => 'Go to link',
+            self::DefinedAmountsGiftCard => 'Add to cart',
+            self::TopUpGiftCard => 'Top up Gift Card',
+            default => 'Get it now!',
+        };
+    }
 }
