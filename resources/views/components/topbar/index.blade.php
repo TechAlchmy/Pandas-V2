@@ -133,8 +133,8 @@
                 </div>
             </div> --}}
                 <x-link href="/" :outlined="request()->is('/')">Home</x-link>
-                <x-link href="/benefits" :outlined="request()->is('benefits')">Benefits</x-link>
                 <x-link href="/deals" :outlined="request()->is('deals')">Deals</x-link>
+                <x-link href="/benefits" :outlined="request()->is('benefits')">Benefits</x-link>
                 <x-link href="/help" :outlined="request()->is('help')">Help</x-link>
             </div>
             <div class="hidden gap-3 lg:flex lg:flex-1 lg:justify-end">
@@ -189,8 +189,8 @@
                             </div>
                         </div> --}}
                         <x-a href="/" class="block px-3 py-2 -mx-3 text-2xl font-light leading-7 text-gray-900 rounded-lg hover:bg-gray-50">Home</x-a>
-                        <x-a href="/benefits" class="block px-3 py-2 -mx-3 text-2xl font-light leading-7 text-gray-900 rounded-lg hover:bg-gray-50">Benefits</x-a>
                         <x-a href="/deals" class="block px-3 py-2 -mx-3 text-2xl font-light leading-7 text-gray-900 rounded-lg hover:bg-gray-50">Deals</x-a>
+                        <x-a href="/benefits" class="block px-3 py-2 -mx-3 text-2xl font-light leading-7 text-gray-900 rounded-lg hover:bg-gray-50">Benefits</x-a>
                         <x-a href="/help" class="block px-3 py-2 -mx-3 text-2xl font-light leading-7 text-gray-900 rounded-lg hover:bg-gray-50">Help</x-a>
                         <x-a href="/contact-us" class="block px-3 py-2 -mx-3 text-2xl font-light leading-7 text-gray-900 rounded-lg hover:bg-gray-50">Contact Us</x-a>
                         <x-a href="/employer" class="block px-3 py-2 -mx-3 text-2xl font-light leading-7 text-gray-900 rounded-lg hover:bg-gray-50">For Employers</x-a>
