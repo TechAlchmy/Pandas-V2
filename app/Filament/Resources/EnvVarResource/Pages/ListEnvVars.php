@@ -8,6 +8,7 @@ use Filament\Forms;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Mail;
 
 class ListEnvVars extends ListRecords
@@ -18,6 +19,11 @@ class ListEnvVars extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
+            Actions\Action::make('artisan:migrate')
+                ->action(function ($action) {
+                    Artisan::call('migrate', ['--force' => true]);
+                    $action->success();
+                }),
             Actions\Action::make('test_mail')
                 ->form([
                     Forms\Components\TextInput::make('email')
