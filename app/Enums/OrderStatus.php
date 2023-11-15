@@ -4,8 +4,9 @@ namespace App\Enums;
 
 use App\Enums\Concerns\Options;
 use App\Enums\Concerns\Values;
+use Filament\Support\Contracts\HasLabel;
 
-enum OrderStatus: string
+enum OrderStatus: string implements HasLabel
 {
     use Options, Values;
 
@@ -26,5 +27,8 @@ enum OrderStatus: string
     {
         return collect(self::cases())
             ->mapWithKeys(fn ($type) => [$type->name => $type->value]);
+    public function getLabel(): ?string
+    {
+        return str($this->name)->headline();
     }
 }
