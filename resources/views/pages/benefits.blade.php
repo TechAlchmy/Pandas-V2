@@ -59,7 +59,7 @@ name('benefits');
                     </p>
                 </div>
                 <div class="space-y-6">
-                    <h3 class="text-xl">Here's more what we offers:</h3>
+                    <h3 class="text-xl">More of what we offer:</h3>
                     <ul x-data="{ activeAccordion: null }" class="divide-y">
                         @php
                             $items = [
