@@ -59,7 +59,12 @@
             if (data.cardNumberFormattedLength <= 0) {
                 $refs.cardnumber.style.color = 'black';
             } else {
-                $refs.cardnumber.style.color = data.cardNumberIsValid ? 'black' : 'red';
+                if (data.cardNumberIsValid) {
+                    $refs.cardnumber.style.color = 'black';
+                } else {
+                    $refs.cardnumber.style.color = 'red';
+                    $refs.cardnumber.value = $refs.cardnumber.value.slice(0, -1)
+                }
             }
             if (data.lastIfieldChanged === 'cvv'){
                 if (data.issuer === 'unknown' || data.cvvLength <= 0) {
@@ -106,6 +111,7 @@
                     </div>
                     <iframe class="max-w-[18.2rem] max-h-[1.5rem]" data-ifields-id="card-number" data-ifields-placeholder="Card Number"
                         src="https://cdn.cardknox.com/ifields/{{ config('services.cardknox.ifields.version') }}/ifield.htm"></iframe>
+                    <iframe class="max-w-[18.2rem] max-h-[1.5rem]" data-ifields-id="card-number" data-ifields-placeholder="Card Number" src="https://cdn.cardknox.com/ifields/{{ config('services.cardknox.ifields.version') }}/ifield.htm"></iframe>
                 </div>
                 <div x-show="!useNew && cardknox_payment_method.cc != null" class="place-self-center grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div>
