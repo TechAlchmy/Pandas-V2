@@ -5,7 +5,7 @@
         <img class="md:hidden -mx-32 min-w-[150vw]" src="{{ getMediaPath('assets/guest-index-image-mobile.png') }}" />
         <div class="flex flex-col lg:flex-row-reverse">
             <div class="-mt-32 -mr-20 md:-mt-20 lg:-mt-40 lg:-ml-60 2xl:-mt-48 md:max-w-[90vw] md:mx-auto">
-                <img class="order-1 lg:order-0 2xl:min-w-[35vw]" src="{{ getMediaPath('assets/guest-grow.png') }}" />
+                <img class="order-1 lg:order-0 2xl:min-w-[25vw]" src="{{ getMediaPath('assets/guest-grow.png') }}" />
             </div>
             <div>
                 <div class="w-4/5 lg:w-3/5 flex flex-col md:flex-row  p-[50px] mt-[50px] text-container">
