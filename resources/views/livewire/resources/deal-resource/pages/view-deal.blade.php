@@ -62,7 +62,7 @@
                             <div class="w-full">
                                 <div class="flex items-center space-x-1 w-full">
                                     <span>$</span>
-                                    <x-input class="w-full !border-solid border-black p-2" type="number" wire:model.live.debounce.300ms="amount" placeholder="Enter amount..." :min="$this->record->bh_min / 100" :max="$this->record->bh_max / 100" />
+                                    <x-input class="w-full !border-solid border-black p-2" type="number" wire:model="amount" placeholder="Enter amount..." :min="$this->record->bh_min / 100" :max="$this->record->bh_max / 100" />
                                 </div>
                                 <div class="flex items-center gap-1 w-full text-xs mt-2 text-gray-300">
                                     <span>Min: {{ \Filament\Support\format_money($this->record->bh_min / 100, 'USD') }}</span>
@@ -78,9 +78,12 @@
                                 Buy Now
                             </x-button>
                             <div wire:loading wire:target="validateOrder">
-                                <!-- Full-Screen Loader Overlay -->
                                 <div class="loader-overlay">
-                                    <div class="loader"></div>
+                                    <svg class="bounce-loader h-8 md:h-12 w-auto text-black hover:animate-bounce" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="none" width="82.487" height="37.987" viewBox="0 0 82.487 37.987">
+                                        <path id="Path_2" data-name="Path 2" d="M25.757,25.967c6.915-9.755,8.121-20.783,2.687-24.635s-15.438.937-22.356,10.69S-2.03,32.807,3.4,36.656s15.441-.934,22.356-10.69" transform="translate(0 0)"></path>
+                                        <path id="Path_3" data-name="Path 3" d="M24.954,25.967c-6.915-9.755-8.121-20.783-2.687-24.635s15.438.937,22.356,10.69,8.118,20.786,2.687,24.635-15.441-.934-22.356-10.69" transform="translate(31.777 0)"></path>
+                                    </svg>
+                                    </svg>
                                 </div>
                             </div>
                         </div>
@@ -156,30 +159,25 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-color: rgba(0, 0, 0, 0.2);
+            background-color: rgba(0, 0, 0, 0.5);
             /* Semi-transparent background */
             z-index: 9999;
             /* High z-index to be on top of other content */
         }
 
-        .loader {
-            border: 4px solid #f3f3f3;
-            /* Light grey border */
-            border-top: 4px solid #3498db;
-            /* Blue border */
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 2s linear infinite;
+        .bounce-loader {
+            width: 50px;
+            height: 50px;
+            animation: bounce 1s infinite alternate;
         }
 
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
+        @keyframes bounce {
+            from {
+                transform: translateY(0);
             }
 
-            100% {
-                transform: rotate(360deg);
+            to {
+                transform: translateY(-20px);
             }
         }
     </style>
