@@ -27,13 +27,14 @@ class ListApiCalls extends ListRecords
     public function getTabs(): array
     {
         return [
-            null => \Filament\Resources\Components\Tab::make('All'),
-            'catalog' => \Filament\Resources\Components\Tab::make()
-                ->query(fn ($query) => $query->where('api', BlackHawkApiType::Catalog->value)),
+            null => \Filament\Resources\Components\Tab::make('Order APIs')
+                ->query(fn ($query) => $query->where('api', '<>', BlackHawkApiType::Catalog->value)),
             'bulk' => \Filament\Resources\Components\Tab::make()
                 ->query(fn ($query) => $query->where('api', BlackHawkApiType::BulkOrder->value)),
             'realtime' => \Filament\Resources\Components\Tab::make()
-                ->query(fn ($query) => $query->where('api', BlackHawkApiType::RealtimeOrder->value))
+                ->query(fn ($query) => $query->where('api', BlackHawkApiType::RealtimeOrder->value)),
+            'catalog' => \Filament\Resources\Components\Tab::make()
+                ->query(fn ($query) => $query->where('api', BlackHawkApiType::Catalog->value))
         ];
     }
 }

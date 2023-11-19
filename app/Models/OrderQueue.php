@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\BlackHawkOrderStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class OrderQueue extends Model
@@ -22,6 +23,12 @@ class OrderQueue extends Model
     {
         return $this->belongsTo(Order::class);
     }
+
+    public function apiCall(): HasOne
+    {
+        return $this->hasOne(ApiCall::class);
+    }
+
 
     public function scopeFlagged($query)
     {

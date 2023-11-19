@@ -46,7 +46,7 @@ class BlackHawkService
     }
 
     // This is the catalog endpoint for egift cards
-    public static function catalog(?string $previousReq)
+    public static function catalog()
     {
         $instance = static::instance();
 
@@ -64,7 +64,6 @@ class BlackHawkService
             'request_id' => $requestId,
             'response' => null,
             'success' => null,
-            'previous_request' => $previousReq ?? null,
             'created_at' => now()
         ]);
 
@@ -78,7 +77,8 @@ class BlackHawkService
                 function ($response) use (&$result) {
                     $result = [
                         'response' => $response->json(),
-                        'success' => $response->ok()
+                        'success' => $response->ok(),
+                        'status_code' => $response->status()
                     ];
                     ApiCall::where('api', 'catalog')->orderBy('id', 'desc')->first()->update($result);
                 }
@@ -130,7 +130,6 @@ class BlackHawkService
     //         'order_id' => $order->id,
     //         'response' => null,
     //         'success' => null,
-    //         'previous_request' => $previousReq ?? null,
     //         'created_at' => now(),
     //         'request' => $reqData
     //     ]);
@@ -213,7 +212,8 @@ class BlackHawkService
         $success = $promise->created() || $promise->accepted();
         $apiCall->update([
             'response' => $promise->json(),
-            'success' => $success
+            'success' => $success,
+            'status_code' => $promise->status()
         ]);
 
         $orderQueue->stop($success);
@@ -320,6 +320,7 @@ class BlackHawkService
                 'order_status' => $orderStatus,
                 'fetched_at' => now(),
                 'gifts' => $response['eGifts'] ?? $orderQueue->gifts,
+                'last_info' => $response
             ]);
 
             if ($orderStatus === BlackHawkOrderStatus::Complete->value) {

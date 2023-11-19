@@ -7,7 +7,12 @@ use App\Filament\Resources\OrderQueueResource\Pages;
 use App\Filament\Resources\OrderQueueResource\RelationManagers;
 use App\Models\OrderQueue;
 use Filament\Forms;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -28,16 +33,54 @@ class OrderQueueResource extends Resource
 
     protected static ?string $navigationGroup = 'Utility Management';
 
-    public static function infolist(Infolist $infolist): Infolist
+    // public static function infolist(Infolist $infolist): Infolist
+    // {
+    //     return $infolist
+    //         ->schema([
+    //             \Filament\Infolists\Components\TextEntry::make('order_id')
+    //                 ->inlineLabel()
+    //                 ->label('Order# :'),
+
+    //             \Filament\Infolists\Components\TextEntry::make('attempted_at')
+    //                 ->label('BH Order Attempted At :')
+    //                 ->dateTime()
+    //                 ->inlineLabel(),
+
+    //             \Filament\Infolists\Components\IconEntry::make('is_order_placed')
+    //                 ->label('Order Placed ?'),
+
+    //             \Filament\Infolists\Components\TextEntry::make('fetched_at')
+    //                 ->label('Card Info Fetched At :'),
+    //         ]);
+    // }
+
+    public static function form(Form $form): Form
     {
-        return $infolist
+        return $form
             ->schema([
-                \Filament\Infolists\Components\TextEntry::make('order_id')->label('Order#'),
+                TextInput::make('order_id')
+                    ->inlineLabel()->label('Order#'),
 
-                \Filament\Infolists\Components\TextEntry::make('attempted_at'),
+                DatePicker::make('created_at')
+                    ->native(false)
+                    ->displayFormat('Y-m-d H:i:s')
+                    ->inlineLabel()->label('Queue Created At'),
 
-                \Filament\Infolists\Components\IconEntry::make('is_order_placed')
-                    ->label('Order Placed?'),
+                DatePicker::make('attempted_at')
+                    ->native(false)
+                    ->displayFormat('Y-m-d H:i:s')
+                    ->inlineLabel()->label('BH Order Attempt'),
+
+                DatePicker::make('fetched_at')
+                    ->inlineLabel()
+                    ->label('Card Fetch Attempt')
+                    ->native(false)
+                    ->displayFormat('Y-m-d H:i:s'),
+
+                Textarea::make('last_info')
+                    ->label('Card Fetch API Response')
+                    ->columnSpanFull()
+                    ->rows(10),
             ]);
     }
 
@@ -64,9 +107,14 @@ class OrderQueueResource extends Resource
                     ->dateTime()
                     ->sortable(),
 
-                Tables\Columns\IconColumn::make('is_order_placed')->label('Order Placed ?')
-                    ->boolean(),
-
+                Tables\Columns\TextColumn::make('is_order_placed')
+                    ->label('Order Placed ?')
+                    ->formatStateUsing(fn ($record) => ($record->is_order_placed ? 'Yes' : 'No') . ' (' . $record->apiCall->status_code . ')')
+                    ->badge()
+                    ->color(fn ($state) => match ($state) {
+                        true => 'success',
+                        default => 'danger'
+                    }),
 
                 Tables\Columns\TextColumn::make('order_status')->label('Order Status')
                     ->formatStateUsing(fn ($record) => $record->orderStatus()),
@@ -91,8 +139,12 @@ class OrderQueueResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+
+
             ->paginated([25, 50, 100, 'all'])
+
             ->defaultSort('id', 'desc')
+
             ->filters([
                 Filter::make('flagged')
                     ->default(false)
@@ -101,6 +153,7 @@ class OrderQueueResource extends Resource
                     ->options(collect(BlackHawkOrderStatus::getOptions()))
                     ->label(''),
             ], layout: \Filament\Tables\Enums\FiltersLayout::AboveContent)
+
             ->actions([
                 Action::make('call')->label('Reset Queue')
                     ->icon('heroicon-o-play')
@@ -113,19 +166,21 @@ class OrderQueueResource extends Resource
                     })
                     ->visible(function (Model $record) {
                         return $record->allowResetFlag();
-                    })
-                // Tables\Actions\EditAction::make(),
+                    }),
+                Tables\Actions\ViewAction::make(),
             ])
+
             ->headerActions([
                 Tables\Actions\Action::make('refresh')
                     ->action(function ($livewire) {
                         $livewire->js('$wire.$refresh()');
                     }),
             ])
+
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                // Tables\Actions\BulkActionGroup::make([
+                //     Tables\Actions\DeleteBulkAction::make(),
+                // ]),
             ]);
     }
 
@@ -139,10 +194,15 @@ class OrderQueueResource extends Resource
     public static function getPages(): array
     {
         return [
-            'view' => Pages\ViewOrderQueue::route('/{record}'),
+            // 'view' => Pages\ViewOrderQueue::route('/{record}'), // This forces a modal to load
             'index' => Pages\ListOrderQueues::route('/'),
-            'create' => Pages\CreateOrderQueue::route('/create'),
+            // 'create' => Pages\CreateOrderQueue::route('/create'),
             // 'edit' => Pages\EditOrderQueue::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with('apiCall');
     }
 }

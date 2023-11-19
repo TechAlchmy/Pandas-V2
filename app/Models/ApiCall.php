@@ -35,11 +35,10 @@ class ApiCall extends Model
             : false;
     }
 
-    public function canRetry(): bool
-    {
-        return empty($this->previous_request)
-            && in_array($this->api, [
-                BlackHawkApiType::Catalog->value, BlackHawkApiType::RealtimeOrder->value
-            ]);
-    }
+    // public function canRetry(): bool
+    // {
+    //     return in_array($this->api, [
+    //         BlackHawkApiType::Catalog->value, BlackHawkApiType::RealtimeOrder->value
+    //     ]);
+    // }
 }

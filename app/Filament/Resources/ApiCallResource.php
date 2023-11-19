@@ -67,7 +67,7 @@ class ApiCallResource extends Resource
 
                 TextColumn::make('success')
                     ->badge()
-                    ->formatStateUsing(fn ($state) => $state ? 'OK' : 'X')
+                    ->formatStateUsing(fn ($record) => ($record->success ? 'OK' : 'X') . " ($record->status_code)")
                     ->color(fn ($state) => match ($state) {
                         true => 'success',
                         false => 'danger'
@@ -77,25 +77,27 @@ class ApiCallResource extends Resource
                 TernaryFilter::make('success'),
             ])
             ->actions([
-                Action::make('call')->label('Try Again')
-                    ->icon('heroicon-o-play')
-                    ->requiresConfirmation()
-                    ->modalContent(new HtmlString('Are you sure you want to call the api?'))
-                    ->action(function (Model $record) {
-                        if (!$record->success && $record->canRetry()) {
-                            match ($record->api) {
-                                'catalog' => FetchBlackHawk::dispatch($record->request_id),
-                                    // 'realtime_order' => BlackHawkService::order($record->order, $record->request_id),
-                                    // We no longer allow retrying order api, instead it is done by job
-                                default => null
-                            };
-                        }
-                    })
-                    ->visible(function (Model $record) {
-                        return $record->success !== true && $record->canRetry();
-                        // !== true because we hide if true or null
-                    })
-                    ->disabled(ApiCall::disabledApiButton()),
+                // Action::make('call')
+                //     ->label('Try Again')
+                //     ->icon('heroicon-o-play')
+                //     ->requiresConfirmation()
+                //     ->modalContent(new HtmlString('Are you sure you want to call the api?'))
+                //     ->action(function (Model $record) {
+                //         if (!$record->success && $record->canRetry()) {
+                //             match ($record->api) {
+                //                 'catalog' => FetchBlackHawk::dispatch(),
+                //                     // 'realtime_order' => BlackHawkService::order($record->order, $record->request_id),
+                //                     // We no longer allow retrying order api, instead it is done by job
+                //                 default => null
+                //             };
+                //         }
+                //     })
+                // ->visible(function (Model $record) {
+                //     return $record->success !== true && $record->canRetry();
+                //     // !== true because we hide if true or null
+                // })
+                // ->disabled(ApiCall::disabledApiButton()),
+                // We no longer need this at all since we can always use fetch new data option to fetch new catalog data
                 Tables\Actions\ViewAction::make(),
             ])
             ->defaultSort('id', 'desc')
@@ -106,9 +108,9 @@ class ApiCallResource extends Resource
                     }),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                // Tables\Actions\BulkActionGroup::make([
+                //     Tables\Actions\DeleteBulkAction::make(),
+                // ]),
             ]);
     }
 
@@ -124,7 +126,7 @@ class ApiCallResource extends Resource
         return [
             'index' => Pages\ListApiCalls::route('/'),
             // 'create' => Pages\CreateApiCall::route('/create'),
-            'edit' => Pages\EditApiCall::route('/{record}/edit'),
+            // 'edit' => Pages\EditApiCall::route('/{record}/edit'),
         ];
     }
 }
