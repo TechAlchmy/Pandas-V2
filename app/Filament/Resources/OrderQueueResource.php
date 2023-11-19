@@ -109,7 +109,8 @@ class OrderQueueResource extends Resource
 
                 Tables\Columns\TextColumn::make('is_order_placed')
                     ->label('Order Placed ?')
-                    ->formatStateUsing(fn ($record) => ($record->is_order_placed ? 'Yes' : 'No') . ' (' . $record->apiCall->status_code . ')')
+                    ->formatStateUsing(fn ($record) => ($record->is_order_placed ? 'Yes' : 'No')
+                        . ($record->apiCall ? ' (' . $record->apiCall?->status_code . ')' : ''))
                     ->badge()
                     ->color(fn ($state) => match ($state) {
                         true => 'success',

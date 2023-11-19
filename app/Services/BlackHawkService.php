@@ -276,6 +276,7 @@ class BlackHawkService
         $success = $promise->created() || $promise->accepted();
         $apiCall->update([
             'response' => $promise->json(),
+            'status_code' => $promise->status(),
             'success' => $success
         ]);
 
