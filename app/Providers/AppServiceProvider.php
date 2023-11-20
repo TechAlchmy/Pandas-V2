@@ -34,9 +34,9 @@ class AppServiceProvider extends ServiceProvider
         // Date::use(CarbonImmutable::class);
         Model::unguard();
         Model::shouldBeStrict(!app()->isProduction());
-        Relation::enforceMorphMap(ModelFinder::all()->reject(fn($model) => in_array($model, [EnvVar::class]))->all());
+        Relation::enforceMorphMap(ModelFinder::all()->reject(fn ($model) => in_array($model, [EnvVar::class]))->all());
         FilamentColor::register([
-            'primary' => Color::Neutral,
+            'primary' => Color::Neutral
         ]);
         $this->app->singleton(CartService::class, CartService::class);
     }

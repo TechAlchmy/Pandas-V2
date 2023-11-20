@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Concerns\InteractsWithAuditable;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
+use App\Notifications\SendUserOrderRefundInReview;
 use Brick\Money\Money;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -106,5 +107,45 @@ class Order extends Model implements Sortable
             $this->orderQueue()->create();
         }
         // We are not queing order in Order::boot() because this queing logic needs complex calculations such as if payment is successfull and order is placed
+    }
+
+    public function createBhRefundRequest()
+    {
+        $this->loadMissing('orderDetails.orderDetailRefund.discount.brand');
+
+        $refunds = [];
+        $this->orderDetails->each(function ($orderDetail) use (&$refunds) {
+
+            $refunds[] = OrderDetailRefund::query()
+                ->updateOrCreate([
+                    'order_detail_id' => $orderDetail->id
+                ], [
+                    'quantity' => $orderDetail->quantity,
+                    'note' => OrderDetailRefund::BH_FAILURE_NOTE,
+                    'created_by_id' => $this->user_id
+                ]);
+
+            // $refunds[] = $orderDetail->orderDetailRefund()->create([
+            //     'quantity' => $orderDetail->quantity,
+            //     'note' => OrderDetailRefund::BH_FAILURE_NOTE,
+            //     'created_by_id' => $this->user_id
+            // ]);
+        });
+
+        $lines = array_map(function ($refund) {
+            return implode(' - ', [
+                $refund->orderDetail->discount->brand->name,
+                $refund->orderDetail->discount->name,
+                'x' . $refund->quantity,
+                'Reason:' . $refund->note,
+            ]);
+        }, $refunds);
+
+        $this->user->notify(
+            new SendUserOrderRefundInReview(
+                orderNumber: $this->id,
+                item: $lines
+            )
+        );
     }
 }
