@@ -5,6 +5,7 @@
 sudo chmod -R 755 storage/
 sudo chmod -R 755 bootstrap/cache/
 sudo chmod -R 755 storage/framework/cache
+sudo chmod -R 755 storage/framework/cache/*.*
 
 sudo touch storage/logs/laravel.log
 sudo chmod -R 755 storage/logs/laravel.log
