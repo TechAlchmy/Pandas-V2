@@ -32,7 +32,8 @@ class OrderQueue extends Model
 
     public function scopeFlagged($query)
     {
-        return $query->where('created_at', '<=', now()->subDay())
+        return $query
+            ->where('created_at', '<=', now()->subDay())
             ->where(function ($q) {
                 $q->where('is_order_placed', true)
                     ->where('order_status', '<>', BlackHawkOrderStatus::Complete);

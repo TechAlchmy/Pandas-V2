@@ -88,7 +88,9 @@ class OrderQueueResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('order_id')->state(fn ($record) => $record->order_id ?: '-')
+                Tables\Columns\TextColumn::make('order_id')
+                    ->state(fn ($record) => $record->order_id ?: '-')
+                    ->label('Order#')
                     ->url(fn ($record) => $record->order_id ? route('filament.admin.resources.orders.edit', $record->order_id) : null),
 
                 Tables\Columns\TextColumn::make('order.order_total')
@@ -119,6 +121,7 @@ class OrderQueueResource extends Resource
 
                 Tables\Columns\TextColumn::make('order_status')->label('Order Status')
                     ->formatStateUsing(fn ($record) => $record->orderStatus()),
+                // TODO: This row should be colored
 
                 Tables\Columns\TextColumn::make('fetched_at')
                     ->label('Fetched at')
@@ -141,8 +144,15 @@ class OrderQueueResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
 
-
             ->paginated([25, 50, 100, 'all'])
+
+            ->recordClasses(fn (Model $record) => match ($record->order_status) {
+
+                BlackHawkOrderStatus::Default => 'bg-gray-100',
+                // BlackHawkOrderStatus::Complete => 'bg-green-100',
+                BlackHawkOrderStatus::Failure => 'bg-red-100',
+                default => null,
+            })
 
             ->defaultSort('id', 'desc')
 
@@ -204,6 +214,7 @@ class OrderQueueResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->with('apiCall');
+        return parent::getEloquentQuery()->with('apiCall')
+            ->when(request('order_id'), fn ($query) => $query->where('order_id', intval(request('order_id'))));
     }
 }

@@ -314,9 +314,15 @@ class BlackHawkService
             if (!empty($response['orderStatus'])) {
                 $orderStatus = $response['orderStatus'];
             } else {
-                $orderStatus = !empty($response['eGifts']) ? BlackHawkOrderStatus::Complete->value : BlackHawkOrderStatus::Default->value;
+                $orderStatus = !empty($response['eGifts'])
+                    ? BlackHawkOrderStatus::Complete->value
+                    : BlackHawkOrderStatus::Default->value;
             }
 
+            if ($orderStatus === BlackHawkOrderStatus::Failure->value) {
+                $order = $orderQueue->load('order.orderDetails.orderDetailRefund.discount.brand')->order;
+                $order->createBhRefundRequest();
+            }
             $orderQueue->update([
                 'order_status' => $orderStatus,
                 'fetched_at' => now(),

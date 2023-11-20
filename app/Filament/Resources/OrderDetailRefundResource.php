@@ -54,13 +54,24 @@ class OrderDetailRefundResource extends Resource
             ->defaultSort('created_at', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('orderDetail.order.order_column')
-                    ->label('Order Number')
+                    ->label('Order#')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->url(fn ($record, $state) => $record->note == OrderDetailRefund::BH_FAILURE_NOTE ? route('filament.admin.resources.order-queues.index', ['order_id' => $record->order->id]) : null)
+                    ->icon(fn ($record) => $record->note == OrderDetailRefund::BH_FAILURE_NOTE ? 'heroicon-o-information-circle' : null),
+
                 Tables\Columns\TextColumn::make('orderDetail.discount.brand.name')
                     ->searchable(),
+
                 Tables\Columns\TextColumn::make('orderDetail.discount.name')
                     ->searchable(),
+
+
+                Tables\Columns\TextColumn::make('note')
+                    ->limit(10)
+                    ->tooltip(fn ($state) => $state),
+                // ->icon('heroicon-o-information-circle'),
+
                 Tables\Columns\TextColumn::make('status')
                     ->tooltip(function ($record) {
                         if ($record->trashed()) {
@@ -80,15 +91,18 @@ class OrderDetailRefundResource extends Resource
                         'Approved' => 'success',
                         'In Review' => 'grey',
                     ]),
+
                 Tables\Columns\TextColumn::make('orderDetail.subtotal')
                     ->getStateUsing(fn ($record) => $record->orderDetail->subtotal / 100)
                     ->money('USD'),
+
                 Tables\Columns\TextColumn::make('orderDetail.total')
                     ->getStateUsing(fn ($record) => $record->orderDetail->total / 100)
                     ->money('USD'),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
-                    ->label('requested at')
+                    ->label('Requested at')
                     ->sortable(),
             ])
             ->filters(
@@ -125,6 +139,7 @@ class OrderDetailRefundResource extends Resource
             )
             ->actions([
                 // Tables\Actions\EditAction::make(),
+
                 Tables\Actions\Action::make('resolve_refund')
                     ->hidden(fn ($record) => filled($record->approved_at) || $record->trashed())
                     ->modalHeading(fn ($record) => \implode(' ', [
@@ -251,6 +266,7 @@ class OrderDetailRefundResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
+            ->with('order')
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);

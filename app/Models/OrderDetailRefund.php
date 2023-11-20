@@ -18,6 +18,8 @@ class OrderDetailRefund extends Model
     use BelongsToThrough;
     use InteractsWithAuditable;
 
+    const BH_FAILURE_NOTE = 'API Failure, Need to refund after reviewing';
+
     protected $casts = [
         'approved_at' => 'immutable_datetime',
     ];

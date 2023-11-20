@@ -15,7 +15,8 @@ class SendUserOrderRefundInReview extends Notification implements ShouldQueue
     public function __construct(
         protected $orderNumber,
         protected $item,
-    ) {}
+    ) {
+    }
 
     public function via(object $notifiable): array
     {
