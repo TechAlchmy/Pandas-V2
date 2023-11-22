@@ -166,7 +166,8 @@ class OrderQueueResource extends Resource
             ], layout: \Filament\Tables\Enums\FiltersLayout::AboveContent)
 
             ->actions([
-                Action::make('call')->label('Reset Queue')
+                Action::make('call')
+                    ->label('Reset Queue')
                     ->icon('heroicon-o-play')
                     ->requiresConfirmation()
                     ->modalContent(new HtmlString('This will move this order back to queue. Are you sure ?'))
