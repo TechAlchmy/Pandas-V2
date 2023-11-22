@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\BlackHawkOrderStatus;
+use App\Enums\PaymentStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -65,8 +66,13 @@ class OrderQueue extends Model
 
     public function allowResetFlag(): bool
     {
+        $this->loadMissing('order.orderDetails.orderDetailRefund');
         // If we already got the gifts, it means black hawk charged us money, so we can't allow resetting flag. Otherwise we will be charged twice.
-        return empty($this->gifts) && $this->created_at < now()->subDay();
+        return empty($this->gifts)
+            && $this->created_at < now()->subDay()
+            && $this->order->payment_status !== PaymentStatus::Refunded
+            && $this->order->orderDetails->pluck('orderDetailRefund')->filter()->count() === 0;
+        // We should not allow resetting flag if there is any orderDetailRefund pending (that is not deleted)
     }
 
     public function start(string $requestId): void
