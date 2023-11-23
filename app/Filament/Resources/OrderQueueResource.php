@@ -107,10 +107,12 @@ class OrderQueueResource extends Resource
 
                 Tables\Columns\TextColumn::make('attempted_at')
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
 
                 Tables\Columns\TextColumn::make('is_order_placed')
-                    ->label('Order Placed ?')
+                    ->label('BH Order?')
                     ->formatStateUsing(fn ($record) => ($record->is_order_placed ? 'Yes' : 'No')
                         . ($record->apiCall ? ' (' . $record->apiCall?->status_code . ')' : ''))
                     ->badge()
@@ -124,9 +126,11 @@ class OrderQueueResource extends Resource
                 // TODO: This row should be colored
 
                 Tables\Columns\TextColumn::make('fetched_at')
-                    ->label('Fetched at')
+                    ->label('BH Status Fetched at')
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

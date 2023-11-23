@@ -141,11 +141,15 @@ class Order extends Model implements Sortable
             ]);
         }, $refunds);
 
-        $this->user->notify(
-            new SendUserOrderRefundInReview(
-                orderNumber: $this->id,
-                item: $lines
-            )
-        );
+        try {
+            $this->user->notify(
+                new SendUserOrderRefundInReview(
+                    orderNumber: $this->id,
+                    item: $lines
+                )
+            );
+        } catch (\Throwable $th) {
+            logger()->error('Notificatoin Send Failed!');
+        }
     }
 }
