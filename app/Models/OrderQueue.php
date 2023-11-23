@@ -6,6 +6,7 @@ use App\Enums\BlackHawkOrderStatus;
 use App\Enums\PaymentStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -27,8 +28,14 @@ class OrderQueue extends Model
 
     public function apiCall(): HasOne
     {
-        return $this->hasOne(ApiCall::class);
+        return $this->hasOne(ApiCall::class)->latest();
     }
+
+    // We are using a one-to-one relationship by fetching the last status using ->latest() in apiCall() as it is the only one required for us
+    // public function apiCalls(): HasMany
+    // {
+    //     return $this->hasMany(ApiCall::class);
+    // }
 
 
     public function scopeFlagged($query)
@@ -41,7 +48,7 @@ class OrderQueue extends Model
             })->orWhere('is_order_placed', false);
     }
 
-    public function resetFlag(): void
+    public function resetCardInfoQueue(): void
     {
         if (!$this->allowResetFlag()) {
             return;
@@ -60,7 +67,6 @@ class OrderQueue extends Model
             $freshRecord['attempted_at'] = null;
         }
 
-
         $this->update($freshRecord);
     }
 
@@ -72,7 +78,18 @@ class OrderQueue extends Model
             && $this->created_at < now()->subDay()
             && $this->order->payment_status !== PaymentStatus::Refunded
             && $this->order->orderDetails->pluck('orderDetailRefund')->filter()->count() === 0;
-        // We should not allow resetting flag if there is any orderDetailRefund pending (that is not deleted)
+    }
+
+    public function allowReorder()
+    {
+        $this->loadMissing('order.orderDetails.orderDetailRefund');
+        // If we already got the gifts, it means black hawk charged us money, so we can't allow resetting flag. Otherwise we will be charged twice.
+        return empty($this->gifts)
+            && $this->order_status !== BlackHawkOrderStatus::Complete
+            && $this->created_at < now()->subMinutes(10)
+            && $this->is_order_placed === true
+            && $this->order->payment_status !== PaymentStatus::Refunded
+            && $this->order->orderDetails->pluck('orderDetailRefund')->filter()->count() === 0;
     }
 
     public function start(string $requestId): void

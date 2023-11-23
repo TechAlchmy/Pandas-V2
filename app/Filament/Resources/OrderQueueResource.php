@@ -114,7 +114,7 @@ class OrderQueueResource extends Resource
                 Tables\Columns\TextColumn::make('is_order_placed')
                     ->label('BH Order?')
                     ->formatStateUsing(fn ($record) => ($record->is_order_placed ? 'Yes' : 'No')
-                        . ($record->apiCall ? ' (' . $record->apiCall?->status_code . ')' : ''))
+                        . ($record->apiCall ? ' (' . $record->apiCall->status_code . ')' : ''))
                     ->badge()
                     ->color(fn ($state) => match ($state) {
                         true => 'success',
@@ -170,18 +170,32 @@ class OrderQueueResource extends Resource
             ], layout: \Filament\Tables\Enums\FiltersLayout::AboveContent)
 
             ->actions([
-                Action::make('call')
-                    ->label('Reset Queue')
+                Action::make('call_fetch')
+                    ->label('Retry')
                     ->icon('heroicon-o-play')
                     ->requiresConfirmation()
-                    ->modalContent(new HtmlString('This will move this order back to queue. Are you sure ?'))
+                    ->modalContent(new HtmlString('This will move this order back to queue and will start attempting to fetch card details again. Are you sure ?'))
                     ->action(function (Model $record) {
                         if ($record->allowResetFlag()) {
-                            $record->resetFlag();
+                            $record->resetCardInfoQueue();
                         }
                     })
                     ->visible(function (Model $record) {
                         return $record->allowResetFlag();
+                    }),
+                Action::make('call_order')
+                    ->label('Reorder')
+                    ->icon('heroicon-o-shield-exclamation')
+                    ->requiresConfirmation()
+                    ->modalContent(new HtmlString('This will place a new order! Are you sure ?'))
+                    ->action(function (Model $record) {
+                        if ($record->allowReorder()) {
+                            $record->order->orderQueues()->delete();
+                            $record->order->addToQueue();
+                        }
+                    })
+                    ->visible(function (Model $record) {
+                        return $record->allowReorder();
                     }),
                 Tables\Actions\ViewAction::make(),
             ])
