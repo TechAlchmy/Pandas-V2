@@ -44,12 +44,16 @@ class Order extends Model implements Sortable
 
     public function orderQueue(): HasOne
     {
-        return $this->hasOne(OrderQueue::class);
+        return $this->hasOne(OrderQueue::class)->latest();
     }
     // We assume this as one to one relationship becuase all previous queue will be deleted if failed and a new one will be created
     // This means we will always have one and only one active queue
 
 
+    public function orderQueues(): HasMany
+    {
+        return $this->hasMany(OrderQueue::class);
+    }
     public function orderDetails()
     {
         return $this->hasMany(OrderDetail::class);
@@ -141,11 +145,15 @@ class Order extends Model implements Sortable
             ]);
         }, $refunds);
 
-        $this->user->notify(
-            new SendUserOrderRefundInReview(
-                orderNumber: $this->id,
-                item: $lines
-            )
-        );
+        try {
+            $this->user->notify(
+                new SendUserOrderRefundInReview(
+                    orderNumber: $this->id,
+                    item: $lines
+                )
+            );
+        } catch (\Throwable $th) {
+            logger()->error('Notificatoin Send Failed!');
+        }
     }
 }

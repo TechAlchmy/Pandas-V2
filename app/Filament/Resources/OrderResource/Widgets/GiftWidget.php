@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\OrderResource\Widgets;
 
-use App\Models\ApiCall;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Widgets\Widget;
 use Illuminate\Contracts\View\View;
@@ -21,9 +20,9 @@ class GiftWidget extends Widget
 
     protected static ?int $sort = 1;
 
-
     public function render(): View
     {
+
         return view(static::$view, [
             'orderQueue' => $this->record?->orderQueue,
             'size' => 'sm',
