@@ -30,8 +30,8 @@
             <div class="flex justify-between items-center">
                 <h3 class="text-4xl">Deals</h3>
                 <select wire:model.live="sort">
-                    <option value="random">Recommended</option>
                     <option value="created_at">What's new</option>
+                    <option value="random">Recommended</option>
                     <option value="views">Most Popular</option>
                     <option value="percentage">% off</option>
                 </select>

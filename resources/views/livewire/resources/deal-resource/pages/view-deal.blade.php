@@ -14,12 +14,6 @@
                     </h1>
                     <p>{{ $this->record->name }}</p>
                 </div>
-                @if ($this->record->is_amount_single)
-                <div>
-                    <span>$</span>
-                    <span class="text-3xl font-light">{{ $this->record->money_amount[0]->getAmount() }}</span>
-                </div>
-                @endif
                 @if ($this->record->excerpt)
                 <div>{{ $this->record->excerpt }}</div>
                 @endif

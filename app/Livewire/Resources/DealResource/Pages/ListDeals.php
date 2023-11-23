@@ -94,7 +94,7 @@ class ListDeals extends Component implements HasForms
             ->when($this->sort, fn ($query, $value) => match ($value) {
                 'created_at', 'percentage', 'views', 'clicks' => $query->orderByDesc($value),
                 default => $query->inRandomOrder(),
-            })
+            })->orderBy('id', 'desc')
             ->paginate(12);
 
         // $charLimit = Setting::get('cards_char_limit');
