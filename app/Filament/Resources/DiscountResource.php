@@ -61,6 +61,7 @@ class DiscountResource extends Resource
                     ->live()
                     ->required()
                     ->relationship('brand', 'name', fn ($query) => $query->where('is_active', true))
+                    ->preload()
                     ->searchable()
                     ->disabled(fn (string $context, ?Model $record) => $context === 'edit' && $record?->is_bhn),
 
@@ -70,13 +71,14 @@ class DiscountResource extends Resource
                     ->openable()
                     ->downloadable(),
 
-                Forms\Components\TextInput::make('name')->live(debounce: 1000)
+                Forms\Components\TextInput::make('name')
+                    ->live(onBlur: true)
                     ->afterStateUpdated(function ($get, $set, ?string $state) {
                         if (!$get('is_slug_changed_manually') && filled($state)) {
                             $set('slug', str($state)->slug());
                         }
                     })
-                    ->reactive()
+                    ->autocomplete(false)
                     ->required()
                     ->maxLength(255),
 
@@ -191,13 +193,13 @@ class DiscountResource extends Resource
                         Forms\Components\Tabs\Tab::make('Terms & Conditions')
                             ->schema([
                                 Forms\Components\Textarea::make('terms')
-                                    ->default(fn($get) => DiscountVoucherTypeEnum::tryFrom($get('voucher_type'))?->getDefaultTermsAndConditions()),
+                                    ->default(fn ($get) => DiscountVoucherTypeEnum::tryFrom($get('voucher_type'))?->getDefaultTermsAndConditions()),
                             ]),
                         Forms\Components\Tabs\Tab::make('Amounts')
                             ->schema([
                                 Forms\Components\TagsInput::make('amount')
-                                    ->formatStateUsing(fn($state) => array_map(fn($amount) => $amount / 100, $state ?? []))
-                                    ->dehydrateStateUsing(fn($state) => array_map(fn($amount) => $amount * 100, $state ?? []))
+                                    ->formatStateUsing(fn ($state) => array_map(fn ($amount) => $amount / 100, $state ?? []))
+                                    ->dehydrateStateUsing(fn ($state) => array_map(fn ($amount) => $amount * 100, $state ?? []))
                                     ->placeholder('Input amounts')
                                     ->splitKeys(['Tab', ' ', ','])
                                     ->tagPrefix('$')
@@ -300,10 +302,11 @@ class DiscountResource extends Resource
                                 Forms\Components\Toggle::make('is_refundable')
                                     ->default(false),
                                 Forms\Components\Textarea::make('terms')
-                                    ->default(fn($get) => DiscountVoucherTypeEnum::tryFrom($get('voucher_type'))?->getDefaultTermsAndConditions()),
+                                    ->default(fn ($get) => DiscountVoucherTypeEnum::tryFrom($get('voucher_type'))?->getDefaultTermsAndConditions()),
                                 Forms\Components\RichEditor::make('redemption_info')
-                                    ->default(fn($get) => DiscountVoucherTypeEnum::tryFrom($get('voucher_type'))?->getRedemptionInfo()),
+                                    ->default(fn ($get) => DiscountVoucherTypeEnum::tryFrom($get('voucher_type'))?->getRedemptionInfo()),
                             ]),
+
                         Forms\Components\Tabs\Tab::make('Tags')
                             ->schema([
                                 Forms\Components\Select::make('tag_id')
