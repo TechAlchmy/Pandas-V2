@@ -22,7 +22,7 @@ name('benefits');
                     <div class="space-y-6">
                         <p class="">
                             Real benefits for real people start with Panda. We’re here to help you thrive in ways that matter to you, so you can give more and get more when it’s go time—in life and work.
-                            
+
                             Explore the benefits your employer is providing through Panda People.
                         </p>
                         <x-link class="hover:bg-panda-green hover:border-transparent" outlined :href="route('dashboard', ['activeTab' => 1])">View My Benefits</x-link>
@@ -34,7 +34,8 @@ name('benefits');
                 <div class="space-y-6 lg:ml-56 xl:ml-80">
                     <p class="text-sm">
                         Real benefits for real people start with Panda. We’re here to help you thrive in ways that matters to you, so you can give more and get more when it’s go time—in life and work.
-                        
+                    </p>
+                    <p>
                         Explore the benefits your employer is providing through Panda People.
                     </p>
                     <x-link class="hover:bg-panda-green hover:border-transparent" outlined :href="route('dashboard', ['activeTab' => 1])">View My Benefits</x-link>
