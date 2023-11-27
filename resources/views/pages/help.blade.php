@@ -138,6 +138,10 @@ name('help');
                     </li>
                 @endforeach
             </ul>
+            <div class="flex items-center justify-between">
+                <p>Not finding what you're looking for?</p>
+                <x-link href="/contact-us" outlined class="hover:bg-panda-green hover:border-transparent">Contact Us!</x-link>
+            </div>
         </div>
     </div>
 </x-layouts.app>
