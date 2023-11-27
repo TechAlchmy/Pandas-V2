@@ -47,7 +47,7 @@
             </div>
         </div>
         <div class="flex items-center gap-8 p-8 border-t border-white">
-            <div class="max-w-[1920px] mx-auto">
+            <div class="max-w-[1920px] mx-auto min-w-full">
                 <h6 class="">Panda People® {{ date('Y') }} © All Rights Reserved</h6>
                 <x-a href="#" class="">Privacy Policy</x-a>
             </div>
