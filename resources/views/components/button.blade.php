@@ -11,7 +11,7 @@
 @php
     $buttonClasses = \Illuminate\Support\Arr::toCssClasses([
         $buttonClasses,
-        'inline-block text-center border leading-6 rounded-[70%]',
+        'inline-block text-center border leading-6 rounded-[70%] capitalize',
         ...match ($color) {
             'white' => ['text-white'],
             default => ['text-gray-900'],
