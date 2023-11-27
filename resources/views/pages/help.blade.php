@@ -7,7 +7,7 @@ name('help');
     <div class="grid grid-cols-1 lg:grid-cols-2">
         <div>
             <div class="lg:min-h-screen bg-cover" style="background-image: url({{ getMediaPath('assets/help-page-banner.png') }})">
-                <div class="p-8 text-white flex flex-col justify-between gap-16">
+                <div class="p-8 flex flex-col justify-between gap-16">
                     <h1 class="text-6xl font-editorial">Help</h1>
                     <p>
                         Panda People supplies benefits that are offered through your employer. If you’re not finding what you’re looking for on your My Benefits page, please reach out to your employer.
