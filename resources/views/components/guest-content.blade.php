@@ -21,8 +21,8 @@
                     <div class="">
                         <p class="mb-5 max-md:mt-10 font-aeonik text-2xl uppercase">OUR SITES</p>
                         <div class="h-[120px] guest-buttons space-y-4">
-                            <x-link size="lg" href="/employer" class="bg-black text-white px-8 hover:bg-panda-green">For Employers</x-link>
-                            <x-link size="lg" href="/dashboard" class="bg-black text-white px-8 hover:bg-panda-green">For Employees</x-link>
+                            <x-link size="lg" href="/employer" outlined class="px-8 hover:bg-panda-green hover:border-transparent">For Employers</x-link>
+                            <x-link size="lg" href="/dashboard" outlined class="px-8 hover:bg-panda-green hover:border-transparent">For Employees</x-link>
                         </div>
                     </div>
                 </div>

@@ -25,7 +25,7 @@ name('benefits');
                             
                             Explore the benefits your employer is providing through Panda People.
                         </p>
-                        <x-link class="hover:bg-panda-green" outlined :href="route('dashboard', ['activeTab' => 1])">View My Benefits</x-link>
+                        <x-link class="hover:bg-panda-green hover:border-transparent" outlined :href="route('dashboard', ['activeTab' => 1])">View My Benefits</x-link>
                     </div>
                 </div>
             </div>
@@ -37,7 +37,7 @@ name('benefits');
                         
                         Explore the benefits your employer is providing through Panda People.
                     </p>
-                    <x-link class="hover:bg-panda-green" outlined :href="route('dashboard', ['activeTab' => 1])">View My Benefits</x-link>
+                    <x-link class="hover:bg-panda-green hover:border-transparent" outlined :href="route('dashboard', ['activeTab' => 1])">View My Benefits</x-link>
                 </div>
             </div>
         </div>
@@ -83,7 +83,7 @@ name('benefits');
                     <div class="flex flex-col gap-6 lg:flex-row">
                         <p class="lg:w-1/2">Learn how to can sign up for supplemental benefits your employer can offer through Panda People. </p>
                         <div class="lg:w-1/2">
-                            <x-link href="#" class="mx-auto hover:bg-panda-green" outlined>See Additional Benefits</x-link>
+                            <x-link href="#" class="mx-auto hover:bg-panda-green hover:border-transparent" outlined>See Additional Benefits</x-link>
                         </div>
                     </div>
                 </div>

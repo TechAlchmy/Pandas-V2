@@ -22,7 +22,7 @@ name('login');
                 <div class="lg:flex items-center gap-2">
                     <p class="my-10">Not registered yet?<br> No problem, it’s quick and easy to set up a Panda account.</p>
                     <div>
-                        <x-link href="/register" outlined size="lg">Register</x-link>
+                        <x-link class="hover:bg-black hover:text-white" href="/register" outlined size="lg">Register</x-link>
                     </div>
                 </div>
             </div>

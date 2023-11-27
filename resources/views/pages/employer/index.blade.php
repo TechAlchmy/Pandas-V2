@@ -70,7 +70,7 @@ name('employer');
                                 people
                                 live fuller life.
                             </p>
-                            <x-link href="employer/benefits" class="bg-panda-green">View Benefits</x-link>
+                            <x-link href="employer/benefits" outlined class="hover:bg-panda-green hover:border-transparent">View Benefits</x-link>
                         </div>
                     </div>
                 </div>
@@ -100,7 +100,7 @@ name('employer');
                         Our curated benefits bring real impact at a low cost to employers while helping your people
                         live fuller life.
                     </p>
-                    <x-link href="employer/benefits" class="bg-panda-green">View Benefits</x-link>
+                    <x-link href="employer/benefits" class="hover:bg-black hover:text-white">View Benefits</x-link>
                 </div>
             </div>
         </div>
@@ -128,7 +128,7 @@ name('employer');
                         make measurable impacts.
                     </p>
                     <div>
-                        <x-link outlined href="/employer/resources">Get Started Today</x-link>
+                        <x-link class="hover:bg-black hover:text-white" outlined href="/employer/resources">Get Started Today</x-link>
                     </div>
                 </div>
             </div>
@@ -138,7 +138,7 @@ name('employer');
         <x-hr />
         <div class="grid grid-cols-1 gap-6 lg:grid-cols-4">
             <div>
-                <x-link outlined href="/employer/resources">Schedule a demo</x-link>
+                <x-link class="hover:border-transparent hover:bg-panda-green" outlined href="/employer/resources">Schedule a demo</x-link>
             </div>
             <div></div>
             <p>We work directly with you, your HR team, and trusted vendors to create benefits packages that draw down on essential costs for employees and make CFOs happy (or as close to happy as CFOs can get).</p>
@@ -151,9 +151,9 @@ name('employer');
         </div>
         <x-hr />
     </section>
-    <section class="px-[min(6.99vw,50px)] py-8 bg-neutral-300 grid min-h-[50vh]">
+    {{-- <section class="px-[min(6.99vw,50px)] py-8 bg-neutral-300 grid min-h-[50vh]">
         <h5 class="place-self-center">Placeholder for stats</h5>
-    </section>
+    </section> --}}
     <section class="max-w-[1920px] mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-2">
             <div>
@@ -182,7 +182,7 @@ name('employer');
                     <li>An attractive company culture</li>
                     <li>Your people giving more when it’s go time</li>
                 </ul>
-                <x-link outlined href="employer/resources">Get Started Today</x-link>
+                <x-link class="hover:border-transparent hover:bg-panda-green" outlined href="employer/resources">Get Started Today</x-link>
             </div>
         </div>
     </section>

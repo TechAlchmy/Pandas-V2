@@ -18,7 +18,7 @@
             </h1>
             <div>
                 @if (empty(auth()->user()->email_verified_at))
-                    <x-button outlined size="lg" wire:click="resend">
+                    <x-button class="hover:bg-panda-green hover:border-transparent" outlined size="lg" wire:click="resend">
                         {{ __('Resend Verification Email') }}
                     </x-button>
                 @endif

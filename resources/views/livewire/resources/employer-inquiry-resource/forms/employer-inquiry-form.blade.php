@@ -18,7 +18,7 @@
                 <form wire:submit.prevent="create">
                     {{ $this->form }}
                     <div class="flex justify-start">
-                        <x-button outlined class="inline-block mt-8">
+                        <x-button outlined class="inline-block mt-8 hover:bg-panda-green hover:border-transparent">
                             Send
                         </x-button>
                     </div>

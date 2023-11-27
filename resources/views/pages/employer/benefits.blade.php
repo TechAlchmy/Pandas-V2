@@ -90,7 +90,7 @@
                             <div class="grid grid-cols-1 gap-2 mt-6 lg:grid-cols-2" x-show="activeAccordion == @js($loop->index)">
                                 <div class="prose">{!! $content !!}</div>
                                 <div class="text-center">
-                                    <x-link outlined href="">Learn more</x-link>
+                                    <x-link class="hover:bg-panda-green hover:border-transparent" outlined href="">Learn more</x-link>
                                 </div>
                             </div>
                         </li>
@@ -150,7 +150,7 @@
                 </ul>
             </div>
             <div>
-                <x-link href="employer/resources" outlined>Schedule a demo</x-link>
+                <x-link class="hover:bg-panda-green hover:border-transparent" href="employer/resources" outlined>Schedule a demo</x-link>
             </div>
         </div>
         <x-hr />

@@ -99,7 +99,7 @@
                     </table>
                     <x-hr />
                     @if (cart()->count() > 0)
-                        <x-button class="hover:bg-panda-green" outlined x-data x-on:click="$dispatch('open-modal', {id: 'cardknox'})">
+                        <x-button class="hover:bg-panda-green hover:border-transparent" outlined x-data x-on:click="$dispatch('open-modal', {id: 'cardknox'})">
                             Checkout
                         </x-button>
                     @endif

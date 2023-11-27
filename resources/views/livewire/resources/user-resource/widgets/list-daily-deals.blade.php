@@ -31,7 +31,7 @@ $categories = computed(function () {
                 @endforeach
             </ul>
             <div class="flex justify-end md:block">
-                <x-link outlined :href="route('deals.index')">
+                <x-link class="hover:bg-black hover:text-white" outlined :href="route('deals.index')">
                     Discover more deals
                 </x-link>
             </div>
