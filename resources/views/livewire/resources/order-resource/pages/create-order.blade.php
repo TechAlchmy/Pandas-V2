@@ -2,7 +2,7 @@
     <div class="max-w-[1920px] mx-auto">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div class="col-span-2">
-                <h2 class="font-light text-3xl font-editorial">Shopping bag</h2>
+                <h2 class="font-light text-3xl">Shopping bag</h2>
                 <x-hr />
                 @if (cart()->items()->isNotEmpty())
                     <div class="divide-y">
@@ -75,7 +75,7 @@
             </div>
             <div>
                 <div class="sticky top-[5rem]">
-                    <h2 class="font-light text-3xl font-editorial">Order Summary</h2>
+                    <h2 class="font-light text-3xl">Order Summary</h2>
                     <x-hr />
                     <table class="table w-full">
                         <tbody>
