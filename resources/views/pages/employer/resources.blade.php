@@ -35,7 +35,7 @@
                         ligula eleifend nec. Sed venenatis fringilla justo id aliquam.
                         Praesent lectus odio, pretium id ligula quis, blandit sagittis justo.
                     </p>
-                    <x-link class="hover:bg-panda-green" outlined href="/deals">Read Article</x-link>
+                    <x-link class="hover:bg-panda-green hover:border-transparent" outlined href="/deals">Read Article</x-link>
                 </div>
             @endforeach
         </div>
