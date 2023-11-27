@@ -5,7 +5,7 @@
     <div class="max-w-[1920px] mx-auto fixed top-0">
         <nav class="mx-auto flex items-center justify-between px-[min(6.99vw,50px)] py-8 bg-white min-w-[100vw]" aria-label="Global">
             <div class="flex lg:flex-1">
-                <a href="/" class="-m-1.5 p-1.5">
+                <a href="/employer" class="-m-1.5 p-1.5">
                     <span class="sr-only">Panda People</span>
                     <x-logo with-text />
                     {{-- <img class="w-auto h-8" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt=""> --}}
@@ -164,7 +164,7 @@
         <div class="fixed inset-0 z-10"></div>
         <div class="fixed inset-y-0 right-0 z-10 w-full px-6 py-6 overflow-y-auto bg-white sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
             <div class="flex items-center justify-between">
-                <x-a href="/" class="-m-1.5 p-1.5">
+                <x-a href="/employer" class="-m-1.5 p-1.5">
                     <span class="sr-only">Your Company</span>
                     <x-logo />
                 </x-a>
