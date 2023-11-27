@@ -91,7 +91,7 @@
                                 <td>Est. Tax</td>
                                 <td align="right">{{ Filament\Support\format_money(cart()->tax() / 100, 'USD') }}</td>
                             </tr>
-                            <tr>
+                            <tr class="font-bold">
                                 <td>Total</td>
                                 <td align="right">{{ Filament\Support\format_money(cart()->total() / 100, 'USD') }}</td>
                             </tr>
