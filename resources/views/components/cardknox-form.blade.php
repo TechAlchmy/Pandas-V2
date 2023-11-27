@@ -164,7 +164,7 @@
             </div>
             <div class="flex flex-col gap-4 lg:flex-row lg:justify-between items-center">
                 <div>
-                    <x-button class="inline-flex" x-bind:disabled="isLoading" outlined type="submit">
+                    <x-button class="inline-flex hover:bg-panda-green hover:border-transparent" x-bind:disabled="isLoading" outlined type="submit">
                         <x-filament::loading-indicator x-show="isLoading" class="w-5 h-5" />
                         <span>Submit</span>
                     </x-button>
