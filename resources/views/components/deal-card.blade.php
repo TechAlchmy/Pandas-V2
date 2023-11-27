@@ -26,7 +26,7 @@
     <div class="flex-grow"></div>
 
     <div>
-        <x-link class="transition-transform duration-300 transform hover:scale-105 hover:bg-panda-green" outlined :href="route('deals.show', ['id' => $record->slug])">
+        <x-link class="transition-transform duration-300 transform hover:scale-105 hover:bg-panda-green hover:border-transparent" outlined :href="route('deals.show', ['id' => $record->slug])">
             See Deals
         </x-link>
     </div>

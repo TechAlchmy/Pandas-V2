@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div>
-                <x-link :href="route('orders.create')" outlined>
+                <x-link :href="route('orders.create')" outlined class="hover:bg-panda-green hover:border-transparent">
                     Checkout
                 </x-link>
             </div>
