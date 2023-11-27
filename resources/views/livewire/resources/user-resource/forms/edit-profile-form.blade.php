@@ -31,7 +31,7 @@
     <form wire:submit.prevent="save" x-show="$wire.isEditing">
         {{ $this->form }}
         <div class="flex justify-end">
-            <x-button type="submit" size="lg" outlined class="inline-block mt-8">
+            <x-button type="submit" size="lg" outlined class="inline-block mt-8 hover:bg-panda-green hover:border-transparent">
                 Update
             </x-button>
         </div>
