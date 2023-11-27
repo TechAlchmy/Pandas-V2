@@ -27,7 +27,7 @@
 
     <div>
         <x-link class="transition-transform duration-300 transform hover:scale-105 hover:bg-panda-green hover:border-transparent" outlined :href="route('deals.show', ['id' => $record->slug])">
-            See Deals
+            See Deal
         </x-link>
     </div>
 
