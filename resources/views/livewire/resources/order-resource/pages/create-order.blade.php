@@ -38,7 +38,7 @@
                                     <div class="">
                                         @if ($item['itemable']->voucher_type == \App\Enums\DiscountVoucherTypeEnum::DefinedAmountsGiftCard)
                                             <x-input x-on:change="$wire.updateItem('{{ $id }}', $event.target.value, '{{ $item['amount'] }}').then(() => $wire.$refresh())" value="{{ $item['quantity'] }}"
-                                                type="number" class="px-2 w-full max-w-full border !border-solid border-black" min="1" />
+                                                type="number" class="px-2 w-full max-w-[5rem] border !border-solid border-black" min="1" />
                                         @endif
                                         {{-- @if($item['itemable']->voucher_type == \App\Enums\DiscountVoucherTypeEnum::TopUpGiftCard)
                                         <div class="flex items-center space-x-1">
