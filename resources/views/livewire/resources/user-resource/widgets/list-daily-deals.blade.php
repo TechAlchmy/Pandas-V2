@@ -17,7 +17,7 @@ $categories = computed(function () {
     </div>
     <div class="grid grid-cols-1">
         <div class="space-y-4 p-4 lg:place-self-center">
-            <h2 class="text-3xl xl:text-5xl 2xl:text-7xl font-editorial">
+            <h2 class="text-3xl font-editorial">
                 We’re here to help you afford more of what brings you joy and everyday essentials.
             </h2>
             <h5 class="text-xl">
