@@ -15,7 +15,7 @@ $submit = function () {
 ?>
 
 <form wire:submit.prevent="submit" class="text-white space-y-6">
-    <h4>Panda People</h4>
+    <h4 class="font-editorial">Panda People Newsletter</h4>
     <div class="py-2 border-b border-white flex gap-x-1 items-center max-w-xs">
         <span class="uppercase select-none caret-transparent">Email</span>
         <x-input type="email" class="text-lg" wire:model="email" />
