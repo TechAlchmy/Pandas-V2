@@ -6,21 +6,21 @@
         </div>
         <div class="space-y-2">
             <div>
-                <label class="text-gray-600">Employer:</label>
+                <label class="text-neutral-400">Employer:</label>
                 <p>{{ auth()->user()->organization?->name ?? '-' }}</p>
             </div>
             <div>
-                <label class="text-gray-600">Email:</label>
+                <label class="text-neutral-400">Email:</label>
                 <p>{{ auth()->user()->email ?? '-' }}</p>
             </div>
         </div>
         <div class="space-y-2">
             <div>
-                <label class="text-gray-600">Phone:</label>
+                <label class="text-neutral-400">Phone:</label>
                 <p>{{ auth()->user()->phone ?? '-' }}</p>
             </div>
             <div>
-                <label class="text-gray-600">Address:</label>
+                <label class="text-neutral-400">Address:</label>
                 <p>{{ auth()->user()->address ?? '-' }}</p>
             </div>
         </div>
