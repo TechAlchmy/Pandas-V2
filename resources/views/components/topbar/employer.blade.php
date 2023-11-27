@@ -2,8 +2,8 @@
     'forEmployer' => false,
 ])
 <header class="relative z-10 bg-white border-b" x-data="{ mobileMenuOpened: false }">
-    <div class="max-w-[1920px] mx-auto">
-        <nav class="mx-auto flex items-center justify-between px-[min(6.99vw,50px)] py-8" aria-label="Global">
+    <div class="max-w-[1920px] mx-auto fixed top-0">
+        <nav class="mx-auto flex items-center justify-between px-[min(6.99vw,50px)] py-8 bg-white min-w-[100vw]" aria-label="Global">
             <div class="flex lg:flex-1">
                 <a href="/" class="-m-1.5 p-1.5">
                     <span class="sr-only">Panda People</span>
@@ -220,3 +220,4 @@
         </div>
     </div>
 </header>
+<div class="py-8 lg:py-12"></div>

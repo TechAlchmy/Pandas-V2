@@ -1,6 +1,6 @@
 <header class="relative z-10 bg-white border-b" x-data="{ mobileMenuOpened: false }">
     <div class="max-w-[1920px] mx-auto">
-        <nav class="flex items-center justify-between py-8 mx-auto px-[min(6.99vw,50px)]" aria-label="Global">
+        <nav class="flex items-center justify-between py-8 mx-auto px-[min(6.99vw,50px)] fixed top-0 min-w-[100vw] bg-white" aria-label="Global">
             <div class="flex lg:flex-1">
                 <a href="/" class="">
                     <span class="sr-only">Panda People</span>
@@ -208,3 +208,4 @@
         </div>
     </div>
 </header>
+<div class="py-8 lg:py-12"></div>
