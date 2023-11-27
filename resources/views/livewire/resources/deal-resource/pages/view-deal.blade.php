@@ -71,10 +71,10 @@
                             </div>
                         </div>
                         <div class="flex items-center gap-6">
-                            <x-button class="hover:bg-panda-green" x-on:click="$wire.validateOrder(true)" outlined>
+                            <x-button class="hover:bg-panda-green hover:border-transparent" x-on:click="$wire.validateOrder(true)" outlined>
                                 {{ $this->record->cta }}
                             </x-button>
-                            <x-button class="hover:bg-panda-green" x-data x-on:click="$wire.validateOrder()" outlined size="lg">
+                            <x-button class="hover:bg-panda-green hover:border-transparent" x-data x-on:click="$wire.validateOrder()" outlined size="lg">
                                 Buy Now
                             </x-button>
                             <div wire:loading wire:target="validateOrder">
@@ -90,13 +90,13 @@
                     </div>
                     @endif
                     @if ($this->record->voucher_type == \App\Enums\DiscountVoucherTypeEnum::ExternalLink)
-                    <x-link x-on:click="$wire.handleClick()" class="hover:bg-panda-green" :href="$this->record->link" outlined size="lg">
+                    <x-link x-on:click="$wire.handleClick()" class="hover:bg-panda-green hover:border-transparent" :href="$this->record->link" outlined size="lg">
                         {{ $this->record->cta }}
                     </x-link>
                     @endif
                     @if ($this->record->voucher_type == \App\Enums\DiscountVoucherTypeEnum::FixedDiscountCode)
                     <div x-data="{ modalOpen: false }">
-                        <x-button class="hover:bg-panda-green" x-on:click="modalOpen = true" outlined size="lg">
+                        <x-button class="hover:bg-panda-green hover:border-transparent" x-on:click="modalOpen = true" outlined size="lg">
                             {{ $this->record->cta }}
                         </x-button>
                         <template x-teleport="body">
