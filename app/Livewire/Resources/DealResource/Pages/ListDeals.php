@@ -69,7 +69,7 @@ class ListDeals extends Component implements HasForms
                     ->extraAttributes(['class' => 'rounded-none ring-transparent', 'x-on:keyup.enter' => '$wire.resetPage()'])
                     ->hiddenLabel()
                     ->suffixIcon('magnifying-glass')
-                    ->placeholder('Search Deals'),
+                    ->placeholder('Search for Deals'),
             ]);
     }
 
