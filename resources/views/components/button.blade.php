@@ -13,7 +13,7 @@
         $buttonClasses,
         'inline-block text-center border leading-6 rounded-[70%] capitalize',
         ...match ($color) {
-            'white' => ['text-white'],
+            'white' => ['text-white hover:bg-white hover:text-black'],
             default => ['text-gray-900'],
         },
         ...match ($size) {
