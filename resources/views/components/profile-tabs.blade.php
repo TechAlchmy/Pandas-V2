@@ -11,7 +11,7 @@
 <section x-data="{ selected: @js(request('activeTab', 0)) }" class="py-8 lg:px-[min(6.99vw,50px)]">
     <div class="max-w-[1920px] mx-auto">
         <div class="grid grid-cols-1 lg:grid-cols-4 ">
-            <ul class="divide-y text-xl">
+            <ul class="divide-y text-xl border-y">
                 @foreach ($tabs as $key => $menu)
                     <li class="space-y-6">
                         <div class="p-4">
