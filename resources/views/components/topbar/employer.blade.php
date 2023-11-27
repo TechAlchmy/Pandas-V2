@@ -14,11 +14,11 @@
             <div class="flex items-center gap-x-4 lg:hidden">
                 @guest
                     <x-a :href="route('login')">
-                        <p class="text-xs md:text-base lg:text-2xl">Member Sign In</p>
+                        <span class="text-xs md:text-base">Member Sign In</span>
                     </x-a>
                 @endguest
                 <x-a href="/employer/resources">
-                    <p class="text-xs md:text-base lg:text-2xl">Schedule a Demo</p>
+                    <span class="text-xs md:text-base">Schedule a Demo</span>
                 </x-a>
                 <button x-on:click="mobileMenuOpened = true" type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
                     <span class="sr-only">Open main menu</span>
@@ -149,11 +149,11 @@
             <div class="hidden gap-3 lg:flex lg:flex-1 lg:justify-end">
                 @guest
                     <x-a :href="route('login')">
-                        <p class="text-base lg:text-2xl">Member Sign In</p>
+                        <span class="">Member Sign In</span>
                     </x-a>
                 @endguest
                 <x-a href="/employer/resources">
-                    <p class="text-base lg:text-2xl">Schedule a Demo</p>
+                    <span class="">Schedule a Demo</span>
                 </x-a>
             </div>
         </nav>
