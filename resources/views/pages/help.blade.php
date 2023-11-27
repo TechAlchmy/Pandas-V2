@@ -9,11 +9,14 @@ name('help');
             <div class="lg:min-h-screen bg-cover" style="background-image: url({{ getMediaPath('assets/help-page-banner.png') }})">
                 <div class="p-8 flex flex-col justify-between gap-16">
                     <h1 class="text-6xl font-editorial">Help</h1>
-                    <p>
-                        Panda People supplies benefits that are offered through your employer. If you’re not finding what you’re looking for on your My Benefits page, please reach out to your employer.
-
-                        For anything else you need help with on your Panda Portal, such as help with checking out or finding deals, search our FAQ or get in touch with us.
-                    </p>
+                    <div class="space-y-6">
+                        <p>
+                            Panda People supplies benefits that are offered through your employer. If you’re not finding what you’re looking for on your My Benefits page, please reach out to your employer.
+                        </p>
+                        <p>
+                            For anything else you need help with on your Panda Portal, such as help with checking out or finding deals, search our FAQ or get in touch with us.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
