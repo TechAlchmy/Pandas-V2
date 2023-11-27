@@ -132,7 +132,7 @@
             </div>
         </section>
 
-        <livewire:resources.contact-inquiry-resource.forms.contact-us-form />
+        <livewire:resources.contact-inquiry-resource.forms.contact-us-form testimonial />
     </x-layouts.app>
 @endauth
 @guest
