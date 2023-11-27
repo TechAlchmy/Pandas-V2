@@ -18,8 +18,8 @@ name('help');
             </div>
         </div>
         <div class="p-8 space-y-4 max-h-[100vh] overflow-y-scroll">
-            <h2 class="text-6xl font-light font-editorial">Frequently Asked Questions</h2>
-            <ul class="divide-y" x-data="{ selected: null }">
+            <h2 class="text-5xl font-light font-editorial">Frequently Asked Questions</h2>
+            <ul class="divide-y border-y" x-data="{ selected: null }">
                 @foreach ([
                     'Discounts and Codes' => [
                         'What are Panda Discounts?' => "Panda People provides instant discounts for one-time purchases at select merchants. These discounts are available as codes to enter at checkout, or links that redirect you to the merchant site with discounts already applied. On some merchant sites, you may see a pop-up or banner showing your discount has been applied. 
