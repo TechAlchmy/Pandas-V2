@@ -141,7 +141,7 @@ name('help');
                     </li>
                 @endforeach
             </ul>
-            <div class="flex items-center justify-between">
+            <div class="flex flex-col lg:flex-row items-start lg:items-center lg:justify-between gap-6">
                 <p>Not finding what you're looking for?</p>
                 <x-link href="/contact-us" outlined class="hover:bg-panda-green hover:border-transparent">Contact Us!</x-link>
             </div>
