@@ -38,7 +38,7 @@
                             Join the revolution! We’re on a mission to transform employee benefits and make real change in real workforces. That means everyone at Panda People gets access to the same life-easing benefits we offer our clients (and top secret ones we’re testing out).s
                         </p>
                         <div>
-                            <x-link outlined>Explore Open Roles</x-link>
+                            <x-link class="hover:border-transparent hover:bg-panda-green" outlined>Explore Open Roles</x-link>
                         </div>
                     </div>
                 </div>
