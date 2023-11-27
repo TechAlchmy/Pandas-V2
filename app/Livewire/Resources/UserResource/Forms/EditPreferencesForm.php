@@ -8,6 +8,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
+use Filament\Support\Colors\Color;
 use Livewire\Component;
 
 class EditPreferencesForm extends Component implements HasForms
@@ -40,20 +41,20 @@ class EditPreferencesForm extends Component implements HasForms
             ->statePath('data')
             ->schema([
                 Forms\Components\Toggle::make('email_notification')
-                    ->offColor('danger')
-                    ->onColor('success')
+                    ->offColor(Color::hex('#000000'))
+                    ->onColor(Color::hex('#91b88f'))
                     ->default(false),
                 Forms\Components\Toggle::make('sms_notification')
-                    ->offColor('danger')
-                    ->onColor('success')
+                    ->offColor(Color::hex('#000000'))
+                    ->onColor(Color::hex('#91b88f'))
                     ->default(false),
                 Forms\Components\Toggle::make('push_notification')
-                    ->offColor('danger')
-                    ->onColor('success')
+                    ->offColor(Color::hex('#000000'))
+                    ->onColor(Color::hex('#91b88f'))
                     ->default(false),
                 Forms\Components\Toggle::make('email_marketing')
-                    ->offColor('danger')
-                    ->onColor('success')
+                    ->offColor(Color::hex('#000000'))
+                    ->onColor(Color::hex('#91b88f'))
                     ->default(false),
                 Forms\Components\Actions::make([
                     Forms\Components\Actions\Action::make('forget_my_cc_info')
