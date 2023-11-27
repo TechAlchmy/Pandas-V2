@@ -18,6 +18,9 @@
                         </div>
                         @foreach (cart()->items() as $id => $item)
                             <div class="p-4">
+                                @if ($loop->first)
+                                    <div class="py-4"></div>
+                                @endif
                                 <div class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                                     <div class="flex gap-2 items-center">
                                         {{ $item['itemable']->brand->getFirstMedia('logo')?->img()->attributes(['class' => 'w-20']) }}
