@@ -99,7 +99,7 @@
             </div>
         </div>
     </section>
-    <section class="max-w-[1920px] mx-auto xl:-mt-64 2xl:-mt-[576px]">
+    <section class="hidden max-w-[1920px] mx-auto xl:-mt-64 2xl:-mt-[576px]">
         <div class="aspect-video bg-neutral-300 mx-auto min-w-[100vw] lg:min-w-[1200px] lg:min-h-[600px] max-w-[1200px] max-h-[600px]">
             Placeholder for video
         </div>
