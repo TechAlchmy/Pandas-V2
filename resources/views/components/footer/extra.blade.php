@@ -22,27 +22,33 @@
                         <li><x-a href="/contact-us">Contact Us</x-a></li>
                         <li><x-a href="/employer">For Employers</x-a></li>
                     </ul>
-                    <ul class="items-center hidden gap-2 md:flex md:flex-col">
-                        {{-- <li><x-a href="/">@svg('fab-linkedin', 'w-5 h-5')</x-a></li>
+                    <ul class="">
+                        <li><x-a class="text-white" href="/">LinkedIn</x-a></li>
+                        <li><x-a class="text-white" href="/">Instagram</x-a></li>
+                        <li><x-a class="text-white" href="/">Facebook</x-a></li>
+                        <li><x-a class="text-white" href="/">Youtube</x-a></li>
+                    </ul>
+                    {{-- <ul class="items-center hidden gap-2 md:flex md:flex-col">
+                        <li><x-a href="/">@svg('fab-linkedin', 'w-5 h-5')</x-a></li>
                     <li><x-a href="/benefits">@svg('fab-instagram', 'w-5 h-5')</x-a></li>
                     <li><x-a href="/deals">@svg('fab-facebook', 'w-5 h-5')</x-a></li>
-                    <li><x-a href="/help">@svg('fab-youtube', 'w-5 h-5')</x-a></li> --}}
+                    <li><x-a href="/help">@svg('fab-youtube', 'w-5 h-5')</x-a></li>
                         <li><x-a href="/"><img src="https://upload.wikimedia.org/wikipedia/commons/8/81/LinkedIn_icon.svg" class="w-5 h-5" /></x-a></li>
                         <li><x-a href="/benefits"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/1920px-Instagram_logo_2022.svg.png" class="w-5 h-5" /></x-a></li>
                         <li><x-a href="/deals"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/2023_Facebook_icon.svg/1920px-2023_Facebook_icon.svg.png" class="w-5 h-5" /></x-a></li>
                         <li><x-a href="/help"><img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png?20220706172052" class="w-5 h-5" /></x-a></li>
-                    </ul>
+                    </ul> --}}
                 </div>
-                <ul class="flex items-center justify-center gap-2 md:hidden">
-                    {{-- <li><x-a href="/">@svg('fab-linkedin', 'w-5 h-5')</x-a></li>
+                {{-- <ul class="flex items-center justify-center gap-2 md:hidden">
+                    <li><x-a href="/">@svg('fab-linkedin', 'w-5 h-5')</x-a></li>
                     <li><x-a href="/benefits">@svg('fab-instagram', 'w-5 h-5')</x-a></li>
                     <li><x-a href="/deals">@svg('fab-facebook', 'w-5 h-5')</x-a></li>
-                    <li><x-a href="/help">@svg('fab-youtube', 'w-5 h-5')</x-a></li> --}}
+                    <li><x-a href="/help">@svg('fab-youtube', 'w-5 h-5')</x-a></li>
                     <li><x-a href="/"><img src="https://upload.wikimedia.org/wikipedia/commons/8/81/LinkedIn_icon.svg" class="w-5 h-5" /></x-a></li>
                     <li><x-a href="/benefits"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/1920px-Instagram_logo_2022.svg.png" class="w-5 h-5" /></x-a></li>
                     <li><x-a href="/deals"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/2023_Facebook_icon.svg/1920px-2023_Facebook_icon.svg.png" class="w-5 h-5" /></x-a></li>
                     <li><x-a href="/help"><img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png?20220706172052" class="w-5 h-5" /></x-a></li>
-                </ul>
+                </ul> --}}
                 <livewire:resources.subscriber-resource.forms.create-subscriber-form />
             </div>
         </div>
