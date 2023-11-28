@@ -55,6 +55,11 @@ class ContactUsForm extends Component implements HasForms
                     ->placeholder('Email')
                     ->view('forms.components.text-input')
                     ->maxLength(255),
+                Forms\Components\TextInput::make('phone')
+                    ->hiddenLabel()
+                    ->placeholder('Phone')
+                    ->view('forms.components.text-input')
+                    ->maxLength(255),
                 Forms\Components\Textarea::make('content')
                     ->required()
                     ->hiddenLabel()
