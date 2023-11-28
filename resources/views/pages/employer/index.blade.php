@@ -40,7 +40,7 @@ name('employer');
             <div class="space-y-24 px-[min(6.99vw,50px)] py-8">
                 <div class="space-y-6">
                     <h2 class="text-4xl font-editorial lg:text-7xl 2xl:text-8xl">What is Panda People</h2>
-                    <p class="lg:text-lg xl:text-xl 2xl:text-2xl">
+                    <p class="lg:text-lg xl:text-xl 2xl:text-2xl lg:max-w-sm">
                         Employee benefits aren’t black and white anymore. There’s a spectrum of perks that can make an
                         impact on
                         your employees’ sense of fulfillment and their ability to truly engage with their work.
