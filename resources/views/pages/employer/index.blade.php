@@ -118,7 +118,7 @@ name('employer');
                 <div class="space-y-6 lg:w-2/5 place-self-center">
                     <h3 class="text-7xl xl:text-8xl 2xl:text-9xl font-editorial">Why Panda People</h3>
                     <p class="lg:text-lg 2xl:text-2xl lg:max-w-sm">
-                        We only offer targeted benefits that have a positive impact on engaging, retaining, and
+                        We <u>only</u> offer targeted benefits that have a positive impact on engaging, retaining, and
                         attracting employees where they live, work, and play—from discounts on rent to zero-cost cell
                         phone plans to exclusive entertainment savings.
                         <br />
