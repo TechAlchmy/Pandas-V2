@@ -33,7 +33,7 @@
                 @endif
             </div>
             <div class="p-8 space-y-4 {{ $testimonial ? 'bg-panda-green' : '' }}">
-                <h2 class="text-6xl font-light font-editorial">Contact Us</h2>
+                <h2 class="text-4xl font-light font-editorial">Contact Us</h2>
                 <form wire:submit.prevent="create">
                     {{ $this->form }}
                     <div class="flex justify-end">
