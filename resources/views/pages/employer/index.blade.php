@@ -49,7 +49,7 @@ name('employer');
                 <div class="hidden max-w-3xl mt-40 lg:block">
                     <h3 class="text-4xl font-editorial">Our Benefits</h3>
                     <div class="grid grid-cols-2 gap-1">
-                        <ul class="list-disc lg:text-lg xl:text-xl 2xl:text-2xl list-inside">
+                        <ul class="list-disc 2xl:text-lg list-inside">
                             <li>Housing Discount</li>
                             <li>Exclusive Cell Phone Plans</li>
                             <li>Childcare</li>
@@ -58,7 +58,7 @@ name('employer');
                             <li>Financial Wellness</li>
                         </ul>
                         <div class="space-y-6">
-                            <p class=" lg:text-lg xl:text-xl 2xl:text-2xl">
+                            <p class="">
                                 Creating a company culture people truly appreciate starts with understanding how
                                 impactful
                                 easing the cost of living can be on improving engagement and retention. With Panda
