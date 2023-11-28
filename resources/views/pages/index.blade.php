@@ -93,7 +93,7 @@
                 <x-brand-logos :categories="$categories" />
             </div>
         </section>
-        <section class="px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto">
+        <section class="hidden px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto">
             <h1 class="font-editorial text-6xl">Guides</h1>
             <x-hr />
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
