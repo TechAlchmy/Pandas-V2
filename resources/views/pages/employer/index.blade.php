@@ -107,8 +107,8 @@ name('employer');
     <section class="px-[min(6.99vw)] py-8 space-y-8 mx-auto max-w-[1920px] w-full">
         <x-hr />
         <div class="">
-            <h4 class="text-6xl text-left md:text-center md:-ml-40 lg:-ml-80 font-editorial lg:text-9xl">Giving More.</h4>
-            <h4 class="text-6xl text-right md:text-center md:ml-40 lg:ml-80 font-editorial lg:text-9xl">Getting More.</h4>
+            <h4 class="text-5xl text-left md:text-center md:-ml-40 lg:-ml-80 font-editorial lg:text-8xl">Giving More.</h4>
+            <h4 class="text-5xl text-right md:text-center md:ml-40 lg:ml-80 font-editorial lg:text-8xl">Getting More.</h4>
         </div>
     </section>
     <div class="bg-panda-green">
