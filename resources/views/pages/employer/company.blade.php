@@ -11,7 +11,7 @@
             <div class="flex flex-col lg:flex-row-reverse">
                 <div class="p-8 mt-10 md:-mr-4 md:-mt-20 lg:-mt-24 lg:-mr-10 lg:-ml-60 2xl:-mt-48 md:max-w-xs lg:max-w-lg md:mx-auto">
                     <h2 class="text-4xl font-editorial">About Us</h2>
-                    <p class="mt-8 lg:text-lg xl:text-xl">
+                    <p class="mt-8">
                         Panda People was founded with a vision of helping improve employee benefits offerings by going beyond the norm. Through strategic partnerships with employers and benefit consultants, Panda People offers, maintains, and manages comprehensive and customized benefits packages for companies and their employees.
                     </p>
                     {{-- <img class="order-1 lg:order-0 2xl:min-w-[35vw]" src="{{ getMediaPath('assets/employer-grow2.png') }}" /> --}}
