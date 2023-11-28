@@ -89,7 +89,7 @@
                             <button class="text-2xl" x-on:click="activeAccordion = activeAccordion == @js($loop->index) ? null : @js($loop->index)">{{ $item }}</button>
                             <div class="grid grid-cols-1 gap-2 mt-6 lg:grid-cols-2" x-show="activeAccordion == @js($loop->index)">
                                 <div class="prose">{!! $content !!}</div>
-                                <div class="text-center">
+                                <div class="text-left">
                                     <x-link class="hover:bg-panda-green hover:border-transparent" outlined href="">Learn more</x-link>
                                 </div>
                             </div>
