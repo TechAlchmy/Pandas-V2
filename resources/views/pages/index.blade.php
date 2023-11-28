@@ -140,10 +140,10 @@
         <x-topbar.simple class="bg-white">
             <div class="flex gap-6 text-2xl">
                 <x-a :href="route('login')">
-                    <p class="text-base lg:text-2xl">Member Sign In</p>
+                    <span class="">Member Sign In</span>
                 </x-a>
                 <x-a href="#">
-                    <p class="text-base lg:text-2xl">Schedule a Demo</p>
+                    <span class="">Schedule a Demo</span>
                 </x-a>
             </div>
         </x-topbar.simple>
