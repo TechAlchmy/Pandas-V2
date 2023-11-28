@@ -38,7 +38,7 @@
                 </div>
             @endforeach
             <div class="p-8">
-                <h2 class="text-6xl lg:text-8xl 2xl:text-9xl font-editorial">
+                <h2 class="text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-editorial">
                     Benefits for Life Essentials
                 </h2>
                 <p>
