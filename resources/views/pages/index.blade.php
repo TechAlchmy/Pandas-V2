@@ -7,7 +7,7 @@
             ->inRandomOrder()
             ->take(5)
             ->get();
-        
+
         $featuredDiscount = \App\Models\Discount::query()
             ->withBrand(auth()->user()?->organization)
             ->withVoucherType(auth()->user()?->organization)
@@ -19,38 +19,38 @@
     <x-layouts.app>
         <x-banner-upsell :record="$featuredDiscount" />
         <x-banner :background="getMediaPath('banners/panda-main.png')" />
-        <section class="px-[min(6.99vw,50px)] py-4" style="max-width: 1920px; margin:auto">
-            <x-hr />
-            <div class="lg:flex justify-between gap-4">
-                <h2 class="text-4xl lg:text-6xl font-editorial">
-                    Deals on Daily Essentials
-                </h2>
-                <div class="space-y-6">
-                    <p class="text-2xl">
-                        Your day-to-day just got more affordable.
-                    </p>
-                    <x-link class="hover:bg-panda-green" outlined href="/deals">
-                        Discover more
-                    </x-link>
+        <section class="px-[min(6.99vw,50px)] py-4 max-w-[1920px] mx-auto lg:min-h-[90vh]">
+            <div class="flex flex-col justify-between gap-6 border-y py-6 lg:min-h-[90vh]">
+                <div class="lg:flex justify-between gap-4">
+                    <h2 class="text-4xl lg:text-6xl font-editorial">
+                        Deals on Daily Essentials
+                    </h2>
+                    <div class="space-y-6">
+                        <p class="text-2xl">
+                            Your day-to-day just got more affordable.
+                        </p>
+                        <x-link class="hover:bg-panda-green" outlined href="/deals">
+                            Discover more
+                        </x-link>
+                    </div>
+                </div>
+                <div class="flex-grow"></div>
+                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                    @foreach ($categories as $category)
+                        <div class="flex-1 flex flex-col justify-between">
+                            <x-a :href="route('deals.index', ['filter' => ['category_id' => $category->getKey()]])">
+                                <h3 class="font-editorial text-3xl lg:text-4xl leading-[60px]">{{ $category->name }}</h3>
+                            </x-a>
+                            <x-a :href="route('deals.index', ['filter' => ['category_id' => $category->getKey()]])">
+                                <div>
+                                    <p class="uppercase text-xl lg:text-2xl">Up to {{ $category->discounts_max_percentage }}% off</p>
+                                    <p class="text-md lg:text-xl leading-7">24-hour access to primary care for less</p>
+                                </div>
+                            </x-a>
+                        </div>
+                    @endforeach
                 </div>
             </div>
-            <div class="py-8 lg:py-24"></div>
-            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
-                @foreach ($categories as $category)
-                    <div class="flex-1 flex flex-col justify-between">
-                        <x-a :href="route('deals.index', ['filter' => ['category_id' => $category->getKey()]])">
-                            <h3 class="font-editorial text-3xl lg:text-4xl leading-[60px]">{{ $category->name }}</h3>
-                        </x-a>
-                        <x-a :href="route('deals.index', ['filter' => ['category_id' => $category->getKey()]])">
-                            <div>
-                                <p class="uppercase text-xl lg:text-2xl">Up to {{ $category->discounts_max_percentage }}% off</p>
-                                <p class="text-md lg:text-xl leading-7">24-hour access to primary care for less</p>
-                            </div>
-                        </x-a>
-                    </div>
-                @endforeach
-            </div>
-            <x-hr />
         </section>
         <section class="bg-black text-white px-[min(6.99vw,50px)] py-8 overflow-x-hidden">
             <div class="space-y-6 max-w-[1920px] mx-auto">
@@ -102,8 +102,7 @@
                         <x-a :href="route('deals.index')">
                             <div class="relative">
                                 <div class="pt-[65%]"></div>
-                                <img class="absolute inset-0 object-cover w-full h-full"
-                                    src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2952&q=80s" />
+                                <img class="absolute inset-0 object-cover w-full h-full" src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2952&q=80s" />
                             </div>
                         </x-a>
                         <x-a :href="route('deals.index')">
