@@ -89,7 +89,7 @@
         </section>
         <section class="px-[min(6.99vw,50px)] py-8 bg-neutral-200">
             <div class="max-w-[1920px] mx-auto">
-                <h1 class="font-editorial text-6xl leading-[70px] mt-9">Panda Partners with Brands You Know</h1>
+                <h1 class="font-editorial text-3xl leading-[70px] mt-9">Panda Partners with Brands You Know</h1>
                 <x-brand-logos :categories="$categories" />
             </div>
         </section>
