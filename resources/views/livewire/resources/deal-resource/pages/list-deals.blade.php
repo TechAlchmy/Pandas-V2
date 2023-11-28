@@ -28,7 +28,7 @@
         <div class="max-w-[1920px] mx-auto">
             <x-hr />
             <div class="flex justify-between items-center">
-                <h3 class="text-4xl">Deals</h3>
+                <h3 class="text-6xl font-editorial">Deals</h3>
                 <select wire:model.live="sort">
                     <option value="random">Recommended</option>
                     <option value="created_at">What's new</option>
