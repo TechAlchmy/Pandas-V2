@@ -28,10 +28,10 @@
                 </button> --}}
 
                 <div x-show="dropdownOpen" @click.away="dropdownOpen=false" x-transition:enter="ease-out duration-200" x-transition:enter-start="-translate-y-2" x-transition:enter-end="translate-y-0" class="absolute top-0 z-50 w-56 mt-12 -translate-x-1/2 left-1/2" x-cloak>
-                    <div class="p-1 mt-1 bg-white border rounded-md shadow-md border-neutral-200/70 text-neutral-700">
+                    <div class="p-1 mt-1 bg-white border border-black text-neutral-700">
                         <div class="px-2 py-1.5 text-sm font-semibold">My Account</div>
-                        <div class="h-px my-1 -mx-1 bg-neutral-200"></div>
-                        <x-link href="/dashboard" class="relative flex cursor-pointer select-none hover:bg-neutral-100 items-center rounded px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                        <div class="h-px my-1 -mx-1 bg-black"></div>
+                        <x-link href="/dashboard" class="rounded-none relative flex cursor-pointer select-none hover:bg-neutral-100 items-center px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-2">
                                 <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
                                 <circle cx="12" cy="7" r="4"></circle>
@@ -39,7 +39,7 @@
                             <span>Profile</span>
                             {{-- <span class="ml-auto text-xs tracking-widest opacity-60">⇧⌘P</span> --}}
                         </x-link>
-                        <x-link href="/dashboard?activeTab=4" class="relative flex cursor-pointer select-none hover:bg-neutral-100 items-center rounded px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                        <x-link href="/dashboard?activeTab=4" class="rounded-none relative flex cursor-pointer select-none hover:bg-neutral-100 items-center px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-2">
                                 <circle cx="8" cy="21" r="2"></circle>
                                 <circle cx="20" cy="21" r="2"></circle>
@@ -48,7 +48,7 @@
                             <span>My Orders</span>
                         </x-link>
                         @if (auth()->user()?->is_manager)
-                        <x-link :href="route('filament.management.pages.dashboard', ['tenant' => auth()->user()->organization])" class="relative flex cursor-pointer select-none hover:bg-neutral-100 items-center rounded px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                        <x-link :href="route('filament.management.pages.dashboard', ['tenant' => auth()->user()->organization])" class="rounded-none relative flex cursor-pointer select-none hover:bg-neutral-100 items-center px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-2">
                                 <rect width="20" height="14" x="2" y="5" rx="2"></rect>
                                 <line x1="2" x2="22" y1="10" y2="10"></line>
@@ -58,7 +58,7 @@
                         </x-link>
                         @endif
                         @if (auth()->user()?->is_admin)
-                        <x-link :href="route('filament.admin.pages.dashboard')" class="relative flex cursor-default select-none hover:bg-neutral-100 items-center rounded px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                        <x-link :href="route('filament.admin.pages.dashboard')" class="rounded-none relative flex cursor-default select-none hover:bg-neutral-100 items-center px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-2">
                                 <rect width="20" height="14" x="2" y="5" rx="2"></rect>
                                 <line x1="2" x2="22" y1="10" y2="10"></line>
@@ -202,7 +202,7 @@
                         </svg>
                         <span>API</span>
                     </a> --}}
-                        <div class="h-px my-1 -mx-1 bg-neutral-200"></div>
+                        <div class="h-px my-1 -mx-1 bg-black"></div>
                         <livewire:resources.user-resource.widgets.logout-button />
                     </div>
                 </div>
@@ -234,7 +234,7 @@
                 </span> --}}
                 <span class="block pt-1 pb-2 leading-none sm:inline sm:pt-0 sm:pb-0">New Item Added</span>
             </a>
-            <button @click="bannerVisible=false" class="flex items-center flex-shrink-0 translate-x-1 ease-out duration-150 justify-center w-6 h-6 p-1.5 text-white rounded-full hover:bg-neutral-700">
+            <button @click="bannerVisible=false" class="flex items-center flex-shrink-0 translate-x-1 ease-out duration-150 justify-center w-6 h-6 p-1.5 text-white hover:bg-neutral-700">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full h-full">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
