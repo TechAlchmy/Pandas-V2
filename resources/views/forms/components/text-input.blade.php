@@ -7,7 +7,7 @@
             :attributes="\Filament\Support\prepare_inherited_attributes($getExtraInputAttributeBag())
                 ->merge($getExtraAlpineAttributes(), escape: false)
                 ->merge([
-                    'placeholder' => $getPlaceholder(),
+                    'placeholder' => strtoupper($getPlaceholder()),
                     'autocapitalize' => $getAutocapitalize(),
                     'autocomplete' => $getAutocomplete(),
                     'autofocus' => $isAutofocused(),
