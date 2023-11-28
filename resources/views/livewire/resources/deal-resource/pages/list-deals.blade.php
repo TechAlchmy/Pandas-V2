@@ -52,10 +52,10 @@
     <section class="px-[min(6.99vw,50px)] py-8">
         <div class="max-w-[1920px] mx-auto">
             <div class="lg:flex lg:justify-between lg:gap-6">
-                <h1 class="text-2xl lg:text-4xl text-center lg:text-start mb-8 lg:mb-0">
-                    Real people enjoying real perks
+                <h1 class="text-3xl lg:text-6xl font-editorial text-center lg:text-start mb-8 lg:mb-0">
+                    Real people<br />enjoying real perks
                 </h1>
-                <div class="lg:w-1/2">
+                <div class="lg:w-1/4">
                     <div>Show us how Panda helps you live more life on your terms! Tag us @PandaPeople on Instagram and TikTok.</div>
                 </div>
             </div>
