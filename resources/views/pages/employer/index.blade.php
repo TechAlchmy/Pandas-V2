@@ -67,8 +67,7 @@ name('employer');
                                 <br />
                                 <br />
                                 Our curated benefits bring real impact at a low cost to employers while helping your
-                                people
-                                live fuller life.
+                                people live fuller lives.
                             </p>
                             <x-link href="employer/benefits" outlined class="hover:bg-panda-green hover:border-transparent">View Benefits</x-link>
                         </div>
