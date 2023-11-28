@@ -9,5 +9,9 @@
     @endif
     <div class="h-32"></div>
     {{ $slot }}
-    <x-footer />
+    @if ($forEmployer)
+        <x-footer.extra />
+    @else
+        <x-footer />
+    @endif
 </x-layouts.base>
