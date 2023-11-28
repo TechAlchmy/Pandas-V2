@@ -1,5 +1,5 @@
 <div>
-    <section class="px-[min(6.99vw,50px)] py-8">
+    <section class="px-[min(6.99vw,50px)] py-8 bg-neutral-200 lg:sticky lg:top-28 lg:z-10">
         <div class="max-w-[1920px] mx-auto lg:flex lg:justify-between lg:gap-6">
             <h1 class="text-2xl lg:text-4xl text-center lg:text-start mb-8 lg:mb-0">
                 Live More with Panda-Powered Deals + Discounts
