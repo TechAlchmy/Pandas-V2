@@ -5,9 +5,9 @@
 <x-layouts.app for-employer>
     <section class="flex flex-col lg:flex-row mx-auto w-full max-w-[1920px]">
         <div class="mt-8 overflow-hidden">
-            <img class="hidden md:block lg:hidden -ml-10 min-w-[125vw]" src="{{ getMediaPath('assets/employer-company-tablet.png') }}" />
             <img class="hidden mx-auto lg:block lg:px-8 2xl:px-0" src="{{ getMediaPath('assets/employer-company-desktop.png') }}" />
-            <img class="md:hidden -ml-40 min-w-[150vw]" src="{{ getMediaPath('assets/employer-company-mobile.png') }}" />
+            <img class="lg:hidden -ml-10 min-w-[125vw]" src="{{ getMediaPath('assets/employer-company-tablet.png') }}" />
+            {{-- <img class="md:hidden -ml-40 min-w-[150vw]" src="{{ getMediaPath('assets/employer-company-mobile.png') }}" /> --}}
             <div class="flex flex-col lg:flex-row-reverse">
                 <div class="p-8 mt-10 md:-mr-4 md:-mt-20 lg:-mt-24 lg:-mr-10 lg:-ml-60 2xl:-mt-48 md:max-w-xs lg:max-w-lg md:mx-auto">
                     <h2 class="text-4xl font-editorial">About Us</h2>
