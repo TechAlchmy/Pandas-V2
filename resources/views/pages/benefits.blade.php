@@ -45,7 +45,7 @@ name('benefits');
         </div>
         <img class="lg:hidden min-w-[125vw] -ml-20 lg:-ml-72 2xl:-ml-[42rem] -mt-8 md:-mt-16 lg:-mt-96" src="{{ getMediaPath('assets/benefit-circles.png') }}" alt="Collages images" />
     </section>
-    <section class="px-[min(6.99vw,50px)] py-8 md:-mt-40 lg:mt-0">
+    <section class="px-[min(6.99vw,50px)] py-8 md:-mt-40">
         <div class="max-w-[1920px] mx-auto">
             <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
                 <div x-data="{ shown: false }" x-intersect.once="shown = true">
