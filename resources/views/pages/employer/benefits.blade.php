@@ -149,7 +149,7 @@
                     <li>New Balance</li>
                 </ul>
             </div>
-            <div>
+            <div class="text-right">
                 <x-link class="hover:bg-panda-green hover:border-transparent" href="employer/resources" outlined>Schedule a demo</x-link>
             </div>
         </div>
