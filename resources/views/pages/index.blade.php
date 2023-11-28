@@ -81,7 +81,7 @@
                             <li>Financial planning</li>
                             <li>Health + mental wellness</li>
                         </ul>
-                        <x-link class="hover:bg-panda-green" color="white" outlined href="/deals">Learn More</x-link>
+                        <x-link class="hover:bg-panda-green" color="white" outlined href="/benefits">Learn More</x-link>
                         <p class="text-xs">*Not all deals/benefits available in all areas</p>
                     </div>
                 </div>
