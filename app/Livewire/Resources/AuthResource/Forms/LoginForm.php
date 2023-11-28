@@ -68,11 +68,13 @@ class LoginForm extends Component implements HasForms
                 Forms\Components\TextInput::make('email')
                     ->hiddenLabel()
                     ->placeholder('Email')
+                    ->extraInputAttributes(['class' => 'placeholder-black'], true)
                     ->view('forms.components.text-input')
                     ->required(),
                 Forms\Components\TextInput::make('password')
                     ->hiddenLabel()
                     ->placeholder('Password')
+                    ->extraInputAttributes(['class' => 'placeholder-black'])
                     ->view('forms.components.text-input')
                     ->password()
                     ->required(),
