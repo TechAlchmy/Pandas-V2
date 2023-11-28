@@ -29,7 +29,11 @@
                 <x-hr />
                 <div class="flex items-center justify-between">
                     <h3 class="text-6xl font-editorial">
-                        Deals
+                        @if (empty($this->filter['category_id']))
+                            Deals
+                        @else
+                            {{ \App\Models\Category::find($this->filter['category_id'])->name }}
+                        @endif
                     </h3>
                     <select wire:model.live="sort">
                         <option value="random">Recommended</option>
