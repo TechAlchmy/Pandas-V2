@@ -117,7 +117,9 @@
                     <p class="lg:text-lg">
                         Panda People has partnered with retailers and entertainers to get your employees deep discounts on everything from sneakers to workwear to amusement park tickets.
                         <br /><br />
-                        Up to 30% off
+                        <u>
+                            Up to 30% off
+                        </u>
                     </p>
                 </div>
             </div>
