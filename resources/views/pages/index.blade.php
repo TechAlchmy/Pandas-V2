@@ -22,7 +22,7 @@
         <section class="px-[min(6.99vw,50px)] py-4 max-w-[1920px] mx-auto lg:min-h-[90vh]">
             <div class="flex flex-col justify-between gap-6 border-y py-6 lg:min-h-[90vh]">
                 <div class="lg:flex justify-between gap-4">
-                    <h2 class="text-4xl lg:text-6xl font-editorial">
+                    <h2 class="text-4xl lg:text-6xl xl:text-8xl font-editorial">
                         Deals on Daily Essentials
                     </h2>
                     <div class="space-y-6">
