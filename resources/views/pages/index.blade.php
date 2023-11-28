@@ -73,7 +73,7 @@
                         <img class="-ml-52 min-w-[150vw] lg:min-w-[80vw] lg:max-w-md 2xl:-ml-96" src="{{ getMediaPath('assets/pandas-3-circle.png') }}" alt="3 different color of circles" />
                     </div>
                     <div class="space-y-6 lg:mt-20" x-data="{ shown: false }" x-intersect.once="shown = true">
-                        <h1 x-show="shown" x-transition.duration.2000 class="font-editorial text-6xl">Benefits with Panda</h1>
+                        <h1 x-show="shown" x-transition.duration.2000 class="font-editorial text-4xl">Benefits with Panda</h1>
                         <ul class="list-disc list-inside">
                             <li>Discounts on rent</li>
                             <li>Cellphone programs</li>
