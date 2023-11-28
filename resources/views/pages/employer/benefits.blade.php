@@ -113,7 +113,7 @@
                         …and Purchases Essential to Life
                     </h2>
                 </div>
-                <div class="space-y-6 lg:space-y-8 z-[1]">
+                <div class="space-y-6 lg:space-y-8 z-[1] lg:max-w-xs lg:ml-auto lg:mr-0">
                     <p class="lg:text-lg">
                         Panda People has partnered with retailers and entertainers to get your employees deep discounts on everything from sneakers to workwear to amusement park tickets.
                         <br /><br />
