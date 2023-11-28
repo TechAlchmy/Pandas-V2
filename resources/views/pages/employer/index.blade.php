@@ -49,7 +49,7 @@ name('employer');
                 <div class="hidden max-w-3xl mt-40 lg:block">
                     <h3 class="text-4xl font-editorial">Our Benefits</h3>
                     <div class="grid grid-cols-2 gap-1">
-                        <ul class="list-disc lg:text-lg xl:text-xl 2xl:text-2xl">
+                        <ul class="list-disc lg:text-lg xl:text-xl 2xl:text-2xl list-inside">
                             <li>Housing Discount</li>
                             <li>Exclusive Cell Phone Plans</li>
                             <li>Childcare</li>
@@ -82,7 +82,7 @@ name('employer');
         <div class="lg:hidden px-[min(6.99vw,50px)]">
             <h3 class="text-4xl font-editorial">Our Benefits</h3>
             <div class="grid grid-cols-1 gap-4">
-                <ul class="list-disc">
+                <ul class="list-disc list-inside">
                     <li>Housing Discount</li>
                     <li>Exclusive Cell Phone Plans</li>
                     <li>Childcare</li>
