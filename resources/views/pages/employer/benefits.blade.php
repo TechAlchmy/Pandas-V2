@@ -158,8 +158,8 @@
     <section class="bg-black">
         <div class="w-full py-8 space-y-8 mx-auto max-w-[1920px] ">
             <div class="text-white">
-                <h4 class="text-6xl text-left md:text-center md:-ml-60 lg:-ml-80 font-editorial lg:text-7xl xl:text-8xl 2xl:text-9xl">Attract. Retain.</h4>
-                <h4 class="text-6xl text-right md:text-center md:ml-60 lg:ml-80 font-editorial lg:text-7xl xl:text-8xl 2xl:text-9xl">Grow. Perform.</h4>
+                <h4 class="text-5xl text-left md:text-center md:-ml-60 lg:-ml-80 font-editorial lg:text-6xl xl:text-7xl 2xl:text-8xl">Attract. Retain.</h4>
+                <h4 class="text-5xl text-right md:text-center md:ml-60 lg:ml-80 font-editorial lg:text-6xl xl:text-7xl 2xl:text-8xl">Grow. Perform.</h4>
             </div>
         </div>
         <x-hr class="border-white" />
