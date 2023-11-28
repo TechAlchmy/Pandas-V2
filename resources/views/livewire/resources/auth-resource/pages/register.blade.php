@@ -19,7 +19,6 @@
                     </x-button>
                 </form>
             </div>
-            <div class="h-12"></div>
             <div class="items-center gap-2 lg:flex">
                 <p class="my-10">Already registered?<br> Sign in now.</p>
                 <div>

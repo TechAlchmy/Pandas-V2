@@ -18,7 +18,6 @@ name('login');
             <div class="space-y-6">
                 <h1 class="font-editorial text-4xl font-thin mb-10">Already<br/>a member?<br> Access your Panda Portal here.</h1>
                 <livewire:resources.auth-resource.forms.login-form />
-                <div class="h-12"></div>
                 <div class="lg:flex items-center gap-2">
                     <p class="my-10">Not registered yet?<br> No problem, it’s quick and easy to set up a Panda account.</p>
                     <div>
