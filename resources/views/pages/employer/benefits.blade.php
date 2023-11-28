@@ -152,7 +152,7 @@
                 </ul>
             </div>
             <div class="text-right">
-                <x-link class="hover:bg-panda-green hover:border-transparent" href="employer/resources" outlined>Schedule a demo</x-link>
+                <x-link class="hover:bg-panda-green hover:border-transparent" href="employer/resources" outlined>Schedule a Demo</x-link>
             </div>
         </div>
         <x-hr />
