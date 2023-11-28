@@ -104,7 +104,7 @@
             Placeholder for video
         </div>
     </section>
-    <section class="px-[min(6.99vw,50px)] py-8">
+    <section class="px-[min(6.99vw,50px)] py-8 bg-neutral-200">
         <x-hr />
         <div class="max-w-[1920px] mx-auto">
             <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
