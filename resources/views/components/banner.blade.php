@@ -16,7 +16,7 @@
                             Here, you’ll find a new world of benefits curated to help you do what you love on your terms.
                             We’re here to help you live inquisitively, play, and explore more of life with less stress.
                         </p>
-                        <x-link :href="route('dashboard')" outlined color="white">Learn More</x-link>
+                        <x-link href="/benefits" outlined color="white">View My Benefits</x-link>
                     </div>
                 </div>
             </div>
