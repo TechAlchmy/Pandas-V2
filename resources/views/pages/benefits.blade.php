@@ -19,7 +19,7 @@ name('benefits');
                     <div></div>
                     <div></div>
                     <div></div>
-                    <div class="space-y-6">
+                    <div class="space-y-6 lg:mt-8">
                         <p class="">
                             Real benefits for real people start with Panda. We’re here to help you thrive in ways that matter to you, so you can give more and get more when it’s go time—in life and work.
                         </p>
