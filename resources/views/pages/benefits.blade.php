@@ -49,7 +49,7 @@ name('benefits');
         <div class="max-w-[1920px] mx-auto">
             <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
                 <div x-data="{ shown: false }" x-intersect.once="shown = true">
-                    <h2 x-show="shown" x-transition.duration.2000 class="max-w-xl text-6xl font-editorial">
+                    <h2 x-show="shown" x-transition.duration.2000 class="max-w-xl text-6xl lg:text-7xl xl:text-8xl font-editorial">
                         Benefits for Life Essentials
                     </h2>
                     <p>
