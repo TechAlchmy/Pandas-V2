@@ -7,29 +7,20 @@ name('employer');
     <section class="bg-black">
         <div class="flex flex-col lg:flex-row mx-auto w-full max-w-[1920px]">
             <div class="py-8 mt-8 overflow-hidden">
-                <img class="hidden md:block lg:hidden -ml-10 min-w-[125vw]" src="{{ getMediaPath('assets/employer-index-tablet.png') }}" />
-                <img class="hidden mx-auto lg:block lg:px-8 2xl:px-0" src="{{ getMediaPath('assets/employer-index-desktop.png') }}" />
+                {{-- <img class="hidden md:block lg:hidden -ml-10 min-w-[125vw]" src="{{ getMediaPath('assets/employer-index-tablet.png') }}" /> --}}
+                <img class="hidden mx-auto md:block md:px-8 lg:px-12 2xl:px-0" src="{{ getMediaPath('assets/employer-index-desktop.png') }}" />
                 <img class="md:hidden -ml-40 min-w-[150vw]" src="{{ getMediaPath('assets/employer-index-mobile.png') }}" />
-                <div class="flex flex-col lg:flex-row-reverse">
-                    <div class="-mt-32 -mr-10 md:-mr-20 md:-mt-20 lg:-mt-40 lg:-mr-10 lg:-ml-60 2xl:-mt-48 2xl:-mr-0 md:max-w-[90vw] md:mx-auto">
-                        <img class="order-1 lg:order-0 2xl:min-w-[35vw]" src="{{ getMediaPath('assets/employer-grow2.png') }}" />
-                    </div>
+                <div class="flex flex-col gap-6 p-4 md:px-10 lg:max-w-[40vw] lg:-mt-56 xl:-mt-72" x-data="{ shown: false }" x-intersect.once="shown = true">
+                    <p class="text-white" x-show="shown" x-transition.opacity.duration.2000>
+                        Support your people’s growth with meaningful benefits that go beyond single-digit
+                        discounts for exclusive gyms. At Panda People, we deliver benefits that promote cultures
+                        of engagement and expansion by easing the cost of daily essentials, relieving stress,
+                        and cultivating space to play.
+                    </p>
                     <div>
-                        <div class="w-4/5 lg:w-3/5 flex flex-col md:flex-row  p-[50px] mt-[50px] text-container">
-                            <div class="flex flex-col gap-6 md:px-10" x-data="{ shown: false }" x-intersect.once="shown = true">
-                                <p class="text-white font-aeonik" x-show="shown" x-transition.opacity.duration.2000>
-                                    Support your people’s growth with meaningful benefits that go beyond single-digit
-                                    discounts for exclusive gyms. At Panda People, we deliver benefits that promote cultures
-                                    of engagement and expansion by easing the cost of daily essentials, relieving stress,
-                                    and cultivating space to play.
-                                </p>
-                                <div>
-                                    <x-link outlined color="white" href="/employer/reesources">
-                                        Schedule a demo today
-                                    </x-link>
-                                </div>
-                            </div>
-                        </div>
+                        <x-link outlined color="white" href="/employer/reesources">
+                            Schedule a demo today
+                        </x-link>
                     </div>
                 </div>
             </div>
