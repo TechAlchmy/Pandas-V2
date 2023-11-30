@@ -28,6 +28,8 @@ use Livewire\Attributes\Renderless;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 
+use function Filament\Support\format_money;
+
 class ViewDeal extends Component implements HasActions, HasForms
 {
     use InteractsWithActions;
@@ -113,7 +115,7 @@ class ViewDeal extends Component implements HasActions, HasForms
     #[Computed()]
     public function paidAmount()
     {
-        return $this->amount * ($this->record->public_percentage / 100 / 100);
+        return format_money($this->amount - ($this->amount * ($this->record->public_percentage / 100 / 100)), 'USD');
     }
 
     public function createOrder($data)

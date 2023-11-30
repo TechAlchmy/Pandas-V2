@@ -63,6 +63,12 @@
                                     <span>Max: {{ \Filament\Support\format_money($this->record->bh_max / 100, 'USD') }}</span>
                                 </div>
                             </div>
+                            <div class="w-full">
+                                <label class="text-panda-green">You pay*</label>
+                                <div class="max-w-[10rem] bg-panda-green text-white p-2">
+                                    {{ $this->paidAmount }}
+                                </div>
+                            </div>
                         </div>
                         <div class="flex items-center gap-6">
                             <x-button class="hover:bg-panda-green hover:border-transparent" x-on:click="$wire.validateOrder(true)" outlined>
