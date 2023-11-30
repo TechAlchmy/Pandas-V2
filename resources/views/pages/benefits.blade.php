@@ -65,7 +65,7 @@ name('benefits');
                 </div>
                 <div class="space-y-6">
                     <h3 class="text-xl">Here’s more of what we can offer:</h3>
-                    <ul x-data="{ activeAccordion: 0 }" class="divide-y">
+                    <ul x-data="{ activeAccordion: 0 }" class="divide-y border-y">
                         @php
                             $items = [
                                 'Up to 20% off your rent' => 'We know rent is likely your greatest expense, so we’ve done something about it. By working with select landlords, we are helping people like you lower your rent by up to 20%.',
