@@ -173,6 +173,7 @@ name('employer');
                     <li>Your people giving more when it’s go time</li>
                 </ul>
                 <x-link class="hover:border-transparent hover:bg-panda-green" outlined href="employer/resources">Get Started Today</x-link>
+                <x-hr />
             </div>
         </div>
     </section>
