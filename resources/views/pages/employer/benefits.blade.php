@@ -23,7 +23,7 @@
                         <p class="">
                             Panda People’s voluntary benefits give your people a daily boost where it matters so they can make space to live, play, and party on their terms. Everyone’s got a unique style, even if they’re in a uniform. Reward their flair and see real culture emerge.
                         </p>
-                        <x-link color="white" outlined href="#benefits">View benefits</x-link>
+                        <x-link color="white" outlined href="#benefits">View Benefits</x-link>
                     </div>
                 </div>
             </div>
