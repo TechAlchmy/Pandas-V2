@@ -161,7 +161,7 @@ name('employer');
                     </div>
                 </div>
             </div>
-            <div class="p-8 space-y-6">
+            <div class="p-8 space-y-6 bg-neutral-200">
                 <h2 class="text-6xl font-light font-editorial">Let’s Show You<br/>How Panda Makes a Difference</h2>
                 <x-hr />
                 <p class="lg:text-lg xl:text-xl">
