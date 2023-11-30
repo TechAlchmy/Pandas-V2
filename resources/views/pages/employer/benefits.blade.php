@@ -49,28 +49,28 @@
                         $items = [
                             'Childcare' => "<div>
                             <p>Parents mean business when it comes to childcare. So do we. Childcare costs have risen at twice the rate of inflation. This benefit helps parents worry less about finding affordable care for their kids so they can perform better at work.</p>
-                            <ul>
+                            <ul class='list-inside list-disc'>
                                 <li>10% off local and nationally recognized child daycare and early education programs</li>
                                 <li>Our concierge help employees find childcare in their area that fits their needs and budget</li>
                                 <li>Expert assistance to help you develop on-site childcare programs for your employees</li>
                             </ul>
                         </div>
                         ",
-                            'Housing Program' => "<ul>
+                            'Housing Program' => "<ul class='list-inside list-disc'>
                             <li>We enable employers to offer real housing assistance—discounted rent—to create a vast distinction between you and the next company.</li>
                             <li>Up to 20% off leases</li>
                         </ul>
                         ",
                             'Cell Phones' => "<div>
                             <p>Save your employees $700+ each year on cell phone plans and open a direct line of communication.</p>
-                            <ul>
+                            <ul class='list-inside list-disc'>
                                 <li>Unlimited talk, text, data, and hotspot</li>
                                 <li>Company-branded smartphones</li>
                                 <li>Easy-to-use service lets you send notifications directly to employees</li>
                             </ul>
                         </div>
                         ",
-                            'Health + Mental Wellness' => "<ul>
+                            'Health + Mental Wellness' => "<ul class='list-inside list-disc'>
                             <li>Teleheath services give employees 24-hour access to primary care, therapy, and mental health services across the country</li>
                             <li>Affordable access to fitness, wellness, and gym memberships</li>
                             <li>Televet services connect employees to veterinary experts at any time, day or night</li>
@@ -78,7 +78,7 @@
                             'Financial Wellness' => 'We’ve partnered with multiple financial advisors to help employees climb out of debt and improve other aspects of financial wellness.',
                             'Grocery Program' => "<div>
                             <p>Grocery costs are among the most impacted commodities when inflation hits. Help your employees with a vital expense through exclusive savings.</p>
-                            <ul>
+                            <ul class='list-inside list-disc'>
                                 <li>X% off groceries through a partnership with local and national supermarket chains</li>
                             </ul>
                         </div>",
@@ -88,7 +88,7 @@
                         <li class="py-6">
                             <button class="text-2xl" x-on:click="activeAccordion = activeAccordion == @js($loop->index) ? null : @js($loop->index)">{{ $item }}</button>
                             <div class="grid grid-cols-1 gap-2 mt-6 lg:grid-cols-2" x-show="activeAccordion == @js($loop->index)">
-                                <div class="prose">{!! $content !!}</div>
+                                <div class="">{!! $content !!}</div>
                                 <div class="text-left">
                                     <x-link class="hover:bg-panda-green hover:border-transparent" outlined href="">Learn more</x-link>
                                 </div>
