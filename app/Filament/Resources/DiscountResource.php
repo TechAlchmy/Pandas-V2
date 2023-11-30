@@ -94,6 +94,8 @@ class DiscountResource extends Resource
                         return in_array($value, [
                             DiscountVoucherTypeEnum::ExternalApiLink->value,
                             DiscountVoucherTypeEnum::GeneratedDiscountCode->value,
+                            DiscountVoucherTypeEnum::DefinedAmountsGiftCard->value,
+                            DiscountVoucherTypeEnum::TopUpGiftCard->value,
                         ]);
                     })
                     ->default(DiscountVoucherTypeEnum::DefinedAmountsGiftCard->value)
@@ -188,6 +190,7 @@ class DiscountResource extends Resource
                     ->columnSpanFull()
                     ->visible(fn ($get) => \in_array($get('voucher_type'), [
                         DiscountVoucherTypeEnum::DefinedAmountsGiftCard->value,
+                        DiscountVoucherTypeEnum::FixedDiscountCode->value,
                     ]))
                     ->tabs([
                         Forms\Components\Tabs\Tab::make('Terms & Conditions')
