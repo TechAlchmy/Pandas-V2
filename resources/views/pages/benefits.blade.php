@@ -80,7 +80,7 @@ name('benefits');
                             <li class="py-6">
                                 <button class="text-xl" x-on:click="activeAccordion = activeAccordion == @js($loop->index) ? null : @js($loop->index)">{{ $item }}</button>
                                 <div class="mt-6" x-show="activeAccordion == @js($loop->index)">
-                                    <p>{{ $content }}</p>
+                                    <p class="lg:max-w-sm">{{ $content }}</p>
                                 </div>
                             </li>
                         @endforeach
