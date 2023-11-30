@@ -9,7 +9,7 @@ name('benefits');
         ->get();
 @endphp
 <x-layouts.app>
-    <section class="overflow-hidden">
+    <section class="">
         <div class="px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto">
             <div class="relative hidden h-screen lg:flex">
                 <div class="absolute top-[-5rem] h-screen -z-10">
@@ -19,7 +19,7 @@ name('benefits');
                     <div></div>
                     <div></div>
                     <div></div>
-                    <div class="space-y-6 lg:mt-8">
+                    <div class="space-y-6 lg:mt-8 lg:text-xs xl:text-base">
                         <p class="">
                             Real benefits for real people start with Panda. We’re here to help you thrive in ways that matter to you, so you can give more and get more when it’s go time—in life and work.
                         </p>
@@ -45,7 +45,7 @@ name('benefits');
         </div>
         <img class="lg:hidden min-w-[125vw] -ml-20 lg:-ml-72 2xl:-ml-[42rem] -mt-8 md:-mt-16 lg:-mt-96" src="{{ getMediaPath('assets/benefit-circles.png') }}" alt="Collages images" />
     </section>
-    <section class="px-[min(6.99vw,50px)] py-8 md:-mt-40">
+    <section class="px-[min(6.99vw,50px)] py-8 md:-mt-40 lg:mt-0">
         <div class="max-w-[1920px] mx-auto">
             <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
                 <div x-data="{ shown: false }" x-intersect.once="shown = true">
