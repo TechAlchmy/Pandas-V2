@@ -49,7 +49,7 @@ name('employer');
                 <div class="hidden max-w-3xl mt-40 lg:block">
                     <h3 class="text-4xl font-editorial">Our Benefits</h3>
                     <div class="grid grid-cols-2 gap-1">
-                        <ul class="list-disc 2xl:text-lg list-inside">
+                        <ul class="list-disc list-inside 2xl:text-lg">
                             <li>Housing Discount</li>
                             <li>Exclusive Cell Phone Plans</li>
                             <li>Childcare</li>
@@ -176,7 +176,7 @@ name('employer');
                 <p class="lg:text-lg xl:text-xl">
                     Schedule a demo with a benefits expert and learn how reducing your workforce’s cost of living means:
                 </p>
-                <ul class="list-disc">
+                <ul class="list-disc list-inside">
                     <li>Improved retention</li>
                     <li>An attractive company culture</li>
                     <li>Your people giving more when it’s go time</li>
