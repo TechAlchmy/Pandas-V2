@@ -110,6 +110,12 @@ class ViewDeal extends Component implements HasActions, HasForms
         $this->js('$dispatch("open-modal", {id: "cardknox"})');
     }
 
+    #[Computed()]
+    public function paidAmount()
+    {
+        return $this->amount * ($this->record->public_percentage / 100 / 100);
+    }
+
     public function createOrder($data)
     {
         $amount = $this->record->voucher_type == DiscountVoucherTypeEnum::DefinedAmountsGiftCard
