@@ -85,11 +85,6 @@ name('benefits');
                             </li>
                         @endforeach
                     </ul>
-                    <div class="flex flex-col gap-6 lg:flex-row">
-                        <div class="lg:w-1/2">
-                            <x-link href="#" class="mx-auto hover:bg-panda-green hover:border-transparent" outlined>See Additional Benefits</x-link>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
