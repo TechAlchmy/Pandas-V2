@@ -162,7 +162,7 @@ name('employer');
                 </div>
             </div>
             <div class="p-8 space-y-6">
-                <h2 class="text-6xl font-light font-editorial">Let’s Show You How Panda Makes a Difference</h2>
+                <h2 class="text-6xl font-light font-editorial">Let’s Show You<br/>How Panda Makes a Difference</h2>
                 <x-hr />
                 <p class="lg:text-lg xl:text-xl">
                     Schedule a demo with a benefits expert and learn how reducing your workforce’s cost of living means:
