@@ -52,7 +52,7 @@ name('benefits');
                     <h2 x-show="shown" x-transition.duration.2000 class="max-w-xl text-6xl lg:text-7xl xl:text-8xl font-editorial">
                         Benefits for Life Essentials
                     </h2>
-                    <div class="lg:max-w-sm lg:mt-6 space-y-6">
+                    <div class="space-y-6 lg:max-w-sm lg:mt-6">
                         <p class="text-xl">
                             At Panda People, we believe in providing you with the types of benefits that enhance life and make work more rewarding.
                         </p>
@@ -64,7 +64,7 @@ name('benefits');
                     </div>
                 </div>
                 <div class="space-y-6">
-                    <h3 class="text-xl">More of what we offer:</h3>
+                    <h3 class="text-xl">Here’s more of what we can offer:</h3>
                     <ul x-data="{ activeAccordion: null }" class="divide-y">
                         @php
                             $items = [
