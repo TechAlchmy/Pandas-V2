@@ -16,8 +16,8 @@
                     </div>
                 </div>
                 <div class="order-1 py-8 text-white lg:order-2 px-[min(6.99vw,50px)] lg:px-0 place-self-center">
-                    <h1 class="text-6xl lg:text-8xl 2xl:text-9xl font-editorial text-[#E0BAA5]">
-                        Benefits that help employees go further
+                    <h1 class="text-5xl lg:text-7xl 2xl:text-8xl font-editorial text-[#E0BAA5]">
+                        Benefits that<br /> help employees<br /> go further
                     </h1>
                     <div class="max-w-lg mt-10 space-y-8">
                         <p class="">
