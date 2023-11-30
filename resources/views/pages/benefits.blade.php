@@ -54,7 +54,8 @@ name('benefits');
                     </h2>
                     <p>
                         At Panda People, we believe in providing you with the types of benefits that enhance life and make work more rewarding.
-
+                    </p>
+                    <p>
                         We’ve partnered with trusted vendors to offer services that ease daily stresses, like finding quality daycare for your kids, paying your cellphone bill, and getting health, wellness, and vet
                         services
                         that fit your needs and wallet.
