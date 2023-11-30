@@ -52,14 +52,16 @@ name('benefits');
                     <h2 x-show="shown" x-transition.duration.2000 class="max-w-xl text-6xl lg:text-7xl xl:text-8xl font-editorial">
                         Benefits for Life Essentials
                     </h2>
-                    <p>
-                        At Panda People, we believe in providing you with the types of benefits that enhance life and make work more rewarding.
-                    </p>
-                    <p>
-                        We’ve partnered with trusted vendors to offer services that ease daily stresses, like finding quality daycare for your kids, paying your cellphone bill, and getting health, wellness, and vet
-                        services
-                        that fit your needs and wallet.
-                    </p>
+                    <div class="lg:max-w-sm  space-y-6">
+                        <p class="text-xl">
+                            At Panda People, we believe in providing you with the types of benefits that enhance life and make work more rewarding.
+                        </p>
+                        <p>
+                            We’ve partnered with trusted vendors to offer services that ease daily stresses, like finding quality daycare for your kids, paying your cellphone bill, and getting health, wellness, and vet
+                            services
+                            that fit your needs and wallet.
+                        </p>
+                    </div>
                 </div>
                 <div class="space-y-6">
                     <h3 class="text-xl">More of what we offer:</h3>
@@ -76,7 +78,7 @@ name('benefits');
                         @endphp
                         @foreach ($items as $item => $content)
                             <li class="py-6">
-                                <button class="text-2xl" x-on:click="activeAccordion = activeAccordion == @js($loop->index) ? null : @js($loop->index)">{{ $item }}</button>
+                                <button class="text-xl" x-on:click="activeAccordion = activeAccordion == @js($loop->index) ? null : @js($loop->index)">{{ $item }}</button>
                                 <div class="mt-6" x-show="activeAccordion == @js($loop->index)">
                                     <p>{{ $content }}</p>
                                 </div>
