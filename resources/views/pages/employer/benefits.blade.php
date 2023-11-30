@@ -79,7 +79,7 @@
                             'Grocery Program' => "<div>
                             <p>Grocery costs are among the most impacted commodities when inflation hits. Help your employees with a vital expense through exclusive savings.</p>
                             <ul class='list-inside list-disc'>
-                                <li>X% off groceries through a partnership with local and national supermarket chains</li>
+                                <li>5-15% off groceries through a partnership with local and national supermarket chains</li>
                             </ul>
                         </div>",
                         ];
