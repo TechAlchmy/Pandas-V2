@@ -70,7 +70,7 @@ name('benefits');
                             $items = [
                                 'Up to 20% off your rent' => 'We know rent is likely your greatest expense, so we’ve done something about it. By working with select landlords, we are helping people like you lower your rent by up to 20%.',
                                 'Cellphone programs' => 'Ditch your costly phone plan and get an Android smartphone at zero cost to you, including unlimited talk, text, data, and hotspot.',
-                                'Trusted child daycare services' => '10% off KinderCare child daycare and early education. Our partners, Wonderschool, help you find childcare in their area that fits your needs and wallet.',
+                                'Trusted child daycare services' => '10% off KinderCare child daycare and early education.<br /> Our partners, Wonderschool, help you find childcare in their area that fits your needs and wallet.',
                                 'Financial Planning' => 'We’ve partnered with Debt.com and other financial advisors to help you climb out of debt and improve other aspects of your financial wellness.',
                                 'Health + Mental Wellness' => 'Get 24-hour access to primary care, therapy, and mental health services across the country',
                                 'Televet Service' => 'Connect with a veterinary expert at any time, day or night, to get your companion the care they deserve',
@@ -80,7 +80,7 @@ name('benefits');
                             <li class="py-6">
                                 <button class="text-xl" x-on:click="activeAccordion = activeAccordion == @js($loop->index) ? null : @js($loop->index)">{{ $item }}</button>
                                 <div class="mt-6" x-show="activeAccordion == @js($loop->index)">
-                                    <p class="lg:max-w-sm">{{ $content }}</p>
+                                    <div class="lg:max-w-sm">{!! $content !!}</div>
                                 </div>
                             </li>
                         @endforeach
