@@ -136,7 +136,7 @@ name('employer');
         </div>
         <div class="lg:max-w-[80vw]">
             <h3 class="mt-20 text-3xl lg:mt-40 md:text-6xl xl:text-7xl font-editorial 2xl:text-8xl">
-                Setting your company apart takes more, but it doesn’t have to cost more.
+                Setting your company apart takes more, but it doesn’t have to <u>cost</u> more.
             </h3>
         </div>
         <x-hr />
