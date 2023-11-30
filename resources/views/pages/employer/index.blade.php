@@ -10,7 +10,7 @@ name('employer');
                 {{-- <img class="hidden md:block lg:hidden -ml-10 min-w-[125vw]" src="{{ getMediaPath('assets/employer-index-tablet.png') }}" /> --}}
                 <img class="hidden mx-auto md:block md:px-8 lg:px-12 2xl:px-0" src="{{ getMediaPath('assets/employer-index-desktop.png') }}" />
                 <img class="md:hidden -ml-40 min-w-[150vw]" src="{{ getMediaPath('assets/employer-index-mobile.png') }}" />
-                <div class="flex flex-col gap-6 p-4 md:px-10 lg:max-w-[40vw] lg:-mt-56 xl:-mt-72" x-data="{ shown: false }" x-intersect.once="shown = true">
+                <div class="lg:ml-20 xl:ml-28 flex flex-col gap-6 p-4 md:px-10 lg:max-w-[35vw] lg:-mt-56 xl:-mt-72" x-data="{ shown: false }" x-intersect.once="shown = true">
                     <p class="text-white" x-show="shown" x-transition.opacity.duration.2000>
                         Support your people’s growth with meaningful benefits that go beyond single-digit
                         discounts for exclusive gyms. At Panda People, we deliver benefits that promote cultures
