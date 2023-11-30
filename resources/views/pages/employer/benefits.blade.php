@@ -19,7 +19,7 @@
                     <h1 class="text-5xl lg:text-7xl 2xl:text-8xl font-editorial text-[#E0BAA5]">
                         Benefits that<br /> help employees<br /> go further
                     </h1>
-                    <div class="max-w-lg mt-10 space-y-8">
+                    <div class="lg:ml-20 max-w-xs mt-10 space-y-8">
                         <p class="">
                             Panda People’s voluntary benefits give your people a daily boost where it matters so they can make space to live, play, and party on their terms. Everyone’s got a unique style, even if they’re in a uniform. Reward their flair and see real culture emerge.
                         </p>
