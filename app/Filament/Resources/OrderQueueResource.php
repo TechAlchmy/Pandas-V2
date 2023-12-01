@@ -153,12 +153,12 @@ class OrderQueueResource extends Resource
             ->recordClasses(fn (Model $record) => match ($record->order_status) {
 
                 BlackHawkOrderStatus::Default => 'bg-gray-100',
-                // BlackHawkOrderStatus::Complete => 'bg-green-100',
+                BlackHawkOrderStatus::FundingHold => 'bg-yellow-100',
                 BlackHawkOrderStatus::Failure => 'bg-red-100',
                 default => null,
             })
 
-            ->defaultSort('id', 'desc')
+            ->defaultSort('created_at', 'desc')
 
             ->filters([
                 Filter::make('flagged')
