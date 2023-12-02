@@ -32,9 +32,9 @@
     <section class="mx-auto max-w-[1920px]">
         <div class="grid grid-cols-1 gap-2 lg:grid-cols-2" x-data="{ activeAccordion: 0 }">
             @foreach (range(0, 5) as $i)
-                <div class="mt-24" x-show="activeAccordion==({{ $i }})">
+                <div class="mt-[4.5rem]" x-show="activeAccordion==({{ $i }})">
                     <img src="{{ getMediaPath('assets/employer-benefit-program-' . $i . '.png') }}" />
-                    <img class="-mt-32 md:-mt-48 xl:-mt-40 2xl:-mt-56" src="{{ getMediaPath('assets/employer-benefits-last-round.png') }}" />
+                    <img class="-mt-32 md:-mt-48 xl:-mt-[11.5rem] 2xl:-mt-56" src="{{ getMediaPath('assets/employer-benefits-last-round.png') }}" />
                 </div>
             @endforeach
             <div class="p-8">
