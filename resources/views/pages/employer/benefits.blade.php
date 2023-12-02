@@ -31,12 +31,15 @@
     </section>
     <section class="mx-auto max-w-[1920px]">
         <div class="grid grid-cols-1 gap-2 lg:grid-cols-2" x-data="{ activeAccordion: 0 }">
-            @foreach (range(0, 5) as $i)
-                <div class="mt-[4.5rem]" x-show="activeAccordion==({{ $i }})">
-                    <img src="{{ getMediaPath('assets/employer-benefit-program-' . $i . '.png') }}" />
-                    <img class="-mt-32 md:-mt-48 xl:-mt-[11.5rem] 2xl:-mt-56" src="{{ getMediaPath('assets/employer-benefits-last-round.png') }}" />
+            <div class="mt-[4.5rem]">
+                <div class="relative">
+                    <h2 class="absolute text-8xl font-editorial top-4 lg:top-10 left-10">Grow</h2>
                 </div>
-            @endforeach
+                @foreach (range(0, 5) as $i)
+                    <img x-show="activeAccordion==@js($i)" src="{{ getMediaPath('assets/employer-benefit-program-' . $i . '.png') }}" />
+                @endforeach
+                <img class="ml-4 -mt-32 md:-mt-40 xl:-mt-48 2xl:-mt-56" src="{{ getMediaPath('assets/employer-benefits-last-round.png') }}" />
+            </div>
             <div class="p-8 space-y-6">
                 <h2 class="text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-editorial">
                     Benefits for Life Essentials
