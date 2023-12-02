@@ -148,16 +148,28 @@ name('employer');
         <div class="grid grid-cols-1 md:grid-cols-2">
             <div>
                 <div class="relative min-h-[10rem] md:h-full w-full bg-cover" style="background-image: url({{ getMediaPath('assets/contact-us-banner.png') }})">
-                    <div x-data="@js(['index' => 0, 'testimonials' => [['Test 1', 'This is good!'], ['Test 2', 'Panda has helped me!'], ['Test 3', 'This is the benefits that I have wanted'], ['Test 1', 'This is is awesome for you employees']]])" x-init="setInterval(() => {
-                        if (index + 1 >= testimonials.length) {
-                            index = 0;
-                        } else {
-                            index++;
-                        }
-                    }, 5000)" class="absolute inset-0 p-6 space-y-4 text-white">
+                    <div x-data="{
+                        ...@js(['testimonials' => [['Test 1', 'This is good!'], ['Test 2', 'Panda has helped me!'], ['Test 3', 'This is the benefits that I have wanted'], ['Test 1', 'This is is awesome for you employees']]]),
+                        index: 0,
+                    }" class="absolute inset-0 p-6 space-y-4">
                         <h3 class="text-4xl lg:text-6xl font-editorial" x-transition x-text="testimonials[index][1]"></h3>
                         <p x-text="testimonials[index][0]" x-transition>
                         </p>
+                        <button x-on:click="
+                            if (index - 1 > 0) {
+                                index--;
+                            } else {
+                                index = testimonials.length - 1;
+                            }">
+                            @svg('arrow', 'h-12 rotate-180 -mx-3')
+                        </button>
+                        <button x-on:click="if (index + 1 >= testimonials.length) {
+                            index = 0;
+                        } else {
+                            index++;
+                        }">
+                            @svg('arrow', 'h-12 -mx-3')
+                        </button>
                     </div>
                 </div>
             </div>
