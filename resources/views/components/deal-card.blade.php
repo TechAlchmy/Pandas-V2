@@ -16,7 +16,7 @@
             <x-a class="inline" :href="route('deals.show', ['id' => $record->slug])">
                 <h4 class="text-sm md:text-xl font-light">{{ $record->brand->name }}</h4>
             </x-a>
-            <p class="text-sm">{{ $record->name }}</p>
+            <p class="text-sm uppercase">{{ $record->name }}</p>
         </div>
     </div>
 
