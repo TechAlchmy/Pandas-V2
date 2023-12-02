@@ -26,7 +26,7 @@
             <div class="md:-mt-40">
                 <img src="{{ getMediaPath('assets/employer-company-what-one.png') }}" alt="Leadership" />
             </div>
-            <div class="flex flex-col justify-center w-full p-8">
+            <div class="flex flex-col justify-center w-full p-8 space-y-6">
                 <p class="lg:text-lg xl:text-xl 2xl:text-2xl">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus consequat urna vitae ornare ullamcorper. Quisque nec ipsum a libero feugiat consequat. Fusce efficitur eu dui a sollicitudin. Maecenas nulla nisl, mollis. Sit amet, consectetur adipiscing elit. Vivamus consequat urna vitae ornare ullamcorper. Quisque nec ipsum a libero feugiat consequat. Fusce efficitur eu dui a sollicitudin. Maecenas nulla nisl, mollis.
                 </p>
