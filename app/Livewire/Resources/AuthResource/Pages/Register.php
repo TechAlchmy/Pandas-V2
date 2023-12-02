@@ -82,7 +82,7 @@ class Register extends Component implements HasForms
         auth()->login($user);
 
         try {
-            $user->notify(new SendUserUnderVerificationNotification);
+            $user->notify(new SendUserUnderVerificationNotification());
         } catch (\Throwable $e) {
             logger()->error($e->getMessage());
         }
@@ -102,9 +102,9 @@ class Register extends Component implements HasForms
                     ->placeholder('Company Registration Code')
                     ->maxLength(255)
                     ->autofocus()
-                    ->visible(fn ($livewire) => empty($livewire->organizationUuid))
-                    ->required(fn ($livewire) => empty($livewire->organizationUuid))
-                    ->dehydrateStateUsing(fn ($state) => \strtoupper($state))
+                    ->visible(fn($livewire) => empty($livewire->organizationUuid))
+                    ->required(fn($livewire) => empty($livewire->organizationUuid))
+                    ->dehydrateStateUsing(fn($state) => \strtoupper($state))
                     ->extraAlpineAttributes(['x-on:keyup' => '$el.value = $el.value.toUpperCase();'])
                     ->view('forms.components.text-input')
                     ->exists(Organization::class)
@@ -147,7 +147,7 @@ class Register extends Component implements HasForms
     {
         return view('livewire.resources.auth-resource.pages.register')
             ->layout('components.layouts.guest', [
-                'forEmployer' => session('url.intended') == route('employer'),
+                'forEmployer' => session('url.intended') == route('employer') || request('from') == 'employer',
             ]);
     }
 
