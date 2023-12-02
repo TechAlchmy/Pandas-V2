@@ -104,7 +104,7 @@ name('benefits');
             </div>
             <div x-data="{ shown: false }" x-intersect.once="shown = true" class="p-8 -mt-20 space-y-4 place-self-center lg:-mt-40 xl:-mt-20">
                 <h2 x-show="shown" x-transition.duration.2000 class="text-4xl xl:text-6xl 2xl:text-7xl font-editorial">
-                    We’re here to help you afford more of what brings you joy and everyday essentials.
+                    We’re here to help you afford everyday essentials and more of what brings you joy
                 </h2>
                 <h5 class="text-xl">
                     Find everyday deals on:
