@@ -117,7 +117,7 @@ name('benefits');
                     @endforeach
                 </ul>
                 <x-link outlined :href="route('deals.index')">
-                    Discover more deals
+                    Discover more
                 </x-link>
             </div>
         </div>
