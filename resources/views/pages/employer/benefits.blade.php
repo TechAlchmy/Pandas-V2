@@ -37,14 +37,14 @@
                     <img class="-mt-32 md:-mt-48 xl:-mt-[11.5rem] 2xl:-mt-56" src="{{ getMediaPath('assets/employer-benefits-last-round.png') }}" />
                 </div>
             @endforeach
-            <div class="p-8">
+            <div class="p-8 space-y-6">
                 <h2 class="text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-editorial">
                     Benefits for Life Essentials
                 </h2>
                 <p class="lg:max-w-xs">
                     Stop spending on pretend perks. Choose true benefits that let employees know their grit and work ethic is being noticed.
                 </p>
-                <ul class="divide-y">
+                <ul class="divide-y border-y">
                     @php
                         $items = [
                             'Childcare' => "<div>
