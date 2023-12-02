@@ -7,7 +7,7 @@
                         <h3 class="text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-editorial" x-transition>The Benefits of tomorrow</h3>
                         <p x-transition>
                             Schedule a demo with an expert in Panda’s employee benefits packages and reward your workforce with perks that reduce their cost of living at less cost to <u>you</u>.
-
+                            <br />
                             The best part? These perks better retention and give you the edge in the competitive talent marketplace.
                         </p>
                     </div>
