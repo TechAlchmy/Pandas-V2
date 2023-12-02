@@ -79,8 +79,9 @@ class LoginForm extends Component implements HasForms
                     ->password()
                     ->required(),
                 Forms\Components\Checkbox::make('remember_me')
-                    ->hint(fn () => new HtmlString(Blade::render('
-                        <x-a class="inline-block underline-animated text-sm text-gray-600" href="/forgot-password">
+                    ->extraInputAttributes(['class' => '!bg-transparent !border-solid !border-black rounded-none color-black'])
+                    ->hint(fn() => new HtmlString(Blade::render('
+                        <x-a class="inline-block text-sm text-gray-600 underline-animated" href="/forgot-password">
                             {{ __("Forgot your password?") }}
                         </x-a>
                     ')))
