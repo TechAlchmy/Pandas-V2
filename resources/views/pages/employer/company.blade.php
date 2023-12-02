@@ -37,7 +37,7 @@
                         <p class="xl:text-md 2xl:text-lg">
                             Join the revolution! We’re on a mission to transform employee benefits and make real change in real workforces. That means everyone at Panda People gets access to the same life-easing benefits we offer our clients (and top secret ones we’re testing out).
                         </p>
-                        <div>
+                        <div class="text-right">
                             <x-link class="hover:bg-black hover:text-white" outlined>Explore Open Roles</x-link>
                         </div>
                     </div>
