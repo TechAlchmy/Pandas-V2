@@ -1,7 +1,7 @@
 <div x-init="setTimeout(() => $wire.updateViews(), 5000)">
     <section class="px-[min(6.99vw,50px)] max-w-[1920px] mx-auto py-8">
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <div class="flex items-center lg:justify-center">
                 @if ($this->record->brand->hasMedia('logo'))
                 {{ $this->record->brand->getFirstMedia('logo')->img()->attributes(['class' => 'max-w-[10rem] w-full']) }}
@@ -30,7 +30,7 @@
                 <div class="flex gap-6">
                     @if ($this->record->voucher_type == \App\Enums\DiscountVoucherTypeEnum::DefinedAmountsGiftCard)
                     <div x-data class="space-y-6">
-                        <div class="flex gap-6 items-center">
+                        <div class="flex items-center gap-6">
                             @if (!$this->record->is_amount_single)
                             <select wire:model.live.number="amount" class="border border-black">
                                 @foreach ($this->record->amount as $amount)
@@ -40,7 +40,7 @@
                             @endif
                             <x-input class="lg:max-w-[50%] !border-solid border-black p-2" type="number" wire:model="quantity" min="1" />
                         </div>
-                        <div class="flex gap-6 items-center">
+                        <div class="flex items-center gap-6">
                             <x-button class="hover:bg-panda-green" x-on:click="$wire.addToCart();$wire.updateClicks()" outlined>
                                 {{ $this->record->cta }}
                             </x-button>
@@ -51,14 +51,14 @@
                     </div>
                     @endif
                     @if ($this->record->voucher_type == \App\Enums\DiscountVoucherTypeEnum::TopUpGiftCard)
-                    <div x-data class="space-y-6 w-full">
-                        <div class="flex gap-6 items-center">
+                    <div x-data class="w-full space-y-6">
+                        <div class="flex items-center gap-6">
                             <div class="w-full">
-                                <div class="flex items-center space-x-1 w-full">
+                                <div class="flex items-center w-full space-x-1">
                                     <span>$</span>
                                     <x-input class="max-w-[10rem] w-full !border-solid border-black p-2" type="number" wire:model.live.debounce="amount" placeholder="Enter amount..." :min="$this->record->bh_min / 100" :max="$this->record->bh_max / 100" />
                                 </div>
-                                <div class="flex items-center gap-1 w-full text-xs mt-2 text-gray-300">
+                                <div class="flex items-center w-full gap-1 mt-2 text-xs text-gray-300">
                                     <span>Min: {{ \Filament\Support\format_money($this->record->bh_min / 100, 'USD') }}</span>
                                     <span>Max: {{ \Filament\Support\format_money($this->record->bh_max / 100, 'USD') }}</span>
                                 </div>
@@ -79,7 +79,7 @@
                             </x-button>
                             <div wire:loading wire:target="validateOrder">
                                 <div class="loader-overlay">
-                                    <svg class="bounce-loader h-8 md:h-12 w-auto text-black hover:animate-bounce" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="none" width="82.487" height="37.987" viewBox="0 0 82.487 37.987">
+                                    <svg class="w-auto h-8 text-black bounce-loader md:h-12 hover:animate-bounce" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="none" width="82.487" height="37.987" viewBox="0 0 82.487 37.987">
                                         <path id="Path_2" data-name="Path 2" d="M25.757,25.967c6.915-9.755,8.121-20.783,2.687-24.635s-15.438.937-22.356,10.69S-2.03,32.807,3.4,36.656s15.441-.934,22.356-10.69" transform="translate(0 0)"></path>
                                         <path id="Path_3" data-name="Path 3" d="M24.954,25.967c-6.915-9.755-8.121-20.783-2.687-24.635s15.438.937,22.356,10.69,8.118,20.786,2.687,24.635-15.441-.934-22.356-10.69" transform="translate(31.777 0)"></path>
                                     </svg>
@@ -125,7 +125,7 @@
                                             }
                                         }" class="relative w-auto space-y-6">
                                         <p>This is placeholder text. Replace it with your own content.</p>
-                                        <div class="p-8 bg-neutral-100 text-center">
+                                        <div class="p-8 text-center bg-neutral-100">
                                             <p class="text-2xl font-light">
                                                 {{ $this->record->code }}
                                             </p>
