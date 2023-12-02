@@ -10,48 +10,49 @@
         </div>
     </section>
     @if ($this->deals->isEmpty())
-    <section x-data="{ shown: false }" x-intersect.once="shown = true" class="px-[min(6.99vw,50px)] max-w-[1920px] mx-auto py-8 text-center font-light">
-        <span x-show="shown" x-transition.opacity.duration.1000ms class="text-6xl break-words">
-            @if ($filter['search'])
-            No results for "{{ $filter['search'] }}"<br />
-            @else
-            No Deals
-            @endif
-        </span>
-    </section>
+        <section x-data="{ shown: false }" x-intersect.once="shown = true" class="px-[min(6.99vw,50px)] max-w-[1920px] mx-auto py-8 text-center font-light">
+            <span x-show="shown" x-transition.opacity.duration.1000ms class="text-6xl break-words">
+                @if ($filter['search'])
+                    No results for "{{ $filter['search'] }}"<br />
+                @else
+                    No Deals
+                @endif
+            </span>
+        </section>
     @endif
     @if (!$this->hasActiveFilter)
-    <x-deals-section title="Featured Deals" class="bg-white" :records="$this->featuredDeals" />
+        <x-deals-section title="Featured Deals" class="bg-white" :records="$this->featuredDeals" />
     @endif
     @if ($this->deals->isNotEmpty())
-    <section class='px-[min(6.99vw,50px)] py-8'>
-        <div class="max-w-[1920px] mx-auto">
-            <x-hr />
-            <div class="flex items-center justify-between">
-                <h3 class="text-6xl font-editorial">
-                    @if (empty($this->filter['category_id']))
-                    Deals
-                    @else
-                    {{ \App\Models\Category::find($this->filter['category_id'])->name }}
-                    @endif
-                </h3>
-                <select wire:model.live="sort">
-                    <option value="created_at">What's new</option>
-                    <option value="random">Recommended</option>
-                    <option value="views">Most Popular</option>
-                    <option value="percentage">% off</option>
-                </select>
+        <section class='px-[min(6.99vw,50px)] py-8'>
+            <div class="max-w-[1920px] mx-auto">
+                <x-hr />
+                <div class="flex items-center justify-between">
+                    <h3 class="text-6xl font-editorial">
+                        @if (empty($this->filter['category_id']))
+                            Deals
+                        @else
+                            {{ \App\Models\Category::find($this->filter['category_id'])->name }}
+                        @endif
+                    </h3>
+                    <select wire:model.live="sort">
+                        <option selected value="">Sort</option>
+                        <option value="created_at">What's new</option>
+                        <option value="random">Recommended</option>
+                        <option value="views">Most Popular</option>
+                        <option value="percentage">% off</option>
+                    </select>
+                </div>
+                <div class="h-10"></div>
+                <div class="grid grid-cols-2 gap-6 lg:grid-cols-4">
+                    @foreach ($this->deals as $deal)
+                        <x-deal-card :record="$deal" />
+                    @endforeach
+                </div>
+                <div class="h-16"></div>
+                <div>{{ $this->deals->links() }}</div>
             </div>
-            <div class="h-10"></div>
-            <div class="grid grid-cols-2 gap-6 lg:grid-cols-4">
-                @foreach ($this->deals as $deal)
-                <x-deal-card :record="$deal" />
-                @endforeach
-            </div>
-            <div class="h-16"></div>
-            <div>{{ $this->deals->links() }}</div>
-        </div>
-    </section>
+        </section>
     @endif
     <x-deals-section title="Recently Viewed" :records="$this->recentlyViewed" />
 
