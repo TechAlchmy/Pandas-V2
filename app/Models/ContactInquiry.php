@@ -12,4 +12,9 @@ class ContactInquiry extends Model
     use HasFactory;
     use SoftDeletes;
     use InteractsWithAuditable;
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

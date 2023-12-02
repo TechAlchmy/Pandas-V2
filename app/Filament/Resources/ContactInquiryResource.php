@@ -43,8 +43,14 @@ class ContactInquiryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->tooltip(fn($record) => $record->user?->name)
+                    ->description(fn($record) => $record->content)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('phone')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('organization_name')
                     ->searchable(),
             ])
             ->filters([
@@ -80,5 +86,11 @@ class ContactInquiryResource extends Resource
             // 'create' => Pages\CreateContactInquiry::route('/create'),
             // 'edit' => Pages\EditContactInquiry::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->with('user');
     }
 }
