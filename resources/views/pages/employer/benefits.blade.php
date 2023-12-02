@@ -124,7 +124,7 @@
                 </div>
             </div>
         </div>
-        <div class="grid grid-cols-1 gap-6 mt-12 lg:mt-52 lg:grid-cols-4">
+        <div class="max-w-[1920px] mx-auto grid grid-cols-1 gap-6 mt-12 lg:mt-52 lg:grid-cols-4">
             <div class="">
                 <h4 class="text-3xl font-editorial">Meals & Entertainment</h4>
                 <ul>
