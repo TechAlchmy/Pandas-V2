@@ -298,7 +298,7 @@ img {
 }
 
 .list-deals .choices__list--dropdown {
-    @apply rounded-none border border-black;
+    @apply border border-black rounded-none;
 }
 
 .checkout-modal .fi-modal-window {
@@ -312,5 +312,9 @@ img {
 .fi-ta-ctn,
 .fi-input-wrp
 {
-    @apply rounded-none border border-black;
+    @apply border border-black rounded-none;
+}
+
+.fi-badge {
+    @apply rounded-none
 }
