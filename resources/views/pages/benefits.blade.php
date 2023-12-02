@@ -109,7 +109,7 @@ name('benefits');
                 <h5 class="text-xl">
                     Find everyday deals on:
                 </h5>
-                <ul class="grid grid-cols-2 max-w-xs">
+                <ul class="grid grid-cols-2 md:max-w-xs">
                     @foreach ($categories as $category)
                         <li>
                             <x-a :href="route('deals.index', ['filter' => ['category_id' => $category->getKey()]])">{{ $category->name }}</x-a>
