@@ -17,6 +17,8 @@ class ContactUsForm extends Component implements HasForms
 
     public $data;
 
+    public $testimonial = false;
+
     public function mount()
     {
         $this->form->fill();
