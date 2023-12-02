@@ -19,8 +19,8 @@
     <x-layouts.app>
         <x-banner-upsell :record="$featuredDiscount" />
         <x-banner :background="getMediaPath('banners/panda-main.png')" />
-        <section class="px-[min(6.99vw,50px)] py-4 max-w-[1920px] mx-auto lg:min-h-[90vh]">
-            <div class="flex flex-col justify-between gap-6 border-y py-6 lg:min-h-[90vh]">
+        <section class="px-[min(6.99vw,50px)] py-4 max-w-[1920px] mx-auto lg:min-h-[50vh]">
+            <div class="flex flex-col justify-between gap-6 border-y py-6 lg:min-h-[50vh]">
                 <div class="lg:flex justify-between gap-4">
                     <h2 class="text-4xl lg:text-6xl xl:text-8xl font-editorial">
                         Deals on Daily Essentials
