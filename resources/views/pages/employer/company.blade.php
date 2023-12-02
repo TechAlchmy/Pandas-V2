@@ -35,7 +35,7 @@
                     <h4 class="text-4xl font-editorial xl:text-6xl 2xl:text-7xl">Careers</h4>
                     <div class="grid grid-cols-1 gap-2 lg:grid-cols-2">
                         <p class="xl:text-md 2xl:text-lg">
-                            Join the revolution! We’re on a mission to transform employee benefits and make real change in real workforces. That means everyone at Panda People gets access to the same life-easing benefits we offer our clients (and top secret ones we’re testing out).s
+                            Join the revolution! We’re on a mission to transform employee benefits and make real change in real workforces. That means everyone at Panda People gets access to the same life-easing benefits we offer our clients (and top secret ones we’re testing out).
                         </p>
                         <div>
                             <x-link class="hover:bg-black hover:text-white" outlined>Explore Open Roles</x-link>
