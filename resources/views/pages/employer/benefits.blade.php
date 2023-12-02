@@ -86,7 +86,7 @@
                     @endphp
                     @foreach ($items as $item => $content)
                         <li class="py-6">
-                            <button class="text-2xl" x-on:click="activeAccordion = activeAccordion == @js($loop->index) ? null : @js($loop->index)">{{ $item }}</button>
+                            <button class="text-2xl" x-on:click="activeAccordion = @js($loop->index)">{{ $item }}</button>
                             <div class="grid grid-cols-1 gap-2 mt-6 lg:grid-cols-2" x-show="activeAccordion == @js($loop->index)">
                                 <div class="">{!! $content !!}</div>
                                 <div class="text-left">
