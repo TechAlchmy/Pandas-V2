@@ -7,7 +7,11 @@ use App\Enums\BlackHawkOrderStatus;
 use App\Enums\OrderStatus;
 use App\Models\ApiCall;
 use App\Models\OrderQueue;
+use App\Models\Setting;
+use App\Notifications\AdminAttentionRequired;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Notification;
+use Throwable;
 
 class BlackHawkService
 {
@@ -201,20 +205,31 @@ class BlackHawkService
             'order_queue_id' => $orderQueue->id,
         ]);
 
-        $promise = Http::withHeaders($headers)->withOptions([
-            'cert' => [$instance->cert, $instance->certPassword]
-        ])
-            ->post(
-                $instance->realtimeOrderApi,
-                $reqData
-            );
+        try {
+            $promise = Http::withHeaders($headers)->withOptions([
+                'cert' => [$instance->cert, $instance->certPassword]
+            ])
+                ->post(
+                    $instance->realtimeOrderApi,
+                    $reqData
+                );
 
-        $success = $promise->created() || $promise->accepted();
-        $apiCall->update([
-            'response' => $promise->json(),
-            'success' => $success,
-            'status_code' => $promise->status()
-        ]);
+            $success = $promise->created() || $promise->accepted();
+            $apiCall->update([
+                'response' => $promise->json(),
+                'success' => $success,
+                'status_code' => $promise->status()
+            ]);
+        } catch (Throwable $t) {
+            // Some error occured while making the api call
+            $receivers = Setting::get('notification_emails');
+
+            Notification::route('mail', $receivers)->notify(new AdminAttentionRequired(
+                "BlackHawk API Error while placing a realtime order [#{$orderQueue->id}]! Contact Blackhawk if this repeats.",
+            ));
+
+            $success = false;
+        }
 
         $orderQueue->stop($success);
     }
@@ -265,20 +280,31 @@ class BlackHawkService
             'order_queue_id' => $orderQueue->id,
         ]);
 
-        $promise = Http::withHeaders($headers)->withOptions([
-            'cert' => [$instance->cert, $instance->certPassword]
-        ])
-            ->post(
-                $instance->bulkOrkderApi,
-                $reqData
-            );
+        try {
+            $promise = Http::withHeaders($headers)->withOptions([
+                'cert' => [$instance->cert, $instance->certPassword]
+            ])
+                ->post(
+                    $instance->bulkOrkderApi,
+                    $reqData
+                );
 
-        $success = $promise->created() || $promise->accepted();
-        $apiCall->update([
-            'response' => $promise->json(),
-            'status_code' => $promise->status(),
-            'success' => $success
-        ]);
+            $success = $promise->created() || $promise->accepted();
+            $apiCall->update([
+                'response' => $promise->json(),
+                'status_code' => $promise->status(),
+                'success' => $success
+            ]);
+        } catch (Throwable $t) {
+            // Some error occured while making the api call
+            $receivers = Setting::get('notification_emails');
+
+            Notification::route('mail', $receivers)->notify(new AdminAttentionRequired(
+                "BlackHawk API Error while placing a bulk order [#{$orderQueue->order_id}]! Contact Blackhawk if this repeats.",
+            ));
+
+            $success = false;
+        }
 
         $orderQueue->stop($success);
     }

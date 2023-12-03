@@ -51,11 +51,10 @@ class EditDiscount extends EditRecord
                     ->body("")
                     ->persistent()
                     ->send();
-    
+
                 $this->halt();
             }
         }
-        
     }
 
     protected function mutateFormDataBeforeSave(array $data): array

@@ -36,13 +36,22 @@ enum BlackHawkOrderStatus: string
     {
         return [
             self::Default->value,
-            self::FundingHold->value,
+            // self::FundingHold->value,
             self::InProcess->value,
             self::NotAllRecordsFunded->value,
             self::NotAllRecordsReversed->value, // This seems rather odd. Some orders revered some succeeded?
             self::Shipped->value,
             self::SuccessfullySentToProcessor->value,
             self::Error->value,
+        ];
+    }
+
+    public static function actionRequired(): array
+    {
+        return [
+            self::FundingHold->value,
+            self::Declined->value,
+            self::Cancelled->value
         ];
     }
 

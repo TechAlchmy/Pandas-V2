@@ -75,7 +75,7 @@ class OrderQueue extends Model
         $this->loadMissing('order.orderDetails.orderDetailRefund');
         // If we already got the gifts, it means black hawk charged us money, so we can't allow resetting flag. Otherwise we will be charged twice.
         return empty($this->gifts)
-            && $this->created_at < now()->subDay()
+            && ($this->created_at < now()->subDay() || $this->order_status === BlackHawkOrderStatus::FundingHold)
             && $this->order->payment_status !== PaymentStatus::Refunded
             && $this->order->orderDetails->pluck('orderDetailRefund')->filter()->count() === 0;
     }
@@ -86,6 +86,7 @@ class OrderQueue extends Model
         // If we already got the gifts, it means black hawk charged us money, so we can't allow resetting flag. Otherwise we will be charged twice.
         return empty($this->gifts)
             && $this->order_status !== BlackHawkOrderStatus::Complete
+            && $this->order_status !== BlackHawkOrderStatus::FundingHold
             && $this->created_at < now()->subMinutes(10)
             && $this->is_order_placed === true
             && $this->order->payment_status !== PaymentStatus::Refunded

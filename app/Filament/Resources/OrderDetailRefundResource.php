@@ -30,6 +30,7 @@ class OrderDetailRefundResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
+        // TODO: Implmennt auto refresh when filament supports it
         return static::$model::flagged()->count();
     }
 
