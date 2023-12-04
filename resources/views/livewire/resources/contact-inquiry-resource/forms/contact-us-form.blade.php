@@ -32,17 +32,19 @@
                         </div>
                     </div>
                 @else
-                    <div class="min-h-[10rem] lg:landscape:h-[85vh] w-full bg-cover p-8 flex flex-col justify-between" style="background-image: url({{ getMediaPath('assets/contactus-employee.png') }})">
+                    <div class="min-h-[10rem] h-full lg:h-[85vh] w-full bg-cover p-8 flex flex-col justify-between" style="background-image: url({{ getMediaPath('assets/contactus-employee.png') }})">
                         <h1 class="text-6xl font-editorial lg:text-7xl 2xl:text-8xl">Both of our ears are open.</h1>
-                        <p>
-                            Questions? Suggestions? They’re all welcome.
-                        </p>
-                        <p>
-                            We’re here to make your Panda Portal as helpful as possible and are always looking for ways to make daily living easier. Like a panda leisurely seeking out its roots, shoots, and leaves for lunch.
-                        </p>
-                        <p>
-                            That said, we love prompt responses and won’t be leisurely about getting back to you.
-                        </p>
+                        <div class="mt-8 space-y-4">
+                            <p>
+                                Questions? Suggestions? They’re all welcome.
+                            </p>
+                            <p>
+                                We’re here to make your Panda Portal as helpful as possible and are always looking for ways to make daily living easier. Like a panda leisurely seeking out its roots, shoots, and leaves for lunch.
+                            </p>
+                            <p>
+                                That said, we love prompt responses and won’t be leisurely about getting back to you.
+                            </p>
+                        </div>
                     </div>
                 @endif
             </div>
