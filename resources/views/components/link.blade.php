@@ -7,7 +7,7 @@
 
 @php
     $buttonClasses = \Illuminate\Support\Arr::toCssClasses([
-        'inline-block text-center border leading-6 rounded-[70%] capitalize',
+        'inline-block text-center border leading-6 rounded-[70%] capitalize transition',
         ...match ($color) {
             'white' => ['text-white hover:bg-white hover:text-black'],
             default => ['text-gray-900'],

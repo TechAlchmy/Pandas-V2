@@ -11,7 +11,7 @@
 @php
     $buttonClasses = \Illuminate\Support\Arr::toCssClasses([
         $buttonClasses,
-        'inline-block text-center border leading-6 rounded-[70%] capitalize',
+        'inline-block text-center border leading-6 rounded-[70%] capitalize transition',
         ...match ($color) {
             'white' => ['text-white hover:bg-white hover:text-black'],
             default => ['text-gray-900'],
@@ -43,10 +43,9 @@
         {{ $slot }}
     </button>
 @elseif ($tag == 'button')
-    <button
-        {{ $attributes->when($action, function ($attributes, $action) {
-                return $attributes->merge(['x-on:click' => $action->getAlpineClickHandler(), 'wire:click' => $action->getLivewireClickHandler(), 'wire:target' => $action->getLivewireTarget()]);
-            })->twMerge([$buttonClasses]) }}>
+    <button {{ $attributes->when($action, function ($attributes, $action) {
+            return $attributes->merge(['x-on:click' => $action->getAlpineClickHandler(), 'wire:click' => $action->getLivewireClickHandler(), 'wire:target' => $action->getLivewireTarget()]);
+        })->twMerge([$buttonClasses]) }}>
         {{ $slot }}
     </button>
 @elseif ($tag == 'a')
