@@ -21,7 +21,7 @@
         <x-banner :background="getMediaPath('banners/panda-main.png')" />
         <section class="px-[min(6.99vw,50px)] py-4 max-w-[1920px] mx-auto lg:min-h-[50vh]">
             <div class="flex flex-col justify-between gap-6 border-y py-6 lg:min-h-[50vh]">
-                <div class="lg:flex justify-between gap-4">
+                <div class="justify-between gap-4 lg:flex">
                     <h2 class="text-4xl lg:text-6xl xl:text-8xl font-editorial">
                         Deals on Daily Essentials
                     </h2>
@@ -35,16 +35,16 @@
                     </div>
                 </div>
                 <div class="flex-grow"></div>
-                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                <div class="grid grid-cols-1 gap-6 md:grid-cols-3 lg:grid-cols-5">
                     @foreach ($categories as $category)
-                        <div class="flex-1 flex flex-col justify-between">
+                        <div class="flex flex-col justify-between flex-1">
                             <x-a :href="route('deals.index', ['filter' => ['category_id' => $category->getKey()]])">
                                 <h3 class="font-editorial text-3xl lg:text-4xl leading-[60px]">{{ $category->name }}</h3>
                             </x-a>
                             <x-a :href="route('deals.index', ['filter' => ['category_id' => $category->getKey()]])">
                                 <div>
-                                    <p class="uppercase text-xl lg:text-2xl">Up to {{ $category->discounts_max_percentage }}% off</p>
-                                    <p class="text-md lg:text-xl leading-7">24-hour access to primary care for less</p>
+                                    <p class="text-xl uppercase lg:text-2xl">Up to {{ $category->discounts_max_percentage }}% off</p>
+                                    <p class="leading-7 text-md lg:text-xl">24-hour access to primary care for less</p>
                                 </div>
                             </x-a>
                         </div>
@@ -54,9 +54,9 @@
         </section>
         <section class="bg-black text-white px-[min(6.99vw,50px)] py-8 overflow-x-hidden">
             <div class="space-y-6 max-w-[1920px] mx-auto">
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
                     <div class="lg:col-span-2" x-data="{ shown: false }" x-intersect.once="shown = true">
-                        <h2 x-show="shown" x-transition.duration.2000 class="font-editorial text-6xl lg:text-8xl">
+                        <h2 x-show="shown" x-transition.duration.2000 class="text-6xl font-editorial lg:text-8xl">
                             Benefits for Life Essentials
                         </h2>
                     </div>
@@ -68,12 +68,12 @@
                         </p>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                <div class="grid grid-cols-1 gap-6 lg:grid-cols-4">
                     <div class="lg:col-span-3">
                         <img class="-ml-52 min-w-[150vw] lg:min-w-[80vw] lg:max-w-md 2xl:-ml-96" src="{{ getMediaPath('assets/pandas-3-circle.png') }}" alt="3 different color of circles" />
                     </div>
                     <div class="space-y-6 lg:mt-20" x-data="{ shown: false }" x-intersect.once="shown = true">
-                        <h1 x-show="shown" x-transition.duration.2000 class="font-editorial text-4xl">Benefits with Panda</h1>
+                        <h1 x-show="shown" x-transition.duration.2000 class="text-4xl font-editorial">Benefits with Panda</h1>
                         <ul class="list-disc list-inside">
                             <li>Discounts on rent</li>
                             <li>Cellphone programs</li>
@@ -94,9 +94,9 @@
             </div>
         </section>
         <section class="hidden px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto">
-            <h1 class="font-editorial text-6xl">Guides</h1>
+            <h1 class="text-6xl font-editorial">Guides</h1>
             <x-hr />
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
                 @foreach (range(1, 3) as $i)
                     <div class="space-y-6">
                         <x-a :href="route('deals.index')">
@@ -137,9 +137,9 @@
 @guest
     <x-layouts.base>
         <x-topbar.simple class="bg-white">
-            <div class="flex gap-6 text-2xl">
+            <div class="flex gap-2 text-xs sm:text-sm md:text-base lg:text-xl">
                 <x-a :href="route('login')">
-                    <span class="">Member Sign In</span>
+                    <span class=""><span class="hidden sm:inline">Member</span> Sign In</span>
                 </x-a>
                 <x-a href="#">
                     <span class="">Schedule a Demo</span>
