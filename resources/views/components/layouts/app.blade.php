@@ -7,10 +7,10 @@
     @else
         <x-topbar />
     @endif
+    <div class="h-24 lg:h-28"></div>
     @auth
         <x-topbar.extension />
     @endauth
-    <div class="h-24 lg:h-28"></div>
     {{ $slot }}
     <div class="flex-grow"></div>
     <x-footer.extra />
