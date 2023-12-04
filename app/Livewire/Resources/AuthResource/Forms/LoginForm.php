@@ -49,7 +49,7 @@ class LoginForm extends Component implements HasForms
 
         $data = $this->form->getState();
 
-        if (! auth()->attempt(Arr::only($data, ['email', 'password']), $data['remember'] ?? false)) {
+        if (! auth()->attempt(Arr::only($data, ['email', 'password']), $data['remember_me'] ?? false)) {
             throw ValidationException::withMessages([
                 'data.email' => __('filament-panels::pages/auth/login.messages.failed'),
             ]);
