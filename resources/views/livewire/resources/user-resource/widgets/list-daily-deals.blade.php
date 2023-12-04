@@ -23,7 +23,7 @@ $categories = computed(function () {
             <h5 class="text-xl">
                 Find everyday deals on:
             </h5>
-            <ul class="grid grid-cols-2 lg:max-w-sm">
+            <ul class="grid grid-cols-2 lg:max-w-xs">
                 @foreach ($this->categories as $category)
                     <li>
                         <x-a :href="route('deals.index', ['filter' => ['category_id' => $category->getKey()]])">{{ $category->name }}</x-a>
