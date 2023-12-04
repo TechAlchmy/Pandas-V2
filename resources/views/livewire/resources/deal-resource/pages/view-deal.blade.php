@@ -74,7 +74,7 @@
                             <x-button class="hover:bg-panda-green hover:border-transparent" x-on:click="$wire.validateOrder(true)" outlined>
                                 {{ $this->record->cta }}
                             </x-button>
-                            <x-button class="hover:bg-panda-green hover:border-transparent" x-data x-on:click="$wire.validateOrder()" outlined size="lg">
+                            <x-button class="hover:bg-panda-green hover:border-transparent" x-data x-on:click="$wire.validateOrder()" outlined>
                                 Buy Now
                             </x-button>
                             <div wire:loading wire:target="validateOrder">
