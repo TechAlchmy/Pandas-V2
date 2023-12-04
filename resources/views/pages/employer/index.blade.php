@@ -9,8 +9,8 @@ name('employer');
             <div class="py-8 mt-8 overflow-hidden">
                 {{-- <img class="hidden md:block lg:hidden -ml-10 min-w-[125vw]" src="{{ getMediaPath('assets/employer-index-tablet.png') }}" /> --}}
                 <img class="hidden mx-auto md:block md:px-8 lg:px-12 2xl:px-0" src="{{ getMediaPath('assets/employer-index-desktop.png') }}" />
-                <img class="md:hidden -ml-40 min-w-[150vw]" src="{{ getMediaPath('assets/employer-index-mobile.png') }}" />
-                <div class="lg:ml-20 xl:ml-28 flex flex-col gap-12 p-4 md:px-10 lg:max-w-[35vw] lg:-mt-56 xl:-mt-72" x-data="{ shown: false }" x-intersect.once="shown = true">
+                <img class="md:hidden -ml-[7.5rem] min-w-[150vw]" src="{{ getMediaPath('assets/employer-index-mobile.png') }}" />
+                <div class="flex flex-col gap-12 p-4 lg:ml-20 xl:ml-28 md:px-10 lg:max-w-md xl:max-w-lg lg:-mt-56 xl:-mt-72" x-data="{ shown: false }" x-intersect.once="shown = true">
                     <p class="text-white" x-show="shown" x-transition.opacity.duration.2000>
                         Support your people’s growth with meaningful benefits that go beyond single-digit
                         discounts for exclusive gyms. At Panda People, we deliver benefits that promote cultures
@@ -30,7 +30,7 @@ name('employer');
         <div class="flex flex-col w-full mx-auto overflow-hidden lg:flex-row max-w-[1920px]">
             <div class="space-y-24 px-[min(6.99vw,50px)] py-8">
                 <div class="space-y-6">
-                    <h2 class="text-4xl font-editorial lg:text-7xl 2xl:text-8xl">What is Panda People</h2>
+                    <h2 class="text-4xl font-editorial lg:text-7xl 2xl:text-8xl">What is<br />Panda People</h2>
                     <p class="lg:text-lg xl:text-xl 2xl:text-2xl lg:max-w-sm lg:ml-20 xl:ml-28">
                         Employee benefits aren’t black and white anymore. There’s a spectrum of perks that can make an
                         impact on
@@ -151,25 +151,31 @@ name('employer');
                     <div x-data="{
                         ...@js(['testimonials' => [['Test 1', 'This is good!'], ['Test 2', 'Panda has helped me!'], ['Test 3', 'This is the benefits that I have wanted'], ['Test 1', 'This is is awesome for you employees']]]),
                         index: 0,
-                    }" class="absolute inset-0 p-6 space-y-4">
-                        <h3 class="text-4xl lg:text-6xl font-editorial" x-transition x-text="testimonials[index][1]"></h3>
-                        <p x-text="testimonials[index][0]" x-transition>
-                        </p>
-                        <button x-on:click="
+                    }" class="absolute inset-0 flex flex-col justify-between p-6 space-y-4">
+                        <div class="space-y-4">
+                            <h3 class="text-4xl lg:text-6xl font-editorial" x-transition x-text="testimonials[index][1]"></h3>
+                            <p x-text="`- ${testimonials[index][0]}`" x-transition>
+                            </p>
+                        </div>
+                        <div>
+                            <button class="group" x-on:click="
                             if (index - 1 > 0) {
                                 index--;
                             } else {
                                 index = testimonials.length - 1;
                             }">
-                            @svg('arrow', 'h-12 rotate-180 -mx-3')
-                        </button>
-                        <button x-on:click="if (index + 1 >= testimonials.length) {
+                                @svg('arrow', 'h-12 rotate-180 -mx-3 group-hover:hidden')
+                                @svg('arrow-hover', 'h-12 rotate-180 -mx-3 hidden group-hover:block')
+                            </button>
+                            <button class="group" x-on:click="if (index + 1 >= testimonials.length) {
                             index = 0;
                         } else {
                             index++;
                         }">
-                            @svg('arrow', 'h-12 -mx-3')
-                        </button>
+                                @svg('arrow', 'h-12 -mx-3 group-hover:hidden')
+                                @svg('arrow-hover', 'h-12 -mx-3 hidden group-hover:block')
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

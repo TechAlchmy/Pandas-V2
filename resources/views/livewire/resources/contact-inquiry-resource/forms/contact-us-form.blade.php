@@ -10,25 +10,31 @@
                         <div x-data="{
                             ...@js(['testimonials' => $this->testimonials]),
                             index: 0,
-                        }" class="absolute inset-0 p-6 space-y-4">
-                            <h3 class="text-4xl lg:text-6xl font-editorial" x-transition x-text="testimonials[index][1]"></h3>
-                            <p x-text="testimonials[index][0]" x-transition>
-                            </p>
-                            <button x-on:click="
+                        }" class="absolute inset-0 flex flex-col justify-between p-6 space-y-4">
+                            <div class="space-y-4">
+                                <h3 class="text-4xl lg:text-6xl font-editorial" x-transition x-text="testimonials[index][1]"></h3>
+                                <p x-text="`- ${testimonials[index][0]}`" x-transition>
+                                </p>
+                            </div>
+                            <div>
+                                <button class="group" x-on:click="
                                 if (index - 1 > 0) {
                                     index--;
                                 } else {
                                     index = testimonials.length - 1;
                                 }">
-                                @svg('arrow', 'h-12 rotate-180 -mx-3')
-                            </button>
-                            <button x-on:click="if (index + 1 >= testimonials.length) {
+                                    @svg('arrow', 'h-12 rotate-180 -mx-3 group-hover:hidden')
+                                    @svg('arrow-hover', 'h-12 -mx-3 rotate-180 hidden group-hover:block')
+                                </button>
+                                <button class="group" x-on:click="if (index + 1 >= testimonials.length) {
                                 index = 0;
                             } else {
                                 index++;
                             }">
-                                @svg('arrow', 'h-12 -mx-3')
-                            </button>
+                                    @svg('arrow', 'h-12 -mx-3 group-hover:hidden')
+                                    @svg('arrow-hover', 'h-12 -mx-3 hidden group-hover:block')
+                                </button>
+                            </div>
                         </div>
                     </div>
                 @else

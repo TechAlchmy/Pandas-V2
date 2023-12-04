@@ -14,7 +14,7 @@
             <div class="flex items-center gap-x-4 lg:hidden">
                 @guest
                     <x-a :href="route('login', ['from' => 'employer'])">
-                        <span class="text-xs md:text-base">Member Sign In</span>
+                        <span class="text-xs md:text-base"><span class="hidden sm:inline">Member</span> Sign In</span>
                     </x-a>
                 @endguest
                 <x-a href="/employer/resources">
@@ -149,7 +149,7 @@
             <div class="hidden gap-3 lg:flex lg:flex-1 lg:justify-end">
                 @guest
                     <x-a :href="route('login', ['from' => 'employer'])">
-                        <span class="">Member Sign In</span>
+                        <span class=""><span class="hidden sm:inline">Member</span> Sign In</span>
                     </x-a>
                 @endguest
                 <x-a href="/employer/resources">
