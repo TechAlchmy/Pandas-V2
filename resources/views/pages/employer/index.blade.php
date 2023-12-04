@@ -39,7 +39,7 @@ name('employer');
                 </div>
                 <div class="hidden mt-40 lg:block lg:ml-20 xl:ml-28">
                     <h3 class="text-4xl font-editorial">Our Benefits</h3>
-                    <div class="grid grid-cols-2 gap-1">
+                    <div class="grid grid-cols-2 gap-1 max-w-7xl">
                         <ul class="list-disc list-inside 2xl:text-lg">
                             <li>Housing Discount</li>
                             <li>Exclusive Cell Phone Plans</li>
@@ -106,14 +106,14 @@ name('employer');
         <div class="px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto">
             <div class="grid grid-cols-1 gap-6 lg:flex">
                 <img class="lg:w-3/5" src="{{ getMediaPath('assets/employer-why-panda.png') }}" />
-                <div class="space-y-6 lg:w-2/5 place-self-center">
+                <div class="max-w-lg space-y-6 lg:w-2/5 place-self-center">
                     <h3 class="text-7xl xl:text-8xl 2xl:text-9xl font-editorial">Why Panda People</h3>
-                    <p class="lg:text-lg 2xl:text-2xl lg:max-w-sm">
+                    <p class="lg:text-lg 2xl:text-2xl">
                         We <u>only</u> offer targeted benefits that have a positive impact on engaging, retaining, and
                         attracting employees where they live, work, and play—from discounts on rent to zero-cost cell
                         phone plans to exclusive entertainment savings.
                     </p>
-                    <p class="lg:text-lg 2xl:text-2xl lg:max-w-sm">
+                    <p class="lg:text-lg 2xl:text-2xl">
                         Panda People’s relationships with local and national vendors mean we can customize benefits that
                         make measurable impacts.
                     </p>
