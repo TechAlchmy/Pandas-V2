@@ -44,7 +44,7 @@
                             <x-button class="hover:bg-panda-green" x-on:click="$wire.addToCart();$wire.updateClicks()" outlined>
                                 {{ $this->record->cta }}
                             </x-button>
-                            <x-button class="hover:bg-panda-green" x-data x-on:click="$dispatch('open-modal', {id: 'cardknox'})" outlined size="lg">
+                            <x-button class="hover:bg-panda-green" x-data x-on:click="$dispatch('open-modal', {id: 'cardknox'})" outlined>
                                 Buy Now
                             </x-button>
                         </div>
