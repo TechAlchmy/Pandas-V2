@@ -44,13 +44,6 @@ class ViewDeal extends Component implements HasActions, HasForms
     #[Rule(['required'])]
     public $amount;
 
-    public function mount()
-    {
-        if (!empty($this->record->amount)) {
-            $this->amount = \head($this->record->amount) / 100;
-        }
-    }
-
     public function validateOrder($shouldAddToCart = false)
     {
         if (empty($this->amount)) {
