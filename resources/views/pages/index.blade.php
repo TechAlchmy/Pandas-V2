@@ -29,7 +29,7 @@
                         <p class="text-2xl">
                             Your day-to-day just got more affordable.
                         </p>
-                        <x-link class="hover:bg-panda-green hover:border-none" outlined href="/deals">
+                        <x-link class="hover:bg-panda-green hover:border-transparent" outlined href="/deals">
                             Discover more
                         </x-link>
                     </div>
