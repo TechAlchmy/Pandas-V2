@@ -104,6 +104,10 @@ class ViewDeal extends Component implements HasActions, HasForms
     #[Computed()]
     public function paidAmount()
     {
+        if (empty($this->amount)) {
+            return null;
+        }
+
         return format_money($this->amount - ($this->amount * ($this->record->public_percentage / 100 / 100)), 'USD');
     }
 
