@@ -37,7 +37,7 @@ name('employer');
                         your employees’ sense of fulfillment and their ability to truly engage with their work.
                     </p>
                 </div>
-                <div class="hidden max-w-3xl mt-40 lg:block lg:ml-20 xl:ml-28">
+                <div class="hidden mt-40 lg:block lg:ml-20 xl:ml-28">
                     <h3 class="text-4xl font-editorial">Our Benefits</h3>
                     <div class="grid grid-cols-2 gap-1">
                         <ul class="list-disc list-inside 2xl:text-lg">
@@ -55,8 +55,8 @@ name('employer');
                                 easing the cost of living can be on improving engagement and retention. With Panda
                                 People,
                                 you get customized benefits that help you meet the needs of your people where they are.
-                                <br />
-                                <br />
+                            </p>
+                            <p>
                                 Our curated benefits bring real impact at a low cost to employers while helping your
                                 people live fuller lives.
                             </p>
@@ -85,8 +85,8 @@ name('employer');
                         Creating a company culture people truly appreciate starts with understanding how impactful
                         easing the cost of living can be on improving engagement and retention. With Panda People,
                         you get customized benefits that help you meet the needs of your people where they are.
-                        <br />
-                        <br />
+                    </p>
+                    <p>
                         Our curated benefits bring real impact at a low cost to employers while helping your people
                         live fuller life.
                     </p>
@@ -112,8 +112,8 @@ name('employer');
                         We <u>only</u> offer targeted benefits that have a positive impact on engaging, retaining, and
                         attracting employees where they live, work, and play—from discounts on rent to zero-cost cell
                         phone plans to exclusive entertainment savings.
-                        <br />
-                        <br />
+                    </p>
+                    <p class="lg:text-lg 2xl:text-2xl lg:max-w-sm">
                         Panda People’s relationships with local and national vendors mean we can customize benefits that
                         make measurable impacts.
                     </p>
