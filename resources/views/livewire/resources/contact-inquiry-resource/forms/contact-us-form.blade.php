@@ -32,7 +32,7 @@
                         </div>
                     </div>
                 @else
-                    <div class="min-h-[10rem] md:h-full w-full bg-cover p-8 flex flex-col justify-between" style="background-image: url({{ getMediaPath('assets/contact-us-banner.png') }})">
+                    <div class="min-h-[10rem] lg:landscape:h-[85vh] w-full bg-cover p-8 flex flex-col justify-between" style="background-image: url({{ getMediaPath('assets/contactus-employee.png') }})">
                         <h1 class="text-6xl font-editorial lg:text-7xl 2xl:text-8xl">Both of our ears are open.</h1>
                         <p>
                             Questions? Suggestions? They’re all welcome.
