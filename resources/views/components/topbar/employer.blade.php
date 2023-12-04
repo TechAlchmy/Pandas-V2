@@ -220,4 +220,3 @@
         </div>
     </div>
 </header>
-<div class="py-8 lg:py-14"></div>
