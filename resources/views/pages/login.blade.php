@@ -24,7 +24,7 @@ name('login');
                 <div class="items-center gap-2 lg:flex">
                     <p class="my-10">Not registered yet?<br> No problem, it’s quick and easy to set up a Panda account.</p>
                     <div>
-                        <x-link class="hover:bg-black hover:text-white" href="/register?from={{ $forEmployer ? 'employer' : '' }}" outlined size="lg">Register</x-link>
+                        <x-link class="hover:bg-black hover:text-white" href="/register?from={{ $forEmployer ? 'employer' : '' }}" outlined>Register</x-link>
                     </div>
                 </div>
             </div>

@@ -14,7 +14,7 @@
             <div>
                 <form wire:submit.prevent="register">
                     {{ $this->form }}
-                    <x-button type="submit" size="lg" outlined class="inline-block mt-8 hover:bg-black hover:text-white">
+                    <x-button type="submit" outlined class="inline-block mt-8 hover:bg-black hover:text-white">
                         Register
                     </x-button>
                 </form>
@@ -22,7 +22,7 @@
             <div class="items-center gap-2 lg:flex">
                 <p class="my-10">Already registered?<br> Sign in now.</p>
                 <div>
-                    <x-link href="/login?from={{ $fromEmployer ? 'employer' : '' }}" outlined size="lg" class="hover:bg-black hover:text-white">Sign in</x-link>
+                    <x-link href="/login?from={{ $fromEmployer ? 'employer' : '' }}" outlined class="hover:bg-black hover:text-white">Sign in</x-link>
                 </div>
             </div>
         </div>
