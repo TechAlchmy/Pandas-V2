@@ -47,7 +47,7 @@ class ViewDeal extends Component implements HasActions, HasForms
     public function mount()
     {
         if (!empty($this->record->amount)) {
-            $this->amount = \head($this->record->amount);
+            $this->amount = \head($this->record->amount) / 100;
         }
     }
 
