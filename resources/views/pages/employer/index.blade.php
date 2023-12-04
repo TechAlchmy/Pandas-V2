@@ -90,7 +90,7 @@ name('employer');
                         Our curated benefits bring real impact at a low cost to employers while helping your people
                         live fuller life.
                     </p>
-                    <x-link href="employer/benefits" class="hover:bg-black hover:text-white">View Benefits</x-link>
+                    <x-link href="employer/benefits" outlined class="hover:bg-black hover:text-white">View Benefits</x-link>
                 </div>
             </div>
         </div>
