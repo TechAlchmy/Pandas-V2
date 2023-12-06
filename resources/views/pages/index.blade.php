@@ -22,8 +22,8 @@
         <section class="px-[min(6.99vw,50px)] py-4 max-w-[1920px] mx-auto lg:min-h-[50vh]">
             <div class="flex flex-col justify-between gap-6 border-y py-6 lg:min-h-[50vh]">
                 <div class="justify-between gap-4 lg:flex">
-                    <h2 class="text-4xl lg:text-6xl xl:text-8xl font-editorial">
-                        Deals on Daily Essentials
+                    <h2 class="text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-editorial">
+                        Deals on Daily<br />Essentials
                     </h2>
                     <div class="space-y-6">
                         <p class="text-2xl">
@@ -138,12 +138,12 @@
     <x-layouts.base>
         <x-topbar.simple class="bg-white">
             <div class="flex gap-2 text-xs sm:text-sm md:text-base lg:text-xl">
-                <x-a :href="route('login')">
+                <x-link outlined class="border-transparent hover:border-black" :href="route('login')">
                     <span class=""><span class="hidden sm:inline">Member</span> Sign In</span>
-                </x-a>
-                <x-a href="#">
+                </x-link>
+                <x-link outlined class="border-transparent hover:border-black" href="/employer/schedule-demo">
                     <span class="">Schedule a Demo</span>
-                </x-a>
+                </x-link>
             </div>
         </x-topbar.simple>
         <div class="h-16 lg:h-32"></div>
