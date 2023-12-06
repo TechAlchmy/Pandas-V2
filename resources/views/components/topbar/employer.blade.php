@@ -152,7 +152,7 @@
                         <span class=""><span class="hidden sm:inline">Member</span> Sign In</span>
                     </x-link>
                 @endguest
-                <x-link outlined class="p-4 border-transparent hover:border-black" href="/employer/resources">
+                <x-link outlined class="p-4 border-transparent hover:border-black" href="/employer/schedule-demo">
                     <span class="">Schedule a Demo</span>
                 </x-link>
             </div>
