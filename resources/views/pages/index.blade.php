@@ -61,7 +61,7 @@
                         </h2>
                     </div>
                     <div class="text-white space-y-6 lg:space-y-8 z-[1]">
-                        <p class="lg:text-lg">
+                        <p class="lg:text-lg xl:text-xl 2xl:text-2xl">
                             At Panda People, we believe in real benefits that make a difference.
                             We know pretend perks only go so far, so we’ve done something about it.
                             Real people like you deserve better, so we’re delivering benefits for life essentials like housing, phone plans, and health + wellness.*
@@ -73,8 +73,8 @@
                         <img class="-ml-52 min-w-[150vw] lg:min-w-[80vw] lg:max-w-md 2xl:-ml-96" src="{{ getMediaPath('assets/pandas-3-circle.png') }}" alt="3 different color of circles" />
                     </div>
                     <div class="space-y-6 lg:mt-20" x-data="{ shown: false }" x-intersect.once="shown = true">
-                        <h1 x-show="shown" x-transition.duration.2000 class="text-4xl font-editorial">Benefits with Panda</h1>
-                        <ul class="list-disc list-inside">
+                        <h1 x-show="shown" x-transition.duration.2000 class="text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-editorial">Benefits with Panda</h1>
+                        <ul class="list-disc list-inside lg:text-lg xl:text-xl 2xl:text-2xl">
                             <li>Discounts on rent</li>
                             <li>Cellphone programs</li>
                             <li>Trusted child daycare services</li>
