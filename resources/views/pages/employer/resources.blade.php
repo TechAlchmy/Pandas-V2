@@ -2,6 +2,8 @@
 ?>
 
 <x-layouts.app for-employer>
+    <div class="p-8 text-4xl text-center font-editorial flex items-center justify-center min-h-[10rem]">Our resources will be published soon.</div>
+    @if (false)
     <livewire:resources.employer-inquiry-resource.forms.employer-inquiry-form />
     <section class="px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto">
         <h1 class="text-6xl font-editorial">Resources</h1>
@@ -40,4 +42,5 @@
             @endforeach
         </div>
     </section>
+    @endif
 </x-layouts.app>
