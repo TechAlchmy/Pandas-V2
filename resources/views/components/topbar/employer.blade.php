@@ -2,8 +2,8 @@
     'forEmployer' => false,
 ])
 <header class="relative z-10 bg-white border-b" x-data="{ mobileMenuOpened: false }">
-    <div class="max-w-[1920px] mx-auto fixed top-0">
-        <nav class="mx-auto flex items-center justify-between px-[min(6.99vw,50px)] py-8 bg-white min-w-[100vw]" aria-label="Global">
+    <div class="min-w-[100vw] bg-white mx-auto border-b fixed top-0">
+        <nav class="mx-auto flex items-center justify-between px-[min(6.99vw,50px)] py-8 max-w-[1920px] " aria-label="Global">
             <div class="flex lg:flex-1">
                 <a href="/employer" class="-m-1.5 p-1.5">
                     <span class="sr-only">Panda People</span>
