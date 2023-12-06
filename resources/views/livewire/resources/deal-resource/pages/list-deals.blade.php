@@ -44,7 +44,7 @@
                     </select>
                 </div>
                 <div class="h-10"></div>
-                <div class="grid grid-cols-2 gap-6 lg:grid-cols-4">
+                <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
                     @foreach ($this->deals as $deal)
                         <x-deal-card :record="$deal" />
                     @endforeach
