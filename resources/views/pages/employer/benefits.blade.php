@@ -42,7 +42,7 @@
             </div>
             <div class="p-8 space-y-6">
                 <h2 class="text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-editorial">
-                    Benefits for Life Essentials
+                    Benefits for<br />Life Essentials
                 </h2>
                 <p class="lg:max-w-xs">
                     Stop spending on pretend perks. Choose true benefits that let employees know their grit and work ethic is being noticed.
@@ -50,15 +50,6 @@
                 <ul class="divide-y border-y">
                     @php
                         $items = [
-                            'Childcare' => "<div>
-                            <p>Parents mean business when it comes to childcare. So do we. Childcare costs have risen at twice the rate of inflation. This benefit helps parents worry less about finding affordable care for their kids so they can perform better at work.</p>
-                            <ul class='list-disc list-inside'>
-                                <li>10% off local and nationally recognized child daycare and early education programs</li>
-                                <li>Our concierge help employees find childcare in their area that fits their needs and budget</li>
-                                <li>Expert assistance to help you develop on-site childcare programs for your employees</li>
-                            </ul>
-                        </div>
-                        ",
                             'Housing Program' => "<ul class='list-disc list-inside'>
                             <li>We enable employers to offer real housing assistance—discounted rent—to create a vast distinction between you and the next company.</li>
                             <li>Up to 20% off leases</li>
@@ -73,18 +64,27 @@
                             </ul>
                         </div>
                         ",
+                            'Childcare' => "<div>
+                            <p>Parents mean business when it comes to childcare. So do we. Childcare costs have risen at twice the rate of inflation. This benefit helps parents worry less about finding affordable care for their kids so they can perform better at work.</p>
+                            <ul class='list-disc list-inside'>
+                                <li>10% off local and nationally recognized child daycare and early education programs</li>
+                                <li>Our concierge help employees find childcare in their area that fits their needs and budget</li>
+                                <li>Expert assistance to help you develop on-site childcare programs for your employees</li>
+                            </ul>
+                        </div>
+                        ",
                             'Health + Mental Wellness' => "<ul class='list-disc list-inside'>
                             <li>Teleheath services give employees 24-hour access to primary care, therapy, and mental health services across the country</li>
                             <li>Affordable access to fitness, wellness, and gym memberships</li>
                             <li>Televet services connect employees to veterinary experts at any time, day or night</li>
                         </ul>",
-                            'Financial Wellness' => 'We’ve partnered with multiple financial advisors to help employees climb out of debt and improve other aspects of financial wellness.',
                             'Grocery Program' => "<div>
                             <p>Grocery costs are among the most impacted commodities when inflation hits. Help your employees with a vital expense through exclusive savings.</p>
                             <ul class='list-disc list-inside'>
                                 <li>5-15% off groceries through a partnership with local and national supermarket chains</li>
                             </ul>
                         </div>",
+                            'Financial Wellness' => 'We’ve partnered with multiple financial advisors to help employees climb out of debt and improve other aspects of financial wellness.',
                         ];
                     @endphp
                     @foreach ($items as $item => $content)
@@ -113,7 +113,7 @@
             <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
                 <div class="lg:col-span-2" x-data="{ shown: false }" x-intersect.once="shown = true">
                     <h2 x-show="shown" x-transition.duration.2000 class="text-2xl md:text-4xl lg:text-6xl xl:text-7xl 2xl:text-8xl md:col-span-2 font-editorial">
-                        …and Purchases Essential to Life
+                        …and Purchases<br />Essential to Life
                     </h2>
                 </div>
                 <div class="space-y-6 lg:space-y-8 z-[1] lg:max-w-xs lg:ml-auto lg:mr-0">
