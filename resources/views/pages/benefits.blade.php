@@ -102,7 +102,7 @@ name('benefits');
                 <img class="lg:hidden -mt-16 sm:max-h-[70vh] mx-auto" src="{{ getMediaPath('assets/benefit-circles-mobile.png') }}" />
                 <img class="hidden lg:block -mt-40 md:-mt-56 lg:min-w-[50vw] lg:-mt-72 xl:-mt-80 2xl:max-h-[70vh] 2xl:mx-auto object-cover" src="{{ getMediaPath('assets/benefit-circles-2.png') }}" />
             </div>
-            <div x-data="{ shown: false }" x-intersect.once="shown = true" class="p-8 -mt-20 space-y-6 place-self-center lg:-mt-28 xl:-mt-16">
+            <div x-data="{ shown: false }" x-intersect.once="shown = true" class="p-8 -mt-20 space-y-6 xl:space-y-12 place-self-center lg:-mt-28 xl:-mt-16">
                 <h2 x-show="shown" x-transition.duration.2000 class="text-3xl xl:text-5xl 2xl:text-6xl font-editorial">
                     We’re here to help you afford everyday essentials and more of what brings you joy
                 </h2>
