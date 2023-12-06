@@ -32,9 +32,6 @@
     <section class="mx-auto max-w-[1920px]">
         <div class="grid grid-cols-1 gap-2 lg:grid-cols-2" x-data="{ activeAccordion: 0 }">
             <div class="mt-[4.5rem]">
-                <div class="relative">
-                    <h2 class="absolute text-8xl font-editorial top-4 lg:top-10 left-10">Grow</h2>
-                </div>
                 @foreach (range(0, 5) as $i)
                     <img x-show="activeAccordion==@js($i)" src="{{ getMediaPath('assets/employer-benefit-program-' . $i . '.png') }}" />
                 @endforeach
