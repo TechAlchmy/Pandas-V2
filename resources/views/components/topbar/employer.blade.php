@@ -148,13 +148,13 @@
             </div>
             <div class="hidden gap-3 lg:flex lg:flex-1 lg:justify-end">
                 @guest
-                    <x-a :href="route('login', ['from' => 'employer'])">
+                    <x-link outlined class="p-4 border-transparent hover:border-black" :href="route('login', ['from' => 'employer'])">
                         <span class=""><span class="hidden sm:inline">Member</span> Sign In</span>
-                    </x-a>
+                    </x-link>
                 @endguest
-                <x-a href="/employer/resources">
+                <x-link outlined class="p-4 border-transparent hover:border-black" href="/employer/resources">
                     <span class="">Schedule a Demo</span>
-                </x-a>
+                </x-link>
             </div>
         </nav>
     </div>
