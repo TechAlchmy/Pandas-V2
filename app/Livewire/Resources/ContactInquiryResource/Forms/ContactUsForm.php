@@ -67,7 +67,7 @@ class ContactUsForm extends Component implements HasForms
                     ->hiddenLabel()
                     ->placeholder('Message')
                     ->view('forms.components.textarea')
-                    ->rows(6)
+                    ->rows(3)
                     ->maxLength(255),
             ]);
     }

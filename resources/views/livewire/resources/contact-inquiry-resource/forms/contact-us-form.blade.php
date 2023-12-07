@@ -1,8 +1,8 @@
 @props([
     'testimonial' => false,
 ])
-<section>
-    <div class="max-w-[1920px] mx-auto">
+<section class="grow flex">
+    <div class="max-w-[1920px] mx-auto flex">
         <div class="grid grid-cols-1 md:grid-cols-2">
             <div>
                 @if ($testimonial)
@@ -38,7 +38,7 @@
                         </div>
                     </div>
                 @else
-                    <div class="min-h-[10rem] h-full lg:h-[85vh] w-full bg-cover p-8 flex flex-col justify-between" style="background-image: url({{ getMediaPath('assets/contactus-employee.png') }})">
+                    <div class="min-h-[10rem] h-full w-full bg-cover p-8 flex flex-col justify-between" style="background-image: url({{ getMediaPath('assets/contactus-employee.png') }})">
                         <h1 class="text-6xl font-editorial lg:text-7xl 2xl:text-8xl">Both of our ears are open.</h1>
                         <div class="mt-8 space-y-4">
                             <p>
@@ -58,7 +58,7 @@
                 <h2 class="text-4xl font-light font-editorial">Contact Us</h2>
                 <form wire:submit.prevent="create">
                     {{ $this->form }}
-                    <div class="flex justify-end">
+                    <div class="flex justify-start">
                         <x-button outlined class="inline-block mt-8 hover:border-transparent hover:bg-panda-green">
                             Send
                         </x-button>

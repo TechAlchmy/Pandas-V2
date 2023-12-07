@@ -13,6 +13,6 @@
         @endauth
     @endif
     {{ $slot }}
-    <div class="flex-grow"></div>
+    <!-- <div class="flex-grow"></div> -->
     <x-footer.extra />
 </x-layouts.base>
