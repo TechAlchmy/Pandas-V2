@@ -47,7 +47,7 @@ class DatabaseSeeder extends Seeder
                 ->create();
 
             $organization->addMediaFromUrl($logoUrl)
-                ->toMediaCollection('logo', 'local');
+                ->toMediaCollection('logo', 's3');
 
             $user = User::factory()
                 ->create([
@@ -151,7 +151,7 @@ class DatabaseSeeder extends Seeder
                             ->state(['name' => $brand])
                             ->create();
 
-                        $brand->addMediaFromUrl($logoUrl)->toMediaCollection('logo', 'local');
+                        $brand->addMediaFromUrl($logoUrl)->toMediaCollection('logo', 's3');
 
                         BrandCategory::factory()
                             ->for($brand)
