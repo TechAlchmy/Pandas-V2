@@ -6,8 +6,8 @@ name('help');
 <x-layouts.app>
     <div class="grid grid-cols-1 lg:grid-cols-2">
         <div>
-            <div class="bg-cover lg:min-h-[90vh]" style="background-image: url({{ getMediaPath('assets/help-page-banner.png') }})">
-                <div class="flex flex-col justify-between gap-16 p-8 lg:min-h-[90vh]">
+            <div class="bg-cover lg:min-h-[65vh]" style="background-image: url({{ getMediaPath('assets/help-page-banner.png') }})">
+                <div class="flex flex-col justify-between gap-16 p-8 lg:min-h-[65vh]">
                     <h1 class="text-6xl font-editorial">Help</h1>
                     <div class="space-y-6 text-xl">
                         <p>
@@ -20,7 +20,7 @@ name('help');
                 </div>
             </div>
         </div>
-        <div class="p-8 space-y-4 max-h-[100vh] overflow-y-scroll">
+        <div class="p-8 space-y-4 max-h-[65vh] overflow-y-scroll">
             <h2 class="text-5xl font-light font-editorial">Frequently Asked Questions</h2>
             <ul class="divide-y border-y" x-data="{ selected: null }">
                 @foreach ([
