@@ -9,7 +9,7 @@
             <path id="Path_30" data-name="Path 30" d="M174.321,29.407c0,16.034-38.939,29.032-86.972,29.032S.375,45.441.375,29.407,39.314.375,87.349.375,174.321,13.373,174.321,29.407Z" transform="translate(0.246 0.462)" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="2" />
         </g>
         <g id="Group_286" data-name="Group 286" transform="translate(391.082 6368.199) rotate(180)">
-            <g id="Group_285" data-name="Group 285" transform="translate(0 0)" clip-path="url(#clip-path)">
+            <g id="Group_285" data-name="Group 285" transform="translate(0 0)">
                 <line id="Line_36" data-name="Line 36" x1="119.391" transform="translate(1.693 15.601)" fill="none" stroke="#000" stroke-width="2" />
                 <path id="Path_116" data-name="Path 116" d="M52.452,29.636.5,15.1v-.089L52.452.482" transform="translate(0.561 0.54)" fill="none" stroke="#000" stroke-width="2" />
             </g>
