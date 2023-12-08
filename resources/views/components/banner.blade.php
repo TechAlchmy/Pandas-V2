@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="absolute bottom-0 min-w-full">
-                <img class="min-w-[40rem] -mb-16 lg:w-full max-w-2xl lg:max-w-[75rem] xl:-mb-32" src="{{ getMediaPath('assets/circler-white.png') }}" alt="2 Circles " />
+                <img class="min-w-[10rem] -mb-16 lg:w-full lg:max-w-[75rem] xl:-mb-32" src="{{ getMediaPath('assets/circler-white.png') }}" alt="2 Circles " />
                 <h4 class="text-black p-8 text-3xl lg:text-6xl xl:text-8xl font-light font-editorial">Live. Grow. Play. Panda.</h4>
             </div>
         </div>
