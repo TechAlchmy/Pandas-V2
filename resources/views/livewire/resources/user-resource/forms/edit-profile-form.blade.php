@@ -1,4 +1,4 @@
-<div class="p-4 lg:p-8 lg:mt-14">
+<div class="p-4 lg:pt-0 lg:pb-0">
     <div x-show="!$wire.isEditing" class="grid grid-cols-1 lg:grid-cols-4 gap-6 border-t pt-4">
         <div>
             <h2 class="text-xl font-bold">{{ auth()->user()->name }}</h2>
