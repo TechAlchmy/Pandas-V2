@@ -11,7 +11,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\URL;
 
-class OrganizationInvitationCreatedNotification extends Notification
+class OrganizationInvitationCreatedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 

@@ -18,6 +18,8 @@ class OrderDetailRefund extends Model
     use BelongsToThrough;
     use InteractsWithAuditable;
 
+    const BH_FAILURE_NOTE = 'API Failure, Need to refund after reviewing';
+
     protected $casts = [
         'approved_at' => 'immutable_datetime',
     ];
@@ -34,17 +36,27 @@ class OrderDetailRefund extends Model
 
     public function discount()
     {
-        return $this->belongsToThrough(OrderDetail::class, Discount::class);
+        return $this->belongsToThrough(Discount::class, OrderDetail::class);
     }
 
     public function brand()
     {
-        return $this->belongsToThrough(OrderDetail::class, [Discount::class, Brand::class]);
+        return $this->belongsToThrough(Brand::class, [Discount::class, OrderDetail::class]);
+    }
+
+    public function user()
+    {
+        return $this->belongsToThrough(User::class, [Order::class, OrderDetail::class]);
     }
 
     public function uniqueIds()
     {
         return ['uuid'];
+    }
+
+    public function scopeFlagged($query)
+    {
+        return $query->whereNull('deleted_at')->whereNull('approved_at');
     }
 
     protected function statusMessage(): Attribute
@@ -54,7 +66,7 @@ class OrderDetailRefund extends Model
                 return 'Rejected at ' . $this->deleted_at->format('d M Y');
             }
 
-            if (! empty($this->approved_at)) {
+            if (!empty($this->approved_at)) {
                 return 'Approved at ' . $this->approved_at->format('d M Y');
             }
 

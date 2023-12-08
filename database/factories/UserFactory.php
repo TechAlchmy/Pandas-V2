@@ -36,6 +36,7 @@ class UserFactory extends Factory
             'deleted_by_id' => null,
             'remember_token' => Str::random(10),
             'organization_verified_at' => now(),
+            'cardknox_customer_id' => env('CARDKNOX_CUSTOMER_ID'),
         ];
     }
 

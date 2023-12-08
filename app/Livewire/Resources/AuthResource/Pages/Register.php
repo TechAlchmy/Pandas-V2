@@ -59,8 +59,8 @@ class Register extends Component implements HasForms
 
         $data['organization_id'] = $this->organization?->getKey()
             ?? Organization::query()
-                ->where('company_registration_code', \data_get($data, 'company_registration_code'))
-                ->value('id');
+            ->where('company_registration_code', \data_get($data, 'company_registration_code'))
+            ->value('id');
 
         \data_forget($data, 'company_registration_code');
 
@@ -81,11 +81,15 @@ class Register extends Component implements HasForms
 
         auth()->login($user);
 
-        $user->notify(new SendUserUnderVerificationNotification);
+        try {
+            $user->notify(new SendUserUnderVerificationNotification());
+        } catch (\Throwable $e) {
+            logger()->error($e->getMessage());
+        }
 
         session()->regenerate();
 
-        return redirect()->intended();
+        return redirect()->to('/');
     }
 
     public function form(Form $form): Form
@@ -98,9 +102,9 @@ class Register extends Component implements HasForms
                     ->placeholder('Company Registration Code')
                     ->maxLength(255)
                     ->autofocus()
-                    ->visible(fn ($livewire) => empty($livewire->organizationUuid))
-                    ->required(fn ($livewire) => empty($livewire->organizationUuid))
-                    ->dehydrateStateUsing(fn ($state) => \strtoupper($state))
+                    ->visible(fn($livewire) => empty($livewire->organizationUuid))
+                    ->required(fn($livewire) => empty($livewire->organizationUuid))
+                    ->dehydrateStateUsing(fn($state) => \strtoupper($state))
                     ->extraAlpineAttributes(['x-on:keyup' => '$el.value = $el.value.toUpperCase();'])
                     ->view('forms.components.text-input')
                     ->exists(Organization::class)
@@ -142,7 +146,9 @@ class Register extends Component implements HasForms
     public function render()
     {
         return view('livewire.resources.auth-resource.pages.register')
-            ->layout('components.layouts.guest');
+            ->layout('components.layouts.guest', [
+                'forEmployer' => session('url.intended') == route('employer') || request('from') == 'employer',
+            ]);
     }
 
     #[Computed]

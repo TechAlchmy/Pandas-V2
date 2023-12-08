@@ -9,14 +9,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\URL;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Squire\Models\Region;
 
-class Organization extends Model
+class Organization extends Model implements HasMedia
 {
     use HasFactory;
     use SoftDeletes;
     use HasUuids;
     use InteractsWithAuditable;
+    use InteractsWithMedia;
+
+    protected $casts = [
+        'voucher_types' => 'array',
+    ];
 
     public function users()
     {
@@ -64,6 +71,12 @@ class Organization extends Model
         return $this->belongsToMany(VoucherType::class, 'organization_voucher_types')
             ->withPivot(['is_active'])
             ->withTimestamps();
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('logo')
+            ->singleFile();
     }
 
     public function uniqueIds()

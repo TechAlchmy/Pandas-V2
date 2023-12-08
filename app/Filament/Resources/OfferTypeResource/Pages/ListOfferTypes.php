@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\OfferTypeResource\Pages;
 
 use App\Filament\Resources\OfferTypeResource;
-use Filament\Pages\Actions;
+use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
 class ListOfferTypes extends ListRecords

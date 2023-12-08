@@ -7,7 +7,7 @@
             <div class="flex shadow-sm transition duration-75 bg-white border border-black">
                 <div class="min-w-0 flex-1">
                     <form action="/deals">
-                        <x-input class="p-2" placeholder="Search Deals" type="search" name="filter[search]" value="{{ request('filter.search') }}" />
+                        <x-input class="p-2" placeholder="Search for Deals" type="search" name="filter[search]" value="{{ request('filter.search') }}" />
                     </form>
                 </div>
                 <div class="flex items-center gap-x-3 ps-3 pe-2">
@@ -58,7 +58,7 @@
                 x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                 x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" class="relative w-full py-6 bg-white px-7 sm:max-w-lg sm:rounded-lg">
                 <div class="flex items-center justify-between pb-2">
-                    <h3 class="text-lg font-semibold">Search Deals</h3>
+                    <h3 class="text-lg font-semibold">Search for Deals</h3>
                     <button @click="openSearch=false" class="absolute top-0 right-0 flex items-center justify-center w-8 h-8 mt-5 mr-5 text-gray-600 rounded-full hover:text-gray-800 hover:bg-gray-50">
                         <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />

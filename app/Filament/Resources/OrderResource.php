@@ -20,6 +20,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\OrderResource\RelationManagers\OrderDetailsRelationManager;
 use App\Forms\Components\AuditableView;
 use Filament\Tables\Actions\Action;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\SelectFilter;
 
 class OrderResource extends Resource
 {
@@ -30,6 +32,17 @@ class OrderResource extends Resource
     protected static ?string $navigationGroup = 'E-Commerce';
 
     protected static ?int $navigationSort = 1;
+
+    public static function getNavigationBadge(): ?string
+    {
+        // TODO: Implmennt auto refresh when filament supports it
+        return static::$model::flagged()->count();
+    }
+
+    public static function getNavigationBadgeColor(): string | array | null
+    {
+        return 'danger';
+    }
 
     public static function form(Form $form): Form
     {
@@ -107,6 +120,15 @@ class OrderResource extends Resource
                         false: fn (Builder $query) => $query->onlyTrashed(),
                         blank: fn (Builder $query) => $query->withoutTrashed(),
                     ),
+                SelectFilter::make('order_status')
+                    ->options(OrderStatus::class),
+            ])
+            ->filtersLayout(FiltersLayout::AboveContent)
+            ->headerActions([
+                Tables\Actions\Action::make('refresh')
+                    ->action(function ($livewire) {
+                        $livewire->js('$wire.$refresh()');
+                    }),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -120,7 +142,7 @@ class OrderResource extends Resource
     public static function getTableColumns(): array
     {
         return [
-            Tables\Columns\TextColumn::make('order_column')
+            Tables\Columns\TextColumn::make('uuid')
                 ->label('Order Number')
                 ->sortable()
                 ->searchable(),

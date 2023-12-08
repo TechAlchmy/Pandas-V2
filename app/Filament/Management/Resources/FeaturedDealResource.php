@@ -6,6 +6,7 @@ use App\Filament\Management\Resources\FeaturedDealResource\Pages;
 use App\Filament\Management\Resources\FeaturedDealResource\RelationManagers;
 use App\Models\Brand;
 use App\Models\BrandOrganization;
+use App\Models\Discount;
 use App\Models\FeaturedDeal;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -29,11 +30,18 @@ class FeaturedDealResource extends Resource
                     ->required()
                     ->searchable()
                     ->relationship('discount', 'name', function ($query) {
+                        $query->with('brand');
                         $query->where('is_active', true);
                         return $query->whereIn('brand_id', BrandOrganization::query()
                             ->select('brand_id')
                             ->where('is_active', true)
                             ->whereBelongsTo(filament()->getTenant()));
+                    })
+                    ->getOptionLabelFromRecordUsing(function ($record) {
+                        return \implode(' - ', [
+                            $record->brand->name,
+                            $record->name,
+                        ]);
                     }),
             ]);
     }

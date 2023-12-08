@@ -7,11 +7,11 @@
             <x-a :href="route('deals.index', ['filter' => ['category_id' => $category->getKey()]])">
                 <div class="invisible opacity-0 group-hover:opacity-100 transition-opacity group-hover:visible absolute inset-y-0 w-full bg-black">
                     <div class="swiper" x-init="new Swiper('.swiper', {
+                        modules: [SwiperAutoplay, SwiperPagination],
                         speed: 400,
                         spaceBetween: 20,
                         slidesPerView: 5,
                         spaceBetween: 10,
-                        rewind: true,
                         autoplay: {
                             delay: 1000,
                             disableOnInteraction: false,
@@ -42,10 +42,12 @@
                         }
                     });">
                         <div class="swiper-wrapper">
+                            @foreach (range(1, 3) as $i)
                             @foreach ($category->brands as $brand)
                                 <div class="swiper-slide py-4 m-auto">
                                     <img class="max-w-[150px] max-h-24 invert" src="{{ $brand->getFirstMediaUrl('logo') }}" alt="{{ $brand->name }} Logo" />
                                 </div>
+                            @endforeach
                             @endforeach
                         </div>
                     </div>

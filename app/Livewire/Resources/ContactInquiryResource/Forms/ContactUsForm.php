@@ -17,6 +17,8 @@ class ContactUsForm extends Component implements HasForms
 
     public $data;
 
+    public $testimonial = false;
+
     public function mount()
     {
         $this->form->fill();
@@ -34,6 +36,8 @@ class ContactUsForm extends Component implements HasForms
             ->success()
             ->title('Received! We will contact you back soon.')
             ->send();
+
+        $this->form->fill();
     }
 
     public function form(Form $form): Form
@@ -53,12 +57,17 @@ class ContactUsForm extends Component implements HasForms
                     ->placeholder('Email')
                     ->view('forms.components.text-input')
                     ->maxLength(255),
+                Forms\Components\TextInput::make('phone')
+                    ->hiddenLabel()
+                    ->placeholder('Phone')
+                    ->view('forms.components.text-input')
+                    ->maxLength(255),
                 Forms\Components\Textarea::make('content')
                     ->required()
                     ->hiddenLabel()
                     ->placeholder('Message')
                     ->view('forms.components.textarea')
-                    ->rows(6)
+                    ->rows(3)
                     ->maxLength(255),
             ]);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Resources\DealResource\Pages;
 
+use App\Enums\DiscountVoucherTypeEnum;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Http\Integrations\Cardknox\Requests\CreatePaymentMethod;
@@ -17,7 +18,8 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
-use Filament\Support\RawJs;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
@@ -25,6 +27,8 @@ use Livewire\Attributes\On;
 use Livewire\Attributes\Renderless;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
+
+use function Filament\Support\format_money;
 
 class ViewDeal extends Component implements HasActions, HasForms
 {
@@ -42,36 +46,123 @@ class ViewDeal extends Component implements HasActions, HasForms
 
     public function mount()
     {
-        $this->amount = \head($this->record->amount);
+        if (!empty($this->record->amount)) {
+            $this->amount = head($this->record->amount) / 100;
+        }
+    }
+
+    public function validateOrder($shouldAddToCart = false)
+    {
+        if (empty($this->amount)) {
+            Notification::make()
+                ->danger()
+                ->title('Please fill an amount')
+                ->send();
+            return;
+        }
+
+        $amount = $this->record->voucher_type == DiscountVoucherTypeEnum::DefinedAmountsGiftCard
+            ? $this->amount
+            : $this->amount * 100;
+        $amount = (int) $amount;
+
+        $subtotal = $this->quantity * $amount;
+
+        if ($this->record->voucher_type == DiscountVoucherTypeEnum::DefinedAmountsGiftCard) {
+            if ($this->record->limit_qty && $this->quantity > $this->record->limit_qty) {
+                Notification::make()
+                    ->danger()
+                    ->title('Quantity maximum limit is ' . $this->record->limit_qty)
+                    ->send();
+
+                return;
+            }
+
+            if ($this->record->limit_amount && $subtotal > $this->record->limit_amount) {
+                Notification::make()
+                    ->danger()
+                    ->title('Maximum amount allowed is ' . $this->record->limit_amount)
+                    ->send();
+
+                return;
+            }
+        }
+
+        if ($this->record->voucher_type == DiscountVoucherTypeEnum::TopUpGiftCard) {
+            if ($this->record->bh_min > $amount || $this->record->bh_max < $amount) {
+                Notification::make()
+                    ->danger()
+                    ->title('limit is ' . \Filament\Support\format_money($this->record->bh_min / 100, 'USD') . ' and ' . \Filament\Support\format_money($this->record->bh_max / 100, 'USD'))
+                    ->send();
+
+                return;
+            }
+        }
+
+        if ($shouldAddToCart) {
+            $this->addToCart();
+            $this->updateClicks();
+            return;
+        }
+
+        $this->js('$dispatch("open-modal", {id: "cardknox"})');
+    }
+
+    #[Computed()]
+    public function paidAmount()
+    {
+        if (empty($this->amount)) {
+            return null;
+        }
+
+        return format_money($this->amount - ($this->amount * ($this->record->public_percentage / 100 / 100)), 'USD');
     }
 
     public function createOrder($data)
     {
-        if ($this->record->limit_qty && $this->quantity > $this->record->limit_qty) {
-            Notification::make()
-                ->danger()
-                ->title('Quantity maximum limit is ' . $this->record->limit_qty)
-                ->send();
+        $amount = $this->record->voucher_type == DiscountVoucherTypeEnum::DefinedAmountsGiftCard
+            ? $this->amount
+            : $this->amount * 100;
+        $amount = (int) $amount;
 
-            return;
+        $subtotal = $this->quantity * $amount;
+
+        if ($this->record->voucher_type == DiscountVoucherTypeEnum::DefinedAmountsGiftCard) {
+            if ($this->record->limit_qty && $this->quantity > $this->record->limit_qty) {
+                Notification::make()
+                    ->danger()
+                    ->title('Quantity maximum limit is ' . $this->record->limit_qty)
+                    ->send();
+
+                return;
+            }
+
+            if ($this->record->limit_amount && $subtotal > $this->record->limit_amount) {
+                Notification::make()
+                    ->danger()
+                    ->title('Maximum amount allowed is ' . $this->record->limit_amount)
+                    ->send();
+
+                return;
+            }
         }
 
-        $subtotal = $this->quantity * $this->amount;
+        if ($this->record->voucher_type == DiscountVoucherTypeEnum::TopUpGiftCard) {
+            if ($this->record->bh_min > $amount || $this->record->bh_max < $amount) {
+                Notification::make()
+                    ->danger()
+                    ->title('limit is ' . \Filament\Support\format_money($this->record->bh_min / 100, 'USD') . ' and ' . \Filament\Support\format_money($this->record->bh_max / 100, 'USD'))
+                    ->send();
 
-        if ($this->record->limit_amount && $subtotal > $this->record->limit_amount) {
-            Notification::make()
-                ->danger()
-                ->title('Maximum amount allowed is ' . $this->record->limit_amount)
-                ->send();
-
-            return;
+                return;
+            }
         }
 
         $discount = (int) \round($subtotal * ($this->record->public_percentage / 100 / 100));
         $tax = 0;
         $total = $subtotal - $discount;
         $data['xAmount'] = $total / 100;
-        $data['xExp'] = $data['xExp_month'].$data['xExp_year'];
+        $data['xExp'] = $data['xExp_month'] . $data['xExp_year'];
 
         if (boolval($data['use_new']) || empty(\data_get($data, 'xToken'))) {
             \data_forget($data, 'xToken');
@@ -82,68 +173,96 @@ class ViewDeal extends Component implements HasActions, HasForms
         }
         \data_forget($data, 'use_new');
 
-        // TODO: add email to the orders table or pass a user_id when creating the order.
-        $order = Order::query()
-            ->create([
-                'user_id' => auth()->id(),
-                'order_status' => OrderStatus::Pending,
-                'payment_status' => PaymentStatus::Pending,
-                'payment_method' => 'card',
-                'order_date' => now(),
-                'order_tax' => 0,
-                'order_subtotal' => $subtotal,
-                'order_discount' => $discount,
-                'order_total' => $total,
-            ]);
+        $data['xInvoice'] = Str::orderedUuid();
 
-        $order->orderDetails()->create([
-            'discount_id' => $this->record->getKey(),
-            'quantity' => $this->quantity,
-            'amount' => $this->amount,
-            'public_percentage' => $this->record->public_percentage,
-            'percentage' => $this->record->percentage,
-        ]);
+        try {
+            $response = Http::post('https://x1.cardknox.com/gatewayjson', new CardknoxBody($data));
 
-        $data['xInvoice'] = $order->order_column;
-
-        $response = Http::post('https://x1.cardknox.com/gatewayjson', new CardknoxBody($data));
-
-        if (filled($response->json('xResult')) && $response->json('xStatus') === 'Error') {
-            $order->update([
-                'order_status' => OrderStatus::Failed,
-                'payment_status' => PaymentStatus::Failed,
-            ]);
-
-            Notification::make()->danger()
+            if (filled($response->json('xResult')) && $response->json('xStatus') === 'Error') {
+                throw new \Exception($response->json('xError'));
+            }
+        } catch (\Throwable $e) {
+            Notification::make()
                 ->title('Error')
-                ->body($response->json('xError'))
+                ->body($e->getMessage())
                 ->send();
 
             return;
         }
 
-        $paymentIds = auth()->user()->cardknox_payment_method_ids ?? [];
-        if (\array_key_exists('should_save_payment_detail', $data)) {
-            $paymentMethodResponse = (new CreatePaymentMethod(
-                customerId: auth()->user()->cardknox_customer_id,
-                token: $response->json('xToken'),
-                tokenType: 'cc',
-                exp: $response->json('xExp'),
-            ))->send();
+        DB::beginTransaction();
 
-            auth()->user()->update(['cardknox_payment_method_ids' => [
-                ...$paymentIds,
-                'cc' => $paymentMethodResponse->json('PaymentMethodId'),
-            ]]);
+        try {
+            $order = Order::query()
+                ->create([
+                    'uuid' => $data['xInvoice'],
+                    'user_id' => auth()->id(),
+                    'order_status' => OrderStatus::Processing,
+                    'checkout_email' => data_get($data, 'xEmail'),
+                    'payment_status' => PaymentStatus::tryFrom((string) $response->json('xStatus')),
+                    'cardknox_refnum' => $response->json('xRefNum'),
+                    'payment_method' => 'card',
+                    'order_date' => now(),
+                    'order_tax' => $tax,
+                    'order_subtotal' => $subtotal,
+                    'order_discount' => $discount,
+                    'order_total' => $total,
+                ]);
+
+            $order->orderDetails()->create([
+                'discount_id' => $this->record->getKey(),
+                'quantity' => $this->quantity,
+                'amount' => $amount,
+                'public_percentage' => $this->record->public_percentage,
+                'percentage' => $this->record->percentage,
+            ]);
+
+            $order->addToQueue();
+
+            DB::commit();
+        } catch (\Throwable $e) {
+            DB::rollBack();
+
+            Notification::make()
+                ->title('Error')
+                ->body($e->getMessage())
+                ->warning()
+                ->send();
+
+            return;
         }
 
-        $order->update([
-            'cardknox_refnum' => $response->json('xRefNum'),
-            'order_status' => OrderStatus::Processing,
-            'payment_status' => PaymentStatus::tryFrom((string) $response->json('xStatus')),
-        ]);
+        try {
+            if (\array_key_exists('should_save_payment_detail', $data)) {
+                $paymentMethodResponse = (new CreatePaymentMethod(
+                    customerId: auth()->user()->cardknox_customer_id,
+                    token: $response->json('xToken'),
+                    tokenType: 'cc',
+                    exp: $response->json('xExp'),
+                ))->send()->throw();
 
-        auth()->user()->notify(new OrderApprovedNotification($order));
+                $paymentIds = auth()->user()->cardknox_payment_method_ids ?? [];
+
+                auth()->user()->update(['cardknox_payment_method_ids' => [
+                    ...$paymentIds,
+                    'cc' => $paymentMethodResponse->json('PaymentMethodId'),
+                ]]);
+            }
+        } catch (\Throwable $e) {
+            logger()->error($e->getMessage());
+
+            Notification::make()
+                ->title('Warning')
+                ->body($e->getMessage())
+                ->warning()
+                ->send();
+        }
+
+        try {
+            auth()->user()->notify(new OrderApprovedNotification($order));
+        } catch (\Throwable $e) {
+            logger()->error($e->getMessage());
+        }
 
         //TODO: Send Notification
         Notification::make()
@@ -154,18 +273,64 @@ class ViewDeal extends Component implements HasActions, HasForms
         return redirect()->route('orders.show', ['id' => $order->uuid]);
     }
 
-    public function addToCart() {
+    public function addToCart()
+    {
         $this->validate();
-        cart()->add($this->record?->getKey(), $this->quantity, $this->amount);
+        if (empty($this->amount)) {
+            Notification::make()
+                ->danger()
+                ->title('Please fill an amount')
+                ->send();
+            return;
+        }
+
+        $amount = $this->record->voucher_type == DiscountVoucherTypeEnum::DefinedAmountsGiftCard
+            ? $this->amount
+            : $this->amount * 100;
+        $amount = (int) $amount;
+
+        if ($this->record->voucher_type == DiscountVoucherTypeEnum::TopUpGiftCard) {
+            if ($this->record->bh_min > $amount || $this->record->bh_max < $amount) {
+                Notification::make()
+                    ->danger()
+                    ->title('limit is ' . \Filament\Support\format_money($this->record->bh_min / 100, 'USD') . ' and ' . \Filament\Support\format_money($this->record->bh_max / 100, 'USD'))
+                    ->send();
+                return;
+            }
+        }
+
+        if ($this->record->voucher_type == DiscountVoucherTypeEnum::TopUpGiftCard) {
+            if (cart()->items()->contains(function ($item) use ($amount) {
+                return $item['itemable']->getKey() == $this->record?->getKey()
+                    && $item['amount'] == $amount;
+            })) {
+                Notification::make()
+                    ->danger()
+                    ->title('Item already in your bag')
+                    ->send();
+
+                return;
+            }
+        }
+
+        cart()->add($this->record?->getKey(), $this->quantity, $amount);
 
         $this->updateClicks();
 
         $this->dispatch('cart-item-added', ...['record' => [
             'name' => $this->record->name,
-            'amount' => \Filament\Support\format_money($this->amount / 100, 'USD'),
+            'amount' => \Filament\Support\format_money($amount / 100, 'USD'),
             'quantity' => $this->quantity,
             'image_url' => $this->record->brand->getFirstMediaUrl('logo'),
         ]]);
+    }
+
+    public function handleClick()
+    {
+        $this->updateClicks();
+        if ($this->record->voucher_type == DiscountVoucherTypeEnum::ExternalLink) {
+            return redirect($this->record->link);
+        }
     }
 
     public function render()

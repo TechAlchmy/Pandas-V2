@@ -175,15 +175,29 @@ class UserResource extends Resource
                     ->hidden(fn ($record) => $record->organization_verified_at)
                     ->action(function ($record) {
                         $record->touch('organization_verified_at');
-                        $record->notify(new SendUserConfirmedNotification);
+                        try {
+                            $record->notify(new SendUserConfirmedNotification);
+                        } catch (\Throwable $e) {
+                            logger()->error($e->getMessage());
+                        }
                     }),
                 Tables\Actions\ForceDeleteAction::make()
                     ->label('Deny registration')
                     ->hidden(fn ($record) => $record->organization_verified_at)
                     ->successNotificationTitle('User denied')
                     ->successNotification(function ($record, $notification) {
-                        $record->notify(new SendUserDeniedNotification);
+                        try {
+                            $record->notify(new SendUserDeniedNotification);
+                        } catch (\Throwable $e) {
+                            logger()->error($e->getMessage());
+                        }
                         return $notification;
+                    }),
+            ])
+            ->headerActions([
+                Tables\Actions\Action::make('refresh')
+                    ->action(function ($livewire) {
+                        $livewire->js('$wire.$refresh()');
                     }),
             ])
             ->bulkActions([

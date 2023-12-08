@@ -5,6 +5,7 @@ namespace App\Filament\Management\Resources;
 use App\Enums\AuthLevelEnum;
 use App\Filament\Management\Resources\UserResource\Pages;
 use App\Filament\Management\Resources\UserResource\RelationManagers;
+use App\Models\Manager;
 use App\Models\User;
 use App\Notifications\SendUserConfirmedNotification;
 use App\Notifications\SendUserDeniedNotification;
@@ -91,7 +92,11 @@ class UserResource extends Resource
                     ->successNotificationTitle('User Verified')
                     ->action(function ($record, $action) {
                         $record->touch('organization_verified_at');
-                        $record->notify(new SendUserConfirmedNotification);
+                        try {
+                            $record->notify(new SendUserConfirmedNotification);
+                        } catch (\Throwable $e) {
+                            logger()->error($e->getMessage());
+                        }
                         $action->success();
                     }),
                 Tables\Actions\ForceDeleteAction::make()
@@ -100,7 +105,11 @@ class UserResource extends Resource
                     ->requiresConfirmation()
                     ->successNotificationTitle('User denied')
                     ->successNotification(function ($record, $notification) {
-                        $record->notify(new SendUserDeniedNotification);
+                        try {
+                            $record->notify(new SendUserDeniedNotification);
+                        } catch (\Throwable $e) {
+                            logger()->error($e->getMessage());
+                        }
                         return $notification;
                     }),
                 Tables\Actions\DeleteAction::make()
@@ -142,6 +151,24 @@ class UserResource extends Resource
                 Infolists\Components\TextEntry::make('address')
                     ->columnSpanFull(),
                 Infolists\Components\Actions::make([
+                    Infolists\Components\Actions\Action::make('promote manager')
+                        ->visible(fn($record) => $record->isNot(auth()->user()) && !$record->is_manager && filament()->auth()->user()->is_admin)
+                        ->icon('heroicon-m-check')
+                        ->color('success')
+                        ->requiresConfirmation()
+                        ->action(function ($record, $action) {
+                            if (!filament()->auth()->user()->is_admin) {
+                                $action->halt();
+                            }
+                            // this will make sure we can audit who demote this manager...
+                            Manager::query()->create([
+                                'user_id' => $record->getKey(),
+                                'organization_id' => filament()->getTenant()->getKey(),
+                            ]);
+
+                            $action->success();
+                        })
+                        ->successNotificationTitle('User promoted to manager'),
                     Infolists\Components\Actions\Action::make('demote manager')
                         ->visible(fn ($record) => $record->is_manager && filament()->auth()->user()->is_admin)
                         ->hidden(fn ($record) => $record->is(auth()->user()))

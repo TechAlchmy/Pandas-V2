@@ -38,6 +38,10 @@ class OrganizationResource extends Resource
                     ->unique(ignoreRecord: true)
                     ->default(str(Str::random(6))->upper())
                     ->dehydrateStateUsing(fn ($state) => \strtoupper($state)),
+                Forms\Components\SpatieMediaLibraryFileUpload::make('logo')
+                    ->collection('logo')
+                    ->openable()
+                    ->downloadable(),
                 Forms\Components\TextInput::make('name')
                     ->afterStateUpdated(function ($get, $set, ?string $state) {
                         if (! $get('is_slug_changed_manually') && filled($state)) {
@@ -106,7 +110,6 @@ class OrganizationResource extends Resource
                     ->multiple()
                     ->default(\array_map(fn ($type) => $type->value, DiscountVoucherTypeEnum::cases()))
                     ->options(DiscountVoucherTypeEnum::class)
-                    ->enum(DiscountVoucherTypeEnum::class)
                     ->hintActions([
                         Forms\Components\Actions\Action::make('clear')
                             ->visible(fn ($state) => ! empty($state))
@@ -123,6 +126,8 @@ class OrganizationResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\SpatieMediaLibraryImageColumn::make('logo')
+                    ->collection('logo'),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
@@ -149,6 +154,12 @@ class OrganizationResource extends Resource
                     ->url(fn ($record) => route('filament.management.pages.dashboard', ['tenant' => $record]))
                     ->link()
                     ->openUrlInNewTab(),
+            ])
+            ->headerActions([
+                Tables\Actions\Action::make('refresh')
+                    ->action(function ($livewire) {
+                        $livewire->js('$wire.$refresh()');
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

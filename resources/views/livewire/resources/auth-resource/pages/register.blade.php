@@ -4,20 +4,26 @@
             <img class="object-cover" src="{{ getMediaPath('assets/pandas-black-grey.png') }}" alt="Panda images" class="" />
         </div>
         <div class="flex justify-center">
-            <h1 class="font-editorial text-6xl font-thin">Live. Grow. <br> Play. <br> Panda.</h1>
+            <h1 class="text-6xl font-thin font-editorial">Live. Grow. <br> Play. <br> Panda.</h1>
         </div>
     </div>
     <div class="px-[min(6.99vw,50px)] max-w-xl mx-auto py-4 order-1 lg:order-2 flex flex-col justify-between">
         <div class="space-y-4">
-            <h1 class="font-editorial text-4xl font-thin mb-10">Welcome to Panda</h1>
+            <h1 class="mb-10 text-4xl font-thin font-editorial">Welcome to Panda</h1>
             <h3>{{ $this->organization?->name }}</h3>
             <div>
                 <form wire:submit.prevent="register">
                     {{ $this->form }}
-                    <x-button type="submit" size="lg" outlined class="inline-block mt-8">
+                    <x-button type="submit" outlined class="inline-block mt-8 hover:bg-black hover:text-white">
                         Register
                     </x-button>
                 </form>
+            </div>
+            <div class="items-center gap-2 lg:flex">
+                <p class="my-10">Already registered?<br> Sign in now.</p>
+                <div>
+                    <x-link href="/login?from={{ $fromEmployer ? 'employer' : '' }}" outlined class="hover:bg-black hover:text-white">Sign in</x-link>
+                </div>
             </div>
         </div>
     </div>

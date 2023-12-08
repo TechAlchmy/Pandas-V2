@@ -26,8 +26,19 @@ class Discount extends Model implements HasMedia
         'starts_at' => 'immutable_datetime',
         'ends_at' => 'immutable_datetime',
         'is_active' => 'boolean',
+        'is_refundable' => 'boolean',
         'voucher_type' => DiscountVoucherTypeEnum::class,
+        'bh_options' => 'array'
     ];
+
+    protected static function booted(): void
+    {
+        static::updating(function (Discount $discount) {
+            if ($discount->is_active) {
+                $discount->is_approved = true;
+            }
+        });
+    }
 
     public function discountOffers()
     {
@@ -77,6 +88,11 @@ class Discount extends Model implements HasMedia
         return $this->hasMany(OrderDetail::class);
     }
 
+    public function scopeFlagged($query)
+    {
+        return $query->where('is_approved', false);
+    }
+
     public function scopeWithOfferTypes($query, $organization)
     {
         return $query->withWhereHas('offerTypes', function ($query) use ($organization) {
@@ -100,14 +116,17 @@ class Discount extends Model implements HasMedia
     public function scopeWithVoucherType($query, $organization)
     {
         return $query->when($organization, function ($query, $organization) {
-            $query->whereIn('voucher_type', $organization->voucher_types);
+            $query->whereIn('voucher_type', $organization->voucher_types ?? []);
         });
     }
 
     public function scopeActive($query)
     {
         return $query->where('discounts.is_active', true)
-            ->where('discounts.starts_at', '<=', now())
+            ->where(function ($query) {
+                $query->whereNull('discounts.starts_at')
+                    ->orWhere('discounts.starts_at', '<=', now());
+            })
             ->where(function ($query) {
                 $query->whereNull('discounts.ends_at')
                     ->orWhere('discounts.ends_at', '>=', now());

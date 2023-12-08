@@ -22,11 +22,22 @@ class OrderDetailRefundResource extends Resource
 {
     protected static ?string $model = OrderDetailRefund::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-receipt-refund';
 
     protected static ?string $navigationGroup = 'E-Commerce';
 
     protected static ?string $modelLabel = 'Refund';
+
+    public static function getNavigationBadge(): ?string
+    {
+        // TODO: Implmennt auto refresh when filament supports it
+        return static::$model::flagged()->count();
+    }
+
+    public static function getNavigationBadgeColor(): string | array | null
+    {
+        return 'danger';
+    }
 
     public static function form(Form $form): Form
     {
@@ -40,49 +51,115 @@ class OrderDetailRefundResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->recordUrl(null)
+            ->defaultSort('created_at', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('orderDetail.order.order_column')
-                    ->label('Order Number')
+                    ->label('Order#')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->url(fn ($record, $state) => $record->note == OrderDetailRefund::BH_FAILURE_NOTE ? route('filament.admin.resources.order-queues.index', ['order_id' => $record->order->id]) : null)
+                    ->icon(fn ($record) => $record->note == OrderDetailRefund::BH_FAILURE_NOTE ? 'heroicon-o-information-circle' : null),
+
                 Tables\Columns\TextColumn::make('orderDetail.discount.brand.name')
                     ->searchable(),
+
                 Tables\Columns\TextColumn::make('orderDetail.discount.name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('status_message'),
+
+
+                Tables\Columns\TextColumn::make('note')
+                    ->limit(10)
+                    ->tooltip(fn ($state) => $state),
+                // ->icon('heroicon-o-information-circle'),
+
+                Tables\Columns\TextColumn::make('status')
+                    ->tooltip(function ($record) {
+                        if ($record->trashed()) {
+                            return $record->deleted_at->format('d M Y');
+                        }
+                        return $record->approved_at ? $record->approved_at->format('d M Y') : null;
+                    })
+                    ->getStateUsing(function ($record) {
+                        if ($record->trashed()) {
+                            return 'Rejected';
+                        }
+                        return $record->approved_at ? 'Approved' : 'In Review';
+                    })
+                    ->badge()
+                    ->colors([
+                        'Rejected' => 'danger',
+                        'Approved' => 'success',
+                        'In Review' => 'grey',
+                    ]),
+
                 Tables\Columns\TextColumn::make('orderDetail.subtotal')
-                    ->getStateUsing(fn ($state) => $state / 100)
+                    ->getStateUsing(fn ($record) => $record->orderDetail->subtotal / 100)
                     ->money('USD'),
+
                 Tables\Columns\TextColumn::make('orderDetail.total')
-                    ->getStateUsing(fn ($state) => $state / 100)
+                    ->getStateUsing(fn ($record) => $record->orderDetail->total / 100)
                     ->money('USD'),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->label('Requested at')
+                    ->sortable(),
             ])
-            ->filters([
-                Tables\Filters\TernaryFilter::make('approved_at')
-                    ->label('Is Approved')
-                    ->boolean(),
-            ])
+            ->filters(
+                [
+                    // Tables\Filters\TernaryFilter::make('approved_at')
+                    //     ->label('Refund Status')
+                    //     ->placeholder('Pending')
+                    //     ->trueLabel('Approved')
+                    //     ->falseLabel('Rejected')
+                    //     ->queries(
+                    //         true: fn (Builder $query) => $query->whereNotNull('approved_at'),
+                    //         false: fn (Builder $query) =>  $query->onlyTrashed(),
+                    //         blank: fn (Builder $query) => $query->flagged(),
+                    //     ),
+
+                    Tables\Filters\SelectFilter::make('approved_at')
+                        ->label('Refund Status')
+                        ->options([
+                            'Approved' => 'Approved',
+                            'Rejected' => 'Rejected',
+                            'Pending' => 'Pending',
+                        ])->placeholder('All')
+
+                        ->query(function ($query, $data) {
+                            return match ($data['value']) {
+                                'Approved' => $query->whereNotNull('approved_at'),
+                                'Rejected' => $query->onlyTrashed(),
+                                'Pending' => $query->flagged(),
+                                default => $query,
+                            };
+                        }),
+                ],
+                layout: \Filament\Tables\Enums\FiltersLayout::AboveContent
+            )
             ->actions([
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\EditAction::make(),
+
                 Tables\Actions\Action::make('resolve_refund')
+                    ->hidden(fn ($record) => filled($record->approved_at) || $record->trashed())
                     ->modalHeading(fn ($record) => \implode(' ', [
                         'Resolve Refund for',
-                        $record->discount->brand->name,
-                        $record->discount->name,
+                        $record->orderDetail->discount->brand->name,
+                        $record->orderDetail->discount->name,
                     ]))
-                    ->visible(fn ($record) => $record->order_detail_refund_exists && ! $record->is_refund_request_approved)
                     ->infolist([
                         Infolists\Components\Grid::make(3)
                             ->schema([
                                 Infolists\Components\TextEntry::make('quantity')
-                                    ->getStateUsing(fn ($record) => $record->orderDetailRefund->quantity)
+                                    ->getStateUsing(fn ($record) => $record->quantity)
                                     ->label('Quantity to Refund'),
                                 Infolists\Components\TextEntry::make('note')
-                                    ->getStateUsing(fn ($record) => $record->orderDetailRefund->note),
+                                    ->getStateUsing(fn ($record) => $record->note),
                                 Infolists\Components\TextEntry::make('estimated_amount_refunded')
                                     ->getStateUsing(function ($record) {
-                                        $record->quantity = $record->orderDetailRefund->quantity;
-                                        return $record->total / 100;
+                                        $record->orderDetail->quantity = $record->quantity;
+                                        return $record->orderDetail->total / 100;
                                     })
                                     ->money('USD'),
                             ]),
@@ -94,17 +171,22 @@ class OrderDetailRefundResource extends Resource
                     ])
                     ->action(function ($action, $record, $arguments) {
                         if ($arguments['reject'] ?? false) {
-                            $record->orderDetailRefund->delete();
+                            $record->delete();
 
-                            $this->getOwnerRecord()
-                                ->user
-                                ->notify(new SendUserOrderRefundRejected(
+                            try {
+                                $record->user->notify(new SendUserOrderRefundRejected(
                                     $this->getOwnerRecord()->order_column,
-                                    \implode(' - ', [
-                                        $record->discount->brand->name,
-                                        $record->discount->name,
-                                    ]
-                                )));
+                                    \implode(
+                                        ' - ',
+                                        [
+                                            $record->discount->brand->name,
+                                            $record->discount->name,
+                                        ]
+                                    )
+                                ));
+                            } catch (\Throwable $e) {
+                                logger()->error($e->getMessage());
+                            }
 
                             Notification::make()
                                 ->success()
@@ -114,11 +196,20 @@ class OrderDetailRefundResource extends Resource
                             return;
                         }
 
-                        $record->quantity = $record->orderDetailRefund->quantity;
+                        $record->orderDetail->quantity = $record->quantity;
 
-                        (new CreateCcRefund($record->order->cardknox_refnum, $record->total / 100))->send();
+                        try {
+                            (new CreateCcRefund($record->order->cardknox_refnum, $record->orderDetail->total / 100))->send()->throw();
+                        } catch (\Throwable $e) {
+                            Notification::make()
+                                ->title('Error')
+                                ->body($e->getMessage())
+                                ->send();
 
-                        $record->orderDetailRefund->update([
+                            return;
+                        }
+
+                        $record->update([
                             'approved_at' => \now(),
                             'approved_by_id' => \auth()->id(),
                         ]);
@@ -127,16 +218,27 @@ class OrderDetailRefundResource extends Resource
                     })
                     ->successNotificationTitle('Refund Request approved')
                     ->successNotification(function ($notification, $record) {
-                        $this->getOwnerRecord()
-                            ->user
-                            ->notify(new SendUserOrderRefundApproved(
-                                $this->getOwnerRecord()->order_column,
-                                \implode(' - ', [
-                                    $record->discount->brand->name,
-                                    $record->discount->name,
-                                ]
-                            )));
+                        try {
+                            $record->user->notify(new SendUserOrderRefundApproved(
+                                $record->order->order_column,
+                                \implode(
+                                    ' - ',
+                                    [
+                                        $record->discount->brand->name,
+                                        $record->discount->name,
+                                    ]
+                                )
+                            ));
+                        } catch (\Throwable $e) {
+                            logger()->error($e->getMessage());
+                        }
                         return $notification;
+                    }),
+            ])
+            ->headerActions([
+                Tables\Actions\Action::make('refresh')
+                    ->action(function ($livewire) {
+                        $livewire->js('$wire.$refresh()');
                     }),
             ])
             ->bulkActions([
@@ -160,5 +262,14 @@ class OrderDetailRefundResource extends Resource
             'create' => Pages\CreateOrderDetailRefund::route('/create'),
             'edit' => Pages\EditOrderDetailRefund::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->with('order')
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
     }
 }

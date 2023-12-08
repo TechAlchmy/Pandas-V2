@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Discount;
 use App\Models\DiscountInsight;
 use App\Models\OfferType;
+use App\Models\Setting;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms;
@@ -17,6 +18,7 @@ use Livewire\Attributes\Computed;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Str;
 
 class ListDeals extends Component implements HasForms
 {
@@ -66,14 +68,15 @@ class ListDeals extends Component implements HasForms
                 Forms\Components\TextInput::make('search')
                     ->extraAttributes(['class' => 'rounded-none ring-transparent', 'x-on:keyup.enter' => '$wire.resetPage()'])
                     ->hiddenLabel()
-                    ->placeholder('Search Deals'),
+                    ->suffixIcon('magnifying-glass')
+                    ->placeholder('Search for Deals'),
             ]);
     }
 
     #[Computed()]
     public function deals()
     {
-        return \App\Models\Discount::query()
+        $deals = \App\Models\Discount::query()
             ->withBrand(auth()->user()?->organization)
             ->withVoucherType(auth()->user()?->organization)
             ->active()
@@ -85,20 +88,29 @@ class ListDeals extends Component implements HasForms
                             ->orWhereRelation('categories', new Expression('lower(name)'), 'like', "%{$value}%");
                     });
             })
-            ->when($this->filter['brand_id'], fn($query) => $query->where('brand_id', $this->filter['brand_id']))
-            ->when($this->filter['category_id'], fn($query) => $query->whereRelation('brandCategories', 'category_id', $this->filter['category_id']))
-            ->when($this->filter['offer_type_id'], fn($query) => $query->whereRelation('offerTypes', 'offer_types.id', $this->filter['offer_type_id']))
+            ->when($this->filter['brand_id'], fn ($query) => $query->where('brand_id', $this->filter['brand_id']))
+            ->when($this->filter['category_id'], fn ($query) => $query->whereRelation('brandCategories', 'category_id', $this->filter['category_id']))
+            ->when($this->filter['offer_type_id'], fn ($query) => $query->whereRelation('offerTypes', 'offer_types.id', $this->filter['offer_type_id']))
             ->when($this->sort, fn ($query, $value) => match ($value) {
                 'created_at', 'percentage', 'views', 'clicks' => $query->orderByDesc($value),
                 default => $query->inRandomOrder(),
-            })
-            ->paginate(12);
+            })->orderBy('id', 'desc')
+            ->simplePaginate(12);
+
+        // $charLimit = Setting::get('cards_char_limit');
+
+        // $deals->through(function ($discount) use ($charLimit) {
+        //     $discount->excerpt = Str::of($discount->excerpt)->limit($charLimit);
+        //     return $discount;
+        // });
+
+        return $deals;
     }
 
     #[Computed()]
     public function featuredDeals()
     {
-        return \App\Models\Discount::query()
+        $featuredDeals = \App\Models\Discount::query()
             ->withBrand(auth()->user()?->organization)
             ->withOfferTypes(auth()->user()?->organization)
             ->withVoucherType(auth()->user()?->organization)
@@ -120,6 +132,15 @@ class ListDeals extends Component implements HasForms
                     ->take(4)
                     ->get();
             });
+
+        // $charLimit = Setting::get('cards_char_limit');
+
+        // $featuredDeals->map(function ($discount) use ($charLimit) {
+        //     $discount->excerpt = Str::of($discount->excerpt)->limit($charLimit);
+        //     return $discount;
+        // });
+
+        return $featuredDeals;
     }
 
     #[Computed]
@@ -136,13 +157,13 @@ class ListDeals extends Component implements HasForms
     public function hasActiveFilter()
     {
         return collect($this->filter)
-            ->contains(fn ($filter) => ! empty($filter));
+            ->contains(fn ($filter) => !empty($filter));
     }
 
     public function recordSearch()
     {
         if (empty($this->filter['search'])) {
-             return;
+            return;
         }
 
         $insight = DiscountInsight::query()

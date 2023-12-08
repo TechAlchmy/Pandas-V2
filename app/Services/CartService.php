@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\DiscountVoucherTypeEnum;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Models\Cart;
@@ -113,6 +114,9 @@ class CartService
                 $amount = \array_search($item['amount'], $record->amount) === false
                     ? $record->amount[0]
                     : $item['amount'];
+                if ($record->voucher_type == DiscountVoucherTypeEnum::TopUpGiftCard) {
+                    $amount = $item['amount'];
+                }
                 $subtotal = $item['quantity'] * $amount;
                 $discount = $subtotal * ($record->public_percentage / 100 / 100);
                 $discount = (int) \round($discount);
@@ -192,8 +196,11 @@ class CartService
             ]);
         }
 
-        $this->clear();
+        return $order;
+    }
 
+    public function finalize(Order $order)
+    {
         if (auth()->check()) {
             Cart::query()
                 ->whereBelongsTo(auth()->user())
@@ -202,8 +209,6 @@ class CartService
                     'order_id' => $order->getKey(),
                 ]);
         }
-
-        return $order;
     }
 
     protected function persist()

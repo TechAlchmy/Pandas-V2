@@ -115,15 +115,19 @@ class OrderDetailsRelationManager extends RelationManager
                         if ($arguments['reject'] ?? false) {
                             $record->orderDetailRefund->delete();
 
-                            $this->getOwnerRecord()
-                                ->user
-                                ->notify(new SendUserOrderRefundRejected(
-                                    $this->getOwnerRecord()->order_column,
-                                    \implode(' - ', [
-                                        $record->discount->brand->name,
-                                        $record->discount->name,
-                                    ]
-                                )));
+                            try {
+                                $this->getOwnerRecord()
+                                    ->user
+                                    ->notify(new SendUserOrderRefundRejected(
+                                        $this->getOwnerRecord()->order_column,
+                                        \implode(' - ', [
+                                            $record->discount->brand->name,
+                                            $record->discount->name,
+                                        ]
+                                    )));
+                            } catch (\Throwable $e) {
+                                logger()->error($e->getMessage());
+                            }
 
                             Notification::make()
                                 ->success()
@@ -146,15 +150,19 @@ class OrderDetailsRelationManager extends RelationManager
                     })
                     ->successNotificationTitle('Refund Request approved')
                     ->successNotification(function ($notification, $record) {
-                        $this->getOwnerRecord()
-                            ->user
-                            ->notify(new SendUserOrderRefundApproved(
-                                $this->getOwnerRecord()->order_column,
-                                \implode(' - ', [
-                                    $record->discount->brand->name,
-                                    $record->discount->name,
-                                ]
-                            )));
+                        try {
+                            $this->getOwnerRecord()
+                                ->user
+                                ->notify(new SendUserOrderRefundApproved(
+                                    $this->getOwnerRecord()->order_column,
+                                    \implode(' - ', [
+                                        $record->discount->brand->name,
+                                        $record->discount->name,
+                                    ]
+                                )));
+                        } catch (\Throwable $e) {
+                            logger()->error($e->getMessage());
+                        }
                         return $notification;
                     }),
                 // Tables\Actions\EditAction::make(),

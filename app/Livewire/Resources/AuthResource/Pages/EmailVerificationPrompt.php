@@ -42,13 +42,17 @@ class EmailVerificationPrompt extends Component
 
         $user = auth()->user();
 
-        if (! method_exists($user, 'notify')) {
+        if (!method_exists($user, 'notify')) {
             $userClass = $user::class;
 
             throw new \Exception("Model [{$userClass}] does not have a [notify()] method.");
         }
 
-        $user->sendEmailVerificationNotification();
+        try {
+            $user->sendEmailVerificationNotification();
+        } catch (\Throwable $e) {
+            logger()->error($e->getMessage());
+        }
 
         Notification::make()
             ->title(__('filament-panels::pages/auth/email-verification/email-verification-prompt.notifications.notification_resent.title'))

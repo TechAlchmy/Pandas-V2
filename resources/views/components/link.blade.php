@@ -7,14 +7,14 @@
 
 @php
     $buttonClasses = \Illuminate\Support\Arr::toCssClasses([
-        'inline-block text-center border leading-6 rounded-[70%]',
+        'inline-block text-center border leading-6 rounded-[70%] capitalize transition',
         ...match ($color) {
-            'white' => ['text-white'],
+            'white' => ['text-white hover:bg-white hover:text-black'],
             default => ['text-gray-900'],
         },
         ...match ($size) {
             'lg' => ['px-16 py-4 text-lg min-w-[236px]'],
-            default => ['px-8 py-3 text-base'],
+            default => ['px-10 py-3 text-base'],
         },
         ...$outlined
             ? [

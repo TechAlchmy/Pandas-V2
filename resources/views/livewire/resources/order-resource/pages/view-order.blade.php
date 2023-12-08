@@ -2,6 +2,11 @@
     <div class="max-w-[1920px] mx-auto">
         <div class="max-w-3xl mx-auto">
             <div class="space-y-6">
+                <div class="flex gap-4 text-sm">
+                    <x-a :href="route('dashboard', ['activeTab' => 4])">Orders</x-a>
+                    @svg('heroicon-o-chevron-right', 'w-5 h-5 text-gray-600')
+                    <span>#{{ $this->record->order_column }}</span>
+                </div>
                 <div class="flex justify-between">
                     <h1 class="text-4xl lg:text-7xl">My Order #{{ $this->record->order_column }}</h1>
                     <p class="hidden lg:block">{{ auth()->user()->organization?->name }}</p>

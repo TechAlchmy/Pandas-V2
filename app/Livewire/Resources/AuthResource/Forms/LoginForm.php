@@ -49,7 +49,7 @@ class LoginForm extends Component implements HasForms
 
         $data = $this->form->getState();
 
-        if (! auth()->attempt(Arr::only($data, ['email', 'password']), $data['remember'] ?? false)) {
+        if (! auth()->attempt(Arr::only($data, ['email', 'password']), $data['remember_me'] ?? false)) {
             throw ValidationException::withMessages([
                 'data.email' => __('filament-panels::pages/auth/login.messages.failed'),
             ]);
@@ -68,17 +68,20 @@ class LoginForm extends Component implements HasForms
                 Forms\Components\TextInput::make('email')
                     ->hiddenLabel()
                     ->placeholder('Email')
+                    ->extraInputAttributes(['class' => 'placeholder-black'], true)
                     ->view('forms.components.text-input')
                     ->required(),
                 Forms\Components\TextInput::make('password')
                     ->hiddenLabel()
                     ->placeholder('Password')
+                    ->extraInputAttributes(['class' => 'placeholder-black'])
                     ->view('forms.components.text-input')
                     ->password()
                     ->required(),
                 Forms\Components\Checkbox::make('remember_me')
-                    ->hint(fn () => new HtmlString(Blade::render('
-                        <x-a class="inline-block underline-animated text-sm text-gray-600" href="/forgot-password">
+                    ->extraInputAttributes(['class' => '!bg-transparent !border-solid !border-black rounded-none color-black'])
+                    ->hint(fn() => new HtmlString(Blade::render('
+                        <x-a class="inline-block text-sm text-gray-600 underline-animated" href="/forgot-password">
                             {{ __("Forgot your password?") }}
                         </x-a>
                     ')))

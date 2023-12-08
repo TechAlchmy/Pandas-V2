@@ -72,6 +72,7 @@ class RegisterForm extends Component implements HasForms
                     ->maxLength(255)
                     ->autofocus()
                     ->required()
+                    ->extraInputAttributes(['class' => 'placeholder-black'])
                     ->view('forms.components.text-input'),
                 Forms\Components\TextInput::make('email')
                     ->hiddenLabel()
@@ -80,6 +81,7 @@ class RegisterForm extends Component implements HasForms
                     ->required()
                     ->maxLength(255)
                     ->unique(User::class)
+                    ->extraInputAttributes(['class' => 'placeholder-black'])
                     ->view('forms.components.text-input'),
                 Forms\Components\TextInput::make('password')
                     ->hiddenLabel()
