@@ -3,7 +3,7 @@
 ])
 <section class="grow flex">
     <div class="max-w-[1920px] mx-auto w-full">
-        <div class="grid grid-cols-1 md:grid-cols-2">
+        <div class="grid grid-cols-1 md:grid-cols-2 h-full">
             <div>
                 @if ($testimonial)
                     <div class="relative min-h-[400px] md:h-full w-full bg-cover" style="background-image: url({{ getMediaPath('assets/contact-us-banner.png') }})">
