@@ -22,7 +22,7 @@ name('login');
                 <h1 class="mb-10 text-5xl font-thin font-editorial">Already a member?<br> Access your Panda<br />Portal here.</h1>
                 <livewire:resources.auth-resource.forms.login-form />
                 <div class="items-center gap-2 lg:flex">
-                    <p class="my-10">Not registered yet?<br> No problem, it’s quick and easy to set up a Panda account.</p>
+                    <p class="my-10">Not registered yet? No problem, it’s quick</p>
                     <div>
                         <x-link class="hover:bg-black hover:text-white" href="/register?from={{ $forEmployer ? 'employer' : '' }}" outlined>Register</x-link>
                     </div>

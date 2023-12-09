@@ -147,7 +147,7 @@ name('employer');
     <section class="max-w-[1920px] mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-2">
             <div>
-                <div class="relative min-h-[10rem] md:h-full w-full bg-cover" style="background-image: url({{ getMediaPath('assets/contact-us-banner.png') }})">
+                <div class="relative min-h-[400px] md:h-full w-full bg-cover" style="background-image: url({{ getMediaPath('assets/contact-us-banner.png') }})">
                     <div x-data="{
                         ...@js(['testimonials' => [['Test 1', 'This is good!'], ['Test 2', 'Panda has helped me!'], ['Test 3', 'This is the benefits that I have wanted'], ['Test 1', 'This is is awesome for you employees']]]),
                         index: 0,

@@ -109,11 +109,14 @@
         <div class="max-w-[1920px] mx-auto">
             <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
                 <div class="lg:col-span-2" x-data="{ shown: false }" x-intersect.once="shown = true">
-                    <h2 x-show="shown" x-transition.duration.2000 class="text-2xl md:text-4xl lg:text-6xl xl:text-7xl 2xl:text-8xl md:col-span-2 font-editorial">
+                    <h2 x-show="shown" x-transition.duration.2000 class="hidden lg:block text-3xl md:text-4xl lg:text-6xl xl:text-7xl 2xl:text-8xl md:col-span-2">
                         …and Purchases<br />Essential to Life
                     </h2>
+                    <h2 x-show="shown" x-transition.duration.2000 class="block lg:hidden text-3xl md:text-4xl lg:text-6xl xl:text-7xl 2xl:text-8xl md:col-span-2">
+                        …and
+                    </h2>
                 </div>
-                <div class="space-y-6 lg:space-y-8 z-[1] lg:max-w-xs lg:ml-auto lg:mr-0">
+                <div class="space-y-6 lg:space-y-8 z-[1] lg:ml-auto lg:mr-0">
                     <p class="lg:text-lg">
                         Panda People has partnered with retailers and entertainers to get your employees deep discounts on everything from sneakers to workwear to amusement park tickets.
                         <br /><br />

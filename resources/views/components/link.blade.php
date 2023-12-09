@@ -14,7 +14,7 @@
         },
         ...match ($size) {
             'lg' => ['px-16 py-4 text-lg min-w-[236px]'],
-            default => ['px-10 py-3 text-base'],
+            default => ['px-14 py-3 text-base'],
         },
         ...$outlined
             ? [
