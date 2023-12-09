@@ -18,7 +18,7 @@ then
     php artisan route:cache
     php artisan route:cache
     # we are doing this twice since doing it only once does not cache the routes properly in this setup
-    php artisan make:admin
+    # php artisan make:admin
 else
     php artisan migrate --force
     /usr/bin/composer.phar install --no-interaction --optimize-autoloader
