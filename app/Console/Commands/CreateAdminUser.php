@@ -14,7 +14,7 @@ class CreateAdminUser extends Command
      * @var string
      */
 
-    protected $signature = 'make:admin';
+    protected $signature = 'make:admin {email} {password}';
 
 
     /**
@@ -29,10 +29,12 @@ class CreateAdminUser extends Command
      */
   public function handle()
 {
-     User::factory(2)
+    $email = $this->argument('email');
+    $password = $this->argument('password');
+
+    User::factory(1)
             ->sequence(
-                ['email' => 'admin1@test.com'],
-                ['email' => 'admin2@test.com'],
+                ['email' => $email, 'password' => bcrypt($password)]
             )
             ->admins()
             ->create()
@@ -41,6 +43,7 @@ class CreateAdminUser extends Command
             });
 
     $this->info('Admin user created successfully!');
+
 }
 
 }
