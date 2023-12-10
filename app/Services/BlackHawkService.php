@@ -88,6 +88,11 @@ class BlackHawkService
                     ];
                     ApiCall::where('api', 'catalog')->orderBy('id', 'desc')->first()->update($result);
                 }
+            )->catch(function ($exception) {
+                // Log the error or handle it
+                error_log('Error making async request: ' . $exception->getMessage());
+                // You can also implement additional error handling logic here
+            }
             );
 
         $promise->wait();
@@ -344,7 +349,7 @@ class BlackHawkService
             } else {
                 $orderStatus = !empty($response['eGifts'])
                     ? BlackHawkOrderStatus::Complete->value
-                    : BlackHawkOrderStatus::Default->value;
+                    : BlackHawkOrderStatus::Default ->value;
             }
 
             if ($orderStatus === BlackHawkOrderStatus::Failure->value) {
