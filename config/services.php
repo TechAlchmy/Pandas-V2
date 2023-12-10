@@ -4,9 +4,11 @@ use Aws\SecretsManager\SecretsManagerClient;
 use Aws\Exception\AwsException;
 use Aws\Sts\StsClient;
 
-$cert = null;
-
-  $stsClient = new StsClient([
+$blackhawk_cert_pw = null;
+$blackhawk_cert_url = null;
+if (env("APP_ENV") === "production") {
+    $blackhawk_cert_url = "/home/ec2-user/certificates/Reward-Fenton-PandaECS-API-Production.p12";
+    $stsClient = new StsClient([
         'version' => 'latest',
         'region' => "us-east-2"
     ]);
@@ -38,16 +40,18 @@ $cert = null;
         ]);
 
         if (isset($response['SecretString'])) {
-           $cert = $response['SecretString'];
+            $blackhawk_cert_pw = $response['SecretString'];
         } else {
-            $cert = base64_decode($response['SecretBinary']);
+            $blackhawk_cert_pw = base64_decode($response['SecretBinary']);
         }
     } catch (AwsException $e) {
         error_log($e->getMessage());
 
     }
-
-// Then use $certPassword in your config
+} else {
+    $blackhawk_cert_pw = "BH3F2FDP7J4ZXJV3PB1CFM1M4C";
+    $blackhawk_cert_url = public_path("key/stag.p12");
+}
 
 
 return [
@@ -103,9 +107,7 @@ return [
 
         'client_program_id' => env('BLACKHAWK_CLIENT_PROGRAM_ID', 95006442),
         'merchant_id' => env('BLACKHAWK_MERCHANT_ID', 60300004707),
-        'cert' => env('BLACKHAWK_CERT', public_path('key/stag.p12')),
-        // 'cert_password' => env('BLACKHAWK_CERT_PASSWORD', 'BH3F2FDP7J4ZXJV3PB1CFM1M4C'),
-        'cert_password' => env('BLACKHAWK_CERT_PASSWORD', $cert),
-
+        'cert' => env('BLACKHAWK_CERT', $blackhawk_cert_url),
+        'cert_password' => env('BLACKHAWK_CERT_PASSWORD', $blackhawk_cert_pw),
     ],
 ];
