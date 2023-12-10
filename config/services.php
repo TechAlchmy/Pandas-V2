@@ -7,7 +7,7 @@ use Aws\Sts\StsClient;
 $blackhawk_cert_pw = null;
 $blackhawk_cert_url = null;
 if (env("APP_ENV") === "production") {
-    $blackhawk_cert_url = "/home/ec2-user/certificates/Reward-Fenton-PandaECS-API-Production.p12";
+    $blackhawk_cert_url = "/home/ec2-user/certificates/stag.p12";
     $stsClient = new StsClient([
         'version' => 'latest',
         'region' => "us-east-2"
