@@ -44,16 +44,7 @@ if (env("APP_ENV") === "production") {
         } else {
             $blackhawk_cert_pw = base64_decode($response['SecretBinary']);
         }
-    } catch (AwsException $e) {
-        // Enhanced error logging
-        error_log('AWS SDK Exception caught: ' . $e->getMessage());
-        error_log('Error Type: ' . $e->getAwsErrorType());
-        error_log('Error Code: ' . $e->getAwsErrorCode());
-        error_log('Request ID: ' . $e->getAwsRequestId());
-        error_log('HTTP Status Code: ' . $e->getStatusCode());
-        error_log('Exception Trace: ' . $e->getTraceAsString());
-
-    }
+    } 
 } else {
     $blackhawk_cert_pw = "BH3F2FDP7J4ZXJV3PB1CFM1M4C";
     $blackhawk_cert_url = public_path("key/stag.p12");
