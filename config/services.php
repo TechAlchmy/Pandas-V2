@@ -1,6 +1,54 @@
 <?php
 
-require_once './getAwsSecret.php';
+use Aws\SecretsManager\SecretsManagerClient;
+use Aws\Exception\AwsException;
+use Aws\Sts\StsClient;
+
+$cert = null;
+
+  $stsClient = new StsClient([
+        'version' => 'latest',
+        'region' => "us-east-2"
+    ]);
+
+    try {
+        // Assume the IAM role
+        $result = $stsClient->assumeRole([
+            'RoleArn' => "arn:aws:iam::891985934622:role/RoleToRetrieveSecretAtRuntime",
+            'RoleSessionName' => 'session-' . time() // You can customize the session name
+        ]);
+
+        $credentials = $result['Credentials'];
+
+        // Create SecretsManagerClient with the assumed role credentials
+        $secretsManagerClient = new SecretsManagerClient([
+            'version' => 'latest',
+            'region' => "us-east-2",
+            'credentials' => [
+                'key' => $credentials['AccessKeyId'],
+                'secret' => $credentials['SecretAccessKey'],
+                'token' => $credentials['SessionToken']
+            ]
+        ]);
+
+        // Retrieve the secret
+        $response = $secretsManagerClient->getSecretValue([
+            'SecretId' => 'BLACKHAWKProd',
+            'VersionStage' => 'AWSCURRENT'
+        ]);
+
+        if (isset($response['SecretString'])) {
+           $cert = $response['SecretString'];
+        } else {
+            $cert = base64_decode($response['SecretBinary']);
+        }
+    } catch (AwsException $e) {
+        error_log($e->getMessage());
+
+    }
+
+// Then use $certPassword in your config
+
 
 return [
 
@@ -56,7 +104,8 @@ return [
         'client_program_id' => env('BLACKHAWK_CLIENT_PROGRAM_ID', 95006442),
         'merchant_id' => env('BLACKHAWK_MERCHANT_ID', 60300004707),
         'cert' => env('BLACKHAWK_CERT', public_path('key/stag.p12')),
-        'cert_password' => env('BLACKHAWK_CERT_PASSWORD', 'BH3F2FDP7J4ZXJV3PB1CFM1M4C'),
+        // 'cert_password' => env('BLACKHAWK_CERT_PASSWORD', 'BH3F2FDP7J4ZXJV3PB1CFM1M4C'),
+        'cert_password' => env('BLACKHAWK_CERT_PASSWORD', $cert),
         //  'cert_password' => env('APP_ENV', 'staging') == "production" ? getAwsSecret("BLACKHAWKProd", "us-east-2"): env('BLACKHAWK_CERT_PASSWORD', 'BH3F2FDP7J4ZXJV3PB1CFM1M4C'),
     ],
 ];
