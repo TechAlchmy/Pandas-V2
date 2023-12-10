@@ -53,7 +53,7 @@ class BlackHawkService
     // This is the catalog endpoint for egift cards
     public static function catalog()
     {
-       echo("<script>console.log('" . addslashes(config('services.blackhawk.cert_password')) . "')</script>");
+
         $instance = static::instance();
 
         $result = [];
