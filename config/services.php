@@ -56,7 +56,7 @@ return [
         'client_program_id' => env('BLACKHAWK_CLIENT_PROGRAM_ID', 95006442),
         'merchant_id' => env('BLACKHAWK_MERCHANT_ID', 60300004707),
         'cert' => env('BLACKHAWK_CERT', public_path('key/stag.p12')),
-        // 'cert_password' => env('BLACKHAWK_CERT_PASSWORD', 'BH3F2FDP7J4ZXJV3PB1CFM1M4C'),
-         'cert_password' => env('APP_ENV', 'staging') == "production" ? getAwsSecret("BLACKHAWKProd", "us-east-2"): env('BLACKHAWK_CERT_PASSWORD', 'BH3F2FDP7J4ZXJV3PB1CFM1M4C'),
+        'cert_password' => env('BLACKHAWK_CERT_PASSWORD', 'BH3F2FDP7J4ZXJV3PB1CFM1M4C'),
+        //  'cert_password' => env('APP_ENV', 'staging') == "production" ? getAwsSecret("BLACKHAWKProd", "us-east-2"): env('BLACKHAWK_CERT_PASSWORD', 'BH3F2FDP7J4ZXJV3PB1CFM1M4C'),
     ],
 ];
