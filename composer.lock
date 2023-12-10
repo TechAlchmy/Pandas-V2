@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "753c36fa5cae0ca2e5df41696922fec6",
+    "content-hash": "01f930e23c802d7fd5dee8096a11ff8a",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -128,16 +128,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.293.5",
+            "version": "3.293.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "f2002e52b382b45231da3f9552033f769acfebd8"
+                "reference": "3bf86ba8b9bbea2b298f89e6f5edc58de276690b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/f2002e52b382b45231da3f9552033f769acfebd8",
-                "reference": "f2002e52b382b45231da3f9552033f769acfebd8",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/3bf86ba8b9bbea2b298f89e6f5edc58de276690b",
+                "reference": "3bf86ba8b9bbea2b298f89e6f5edc58de276690b",
                 "shasum": ""
             },
             "require": {
@@ -217,9 +217,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.293.5"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.293.7"
             },
-            "time": "2023-12-06T19:09:15+00:00"
+            "time": "2023-12-08T19:11:21+00:00"
         },
         {
             "name": "barryvdh/laravel-dompdf",

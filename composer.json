@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "aws/aws-sdk-php": "^3.293",
         "barryvdh/laravel-dompdf": "^2.0",
         "blade-ui-kit/blade-icons": "^1.5",
         "brick/money": "^0.8.0",
