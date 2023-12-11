@@ -28,7 +28,7 @@
             <div class="max-w-[1920px] mx-auto">
                 <x-hr />
                 <div class="flex items-center justify-between">
-                    <h3 class="text-6xl font-editorial">
+                    <h3 class="text-5xl font-editorial">
                         @if (empty($this->filter['category_id']))
                             Deals
                         @else
