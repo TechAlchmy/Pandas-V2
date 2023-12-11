@@ -1,6 +1,6 @@
 @props(['record'])
 
-<div class="flex flex-col min-h-full mt-4 space-y-2">
+<div class="flex flex-col min-h-full mt-4 space-y-2 max-w-[20rem]">
 
     <div class="flex flex-col flex-grow">
         <div class="flex-1">
