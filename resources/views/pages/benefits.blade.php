@@ -95,7 +95,7 @@ name('benefits');
             </div>
         </div>
     </section>
-    <section class="relative">
+    <section class="relative mt-16">
         <div class="absolute w-[100%] bg-panda-green h-[100%]"></div>
         <img class="absolute top-[-200px] hidden lg:block lg:min-w-[50vw] 2xl:mx-auto object-cover w-[200px]" src="{{ getMediaPath('assets/benefit-circles-2-black-circle.png') }}"/>
         <div class="absolute w-[100%] bg-panda-green h-[100%] overflow-hidden">
