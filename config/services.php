@@ -4,32 +4,55 @@ use Aws\SecretsManager\SecretsManagerClient;
 use Aws\Exception\AwsException;
 use Aws\Sts\StsClient;
 use Aws\S3\S3Client;
+use Illuminate\Support\Facades\Storage;
 
-// Create a S3Client
-$s3 = new S3Client([
-    'version' => 'latest',
-    'region' => 'us-east-2', // e.g., 'us-west-2',
-]);
+// Folder name you want to create
+$folderName = 'myNewFolder';
 
-$bucketName = 'panda-prod-certs';
-$key = 'stag.p12'; // the key of the file in the S3 bucket
-$saveAs = storage_path('app/secure/stag.p12'); // local path to save the file
+// Path within the storage directory
+$path = 'app/public/'.$folderName;
 
-try {
-    // Download the file
-    $result = $s3->getObject([
-        'Bucket' => $bucketName,
-        'Key' => $key,
-        'SaveAs' => $saveAs
-    ]);
-} catch (AwsException $e) {
-    $result = $e->getAwsErrorMessage();
+// Create the directory
+Storage::makeDirectory($path);
+Storage::makeDirectory('app/secure');
 
-}
+$fileName = 'example.txt';
+
+// Content to be written to the file
+$content = "This is an example text.";
+
+// Write the content to the file in the specified directory
+Storage::disk('local')->put("${path}/{$fileName}", $content);
+Storage::disk('local')->put("app/secure/{$fileName}", $content);
+
+
 
 $blackhawk_cert_pw = null;
 $blackhawk_cert_url = null;
 if (env("APP_ENV") === "production") {
+    // Create a S3Client
+    $s3 = new S3Client([
+        'version' => 'latest',
+        'region' => 'us-east-2', // e.g., 'us-west-2',
+    ]);
+
+    $bucketName = 'panda-prod-certs';
+    $key = 'stag.p12'; // the key of the file in the S3 bucket
+    $saveAs = storage_path('app/secure/stag.p12'); // local path to save the file
+
+    try {
+        // Download the file
+        $result = $s3->getObject([
+            'Bucket' => $bucketName,
+            'Key' => $key,
+            'SaveAs' => $saveAs
+        ]);
+    } catch (AwsException $e) {
+        $result = $e->getAwsErrorMessage();
+        $error
+
+
+    }
     $blackhawk_cert_url = storage_path('app/secure/stag.p12');
     $stsClient = new StsClient([
         'version' => 'latest',
