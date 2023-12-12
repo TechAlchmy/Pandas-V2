@@ -18,15 +18,26 @@ use Illuminate\Support\Facades\Log; // Import Laravel's Log facade
 // $key = 'stag.p12'; // The key of the file in the S3 bucket
 
 // // Define the path to save the file locally in the secure directory
-$saveAs = "/var/app/current/storage/app/secure";
+$saveAs = storage_path("/secure");
 
 // Check if the directory exists, if not create it
-$directory = dirname($saveAs);
-if (!file_exists($directory)) {
 
-    mkdir($directory, 0750, true); // 0750 permission, true for recursive creation
-    // Log::info("Created directory: {$directory}");
+// Define the path for the new 'secure' directory inside the 'storage' folder
+$directory = storage_path('secure');
 
+try {
+    // Check if the directory exists, if not, create it
+    if (!file_exists($directory)) {
+        if (mkdir($directory, 0750, true)) { // 0750 permission, true for recursive creation
+            echo "Successfully created directory: {$directory}\n";
+        } else {
+            echo "Failed to create directory: {$directory}\n";
+        }
+    } else {
+        echo "Directory already exists: {$directory}\n";
+    }
+} catch (Exception $e) {
+    echo "An error occurred: " . $e->getMessage() . "\n";
 }
 
 // try {
