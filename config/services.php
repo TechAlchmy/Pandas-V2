@@ -8,37 +8,41 @@ use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Support\Facades\Log; // Import Laravel's Log facade
 
-// Create a S3Client
-$s3 = new S3Client([
-    'version' => 'latest',
-    'region' => 'us-east-2', // Update with your region
-]);
+// // Create a S3Client
+// $s3 = new S3Client([
+//     'version' => 'latest',
+//     'region' => 'us-east-2', // Update with your region
+// ]);
 
-$bucketName = 'panda-prod-certs'; // Your S3 bucket name
-$key = 'stag.p12'; // The key of the file in the S3 bucket
+// $bucketName = 'panda-prod-certs'; // Your S3 bucket name
+// $key = 'stag.p12'; // The key of the file in the S3 bucket
 
-// Define the path to save the file locally in the secure directory
-$saveAs = storage_path('app/secure/stag.p12');
+// // Define the path to save the file locally in the secure directory
+// $saveAs = storage_path('app/secure/stag.p12');
 
-// Check if the directory exists, if not create it
-$directory = dirname($saveAs);
-if (!file_exists($directory)) {
-    mkdir($directory, 0750, true); // 0750 permission, true for recursive creation
-    Log::info("Created directory: {$directory}");
-}
+// // Check if the directory exists, if not create it
+// $directory = dirname($saveAs);
+// if (!file_exists($directory)) {
+//     try {
+//         mkdir($directory, 0750, true); // 0750 permission, true for recursive creation
+//         Log::info("Created directory: {$directory}");
+//     } catch (\Exception $e) {
+//         Log::error($e->getMessage());
+//     }
+// }
 
-try {
-    // Download the file from S3 and save it locally
-    $s3->getObject([
-        'Bucket' => $bucketName,
-        'Key' => $key,
-        'SaveAs' => $saveAs
-    ]);
-    Log::info("File downloaded successfully to {$saveAs}");
-} catch (AwsException $e) {
-    // Log the error message if something goes wrong
-    Log::error("Error downloading file: " . $e->getMessage());
-}
+// try {
+//     // Download the file from S3 and save it locally
+//     $s3->getObject([
+//         'Bucket' => $bucketName,
+//         'Key' => $key,
+//         'SaveAs' => $saveAs
+//     ]);
+//     Log::info("File downloaded successfully to {$saveAs}");
+// } catch (AwsException $e) {
+//     // Log the error message if something goes wrong
+//     Log::error("Error downloading file: " . $e->getMessage());
+// }
 
 // The rest of your code for handling AWS Secrets Manager, etc.
 // ...
@@ -47,9 +51,7 @@ try {
 $blackhawk_cert_pw = null;
 $blackhawk_cert_url = null;
 if (env("APP_ENV") === "production") {
-    // Create a S3Client
-
-    $blackhawk_cert_url = storage_path('app/secure/stag.p12');
+    $blackhawk_cert_url = public_path("key/stag.p12");
     $stsClient = new StsClient([
         'version' => 'latest',
         'region' => "us-east-2"
