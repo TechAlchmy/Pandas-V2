@@ -1,5 +1,5 @@
 <div class="flex flex-col lg:flex-row mx-auto w-full max-w-[1920px]">
-    <div class="mt-8">
+    <div class="pb-4 mt-8 overflow-hidden">
         <img class="hidden md:block lg:hidden -ml-24 min-w-[125vw]" src="{{ getMediaPath('assets/guest-index-image-tablet.png') }}" />
         <img class="hidden mx-auto lg:block lg:px-8 2xl:px-0" src="{{ getMediaPath('assets/guest-index-image.png') }}" />
         <img class="md:hidden -ml-[7.5rem] min-w-[150vw]" src="{{ getMediaPath('assets/guest-index-image-mobile.png') }}" />

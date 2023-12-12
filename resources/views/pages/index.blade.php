@@ -147,7 +147,7 @@
             </div>
         </x-topbar.simple>
         <div class="h-16 lg:h-32"></div>
-        <section class="w-full pb-[min(184px,25.5vw)] lg:pb-52 flex flex-col">
+        <section class="w-full pb-16 flex flex-col">
             <x-guest-content />
         </section>
         <x-footer />

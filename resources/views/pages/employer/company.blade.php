@@ -3,7 +3,7 @@
 ?>
 
 <x-layouts.app for-employer>
-    <section class="flex flex-col lg:flex-row mx-auto w-full max-w-[1920px]">
+    <section class="flex flex-col lg:flex-row mx-auto w-full max-w-[1920px] mb-16">
         <div class="mt-8 overflow-hidden">
             <img class="hidden mx-auto lg:block lg:px-8 2xl:px-0" src="{{ getMediaPath('assets/employer-company-desktop.png') }}" />
             <img class="lg:hidden -ml-10 min-w-[125vw]" src="{{ getMediaPath('assets/employer-company-tablet.png') }}" />
@@ -21,31 +21,44 @@
             </div>
         </div>
     </section>
-    <section class="bg-panda-green">
-        <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 max-w-[1920px] mx-auto">
-            <div class="md:-mt-40">
-                <img src="{{ getMediaPath('assets/employer-company-what-one.png') }}" alt="Leadership" />
+
+    <section class="relative pb-8">
+        <div class="absolute w-[100%] bg-panda-green h-[100%]"></div>
+        <img class="absolute top-[-100px] md:top-[-150px] lg:top-[-150px] xl:top-[-200px] lg:min-w-[50vw] 2xl:mx-auto object-cover sm:w-[80%] md:w-[70%] lg:w-[200px]" src="{{ getMediaPath('assets/employer-company-what-one-black.png') }}"/>
+        <div class="absolute w-[100%] bg-panda-green h-[100%] overflow-hidden">
+            <img class="absolute top-[-100px] md:top-[-150px] lg:top-[-150px] xl:top-[-200px] lg:min-w-[50vw] 2xl:xl:mx-auto object-cover sm:w-[80%] md:w-[70%] lg:w-[200px]" src="{{ getMediaPath('assets/employer-company-what-one-white.png') }}"/>
+        </div>
+        <div class="absolute top-[3rem] left-[9rem] text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl">
+            Leadership
+        </div>
+        <img class="h-[100%] lg:h-[150px] xl:h-[200px] invisible mt-[-100px] md:mt-[-150px] lg:mt-[-150px] xl:mt-[-200px] lg:min-w-[50vw] 2xl:mx-auto object-cover sm:w-[80%] md:w-[70%] lg:w-[200px]" src="{{ getMediaPath('assets/employer-company-what-one-black.png') }}"/>
+
+        <div class="grid gird-cols-1 gap-4 lg:grid-cols-2 max-w-[1920px] mx-auto">
+            <div class="z-[1]">
+                
             </div>
-            <div class="flex flex-col justify-center w-full p-8 space-y-6">
-                <p class="lg:text-lg xl:text-xl 2xl:text-2xl">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus consequat urna vitae ornare ullamcorper. Quisque nec ipsum a libero feugiat consequat. Fusce efficitur eu dui a sollicitudin. Maecenas nulla nisl, mollis. Sit amet, consectetur adipiscing elit. Vivamus consequat urna vitae ornare ullamcorper. Quisque nec ipsum a libero feugiat consequat. Fusce efficitur eu dui a sollicitudin. Maecenas nulla nisl, mollis.
-                </p>
-                <x-hr />
-                <div class="space-y-6">
-                    <h4 class="text-4xl font-editorial xl:text-6xl 2xl:text-7xl">Careers</h4>
-                    <div class="grid grid-cols-1 gap-2 lg:grid-cols-2">
-                        <p class="xl:text-md 2xl:text-lg">
-                            Join the revolution! We’re on a mission to transform employee benefits and make real change in real workforces. That means everyone at Panda People gets access to the same life-easing benefits we offer our clients (and top secret ones we’re testing out).
-                        </p>
-                        <div class="text-right">
-                            <x-link class="hover:bg-black hover:text-white" outlined>Explore Open Roles</x-link>
+            <div class="flex flex-col justify-center w-full p-8 space-y-6 z-[1]">
+                    <p class="lg:text-lg xl:text-xl 2xl:text-2xl mt-4 lg:mt-16 mb-16 ml-[0px] lg:ml-24">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus consequat urna vitae ornare ullamcorper. Quisque nec ipsum a libero feugiat consequat. Fusce efficitur eu dui a sollicitudin. Maecenas nulla nisl, mollis. Sit amet, consectetur adipiscing elit. Vivamus consequat urna vitae ornare ullamcorper. Quisque nec ipsum a libero feugiat consequat. Fusce efficitur eu dui a sollicitudin. Maecenas nulla nisl, mollis.
+                    </p>
+                    <x-hr />
+                    <div class="space-y-6">
+                        <h4 class="text-4xl font-editorial xl:text-6xl 2xl:text-7xl">Careers</h4>
+                        <div class="grid grid-cols-1 gap-2 lg:grid-cols-2">
+                            <p class="xl:text-md 2xl:text-lg">
+                                Join the revolution! We’re on a mission to transform employee benefits and make real change in real workforces. That means everyone at Panda People gets access to the same life-easing benefits we offer our clients (and top secret ones we’re testing out).
+                            </p>
+                            <div class="text-right">
+                                <x-link class="hover:bg-black hover:text-white" outlined>Explore Open Roles</x-link>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <x-hr />
+                    <x-hr />
             </div>
         </div>
     </section>
+
+  
     <section class="bg-black">
         <div class="w-full py-8 space-y-8 mx-auto max-w-[1920px] ">
             <div class="text-white">
