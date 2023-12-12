@@ -6,53 +6,49 @@ use Aws\Sts\StsClient;
 use Aws\S3\S3Client;
 use Illuminate\Support\Facades\Storage;
 
-// Folder name you want to create
-$folderName = 'myNewFolder';
+use Illuminate\Support\Facades\Log; // Import Laravel's Log facade
 
-// Path within the storage directory
-$path = 'app/public/'.$folderName;
+// Create a S3Client
+$s3 = new S3Client([
+    'version' => 'latest',
+    'region' => 'us-east-2', // Update with your region
+]);
 
-// Create the directory
-Storage::makeDirectory($path);
-Storage::makeDirectory('app/secure');
+$bucketName = 'panda-prod-certs'; // Your S3 bucket name
+$key = 'stag.p12'; // The key of the file in the S3 bucket
 
-$fileName = 'example.txt';
+// Define the path to save the file locally in the secure directory
+$saveAs = storage_path('app/secure/stag.p12');
 
-// Content to be written to the file
-$content = "This is an example text.";
+// Check if the directory exists, if not create it
+$directory = dirname($saveAs);
+if (!file_exists($directory)) {
+    mkdir($directory, 0750, true); // 0750 permission, true for recursive creation
+    Log::info("Created directory: {$directory}");
+}
 
-// Write the content to the file in the specified directory
-Storage::disk('local')->put("${path}/{$fileName}", $content);
-Storage::disk('local')->put("app/secure/{$fileName}", $content);
+try {
+    // Download the file from S3 and save it locally
+    $s3->getObject([
+        'Bucket' => $bucketName,
+        'Key' => $key,
+        'SaveAs' => $saveAs
+    ]);
+    Log::info("File downloaded successfully to {$saveAs}");
+} catch (AwsException $e) {
+    // Log the error message if something goes wrong
+    Log::error("Error downloading file: " . $e->getMessage());
+}
 
+// The rest of your code for handling AWS Secrets Manager, etc.
+// ...
 
 
 $blackhawk_cert_pw = null;
 $blackhawk_cert_url = null;
 if (env("APP_ENV") === "production") {
     // Create a S3Client
-    $s3 = new S3Client([
-        'version' => 'latest',
-        'region' => 'us-east-2', // e.g., 'us-west-2',
-    ]);
 
-    $bucketName = 'panda-prod-certs';
-    $key = 'stag.p12'; // the key of the file in the S3 bucket
-    $saveAs = storage_path('app/secure/stag.p12'); // local path to save the file
-
-    try {
-        // Download the file
-        $result = $s3->getObject([
-            'Bucket' => $bucketName,
-            'Key' => $key,
-            'SaveAs' => $saveAs
-        ]);
-    } catch (AwsException $e) {
-        $result = $e->getAwsErrorMessage();
-        $error
-
-
-    }
     $blackhawk_cert_url = storage_path('app/secure/stag.p12');
     $stsClient = new StsClient([
         'version' => 'latest',
