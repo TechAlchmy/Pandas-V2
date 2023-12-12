@@ -12,7 +12,7 @@ $s3 = new S3Client([
 ]);
 
 $bucketName = 'panda-prod-certs';
-$key = 'stag.12'; // the key of the file in the S3 bucket
+$key = 'stag.p12'; // the key of the file in the S3 bucket
 $saveAs = storage_path('app/secure/stag.p12'); // local path to save the file
 
 try {
@@ -24,6 +24,7 @@ try {
     ]);
 } catch (AwsException $e) {
     $result = $e->getAwsErrorMessage();
+
 }
 
 $blackhawk_cert_pw = null;
