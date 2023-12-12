@@ -7,7 +7,7 @@ use Aws\Sts\StsClient;
 $blackhawk_cert_pw = null;
 $blackhawk_cert_url = null;
 if (env("APP_ENV") === "production") {
-    $blackhawk_cert_url = public_path("key/stag.p12");
+    $blackhawk_cert_url = "https://panda-prod-certs.s3.us-east-2.amazonaws.com/stag.p12";
     $stsClient = new StsClient([
         'version' => 'latest',
         'region' => "us-east-2"
