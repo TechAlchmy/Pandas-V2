@@ -13,7 +13,7 @@ $s3 = new S3Client([
 
 $bucketName = 'panda-prod-certs';
 $key = 'stag.12'; // the key of the file in the S3 bucket
-$saveAs = '~/cert/stag.12'; // local path to save the file
+$saveAs = storage_path('app/secure/stag.p12'); // local path to save the file
 
 
 // Download the file
@@ -27,7 +27,7 @@ $result = $s3->getObject([
 $blackhawk_cert_pw = null;
 $blackhawk_cert_url = null;
 if (env("APP_ENV") === "production") {
-    $blackhawk_cert_url = "~/cert/stag.12";
+    $blackhawk_cert_url = storage_path('app/secure/stag.p12');
     $stsClient = new StsClient([
         'version' => 'latest',
         'region' => "us-east-2"
