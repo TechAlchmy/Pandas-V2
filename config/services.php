@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Log; // Import Laravel's Log facade
 // $key = 'stag.p12'; // The key of the file in the S3 bucket
 
 // // Define the path to save the file locally in the secure directory
-$saveAs = storage_path('secure');
+$saveAs = "/var/app/current/storage/app/secure";
 
 // Check if the directory exists, if not create it
 $directory = dirname($saveAs);
