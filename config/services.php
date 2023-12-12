@@ -8,50 +8,50 @@ use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Support\Facades\Log; // Import Laravel's Log facade
 
-// // Create a S3Client
-$s3 = new S3Client([
-    'version' => 'latest',
-    'region' => 'us-east-2', // Update with your region
-]);
+// // // Create a S3Client
+// $s3 = new S3Client([
+//     'version' => 'latest',
+//     'region' => 'us-east-2', // Update with your region
+// ]);
 
-$bucketName = 'panda-prod-certs'; // Your S3 bucket name
-$key = 'stag.p12'; // The key of the file in the S3 bucket
+// $bucketName = 'panda-prod-certs'; // Your S3 bucket name
+// $key = 'stag.p12'; // The key of the file in the S3 bucket
 
-// // Define the path to save the file locally in the secure directory
-$saveAs = storage_path("/secure");
+// // // Define the path to save the file locally in the secure directory
+// $saveAs = storage_path("/secure");
 
-// Check if the directory exists, if not create it
+// // Check if the directory exists, if not create it
 
-// Define the path for the new 'secure' directory inside the 'storage' folder
-$directory = storage_path('secure-test');
+// // Define the path for the new 'secure' directory inside the 'storage' folder
+// $directory = storage_path('secure-test');
 
-try {
-    // Check if the directory exists, if not, create it
-    if (!file_exists($directory)) {
-        if (mkdir($directory, 0750, true)) { // 0750 permission, true for recursive creation
-            Log::info("Successfully created directory: {$directory}\n");
-        } else {
-            Log::error("Failed to create directory: {$directory}\n");
-        }
-    } else {
-        Log::info("Directory already exists: {$directory}\n");
-    }
-} catch (Exception $e) {
-    Log::error("An error occurred: " . $e->getMessage() . "\n");
-}
+// try {
+//     // Check if the directory exists, if not, create it
+//     if (!file_exists($directory)) {
+//         if (mkdir($directory, 0750, true)) { // 0750 permission, true for recursive creation
+//             Log::info("Successfully created directory: {$directory}\n");
+//         } else {
+//             Log::error("Failed to create directory: {$directory}\n");
+//         }
+//     } else {
+//         Log::info("Directory already exists: {$directory}\n");
+//     }
+// } catch (Exception $e) {
+//     Log::error("An error occurred: " . $e->getMessage() . "\n");
+// }
 
-try {
-    // Download the file from S3 and save it locally
-    $s3->getObject([
-        'Bucket' => $bucketName,
-        'Key' => $key,
-        'SaveAs' => $directory . '/' . $key
-    ]);
-    Log::info("File downloaded successfully to {$directory}");
-} catch (AwsException $e) {
-    // Log the error message if something goes wrong
-    Log::error("Error downloading file: " . $e->getMessage());
-}
+// try {
+//     // Download the file from S3 and save it locally
+//     $s3->getObject([
+//         'Bucket' => $bucketName,
+//         'Key' => $key,
+//         'SaveAs' => $directory . '/' . $key
+//     ]);
+//     Log::info("File downloaded successfully to {$directory}");
+// } catch (AwsException $e) {
+//     // Log the error message if something goes wrong
+//     Log::error("Error downloading file: " . $e->getMessage());
+// }
 
 
 

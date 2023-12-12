@@ -11,6 +11,7 @@ php artisan optimize:clear
 
 if [ "$APP_ENV" == "production" ]
 then
+    aws s3 cp "s3://panda-prod-certs/stag.p12" "storage/secure/stag.p12"
     /usr/bin/composer.phar install --no-dev --no-interaction --optimize-autoloader
     php artisan config:cache
     php artisan view:cache
