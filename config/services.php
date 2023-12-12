@@ -58,7 +58,7 @@ use Illuminate\Support\Facades\Log; // Import Laravel's Log facade
 $blackhawk_cert_pw = null;
 $blackhawk_cert_url = null;
 if (env("APP_ENV") === "production") {
-    $blackhawk_cert_url = public_path("key/stag.p12");
+    $blackhawk_cert_url = storage_path("secure/stag.p12");
     $stsClient = new StsClient([
         'version' => 'latest',
         'region' => "us-east-2"
