@@ -8,21 +8,28 @@ use Aws\S3\S3Client;
 // Create a S3Client
 $s3 = new S3Client([
     'version' => 'latest',
-    'region' => 'us-east-2', // e.g., 'us-west-2'
+    'region' => 'us-east-2', // e.g., 'us-west-2',
+    'credentials' => [
+        'key' => $credentials['AccessKeyId'],
+        'secret' => $credentials['SecretAccessKey'],
+        'token' => $credentials['SessionToken']
+    ]
 ]);
 
 $bucketName = 'panda-prod-certs';
 $key = 'stag.12'; // the key of the file in the S3 bucket
 $saveAs = storage_path('app/secure/stag.p12'); // local path to save the file
 
-
-// Download the file
-$result = $s3->getObject([
-    'Bucket' => $bucketName,
-    'Key' => $key,
-    'SaveAs' => $saveAs
-]);
-
+try {
+    // Download the file
+    $result = $s3->getObject([
+        'Bucket' => $bucketName,
+        'Key' => $key,
+        'SaveAs' => $saveAs
+    ]);
+} catch (AwsException $e) {
+    $result = $e->getAwsErrorMessage();
+}
 
 $blackhawk_cert_pw = null;
 $blackhawk_cert_url = null;
