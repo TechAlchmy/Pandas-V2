@@ -23,7 +23,7 @@ $saveAs = storage_path("/secure");
 // Check if the directory exists, if not create it
 
 // Define the path for the new 'secure' directory inside the 'storage' folder
-$directory = storage_path('secure');
+$directory = storage_path('secure-test');
 
 try {
     // Check if the directory exists, if not, create it
