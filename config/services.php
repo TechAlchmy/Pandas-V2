@@ -9,11 +9,6 @@ use Aws\S3\S3Client;
 $s3 = new S3Client([
     'version' => 'latest',
     'region' => 'us-east-2', // e.g., 'us-west-2',
-    'credentials' => [
-        'key' => $credentials['AccessKeyId'],
-        'secret' => $credentials['SecretAccessKey'],
-        'token' => $credentials['SessionToken']
-    ]
 ]);
 
 $bucketName = 'panda-prod-certs';
