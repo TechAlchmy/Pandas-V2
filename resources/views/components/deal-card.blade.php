@@ -14,7 +14,7 @@
 
         <div class="flex-shrink-0">
             <x-a class="inline" :href="route('deals.show', ['id' => $record->slug])">
-                <h4 class="text-4xl font-light">{{ $record->brand->name }}</h4>
+                <h4 class="text-4xl font-light font-editorial">{{ $record->brand->name }}</h4>
             </x-a>
             <p class="text-xl uppercase">{{ $record->name }}</p>
         </div>

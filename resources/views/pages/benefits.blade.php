@@ -13,7 +13,7 @@ name('benefits');
         <div class="px-[min(6.99vw,50px)] py-8 max-w-[1920px] mx-auto">
             <div class="relative hidden lg:flex">
                 <div class="absolute top-[-5rem] -z-10">
-                    <img class="" src="{{ getMediaPath('assets/benefits-hero-image.png') }}" />
+                    <img class="" src="{{ getMediaPath('assets/benefits-hero-image-1.png') }}" />
                 </div>
                 <div class="grid grid-cols-4">
                     <div></div>
@@ -52,10 +52,10 @@ name('benefits');
         <div class="max-w-[1920px] mx-auto">
             <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
                 <div x-data="{ shown: false }" x-intersect.once="shown = true">
-                    <h2 x-show="shown" x-transition.duration.2000 class="hidden lg:block max-w-xl text-4xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-[5.5rem]">
+                    <h2 x-show="shown" x-transition.duration.2000 class="hidden lg:block max-w-xl text-4xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-[5.5rem] font-editorial">
                         Benefits for Life Essentials
                     </h2>
-                    <h2 x-show="shown" x-transition.duration.2000 class="lg:hidden max-w-xl text-4xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl mb-6">
+                    <h2 x-show="shown" x-transition.duration.2000 class="lg:hidden max-w-xl text-4xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl mb-6 font-editorial">
                         Benefits for
                     </h2>
                     <div class="space-y-6 lg:max-w-sm lg:mt-6 text-base lg:text-base  xl:text-lg">
@@ -104,10 +104,10 @@ name('benefits');
         
         <div class="px-[min(6.99vw,50px)] py-8 relative pt-16">            
             <div class="mx-auto max-w-[1920px]">
-                <h2 x-show="shown" x-transition.duration.2000 class="hidden lg:block text-4xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-[5.5rem] md:col-span-2">
+                <h2 x-show="shown" x-transition.duration.2000 class="hidden lg:block text-4xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-[5.5rem] md:col-span-2 font-editorial">
                     …and Purchases Essential to Life
                 </h2>
-                <h2 x-show="shown" x-transition.duration.2000 class="lg:hidden text-4xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl md:col-span-2 mb-6">
+                <h2 x-show="shown" x-transition.duration.2000 class="lg:hidden text-4xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl md:col-span-2 mb-6 font-editorial">
                     …and Purchases
                 </h2>
             </div>
@@ -116,7 +116,7 @@ name('benefits');
         <div class="grid grid-cols-1 gap-6 lg:grid-cols-2 relative pb-16">
             <div></div>
             <div x-data="{ shown: false }" x-intersect.once="shown = true" class="p-8 space-y-6 xl:space-y-12 place-self-center xl:-mt-0">
-                <h2 x-show="shown" x-transition.duration.2000 class="text-3xl xl:text-4xl 2xl:text-5xl">
+                <h2 x-show="shown" x-transition.duration.2000 class="text-3xl xl:text-4xl 2xl:text-5xl font-editorial">
                 We're here to help you pay for everyday essentials and afford more of what brings you joy
                 </h2>
                 <h5 class="text-xl">

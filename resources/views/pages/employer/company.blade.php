@@ -28,7 +28,7 @@
         <div class="absolute w-[100%] bg-panda-green h-[100%] overflow-hidden">
             <img class="absolute top-[-100px] md:top-[-150px] lg:top-[-150px] xl:top-[-200px] lg:min-w-[50vw] 2xl:xl:mx-auto object-cover sm:w-[80%] md:w-[70%] lg:w-[200px]" src="{{ getMediaPath('assets/employer-company-what-one-white.png') }}"/>
         </div>
-        <div class="absolute top-[3rem] left-[9rem] text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl">
+        <div class="absolute top-[3rem] left-[9rem] text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-editorial">
             Leadership
         </div>
         <img class="h-[100%] lg:h-[150px] xl:h-[200px] invisible mt-[-100px] md:mt-[-150px] lg:mt-[-150px] xl:mt-[-200px] lg:min-w-[50vw] 2xl:mx-auto object-cover sm:w-[80%] md:w-[70%] lg:w-[200px]" src="{{ getMediaPath('assets/employer-company-what-one-black.png') }}"/>
