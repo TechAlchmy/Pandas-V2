@@ -144,7 +144,7 @@ name('employer');
     {{-- <section class="px-[min(6.99vw,50px)] py-8 bg-neutral-300 grid min-h-[50vh]">
         <h5 class="place-self-center">Placeholder for stats</h5>
     </section> --}}
-    <section class="max-w-[1920px] mx-auto">
+    <section class="w-full sm:max-w-[1920px] mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-2">
             <div>
                 <div class="relative min-h-[400px] md:h-full w-full bg-cover" style="background-image: url({{ getMediaPath('assets/contact-us-banner.png') }})">
@@ -154,10 +154,10 @@ name('employer');
                     }" class="absolute inset-0 flex flex-col justify-between p-6 space-y-4">
                         <div class="space-y-4">
                             <h3 class="text-4xl lg:text-6xl font-editorial" x-transition x-text="testimonials[index][1]"></h3>
-                            <p x-text="`- ${testimonials[index][0]}`" x-transition>
+                            <p class="hidden sm:block" x-text="`- ${testimonials[index][0]}`" x-transition>
                             </p>
                         </div>
-                        <div>
+                        <div class="hidden sm:block">
                             <button class="group" x-on:click="
                             if (index - 1 > 0) {
                                 index--;
@@ -179,7 +179,7 @@ name('employer');
                     </div>
                 </div>
             </div>
-            <div class="p-8 space-y-6 bg-neutral-200">
+            <div class="hidden sm:block p-8 space-y-6 bg-white">
                 <h2 class="text-6xl font-light font-editorial">Let’s Show You<br />How Panda Makes a Difference</h2>
                 <x-hr />
                 <p class="lg:text-lg xl:text-xl">
@@ -195,13 +195,13 @@ name('employer');
             </div>
         </div>
     </section>
-    <section class="bg-black">
+    <section class="bg-neutral-200 sm:bg-black">
         <div class="w-full py-8 space-y-8 mx-auto max-w-[1920px] ">
-            <div class="text-white">
+            <div class="text-black sm:text-white">
                 <h4 class="text-5xl text-left md:text-center md:-ml-60 lg:-ml-80 font-editorial lg:text-6xl xl:text-7xl 2xl:text-8xl">Attract. Retain.</h4>
                 <h4 class="text-5xl text-right md:text-center md:ml-60 lg:ml-80 font-editorial lg:text-6xl xl:text-7xl 2xl:text-8xl">Grow. Perform.</h4>
             </div>
         </div>
-        <x-hr class="border-white" />
+        <!-- <x-hr class="border-white" /> -->
     </section>
 </x-layouts.app>
