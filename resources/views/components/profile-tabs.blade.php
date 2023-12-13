@@ -8,12 +8,12 @@
     ];
 @endphp
 
-<section x-data="{ selected: @js(request('activeTab', 0)) }" class="py-8 lg:px-[min(6.99vw,50px)]">
+<section x-data="{ selected: @js(request('activeTab', 0)) }" class="py-8 lg:px-[min(6.99vw,50px)] grow">
     <div class="max-w-[1920px] mx-auto">
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
             <ul class="divide-y text-xl border-y flex flex-col">
                 @foreach ($tabs as $key => $menu)
-                    <li class="space-y-6" x-bind:class="{ 'grow': selected == {{ $loop->index }} }">
+                    <li class="space-y-6 transition-[flex-grow]" x-bind:class="{ 'grow': selected == {{ $loop->index }} }">
                         <div class="p-4">
                             <button x-bind:class="{ 'font-bold': selected == {{ $loop->index }} }" x-on:click="selected = {{ $loop->index }}">
                                 {{ $key }}
@@ -26,7 +26,7 @@
                 @endforeach
             </ul>
 
-            <div class="col-span-3 hidden lg:block">
+            <div class="col-span-3 hidden lg:block min-h-[45vh]">
                 @foreach ($tabs as $key => $menu)
                     <div class="hidden h-full" x-bind:class="{ 'lg:grid lg:grid-cols-1': selected == {{ $loop->index }} }">
                         <div class="place-self-center w-full h-full">
