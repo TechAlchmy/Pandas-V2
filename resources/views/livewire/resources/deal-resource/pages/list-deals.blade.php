@@ -1,8 +1,8 @@
 <div>
     <section class="px-[min(6.99vw,50px)] py-8 bg-neutral-200 lg:sticky lg:top-28 lg:z-[1]">
         <div class="max-w-[1920px] mx-auto lg:flex lg:justify-between lg:gap-6">
-            <h1 class="mb-8 text-2xl text-center lg:text-4xl lg:text-start lg:mb-0">
-                Live More with Panda-Powered<br />Deals + Discounts
+            <h1 class="mb-8 text-2xl text-center lg:text-4xl lg:text-start lg:mb-0 font-editorial">
+                Live More with Panda-<br/>Powered Deals + Discounts
             </h1>
             <div>
                 {{ $this->form }}
