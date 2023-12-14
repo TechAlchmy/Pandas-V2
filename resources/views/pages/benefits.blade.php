@@ -83,9 +83,9 @@ name('benefits');
                             ];
                         @endphp
                         @foreach ($items as $item => $content)
-                            <li class="py-6">
+                            <li class="py-6 overflow-hidden">
                                 <button class="text-xl" x-on:click="activeAccordion = activeAccordion == @js($loop->index) ? null : @js($loop->index)">{{ $item }}</button>
-                                <div class="mt-6" x-show="activeAccordion == @js($loop->index)">
+                                <div class="transition-[height]" x-bind:class="{ 'h-[0px] invisible': activeAccordion != @js($loop->index),'mt-6 h-[100px] visible': activeAccordion == @js($loop->index) }">
                                     <div class="lg:max-w-sm">{!! $content !!}</div>
                                 </div>
                             </li>
