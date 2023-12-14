@@ -31,8 +31,8 @@ name('benefits');
                 </div>
             </div>
             <div class="grid grid-cols-1 gap-6 lg:hidden lg:grid-cols-2" x-data="{ shown: false }" x-intersect.once="shown = true">
-                <h1 x-show="shown" x-transition.duration.1500 class="max-w-xl text-4xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-8xl">Get Ready to Go</h1>
-                <div class="w-[calc(100%+2*min(6.99vw,50px))] mx-auto ml-auto ml-[max(-6.99vw,-50px)] -mt-12 z-[-1] overflow-x-hidden -mb-20">
+                <h1 x-show="shown" x-transition.duration.1500 class="max-w-xl text-4xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-8xl font-editorial">Get Ready to Go</h1>
+                <div class="w-[calc(100%+2*min(6.99vw,50px))] mx-auto ml-[max(-6.99vw,-50px)] -mt-12 z-[-1] overflow-x-hidden -mb-20">
                     <img class="lg:hidden min-w-[125vw] -ml-12 lg:-ml-72 2xl:-ml-[42rem]" src="{{ getMediaPath('assets/benefit-circles.png') }}" alt="Collages images" />
                 </div>
                 <div class="space-y-6 lg:ml-56 xl:ml-80">
@@ -83,9 +83,9 @@ name('benefits');
                             ];
                         @endphp
                         @foreach ($items as $item => $content)
-                            <li class="py-6">
+                            <li class="py-6 overflow-hidden">
                                 <button class="text-xl" x-on:click="activeAccordion = activeAccordion == @js($loop->index) ? null : @js($loop->index)">{{ $item }}</button>
-                                <div class="mt-6" x-show="activeAccordion == @js($loop->index)">
+                                <div class="transition-[height]" x-bind:class="{ 'h-[0px] invisible': activeAccordion != @js($loop->index),'mt-6 h-[100px] visible': activeAccordion == @js($loop->index) }">
                                     <div class="lg:max-w-sm">{!! $content !!}</div>
                                 </div>
                             </li>

@@ -128,11 +128,11 @@ name('help');
                         All discounts and e-vouchers are exclusively offered through Panda People for registered members only.',
         ],
     ] as $title => $questions)
-                    <li class="py-6 space-y-4">
+                    <li class="py-6 overflow-hidden">
                         <div>
                             <button class="text-xl" x-on:click="selected = (selected == {{ $loop->index }}) ? null : {{ $loop->index }}">{{ $title }}</button>
                         </div>
-                        <div class="space-y-3" x-show="selected == {{ $loop->index }}" x-cloak x-transition>
+                        <div class="transition-[max-height]" x-bind:class="{'mt-[0px] max-h-[0px] invisible':selected != {{$loop->index}},'mt-4 max-h-[2000px] visible':selected == {{$loop->index}} }" x-cloak>
                             @foreach ($questions as $questionTitle => $answer)
                                 <h4 class="font-bold">{{ $questionTitle }}</h4>
                                 <p>{!! $answer !!}</p>

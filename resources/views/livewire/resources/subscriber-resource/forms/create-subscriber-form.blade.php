@@ -21,8 +21,8 @@ $submit = function () {
 ?>
 
 <form wire:submit.prevent="submit" class="space-y-6 text-white">
-    <h4 class="font-editorial">Panda People Newsletter</h4>
-    <div class="flex items-center max-w-xs py-2 border-b border-white gap-x-1">
+    <h4 class="font-editorial text-3xl">Panda People Newsletter</h4>
+    <div class="flex items-center py-2 border-b border-white gap-x-1">
         <x-input type="email" class="text-lg placeholder-white" wire:model="email" placeholder="EMAIL" />
     </div>
     @error('email')
