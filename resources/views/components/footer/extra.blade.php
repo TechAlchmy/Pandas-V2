@@ -1,7 +1,7 @@
 <footer x-data="{ shown: false }" x-intersect.once="shown = true">
     <div class="text-white bg-black">
         <div class="max-w-[1920px] mx-auto">
-            <div x-show="shown" x-transition:enter.duration.1000ms.opactiy class="grid grid-cols-1 gap-6 py-8 px-[min(6.99vw,50px)] md:grid-cols-3">
+            <div x-show="shown" x-transition:enter.duration.1000ms.opactiy class="grid grid-cols-1 gap-6 py-16 px-[min(6.99vw,50px)] md:grid-cols-3">
                 <div class="flex justify-between order-2 md:order-1 md:col-span-2 md:justify-around">
                     <x-a href="/">
                         <x-logo class="text-white" />
