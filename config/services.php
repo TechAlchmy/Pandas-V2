@@ -57,6 +57,10 @@ use Illuminate\Support\Facades\Log; // Import Laravel's Log facade
 
 $blackhawk_cert_pw = null;
 $blackhawk_cert_url = null;
+$cardknox_customer_id = null;
+$cardknox_ifields_key = null;
+$cardknox_transaction_key = null;
+
 if (env("APP_ENV") === "production") {
     $blackhawk_cert_url = storage_path("secure/stag.p12");
     $stsClient = new StsClient([
@@ -94,6 +98,17 @@ if (env("APP_ENV") === "production") {
         $blackhawk_cert_pw = $response['SecretString'];
     } else {
         $blackhawk_cert_pw = base64_decode($response['SecretBinary']);
+    }
+    $response = $secretsManagerClient->getSecretValue([
+        'SecretId' => 'CardknoxProd',
+        'VersionStage' => 'AWSCURRENT'
+    ]);
+
+    if (isset($response['SecretString'])) {
+        $foo = $response['SecretString'];
+        $cardknox_customer_id = $foo["CARDKNOX_CUSTOMER_ID"];
+        $cardknox_ifields_key = $foo["CARDKNOX_IFIELDS_KEY"];
+        $cardknox_transaction_key = $foo["CARDKNOX_TRANSACTION_KEY"];
     }
 } else {
     $blackhawk_cert_pw = "BH3F2FDP7J4ZXJV3PB1CFM1M4C";
@@ -134,10 +149,10 @@ return [
 
     'cardknox' => [
         'ifields' => [
-            'key' => env('CARDKNOX_IFIELDS_KEY'),
+            'key' => $cardknox_ifields_key,
             'version' => '2.15.2302.0801',
         ],
-        'transaction_key' => env('CARDKNOX_TRANSACTION_KEY'),
+        'transaction_key' => $cardknox_transaction_key,
     ],
 
     'blackhawk' => [
