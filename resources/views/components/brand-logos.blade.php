@@ -45,7 +45,7 @@
                             @foreach (range(1, 3) as $i)
                             @foreach ($category->brands as $brand)
                                 <div class="swiper-slide py-4 m-auto">
-                                    <img class="max-w-[150px] max-h-24 invert" src="{{ $brand->getFirstMediaUrl('logo') }}" alt="{{ $brand->name }} Logo" />
+                                <img class="max-w-[150px] max-h-24 invert" src="{{ getMediaPath('logo/partners_'.$category->name.'_'.$brand->name.'.png') }}" alt="{{ $brand->name }} Logo" />
                                 </div>
                             @endforeach
                             @endforeach
