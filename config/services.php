@@ -105,7 +105,7 @@ if (env("APP_ENV") === "production") {
     ]);
 
     if (isset($response['SecretString'])) {
-        $foo = $response['SecretString'];
+        $foo = json_decode($response['SecretString']);
         $cardknox_customer_id = $foo["CARDKNOX_CUSTOMER_ID"];
         $cardknox_ifields_key = $foo["CARDKNOX_IFIELDS_KEY"];
         $cardknox_transaction_key = $foo["CARDKNOX_TRANSACTION_KEY"];
