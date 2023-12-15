@@ -99,17 +99,22 @@ if (env("APP_ENV") === "production") {
     } else {
         $blackhawk_cert_pw = base64_decode($response['SecretBinary']);
     }
-    // $response = $secretsManagerClient->getSecretValue([
-    //     'SecretId' => 'CardknoxProd',
-    //     'VersionStage' => 'AWSCURRENT'
-    // ]);
+    try {
+        $response = $secretsManagerClient->getSecretValue([
+            'SecretId' => 'CardknoxProd',
+            'VersionStage' => 'AWSCURRENT'
+        ]);
 
-    // if (isset($response['SecretString'])) {
-    //     $foo = json_decode($response['SecretString']);
-    //     $cardknox_customer_id = $foo["CARDKNOX_CUSTOMER_ID"];
-    //     $cardknox_ifields_key = $foo["CARDKNOX_IFIELDS_KEY"];
-    //     $cardknox_transaction_key = $foo["CARDKNOX_TRANSACTION_KEY"];
-    // }
+        if (isset($response['SecretString'])) {
+            $foo = json_decode($response['SecretString']);
+            $cardknox_customer_id = $foo["CARDKNOX_CUSTOMER_ID"];
+            $cardknox_ifields_key = $foo["CARDKNOX_IFIELDS_KEY"];
+            $cardknox_transaction_key = $foo["CARDKNOX_TRANSACTION_KEY"];
+        }
+    } catch (Exception $e) {
+        Log::error("cardknox credentials not set " . $e->getMessage());
+    }
+
 } else {
     $blackhawk_cert_pw = "BH3F2FDP7J4ZXJV3PB1CFM1M4C";
     $blackhawk_cert_url = public_path("key/stag.p12");
