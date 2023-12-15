@@ -1,4 +1,4 @@
-<? php
+<?php
 
 use App\Livewire\Resources\DealResource\Pages\ViewDeal;
 use Livewire\Livewire;
