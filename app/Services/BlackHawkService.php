@@ -38,6 +38,7 @@ class BlackHawkService
         $this->merchantId = config('services.blackhawk.merchant_id');
         $this->cert = config('services.blackhawk.cert');
         $this->certPassword = config('services.blackhawk.cert_password');
+
     }
 
     public static function instance(): self
@@ -52,6 +53,7 @@ class BlackHawkService
     // This is the catalog endpoint for egift cards
     public static function catalog()
     {
+
         $instance = static::instance();
 
         $result = [];
@@ -172,7 +174,7 @@ class BlackHawkService
             'clientProgramNumber' => $instance->clientProgramId,
             'millisecondsToWait' => '15000',
             'merchantId' => $instance->merchantId,
-            // 'SYNCHRONOUS_ONLY' => 'false', 
+            // 'SYNCHRONOUS_ONLY' => 'false',
             'Content-Type' => 'application/json'
         ];
 
@@ -342,7 +344,7 @@ class BlackHawkService
             } else {
                 $orderStatus = !empty($response['eGifts'])
                     ? BlackHawkOrderStatus::Complete->value
-                    : BlackHawkOrderStatus::Default->value;
+                    : BlackHawkOrderStatus::Default ->value;
             }
 
             if ($orderStatus === BlackHawkOrderStatus::Failure->value) {

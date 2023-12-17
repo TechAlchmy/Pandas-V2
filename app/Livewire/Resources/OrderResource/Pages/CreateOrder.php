@@ -194,9 +194,16 @@ class CreateOrder extends Component implements HasForms, HasActions
             if (filled($response->json('xResult')) && $response->json('xStatus') === 'Error') {
                 throw new \Exception($response->json('xError'));
             }
+
+            // Checking if the payment was not successfull
+            if ($response->json('xStatus') !== 'Approved' || $response->json('xErrorCode') !== '00000') {
+                throw new \Exception("{$response->json('xStatus')}");
+            }
         } catch (\Throwable $e) {
             Notification::make()
                 ->title('Error')
+                ->danger()
+                ->persistent()
                 ->body($e->getMessage())
                 ->send();
 
@@ -231,9 +238,7 @@ class CreateOrder extends Component implements HasForms, HasActions
                 ]);
             }
 
-            // $apiCall = BlackHawkService::order($order);
-            // We no longer place order for blackhawk, but instead save it in our queue
-            // TODO: if item quantity is 1 and if there's only one item, add it to queue with a flag that it's realtime
+            // Adding this order to our blackhawk order queue. The logic whether to add this or not is implemented in that function
             $order->addToQueue();
 
             cart()->finalize($order);

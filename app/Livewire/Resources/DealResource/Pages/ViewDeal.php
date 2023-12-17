@@ -178,12 +178,20 @@ class ViewDeal extends Component implements HasActions, HasForms
         try {
             $response = Http::post('https://x1.cardknox.com/gatewayjson', new CardknoxBody($data));
 
+
             if (filled($response->json('xResult')) && $response->json('xStatus') === 'Error') {
                 throw new \Exception($response->json('xError'));
+            }
+
+            // Checking if the payment was not successfull
+            if ($response->json('xStatus') !== 'Approved' || $response->json('xErrorCode') !== '00000') {
+                throw new \Exception("{$response->json('xStatus')}");
             }
         } catch (\Throwable $e) {
             Notification::make()
                 ->title('Error')
+                ->danger()
+                ->persistent()
                 ->body($e->getMessage())
                 ->send();
 
