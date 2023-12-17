@@ -57,7 +57,8 @@ use Illuminate\Support\Facades\Log; // Import Laravel's Log facade
 
 $blackhawk_cert_pw = null;
 $blackhawk_cert_url = null;
-$cardknox_customer_id = null;
+
+$cardknox_customer_id = null; // This is not needed so we are not defining it in else block
 $cardknox_ifields_key = null;
 $cardknox_transaction_key = null;
 
@@ -67,7 +68,6 @@ if (env("APP_ENV") === "production") {
         'version' => 'latest',
         'region' => "us-east-2"
     ]);
-
 
     // Assume the IAM role
     $result = $stsClient->assumeRole([
@@ -114,10 +114,12 @@ if (env("APP_ENV") === "production") {
     } catch (Exception $e) {
         Log::error("cardknox credentials not set " . $e->getMessage());
     }
-
 } else {
-    $blackhawk_cert_pw = "BH3F2FDP7J4ZXJV3PB1CFM1M4C";
-    $blackhawk_cert_url = public_path("key/stag.p12");
+    $blackhawk_cert_pw =  env('BLACKHAWK_CERT_PASSWORD');
+    $blackhawk_cert_url = env('BLACKHAWK_CERT');
+
+    $cardknox_ifields_key = env('CARDKNOX_IFIELDS_KEY');
+    $cardknox_transaction_key = env('CARDKNOX_TRANSACTION_KEY');
 }
 
 
@@ -174,7 +176,7 @@ return [
 
         'client_program_id' => env('BLACKHAWK_CLIENT_PROGRAM_ID', 95006442),
         'merchant_id' => env('BLACKHAWK_MERCHANT_ID', 60300004707),
-        'cert' => env('BLACKHAWK_CERT', $blackhawk_cert_url),
-        'cert_password' => env('BLACKHAWK_CERT_PASSWORD', $blackhawk_cert_pw),
+        'cert' => $blackhawk_cert_url,
+        'cert_password' => $blackhawk_cert_pw,
     ],
 ];
