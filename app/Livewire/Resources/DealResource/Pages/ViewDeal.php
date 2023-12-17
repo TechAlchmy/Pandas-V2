@@ -185,11 +185,13 @@ class ViewDeal extends Component implements HasActions, HasForms
 
             // Checking if the payment was not successfull
             if ($response->json('xStatus') !== 'Approved' || $response->json('xStatusCode') !== '00000') {
-                throw new \Exception("Error: {$response->json('xStatus')}");
+                throw new \Exception("{$response->json('xStatus')}");
             }
         } catch (\Throwable $e) {
             Notification::make()
                 ->title('Error')
+                ->danger()
+                ->persistent()
                 ->body($e->getMessage())
                 ->send();
 
