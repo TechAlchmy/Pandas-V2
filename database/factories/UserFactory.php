@@ -37,6 +37,7 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'organization_verified_at' => now(),
             'cardknox_customer_id' => env('CARDKNOX_CUSTOMER_ID'),
+            'access_role' => true,
         ];
     }
 
